@@ -1,8 +1,5 @@
 import React, {JSX} from "react";
-import {
-    Text,
-    View
-} from "react-native";
+import {Linking, Text, View} from "react-native";
 import MyButton from "../Components/MyButton";
 import {Title} from "../Components/Title";
 import AuthViewContainer from "../Components/AuthComponent/AuthViewContainer";
@@ -10,26 +7,46 @@ import {AuthFooter} from "../Components/AuthComponent/AuthList";
 import BackButton from "../Components/BackButton";
 import AuthTextInput from "../Components/AuthComponent/AuthTextInput";
 import authService from "../Services/auth.service";
+import AppContext from "../Contexts/app.context";
 
 function TermsAndConditions(): JSX.Element {
+    const {color, translate} = AppContext();
+
+    const RickRoll = () => {
+        return (
+            Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+        )
+    }
+
     return (
         <View style={{
             justifyContent: 'center',
             alignItems: 'center',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
         }}>
-            <Text style={{color: 'black', fontSize: 12}}>
-                By creating an account you accept our
+            <Text style={{color: color.text, fontSize: 12}}>
+                {translate('to_pp') + ' '}
             </Text>
-            <Text style={{color: '#7a73e7', fontSize: 12}} >Terms of services</Text>
-            <Text style={{color: 'black', fontSize: 12, paddingHorizontal: 5}} >and</Text>
-            <Text style={{color: '#7a73e7', fontSize: 12}} >Privacy policy</Text>
+            <View style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+            }}>
+                <Text style={{color: color.mainColor, fontSize: 12}}
+                      onPress={RickRoll}>{translate('to') + ' '}</Text>
+                <Text style={{
+                    color: color.text,
+                    fontSize: 12
+                }}>{translate('and') + ' '}</Text>
+                <Text style={{
+                    color: color.mainColor,
+                    fontSize: 12
+                }}>{translate('pp')}</Text>
+            </View>
         </View>
     )
 }
 
-export default function SignUp({navigation} : {navigation: any}): JSX.Element {
+export default function SignUp({navigation}: { navigation: any }): JSX.Element {
+    const {color, translate} = AppContext();
     const [fullName, setFullName] = React.useState<string>('');
     const [email, setEmail] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
@@ -38,7 +55,11 @@ export default function SignUp({navigation} : {navigation: any}): JSX.Element {
         if (fullName.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0) {
             return;
         }
-        const resp = await authService.register({email: email.trim(), password, fullName});
+        const resp = await authService.register({
+            email: email.trim(),
+            password,
+            fullName
+        });
         console.log(resp);
     }
 
@@ -50,7 +71,8 @@ export default function SignUp({navigation} : {navigation: any}): JSX.Element {
                 alignItems: 'center',
             }}>
                 <BackButton navigation={navigation}/>
-                <Title title={'Sign Up'} style={{color: 'white'}}/>
+                <Title title={translate('sign_up')}
+                       style={{color: color.textOverMainColor}}/>
             </View>
             <View style={{
                 flex: 1,
@@ -58,18 +80,23 @@ export default function SignUp({navigation} : {navigation: any}): JSX.Element {
             }}>
                 <View style={{
                     width: '90%',
-                    backgroundColor: 'white',
+                    backgroundColor: color.mode,
                     padding: 20,
                     borderRadius: 20,
                 }}>
-                    <AuthTextInput placeholder={'Full Name'} text={fullName} setText={setFullName}/>
-                    <AuthTextInput placeholder={'Email'} text={email} setText={setEmail}/>
-                    <AuthTextInput placeholder={'Password'} secure={true} setText={setPassword} text={password}/>
-                    <View style={{paddingVertical: 5}} />
-                    <MyButton title={'Sign Up'} onPress={trySignUp}/>
-                    <TermsAndConditions />
+                    <AuthTextInput placeholder={translate('full_name')}
+                                   text={fullName}
+                                   setText={setFullName}/>
+                    <AuthTextInput placeholder={translate('email')} text={email}
+                                   setText={setEmail}/>
+                    <AuthTextInput placeholder={translate('password')}
+                                   secure={true}
+                                   setText={setPassword} text={password}/>
+                    <View style={{paddingVertical: 5}}/>
+                    <MyButton title={translate('sign_up')} onPress={trySignUp}/>
+                    <TermsAndConditions/>
                 </View>
-                <AuthFooter width={'90%'} />
+                <AuthFooter width={'90%'}/>
             </View>
         </AuthViewContainer>
     );

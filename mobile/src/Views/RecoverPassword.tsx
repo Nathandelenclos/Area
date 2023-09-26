@@ -6,8 +6,10 @@ import AuthViewContainer from "../Components/AuthComponent/AuthViewContainer";
 import BackButton from "../Components/BackButton";
 import AuthTextInput from "../Components/AuthComponent/AuthTextInput";
 import authService from "../Services/auth.service";
+import AppContext from "../Contexts/app.context";
 
 export default function RecoverPassword({navigation} : {navigation: any}): JSX.Element {
+    const {color, translate} = AppContext();
     const [email, setEmail] = React.useState<string>('');
 
     async function tryRecoverPassword() {
@@ -22,7 +24,7 @@ export default function RecoverPassword({navigation} : {navigation: any}): JSX.E
                 alignItems: 'center',
             }}>
                 <BackButton navigation={navigation}/>
-                <Title title={'Recover Password'} style={{color: 'white'}}/>
+                <Title title={translate('recover_password')} style={{color: color.textOverMainColor}}/>
             </View>
             <View style={{
                 flex: 2.5,
@@ -30,13 +32,13 @@ export default function RecoverPassword({navigation} : {navigation: any}): JSX.E
             }}>
                 <View style={{
                     width: '90%',
-                    backgroundColor: 'white',
+                    backgroundColor: color.mode,
                     padding: 20,
                     borderRadius: 20,
                 }}>
-                    <AuthTextInput placeholder={'Email'} text={email} setText={setEmail}/>
+                    <AuthTextInput placeholder={translate('email')} text={email} setText={setEmail}/>
                     <View style={{paddingVertical: 5}} />
-                    <MyButton title={'Send Email'} onPress={tryRecoverPassword}/>
+                    <MyButton title={translate('send_email')} onPress={tryRecoverPassword}/>
                 </View>
             </View>
         </AuthViewContainer>

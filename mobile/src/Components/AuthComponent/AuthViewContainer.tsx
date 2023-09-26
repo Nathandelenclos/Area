@@ -1,14 +1,17 @@
 import React, {JSX} from "react";
 import {SafeAreaView, View} from "react-native";
+import AppContext from "../../Contexts/app.context";
 
 export default function AuthViewContainer({children}: {
     children: JSX.Element[]
 }): JSX.Element {
+    const {color} = AppContext();
+
     return (
         <View
-            style={{flex: 1, backgroundColor: '#dfe1e5'}}>
+            style={{flex: 1, backgroundColor: color.background}}>
             <View style={{
-                backgroundColor: '#7a73e7',
+                backgroundColor: color.mainColor,
                 borderBottomLeftRadius: 50,
                 borderBottomRightRadius: 50,
                 position: 'absolute',

@@ -1,6 +1,14 @@
 import React, {JSX} from 'react';
 import LoginRegisterNavigator from './auth.navigator';
+import GetMe from "../Contexts/user.context";
+import AppNavigator from "./app.navigator";
 
 export default function DefineNavigator(): JSX.Element {
-  return <LoginRegisterNavigator />;
+    const {user} = GetMe();
+
+    if (user) {
+        return <AppNavigator/>;
+    }
+
+    return <LoginRegisterNavigator/>;
 }

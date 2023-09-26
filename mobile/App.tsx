@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   StyleSheet,
-  useColorScheme,
 } from 'react-native';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {fas} from '@fortawesome/free-solid-svg-icons';
@@ -17,8 +16,6 @@ library.add(far);
 
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
       <ApplicationProvider>
         <UserProvider>

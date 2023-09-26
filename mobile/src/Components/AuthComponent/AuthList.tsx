@@ -1,7 +1,10 @@
 import React, {JSX} from "react";
 import {DimensionValue, Text, TouchableOpacity, View} from "react-native";
+import AppContext from "../../Contexts/app.context";
 
 export function TextBetweenBar(): JSX.Element {
+    const {color, translate} = AppContext();
+
     return (
         <View style={{
             flexDirection: 'row',
@@ -11,17 +14,17 @@ export function TextBetweenBar(): JSX.Element {
             <View style={{
                 flex: 1,
                 height: 1,
-                backgroundColor: 'gray',
+                backgroundColor: color.subtitle,
             }}/>
             <Text style={{
                 marginHorizontal: 10,
                 fontSize: 12,
-                color: 'gray',
-            }}>Or connect using</Text>
+                color: color.subtitle,
+            }}>{translate('or_connect_with')}</Text>
             <View style={{
                 flex: 1,
                 height: 1,
-                backgroundColor: 'gray',
+                backgroundColor: color.subtitle,
             }}/>
         </View>
     );
@@ -42,6 +45,7 @@ export  function AuthList(): JSX.Element {
             color: '#00acee',
         },
     ];
+
     return (
         <View style={{
             flexDirection: 'row',
@@ -66,10 +70,12 @@ export  function AuthList(): JSX.Element {
 }
 
 export function AuthFooter({width} : {width: DimensionValue}): JSX.Element {
+    const {color} = AppContext();
+
     return (
         <View style={{width: width}}>
             <TextBetweenBar />
-            <View style={{backgroundColor: 'white', borderRadius: 20, padding: 10}}>
+            <View style={{backgroundColor: color.mode, borderRadius: 20, padding: 10}}>
                 <AuthList />
             </View>
         </View>
