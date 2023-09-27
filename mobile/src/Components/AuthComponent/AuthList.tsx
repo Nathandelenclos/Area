@@ -1,7 +1,6 @@
 import React, {JSX} from "react";
 import {DimensionValue, Text, TouchableOpacity, View} from "react-native";
 import AppContext from "../../Contexts/app.context";
-
 export function TextBetweenBar(): JSX.Element {
     const {color, translate} = AppContext();
 
@@ -31,18 +30,22 @@ export function TextBetweenBar(): JSX.Element {
 }
 
 export  function AuthList(): JSX.Element {
+
     const authList = [
         {
             title: 'F',
             color: '#3b5998',
+            onPress: () => console.log('Facebook'),
         },
         {
             title: 'G',
             color: '#db4437',
+            onPress: () => console.log('Google'),
         },
         {
             title: 'X',
             color: '#00acee',
+            onPress: () => console.log('Twitter'),
         },
     ];
 
@@ -57,7 +60,7 @@ export  function AuthList(): JSX.Element {
                     backgroundColor: item.color,
                     padding: 10,
                     borderRadius: 5,
-                }}>
+                }} onPress={item.onPress}>
                     <Text style={{
                         fontSize: 12,
                         color: 'white',

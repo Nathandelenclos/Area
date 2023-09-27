@@ -1,14 +1,14 @@
 import React, {JSX} from "react";
 import {Image, View} from "react-native";
-import MyButton from "../Components/MyButton";
-import {SubTitle, Title} from "../Components/Title";
-import AuthViewContainer from "../Components/AuthComponent/AuthViewContainer";
-import {AuthFooter} from "../Components/AuthComponent/AuthList";
-import AppContext from "../Contexts/app.context";
+import MyButton from "../../Components/MyButton";
+import {Title} from "../../Components/Title";
+import AuthViewContainer from "../../Components/AuthComponent/AuthViewContainer";
+import {AuthFooter} from "../../Components/AuthComponent/AuthList";
+import AppContext from "../../Contexts/app.context";
 
 export default function LoginScreen({navigation} : {navigation: any}): JSX.Element {
     const {color, translate} = AppContext();
-    const IMAGE = require('../Assets/Logo.png');
+    const IMAGE = require('../../Assets/Logo.png');
 
     return (
         <AuthViewContainer>

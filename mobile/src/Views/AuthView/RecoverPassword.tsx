@@ -1,12 +1,12 @@
 import React, {JSX} from "react";
 import {View} from "react-native";
-import MyButton from "../Components/MyButton";
-import {Title} from "../Components/Title";
-import AuthViewContainer from "../Components/AuthComponent/AuthViewContainer";
-import BackButton from "../Components/BackButton";
-import AuthTextInput from "../Components/AuthComponent/AuthTextInput";
-import authService from "../Services/auth.service";
-import AppContext from "../Contexts/app.context";
+import MyButton from "../../Components/MyButton";
+import {Title} from "../../Components/Title";
+import AuthViewContainer from "../../Components/AuthComponent/AuthViewContainer";
+import BackButton from "../../Components/BackButton";
+import AuthTextInput from "../../Components/AuthComponent/AuthTextInput";
+import authService from "../../Services/auth.service";
+import AppContext from "../../Contexts/app.context";
 
 export default function RecoverPassword({navigation} : {navigation: any}): JSX.Element {
     const {color, translate} = AppContext();

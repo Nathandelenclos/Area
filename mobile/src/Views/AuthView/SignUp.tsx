@@ -1,20 +1,20 @@
 import React, {JSX} from "react";
 import {Linking, Text, View} from "react-native";
-import MyButton from "../Components/MyButton";
-import {Title} from "../Components/Title";
-import AuthViewContainer from "../Components/AuthComponent/AuthViewContainer";
-import {AuthFooter} from "../Components/AuthComponent/AuthList";
-import BackButton from "../Components/BackButton";
-import AuthTextInput from "../Components/AuthComponent/AuthTextInput";
-import authService from "../Services/auth.service";
-import AppContext from "../Contexts/app.context";
+import MyButton from "../../Components/MyButton";
+import {Title} from "../../Components/Title";
+import AuthViewContainer from "../../Components/AuthComponent/AuthViewContainer";
+import {AuthFooter} from "../../Components/AuthComponent/AuthList";
+import BackButton from "../../Components/BackButton";
+import AuthTextInput from "../../Components/AuthComponent/AuthTextInput";
+import authService from "../../Services/auth.service";
+import AppContext from "../../Contexts/app.context";
 
 function TermsAndConditions(): JSX.Element {
     const {color, translate} = AppContext();
 
     const RickRoll = () => {
         return (
-            Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+            Linking.openURL('https://www.google.com')
         )
     }
 
