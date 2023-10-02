@@ -20,6 +20,7 @@ export default function LoginScreen({navigation} : {navigation: any}): JSX.Eleme
                 <Image source={IMAGE} style={{
                     height: '40%',
                     aspectRatio: 1,
+                    borderRadius: 20,
                 }}/>
                 <Title title={'App Name'} style={{color: color.textOverMainColor}}/>
             </View>

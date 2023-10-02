@@ -18,6 +18,7 @@ export default function MyButton({inverse = false, title, onPress}: {
             paddingHorizontal: 20,
             borderRadius: 5,
             marginVertical: 10,
+            marginHorizontal: 20,
         }}
         onPress={onPress}>
             <Text style={{

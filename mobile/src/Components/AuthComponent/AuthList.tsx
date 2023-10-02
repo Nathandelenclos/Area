@@ -1,6 +1,10 @@
 import React, {JSX} from "react";
 import {DimensionValue, Text, TouchableOpacity, View} from "react-native";
 import AppContext from "../../Contexts/app.context";
+import {
+    signInWithFacebook, signInWithGithub,
+    signInWithGoogle, signInWithSpotify
+} from "../../Views/AuthView/auth.fun";
 export function TextBetweenBar(): JSX.Element {
     const {color, translate} = AppContext();
 
@@ -35,18 +39,23 @@ export  function AuthList(): JSX.Element {
         {
             title: 'F',
             color: '#3b5998',
-            onPress: () => console.log('Facebook'),
+            onPress: () => signInWithFacebook(),
         },
         {
             title: 'G',
             color: '#db4437',
-            onPress: () => console.log('Google'),
+            onPress: () => signInWithGoogle(),
         },
         {
-            title: 'X',
-            color: '#00acee',
-            onPress: () => console.log('Twitter'),
+            title: 'S',
+            color: '#1db954',
+            onPress: () => signInWithSpotify(),
         },
+        {
+            title: 'G',
+            color: '#24292e',
+            onPress: () => signInWithGithub(),
+        }
     ];
 
     return (
