@@ -11,3 +11,14 @@ services:
       - "15672:15672"
     env_file:
       - .env
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    hostname: mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    restart: always

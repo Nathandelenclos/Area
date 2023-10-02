@@ -22,9 +22,9 @@ async function bootstrap() {
       queue: QUEUE,
       queueOptions: {
         durable: true,
-      }
-    }
-  })
+      },
+    },
+  });
 
   app.startAllMicroservices();
 }

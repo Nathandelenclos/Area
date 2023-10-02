@@ -1,19 +1,22 @@
 import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Ctx, MessagePattern, RmqContext } from "@nestjs/microservices";
+import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
+import MicroServiceController from '@app/common/micro.service.controller';
 
 @Controller()
-export class AuthController {
+export class AuthController extends MicroServiceController {
   constructor(private readonly authService: AuthService) {
+    super();
   }
 
-  @MessagePattern({cmd: 'auth'})
-  async auth(@Ctx() context: RmqContext) {
-    const channel = context.getChannelRef();
-    const message = context.getMessage();
+  @MessagePattern({ cmd: 'register' })
+  async register(@Ctx() context: RmqContext) {
+    return this.authService.register(this.ack(context));
+  }
 
-    channel.ack(message);
-
-    return {message: 'Hello from auth service!'}
+  @MessagePattern({ cmd: 'signin' })
+  async signIn(@Ctx() context: RmqContext) {
+    const data = this.ack(context);
+    return this.authService.signIn(data.username, data.password);
   }
 }
