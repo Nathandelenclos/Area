@@ -1,27 +1,25 @@
-import React, {createContext} from 'react';
-import {User, UserContextType} from "../Interfaces/user.interface";
+import React, { createContext } from 'react';
+import { User, UserContextType } from '@interfaces/user.interface';
 
 export const UserContext = createContext<UserContextType>({
-    user: {
-        name: '',
-        email: '',
-    },
-    setUser: () => {},
+  user: {
+    name: '',
+    email: '',
+  },
+  setUser: () => {},
 });
 
 export const UserProvider = (props: { children: any }) => {
-    const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<User | null>(null);
 
-    const value: UserContextType = {
-        user: user,
-        setUser: setUser,
-    };
+  const value: UserContextType = {
+    user: user,
+    setUser: setUser,
+  };
 
-    return (
-        <UserContext.Provider value={value}>
-            {props.children}
-        </UserContext.Provider>
-    );
+  return (
+    <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
+  );
 };
 
 const GetMe = () => React.useContext(UserContext);
