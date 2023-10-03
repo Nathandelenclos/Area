@@ -1,0 +1,22 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "./apps/**/*.ts",
+    "./libs/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules/**/*.*",
+    "**/dist/**/*.*",
+    "**/test/**/*.*"
+  ],
+  "plugin": ["typedoc-theme-hierarchy", "typedoc-umlclass"],
+  "umlClassDiagram": {
+        "type": "detailed",
+        "location": "local",
+        "format": "svg"
+    },
+  "theme": "hierarchy",
+  "tsconfig": "./tsconfig.json",
+  "name": "Api Area",
+  "readme": "./README.md"
+}

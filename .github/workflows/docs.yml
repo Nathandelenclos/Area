@@ -1,0 +1,21 @@
+on:
+  push:
+    branches-ignore:
+      - 'ga-ignore-*'
+
+jobs:
+  create_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Install 📦
+        run: yarn
+      - name: Build 🏗
+        run: npx typedoc --options typedoc.json
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./docs
