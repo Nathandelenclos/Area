@@ -12,7 +12,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install 📦
-        run: yarn && cd api && yarn
+        run: yarn && cd api && yarn && apt install graphviz
       - name: Build 🏗
         run: npx typedoc --options typedoc.json
       - name: Deploy 🚀

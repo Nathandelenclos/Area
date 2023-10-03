@@ -4,5 +4,4 @@
   "exclude": ["**/node_modules/**", "**/dist/**", "**/test/**"],
   "out": "docs",
   "readme": "./README.md",
-  "githubPages": false
 }
