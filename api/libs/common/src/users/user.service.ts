@@ -12,17 +12,30 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly configService: ConfigService,
-  ) {
-  }
+  ) {}
 
+  /**
+   * Create a new user
+   * @param data NewUser object
+   * @returns UserEntity
+   */
   async create(data: NewUser) {
     const salt: number = +this.configService.get('BCRYPT_SALT');
     const hashedPassword: string = await hash(data.password, salt);
-    const user = await this.userRepository.save({...data, password: hashedPassword});
-    const {password, ...response} = user;
+    const user = await this.userRepository.save({
+      ...data,
+      password: hashedPassword,
+    });
+    const response = { ...user };
+    delete response.password;
     return response;
   }
 
+  /**
+   * Find a user by id
+   * @param query Query object
+   * @returns UserEntity
+   */
   findOne(query: any): Promise<UserEntity | undefined> {
     return this.userRepository.findOne({
       where: query,

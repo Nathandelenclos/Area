@@ -18,6 +18,11 @@ export class AuthGuard implements CanActivate {
     private readonly configService: ConfigService,
   ) {}
 
+  /**
+   * This method is called by Nest to determine whether the current request is allowed to proceed.
+   * @param context ExecutionContext
+   * @returns Promise<boolean> true if the request is allowed to proceed, false otherwise
+   */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -43,6 +48,12 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
+  /**
+   * This method extracts the JWT from the request header.
+   * @private
+   * @param request Request
+   * @returns string | undefined
+   */
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;

@@ -3,6 +3,13 @@ import { Response } from 'express';
 import { ClientProxy } from '@nestjs/microservices';
 
 class MicroServiceProxy {
+  /**
+   * Encapsulates the logic to call a microservice and return the response
+   * @param client ClientProxy instance of the microservice
+   * @param cmd string the command to call in the microservice
+   * @param data any the data to send to the microservice
+   * @param res Response the response object to be sent to the client
+   */
   static callMicroService(
     client: ClientProxy,
     cmd: string,

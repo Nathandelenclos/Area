@@ -12,6 +12,11 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * Register a new user
+   * @param data NewUser
+   * @returns MicroServiceResponse
+   */
   async register(data: NewUser) {
     const user = await this.userService.create(data);
     return new MicroServiceResponse({
@@ -19,6 +24,12 @@ export class AuthService {
     });
   }
 
+  /**
+   * Sign in a user with credentials and return a JWT
+   * @param email string
+   * @param password string
+   * @returns MicroServiceResponse
+   */
   async signIn(email: string, password: string): Promise<any> {
     const user = await this.userService.findOne({ email });
     const isMatch = await compare(password, user.password);

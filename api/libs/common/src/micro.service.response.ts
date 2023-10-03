@@ -15,10 +15,16 @@ class MicroServiceResponse {
     this.data = props.data || null;
   }
 
+  /**
+   * Returns the JSON representation of the response if the data is not null
+   */
   getJSON() {
     if (this.data !== null) return this.data;
   }
 
+  /**
+   * Returns the HTTP status code of the response
+   */
   getStatus() {
     return this.code;
   }
