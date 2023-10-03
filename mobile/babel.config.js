@@ -14,6 +14,7 @@ module.exports = {
           '@types': './src/Types',
           '@views': './src/Views',
           '@assets': './src/Assets',
+          '@src': './src',
         },
       },
     ],

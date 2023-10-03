@@ -1,7 +1,7 @@
 import { authorize } from 'react-native-app-auth';
 import { Platform } from 'react-native';
 import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
-import { env } from '../../env';
+import { env } from '@src/env';
 
 async function signInWithGoogle() {
   const IOSconfig = {

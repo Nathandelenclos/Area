@@ -6,9 +6,9 @@ import AuthViewContainer from '@components/AuthComponent/AuthViewContainer';
 import AuthFooter from '@components/AuthComponent/AuthList';
 import BackButton from '@components/BackButton';
 import AuthTextInput from '@components/AuthComponent/AuthTextInput';
-import authService from '../../Services/auth.service';
-import AppContext from '../../Contexts/app.context';
-import GetMe from '../../Contexts/user.context';
+import authService from '@services/auth.service';
+import AppContext from '@contexts/app.context';
+import GetMe from '@contexts/user.context';
 
 export default function SignIn({
   navigation,
