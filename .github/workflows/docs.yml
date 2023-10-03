@@ -12,7 +12,9 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install 📦
-        run: yarn && cd api && yarn && apt install graphviz
+        run: yarn && cd api && yarn
+      - name: Install graphviz
+        run: sudo apt-get install graphviz
       - name: Build 🏗
         run: npx typedoc --options typedoc.json
       - name: Deploy 🚀
