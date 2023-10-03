@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { SpotifyModule } from './../src/spotify.module';
+import { CronModule } from './../src/cron.module';
 
-describe('SpotifyController (e2e)', () => {
+describe('CronController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [SpotifyModule],
+      imports: [CronModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
