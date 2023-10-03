@@ -3,5 +3,6 @@
   "extends": ["./api/typedoc.json"],
   "exclude": ["**/node_modules/**", "**/dist/**", "**/test/**"],
   "out": "docs",
-  "readme": "./README.md"
+  "readme": "./README.md",
+  "githubPages": false
 }
