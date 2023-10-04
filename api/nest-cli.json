@@ -54,6 +54,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/cron/tsconfig.app.json"
       }
+    },
+    "discord": {
+      "type": "application",
+      "root": "apps/discord",
+      "entryFile": "main",
+      "sourceRoot": "apps/discord/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/discord/tsconfig.app.json"
+      }
     }
   }
 }
