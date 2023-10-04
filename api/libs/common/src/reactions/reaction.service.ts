@@ -15,16 +15,32 @@ export class ReactionService {
     private readonly reactionRepository: Repository<ReactionEntity>,
   ) {}
 
+  /**
+   * Create a new reaction
+   * @param data NewReaction object
+   * @returns Promise<ReactionEntity>
+   */
   create(data: NewReaction): Promise<ReactionEntity> {
     return this.reactionRepository.save(data);
   }
 
+  /**
+   * Find all reactions
+   * @param relations Relations to include
+   * @returns Promise<ReactionEntity[]>
+   */
   findAll(relations: ReactionRelations[] = []): Promise<ReactionEntity[]> {
     return this.reactionRepository.find({
       relations,
     });
   }
 
+  /**
+   * Find a reaction by id
+   * @param query Query object
+   * @param relations Relations to include
+   * @returns Promise<ReactionEntity | undefined>
+   */
   findOne(
     query: Partial<ReactionEntity>,
     relations: ReactionRelations[] = [],
@@ -34,6 +50,13 @@ export class ReactionService {
       relations,
     });
   }
+
+  /**
+   * Update a reaction
+   * @param query Query object
+   * @param data Data to update
+   * @returns Promise<UpdateResult>
+   */
   update(
     query: number | ReactionEntity | Partial<NewReaction>,
     data: Partial<ReactionEntity>,
@@ -41,6 +64,11 @@ export class ReactionService {
     return this.reactionRepository.update(query, data);
   }
 
+  /**
+   * Remove a reaction
+   * @param query Query object
+   * @returns Promise<DeleteResult>
+   */
   remove(
     query: number | ReactionEntity | Partial<NewReaction>,
   ): Promise<DeleteResult> {

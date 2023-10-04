@@ -1,9 +1,14 @@
 import { ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { INestApplication, Provider } from '@nestjs/common';
-import MicroServiceProxy from '@app/common/micro.service.proxy';
 
 class MicroServiceInit {
+  /**
+   * Initialize a microservice
+   * @param provideName The name of the provider
+   * @param queue The queue to connect to
+   * @returns The provider
+   */
   public static init(provideName: string, queue: string): Provider {
     return {
       provide: provideName,
@@ -27,6 +32,12 @@ class MicroServiceInit {
     };
   }
 
+  /**
+   * Connect a microservice to the app
+   * @param app The app to connect to
+   * @param configService The config service
+   * @param queue The queue to connect to
+   */
   public static connect(
     app: INestApplication,
     configService: ConfigService,

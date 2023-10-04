@@ -15,16 +15,32 @@ export class ActionService {
     private readonly actionRepository: Repository<ActionEntity>,
   ) {}
 
+  /**
+   * Create a new action
+   * @param data NewAction object
+   * @returns Promise<ActionEntity>
+   */
   create(data: NewAction): Promise<ActionEntity> {
     return this.actionRepository.save(data);
   }
 
+  /**
+   * Find all actions
+   * @param relations Relations to include
+   * @returns Promise<ActionEntity[]>
+   */
   findAll(relations: ActionRelations[] = []): Promise<ActionEntity[]> {
     return this.actionRepository.find({
       relations,
     });
   }
 
+  /**
+   * Find an action by id
+   * @param query Query object
+   * @param relations Relations to include
+   * @returns Promise<ActionEntity | undefined>
+   */
   findOne(
     query: Partial<ActionEntity>,
     relations: ActionRelations[] = [],
@@ -35,6 +51,12 @@ export class ActionService {
     });
   }
 
+  /**
+   * Update an action
+   * @param query Query object
+   * @param data Data to update
+   * @returns Promise<UpdateResult>
+   */
   update(
     query: number | ActionEntity | Partial<NewAction>,
     data: Partial<ActionEntity>,
@@ -42,6 +64,11 @@ export class ActionService {
     return this.actionRepository.update(query, data);
   }
 
+  /**
+   * Remove an action
+   * @param query Query object
+   * @returns Promise<DeleteResult>
+   */
   remove(
     query: number | ActionEntity | Partial<NewAction>,
   ): Promise<DeleteResult> {
