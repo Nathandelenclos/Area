@@ -10,7 +10,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     env_file:
-      - .env
+      - .env.docker
 
   mysql:
     image: mysql:latest
@@ -21,7 +21,7 @@ services:
     ports:
       - "3306:3306"
     env_file:
-      - .env
+      - .env.docker
     restart: always
 
   api:
@@ -31,11 +31,64 @@ services:
     container_name: api
     hostname: api
     volumes:
-      - ./:/var/www/html
+      - ./:/app
+    environment:
+      - MICROSERVICE=api
     ports:
-      - "80:80"
+      - "${APP_PORT}:${APP_PORT}"
     env_file:
-      - .env
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth
+    hostname: auth
+    volumes:
+      - ./:/app
+    environment:
+      - MICROSERVICE=auth
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cron
+    hostname: cron
+    volumes:
+      - ./:/app
+    environment:
+        - MICROSERVICE=cron
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  discord:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: discord
+    hostname: discord
+    volumes:
+      - ./:/app
+    environment:
+      - MICROSERVICE=discord
+    env_file:
+      - .env.docker
     depends_on:
       - mysql
       - rabbitmq
