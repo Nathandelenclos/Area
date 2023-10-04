@@ -39,8 +39,8 @@ import { ServiceController } from './controllers/service.controller';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        host: 'localhost',
-        port: 3306,
+        host: configService.get('MYSQL_HOST'),
+        port: configService.get('MYSQL_PORT'),
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
