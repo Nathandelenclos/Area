@@ -9,14 +9,6 @@
     "**/dist/**/*.*",
     "**/test/**/*.*"
   ],
-  "plugin": ["typedoc-theme-hierarchy", "typedoc-umlclass"],
-  "umlClassDiagram": {
-        "type": "detailed",
-        "location": "local",
-        "format": "svg"
-    },
-  "theme": "hierarchy",
   "tsconfig": "./tsconfig.json",
-  "name": "Api Area",
   "readme": "./README.md"
 }
