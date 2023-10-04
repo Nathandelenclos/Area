@@ -65,6 +65,10 @@ const fr: ILanguage[] = [
     name: 'send_email',
     message: "Envoyer l'email",
   },
+  {
+    name: 'home_title',
+    message: 'Recommendations du jour',
+  }
 ];
 
 const en: ILanguage[] = [
@@ -132,6 +136,10 @@ const en: ILanguage[] = [
     name: 'send_email',
     message: 'Send email',
   },
+  {
+    name: 'home_title',
+    message: 'Recommendations of the day',
+  }
 ];
 
 type LanguageList = {

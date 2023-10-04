@@ -8,6 +8,7 @@ import { env } from './src/env';
 import { ApplicationProvider } from '@contexts/app.context';
 import { UserProvider } from '@contexts/user.context';
 import DefineNavigator from '@navigators/define.navigator';
+import Home from '@views/Home';
 
 library.add(fas);
 library.add(fab);
@@ -18,7 +19,8 @@ function App(): JSX.Element {
   return (
     <ApplicationProvider>
       <UserProvider>
-        <DefineNavigator />
+        {/* <DefineNavigator /> */}
+        <Home />
       </UserProvider>
     </ApplicationProvider>
   );
