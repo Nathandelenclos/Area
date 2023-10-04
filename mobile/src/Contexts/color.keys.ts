@@ -1,4 +1,8 @@
-import { IColorScheme } from '@interfaces/app.interface';
+import { IColorScheme, ICommon } from '@interfaces/app.interface';
+export const common: ICommon = {
+  dropDownColor: '#d9d9d9',
+  inactive: 'gray',
+};
 
 export const white: IColorScheme = {
   mode: 'white',

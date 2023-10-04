@@ -1,4 +1,11 @@
-export interface IColorScheme {
+interface IColor extends IColorScheme, ICommon {}
+
+export type ICommon = {
+  dropDownColor: string;
+  inactive: string;
+};
+
+export type IColorScheme = {
   mode: string;
   background: string;
   text: string;
@@ -7,16 +14,16 @@ export interface IColorScheme {
   title: string;
   subtitle: string;
   textInput: string;
-}
+};
 
-export interface ILanguage {
+export type ILanguage = {
   name: string;
   message: string;
-}
+};
 
-export interface IApplicationContext {
-  color: IColorScheme;
+export type IApplicationContext = {
+  color: IColor;
   language: ILanguage[];
   translate: (key: string) => string;
   appName: string;
-}
+};

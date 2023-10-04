@@ -2,9 +2,8 @@ import React, { JSX } from 'react';
 import { View } from 'react-native';
 import MyButton from '@components/MyButton';
 import { Title } from '@components/Title';
-import AuthViewContainer from '@components/AuthComponent/AuthViewContainer';
+import { AuthViewContainer, AuthTextInput } from '@components/Auth';
 import BackButton from '@components/BackButton';
-import AuthTextInput from '@components/AuthComponent/AuthTextInput';
 import authService from '@services/auth.service';
 import AppContext from '@contexts/app.context';
 
