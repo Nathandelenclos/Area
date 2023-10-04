@@ -38,7 +38,7 @@ class MicroServiceProxy {
         },
       );
     });
-    res.status(response.code).json(response);
+    res.status(response.getStatus()).json(response.getJSON());
   }
 }
 
