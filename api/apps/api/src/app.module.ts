@@ -74,11 +74,9 @@ import { ServiceController } from './controllers/service.controller';
     CronController,
     DiscordController,
     ServiceController,
-    AppletController,
   ],
   providers: [
     AppService,
-    AppletService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
