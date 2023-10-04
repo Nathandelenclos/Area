@@ -3,7 +3,12 @@ import { DiscordController } from './discord.controller';
 import { DiscordService } from './discord.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '@app/common/users/user.entity';
+import { ServiceModule } from '@app/common/services/service.module';
+import { ActionModule } from '@app/common/actions/action.module';
+import { ServiceEntity } from '@app/common/services/service.entity';
+import { ActionEntity } from '@app/common/actions/action.entity';
+import { ReactionModule } from '@app/common/reactions/reaction.module';
+import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 
 @Module({
   imports: [
@@ -21,10 +26,13 @@ import { UserEntity } from '@app/common/users/user.entity';
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [UserEntity],
+        entities: [ServiceEntity, ActionEntity, ReactionEntity],
         synchronize: true,
       }),
     }),
+    ServiceModule,
+    ActionModule,
+    ReactionModule,
   ],
   controllers: [DiscordController],
   providers: [DiscordService],

@@ -1,20 +1,20 @@
 import { Controller } from '@nestjs/common';
 import MicroServiceController from '@app/common/micro.service.controller';
-import { CronService } from '../../cron/src/cron.service';
 import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
 import MicroServiceResponse from '@app/common/micro.service.response';
+import { DiscordService } from './discord.service';
 
 @Controller()
 export class DiscordController extends MicroServiceController {
-  constructor(private readonly cronService: CronService) {
+  constructor(private readonly discordService: DiscordService) {
     super();
   }
 
-  @MessagePattern({ cmd: 'get' })
-  get(@Ctx() context: RmqContext) {
+  @MessagePattern({ cmd: 'test' })
+  async get(@Ctx() context: RmqContext) {
     this.ack(context);
     return new MicroServiceResponse({
-      data: 'Hello World! This is a cron.',
+      data: await this.discordService.test(),
     });
   }
 }

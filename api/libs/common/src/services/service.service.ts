@@ -2,8 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { ServiceEntity } from '@app/common/services/service.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
 import { NewService } from '@app/common/services/service.dto';
+
+export enum ServiceRelations {
+  ACTIONS = 'actions',
+  REACTIONS = 'reactions',
+}
 
 @Injectable()
 export class ServiceService {
@@ -17,7 +21,7 @@ export class ServiceService {
    * @param data NewService object
    * @returns Promise<NewService & ServiceEntity>
    */
-  create(data: NewService): Promise<NewService & ServiceEntity> {
+  create(data: NewService): Promise<ServiceEntity> {
     return this.serviceRepository.save(data);
   }
 
@@ -25,18 +29,25 @@ export class ServiceService {
    * Find all services
    * @returns Promise<ServiceEntity[]>
    */
-  findAll(): Promise<ServiceEntity[]> {
-    return this.serviceRepository.find();
+  findAll(relations: ServiceRelations[] = []): Promise<ServiceEntity[]> {
+    return this.serviceRepository.find({
+      relations,
+    });
   }
 
   /**
    * Find a service by id
    * @param query Query object
+   * @param relations Relations to include
    * @returns Promise<ServiceEntity | undefined>
    */
-  findOne(query: any): Promise<ServiceEntity | undefined> {
+  findOne(
+    query: Partial<ServiceEntity>,
+    relations: ServiceRelations[] = [],
+  ): Promise<ServiceEntity | undefined> {
     return this.serviceRepository.findOne({
       where: query,
+      relations,
     });
   }
 
