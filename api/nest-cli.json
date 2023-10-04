@@ -37,15 +37,6 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
-    "spotify": {
-      "type": "application",
-      "root": "apps/spotify",
-      "entryFile": "main",
-      "sourceRoot": "apps/spotify/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/spotify/tsconfig.app.json"
-      }
-    },
     "cron": {
       "type": "application",
       "root": "apps/cron",
