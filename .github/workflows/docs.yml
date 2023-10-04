@@ -1,7 +1,10 @@
 on:
   push:
-    branches-ignore:
-      - 'ga-ignore-*'
+    branches:
+      - main
+      - api
+      - web
+      - app
 
 jobs:
   create_docs:
