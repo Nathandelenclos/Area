@@ -9,8 +9,15 @@ import { AuthGuard } from '@app/common/auth/auth.guard';
 import { CronController } from './controllers/cron.controller';
 import MicroServiceProxy from '@app/common/micro.service.proxy';
 import MicroServiceInit from '@app/common/micro.service.init';
-import { DiscordController } from './controllers/discord.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DiscordController } from './controllers/discord.controller';
+import { UserEntity } from '@app/common/users/user.entity';
+import { AppletController } from './modules/applets/applet.controller';
+import { AppletService } from './modules/applets/applet.service';
+import { AppletEntity } from './modules/applets/applet.entity';
+import { AppletModule } from './modules/applets/applet.module';
+import { AppletConfigEntity } from './modules/applets/configuration/applet.config.entity';
+import { AppletReactionEntity } from './modules/applets/reaction/applet.reaction.entity';
 import { ServiceModule } from '@app/common/services/service.module';
 import { ActionModule } from '@app/common/actions/action.module';
 import { ReactionModule } from '@app/common/reactions/reaction.module';
@@ -44,13 +51,14 @@ import { ServiceController } from './controllers/service.controller';
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [ServiceEntity, ActionEntity, ReactionEntity],
+        entities: [ServiceEntity, ActionEntity, ReactionEntity, AppletEntity, AppletConfigEntity, AppletReactionEntity],
         synchronize: true,
       }),
     }),
     ServiceModule,
     ActionModule,
     ReactionModule,
+    AppletModule,
   ],
   controllers: [
     AppController,
