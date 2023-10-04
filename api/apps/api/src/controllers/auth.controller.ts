@@ -29,9 +29,4 @@ export class AuthController {
   signIn(@Body() data: any, @Res() res: Response): void {
     MicroServiceProxy.callMicroService(this.authService, 'signin', data, res);
   }
-
-  @Get('me')
-  getProfile(@Request() req: any): any {
-    return req.user;
-  }
 }

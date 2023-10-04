@@ -9,6 +9,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@app/common/auth/auth.guard';
 import { CronController } from './controllers/cron.controller';
 import MicroServiceProxy from '@app/common/micro.service.proxy';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from '@app/common/users/user.entity';
+import { AppletController } from './modules/applets/applet.controller';
+import { AppletService } from './modules/applets/applet.service';
+import { AppletEntity } from './modules/applets/applet.entity';
+import { AppletModule } from './modules/applets/applet.module';
+import { AppletConfigEntity } from './modules/applets/configuration/applet.config.entity';
+import { AppletReactionEntity } from './modules/applets/reaction/applet.reaction.entity';
 
 @Module({
   imports: [
@@ -25,6 +33,21 @@ import MicroServiceProxy from '@app/common/micro.service.proxy';
         signOptions: { expiresIn: '10d' },
       }),
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: configService.get('MYSQL_USER'),
+        password: configService.get('MYSQL_PASSWORD'),
+        database: configService.get('MYSQL_DATABASE'),
+        entities: [AppletEntity, AppletConfigEntity, AppletReactionEntity],
+        synchronize: true,
+      }),
+    }),
+    AppletModule,
   ],
   controllers: [AppController, AuthController, CronController],
   providers: [
