@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthController } from './controllers/auth.controller';
@@ -9,6 +8,16 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@app/common/auth/auth.guard';
 import { CronController } from './controllers/cron.controller';
 import MicroServiceProxy from '@app/common/micro.service.proxy';
+import MicroServiceInit from '@app/common/micro.service.init';
+import { DiscordController } from './controllers/discord.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServiceModule } from '@app/common/services/service.module';
+import { ActionModule } from '@app/common/actions/action.module';
+import { ReactionModule } from '@app/common/reactions/reaction.module';
+import { ServiceEntity } from '@app/common/services/service.entity';
+import { ReactionEntity } from '@app/common/reactions/reaction.entity';
+import { ActionEntity } from '@app/common/actions/action.entity';
+import { ServiceController } from './controllers/service.controller';
 
 @Module({
   imports: [
@@ -25,54 +34,49 @@ import MicroServiceProxy from '@app/common/micro.service.proxy';
         signOptions: { expiresIn: '10d' },
       }),
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('MYSQL_HOST'),
+        port: configService.get('MYSQL_PORT'),
+        username: configService.get('MYSQL_USER'),
+        password: configService.get('MYSQL_PASSWORD'),
+        database: configService.get('MYSQL_DATABASE'),
+        entities: [ServiceEntity, ActionEntity, ReactionEntity],
+        synchronize: true,
+      }),
+    }),
+    ServiceModule,
+    ActionModule,
+    ReactionModule,
   ],
-  controllers: [AppController, AuthController, CronController],
+  controllers: [
+    AppController,
+    AuthController,
+    CronController,
+    DiscordController,
+    ServiceController,
+  ],
   providers: [
     AppService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-    {
-      provide: 'AUTH_SERVICE',
-      useFactory: (configService: ConfigService) => {
-        const USER = configService.get('RABBITMQ_USER');
-        const PASSWORD = configService.get('RABBITMQ_PASS');
-        const HOST = configService.get('RABBITMQ_HOST');
-
-        return ClientProxyFactory.create({
-          transport: Transport.RMQ,
-          options: {
-            urls: [`amqp://${USER}:${PASSWORD}@${HOST}`],
-            queue: MicroServiceProxy.microServiceQueue.AUTH_SERVICE,
-            queueOptions: {
-              durable: true,
-            },
-          },
-        });
-      },
-      inject: [ConfigService],
-    },
-    {
-      provide: 'CRON_SERVICE',
-      useFactory: (configService: ConfigService) => {
-        const USER = configService.get('RABBITMQ_USER');
-        const PASSWORD = configService.get('RABBITMQ_PASS');
-        const HOST = configService.get('RABBITMQ_HOST');
-
-        return ClientProxyFactory.create({
-          transport: Transport.RMQ,
-          options: {
-            urls: [`amqp://${USER}:${PASSWORD}@${HOST}`],
-            queue: MicroServiceProxy.microServiceQueue.CRON_SERVICE,
-            queueOptions: {
-              durable: true,
-            },
-          },
-        });
-      },
-      inject: [ConfigService],
-    },
+    MicroServiceInit.init(
+      'AUTH_SERVICE',
+      MicroServiceProxy.microServiceQueue.AUTH_SERVICE,
+    ),
+    MicroServiceInit.init(
+      'DISCORD_SERVICE',
+      MicroServiceProxy.microServiceQueue.DISCORD_SERVICE,
+    ),
+    MicroServiceInit.init(
+      'CRON_SERVICE',
+      MicroServiceProxy.microServiceQueue.CRON_SERVICE,
+    ),
   ],
 })
 export class AppModule {}
