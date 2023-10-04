@@ -1,6 +1,7 @@
 import MicroServiceResponse from '@app/common/micro.service.response';
 import { Response } from 'express';
 import { ClientProxy } from '@nestjs/microservices';
+import { HttpStatus } from '@nestjs/common';
 
 class MicroServiceProxy {
   static microServiceQueue = {
@@ -15,18 +16,29 @@ class MicroServiceProxy {
    * @param data any the data to send to the microservice
    * @param res Response the response object to be sent to the client
    */
-  static callMicroService(
+  static async callMicroService(
     client: ClientProxy,
     cmd: string,
     data: any,
     res: Response,
-  ): void {
-    client.send({ cmd: cmd }, data).subscribe((response) => {
-      const microServiceResponse = new MicroServiceResponse(response);
-      res
-        .status(microServiceResponse.getStatus())
-        .json(microServiceResponse.getJSON());
+  ): Promise<void> {
+    const response = await new Promise<MicroServiceResponse>((resolve) => {
+      client.send({ cmd: cmd }, data).subscribe(
+        (response) => {
+          resolve(new MicroServiceResponse(response));
+        },
+        (error) => {
+          console.error('error', error);
+          resolve(
+            new MicroServiceResponse({
+              code: HttpStatus.INTERNAL_SERVER_ERROR,
+              message: error.message || 'Internal server error',
+            }),
+          );
+        },
+      );
     });
+    res.status(response.code).json(response);
   }
 }
 

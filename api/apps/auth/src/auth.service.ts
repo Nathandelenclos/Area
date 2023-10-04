@@ -32,6 +32,12 @@ export class AuthService {
    */
   async signIn(email: string, password: string): Promise<any> {
     const user = await this.userService.findOne({ email });
+    if (!user) {
+      return new MicroServiceResponse({
+        code: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid credentials',
+      });
+    }
     const isMatch = await compare(password, user.password);
 
     if (!isMatch) {

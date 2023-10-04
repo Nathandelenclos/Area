@@ -12,8 +12,6 @@ import MicroServiceInit from '@app/common/micro.service.init';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DiscordController } from './controllers/discord.controller';
 import { UserEntity } from '@app/common/users/user.entity';
-import { AppletController } from './modules/applets/applet.controller';
-import { AppletService } from './modules/applets/applet.service';
 import { AppletEntity } from './modules/applets/applet.entity';
 import { AppletModule } from './modules/applets/applet.module';
 import { AppletConfigEntity } from './modules/applets/configuration/applet.config.entity';
