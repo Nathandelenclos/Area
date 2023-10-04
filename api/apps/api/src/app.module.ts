@@ -51,7 +51,15 @@ import { ServiceController } from './controllers/service.controller';
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [ServiceEntity, ActionEntity, ReactionEntity, AppletEntity, AppletConfigEntity, AppletReactionEntity],
+        entities: [
+          ServiceEntity,
+          ActionEntity,
+          ReactionEntity,
+          AppletEntity,
+          AppletConfigEntity,
+          AppletReactionEntity,
+          UserEntity,
+        ],
         synchronize: true,
       }),
     }),
@@ -66,9 +74,11 @@ import { ServiceController } from './controllers/service.controller';
     CronController,
     DiscordController,
     ServiceController,
+    AppletController,
   ],
   providers: [
     AppService,
+    AppletService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
