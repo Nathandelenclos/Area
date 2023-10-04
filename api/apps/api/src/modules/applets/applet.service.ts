@@ -13,6 +13,11 @@ export class AppletService {
     private readonly appletConfigService: AppletConfigService,
   ) {}
 
+  /**
+   * Create a new applet and its configuration
+   * @param data Applet data
+   * @returns Applet
+   */
   async create(data: AppletDto): Promise<AppletEntity> {
     const { config, ...appletData } = data;
     const applet: AppletEntity = await this.appletRepository.save(appletData);
@@ -24,6 +29,11 @@ export class AppletService {
     return applet;
   }
 
+  /**
+   * Find an applet by its id
+   * @param data Applet data
+   * @param relations Include relations
+   */
   findOne(
     data: Partial<AppletDto>,
     relations: boolean = true,
