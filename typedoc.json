@@ -1,0 +1,15 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "extends": ["./api/typedoc.json"],
+  "exclude": ["**/node_modules/**", "**/dist/**", "**/test/**"],
+  "plugin": ["typedoc-theme-hierarchy", "typedoc-umlclass"],
+  "umlClassDiagram": {
+        "type": "detailed",
+        "location": "local",
+        "format": "svg"
+    },
+  "theme": "hierarchy",
+  "out": "docs",
+  "readme": "./README.md",
+  "name": "Area"
+}
