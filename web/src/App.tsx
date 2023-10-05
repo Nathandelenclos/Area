@@ -1,10 +1,9 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import RecoverPassword from './pages/RecoverPassword';
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import RecoverPassword from "./pages/RecoverPassword";
 import Welcome from "./pages/Welcome";
 import CreateApplet from "./pages/CreateApplet";
 
