@@ -1,10 +1,6 @@
 import React from 'react';
-import logo from '../logo.svg';
 import '../App.css';
 import MainComponent from '../components/HomePageMainComponent';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import RecoverPassword from './RecoverPassword';
 
 function App() {
   return (
