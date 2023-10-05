@@ -1,1 +1,8 @@
 .idea
+yarn.lock
+yarn-error.log
+node_modules
+rabbitmq
+mysql
+dist
+.env

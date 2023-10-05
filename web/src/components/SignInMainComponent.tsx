@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import OtherConnectionsOptionsSeparator from "./OtherConnectionOptionsSeparator";
 import OtherConnectionsButtons from "./OtherConnectionsButtons";
 import SignInForms from "./SignInForms";

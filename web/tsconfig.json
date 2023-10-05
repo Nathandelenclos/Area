@@ -27,6 +27,8 @@
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"],
       "@assets/*": ["assets/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@lang/*": ["lang/*"],
     }
   },
   "include": [
