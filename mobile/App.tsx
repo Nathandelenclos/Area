@@ -8,7 +8,6 @@ import { env } from '@src/env';
 import { ApplicationProvider } from '@contexts/app.context';
 import { UserProvider } from '@contexts/user.context';
 import DefineNavigator from '@navigators/define.navigator';
-import MyAppletsView from '@views/MyApplets';
 
 library.add(fas);
 library.add(fab);
@@ -19,7 +18,7 @@ function App(): JSX.Element {
   return (
     <ApplicationProvider>
       <UserProvider>
-        <MyAppletsView />
+        <DefineNavigator />
       </UserProvider>
     </ApplicationProvider>
   );
