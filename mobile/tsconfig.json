@@ -12,6 +12,18 @@
             "@views/*": ["./src/Views/*"],
             "@assets/*": ["./src/Assets/*"],
             "@src/*": ["./src/*"],
+        "paths": {
+            "@components/*": ["./src/Components/*"],
+            "@contexts/*": ["./src/Contexts/*"],
+            "@interfaces/*": ["./src/Interfaces/*"],
+            "@navigators/*": ["./src/Navigators/*"],
+            "@services/*": ["./src/Services/*"],
+            "@types/*": ["./src/Types/*"],
+            "@views/*": ["./src/Views/*"],
+            "@assets/*": ["./src/Assets/*"],
+            "@src/*": ["./src/*"]
         }
+    }
+}
     }
 },
