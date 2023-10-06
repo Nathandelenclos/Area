@@ -1,27 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import MainButton from "@components/MainButton";
+import AuthInput from "@components/AuthInput";
 
 function SignUpForms() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const SignUp = () => {
+    //TODO: Implement sign up logic
+    window.location.href = "/create-applet";
+  };
   return (
     <div className="flex flex-col justify-center items-center">
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-4"
-        type="text"
-        placeholder="Full Name"
+      <AuthInput
+        placeholder={"Full Name"}
+        value={fullName}
+        setValue={setFullName}
       />
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-4"
-        type="text"
-        placeholder="Email"
+      <AuthInput
+        placeholder={"Email"}
+        value={email}
+        setValue={setEmail}
+        type={"email"}
       />
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-5"
-        type="password"
-        placeholder="Password"
+      <AuthInput
+        placeholder={"Password"}
+        value={password}
+        setValue={setPassword}
+        type={"password"}
       />
-      <button className="bg-[#7A73E7] hover:bg-[#9490ce] text-white text-2xl font-bold w-4/5 py-5 rounded mt-10 mb-5">
-        Sign up
-      </button>
-      <p className="w-3/5 mb-5">
+      <MainButton title={"Sign up"} onPress={SignUp} />
+      <p className="w-3/5 mb-5 text-center">
         By creating an account you accept our{" "}
         <a className="text-[#7A73E7]">Terms of services</a> and{" "}
         <a className="text-[#7A73E7]">Privacy policy</a>.

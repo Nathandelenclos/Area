@@ -1,28 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import MainButton from "@components/MainButton";
+import AuthInput from "@components/AuthInput";
 
 function SignInForms() {
+  const [Email, setEmail] = React.useState("");
+  const [Password, setPassword] = React.useState("");
+  const SignIn = () => {
+    //TODO: Add sign in logic
+    window.location.href = "/create-applet";
+  };
   return (
     <div className="flex flex-col justify-center items-center mb-5">
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-4"
-        type="text"
-        placeholder="Email"
+      <AuthInput
+        placeholder={"Email"}
+        value={Email}
+        setValue={setEmail}
+        type={"email"}
       />
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-5"
-        type="password"
-        placeholder="Password"
+      <AuthInput
+        placeholder={"Password"}
+        value={Password}
+        setValue={setPassword}
+        type={"password"}
       />
-      <Link
-        to="/create-applet"
-        className="bg-[#7A73E7] hover:bg-[#9490ce] text-white text-2xl font-bold w-4/5 py-5 rounded mt-10 mb-5"
+      <MainButton title={"Sign In"} onPress={SignIn} />
+      <p
+        onClick={() => {
+          window.location.href = "/sign-in/recover-password";
+        }}
+        className="text-[#7A73E7] cursor-pointer"
       >
-        <button>Sign in</button>
-      </Link>
-      <Link to="/sign-in/recover-password" className="text-[#7A73E7]">
-        <p>Forgot password ?</p>
-      </Link>
+        Forgot password ?
+      </p>
     </div>
   );
 }

@@ -1,10 +1,9 @@
 import React from "react";
-import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import RecoverPassword from "./pages/RecoverPassword";
-import Welcome from "./pages/Welcome";
+import SignIn from "@pages/Auth/SignIn";
+import SignUp from "@pages/Auth/SignUp";
+import RecoverPassword from "@pages/Auth/RecoverPassword";
+import Welcome from "@pages/Auth/Welcome";
 import CreateApplet from "./pages/CreateApplet";
 
 function App() {
