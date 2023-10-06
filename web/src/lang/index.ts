@@ -1,12 +1,15 @@
 import fr from "./fr.json";
 import en from "./en.json";
 
-export enum Language {
-  FR = "fr",
-  EN = "en",
-}
-
-export default {
-  fr,
-  en,
+export type LangType = {
+  [key: string]: string | LangType;
 };
+
+const lang = {
+  fr: fr as LangType,
+  en: en as LangType,
+};
+
+export type Language = keyof typeof lang;
+
+export { lang };

@@ -1,19 +1,29 @@
 import React from "react";
 import MainButton from "@components/MainButton";
+import AppContext from "@src/context/AppContextProvider";
 
-export default function ConnectionButtons() {
-  const NavigateToSignIn = () => {
+type ConnectionButtonsProps = {
+  NavigateToSignIn?: () => void;
+  NavigateToSignUp?: () => void;
+};
+
+export default function ConnectionButtons({
+  NavigateToSignIn = () => {
     window.location.href = "/sign-in";
-  };
-
-  const NavigateToSignUp = () => {
+  },
+  NavigateToSignUp = () => {
     window.location.href = "/sign-up";
-  };
-
+  },
+}: ConnectionButtonsProps) {
+  const { translate } = AppContext();
   return (
     <div className="flex flex-col justify-center items-center">
-      <MainButton title={"Sign In"} onPress={NavigateToSignIn} />
-      <MainButton title={"Sign Up"} reverse={true} onPress={NavigateToSignUp} />
+      <MainButton title={translate("sign-in")} onPress={NavigateToSignIn} />
+      <MainButton
+        title={translate("sign-up")}
+        reverse={true}
+        onPress={NavigateToSignUp}
+      />
     </div>
   );
 }
