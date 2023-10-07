@@ -31,7 +31,8 @@ function OAuthList() {
       {oAuths.map((oauth) => (
         <button
           key={oauth.name}
-          className={`justify-center items-center flex bg-[${oauth.color}] hover:bg-[#4e6aa3] text-white text-base font-bold w-1/6 px-6 py-2 rounded mt-5 mb-10`}
+          style={{ backgroundColor: oauth.color }}
+          className={`justify-center items-center flex hover:bg-[#4e6aa3] text-white text-base font-bold w-1/6 px-6 py-2 rounded mt-5 mb-10`}
         >
           {oauth.shortName}
         </button>
