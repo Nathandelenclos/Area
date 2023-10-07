@@ -1,6 +1,7 @@
 import React from "react";
 import MainButton from "@components/MainButton";
 import AppContext from "@src/context/AppContextProvider";
+import { navigate } from "@src/utils";
 
 type ConnectionButtonsProps = {
   NavigateToSignIn?: () => void;
@@ -9,10 +10,10 @@ type ConnectionButtonsProps = {
 
 export default function ConnectionButtons({
   NavigateToSignIn = () => {
-    window.location.href = "/sign-in";
+    navigate("sign-in");
   },
   NavigateToSignUp = () => {
-    window.location.href = "/sign-up";
+    navigate("sign-up");
   },
 }: ConnectionButtonsProps) {
   const { translate } = AppContext();

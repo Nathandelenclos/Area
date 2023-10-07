@@ -1,5 +1,6 @@
 {
   "test": "test",
+  "welcome": "Welcome to Area !",
   "login": {
     "email": "Email",
     "password": "Mot de passe",
@@ -7,8 +8,8 @@
     "sign-up": "S'enregistrer",
     "orConnectWith": "Ou connectez-vous avec",
     "recoverPassword": "Mot de passe oublié ?",
-    "fullName": "Nom complet"
-
+    "fullName": "Nom complet",
+    "recover": "Récupérer"
   },
   "nav": {
     "home": "Accueil",
@@ -19,5 +20,9 @@
   "homepage": {
     "title": "Accueil",
     "description": "Bienvenue sur la page d'accueil"
+  },
+  "applets": {
+    "title": "Mes applets",
+    "create": "Créer une applet"
   }
 }

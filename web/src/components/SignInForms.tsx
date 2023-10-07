@@ -2,6 +2,7 @@ import React from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
+import { navigate } from "@src/utils";
 
 type SignInFormsProps = {
   SignIn?: (email: string, password: string) => void;
@@ -11,10 +12,10 @@ type SignInFormsProps = {
 function SignInForms({
   SignIn = (email, password) => {
     console.log(email, password);
-    window.location.href = "/create-applet";
+    navigate("create-applet");
   },
   RecoverPassword = () => {
-    window.location.href = "/sign-in/recover-password";
+    navigate("recover-password");
   },
 }: SignInFormsProps) {
   const [Email, setEmail] = React.useState("");
