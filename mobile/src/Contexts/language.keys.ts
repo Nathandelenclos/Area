@@ -65,6 +65,14 @@ const fr: ILanguage[] = [
     name: 'send_email',
     message: "Envoyer l'email",
   },
+  {
+    name: 'description',
+    message: 'Description',
+  },
+  {
+    name: 'no_applet',
+    message: "Vous n'avez pas d'applet. Cliquez ici pour en créer un",
+  },
 ];
 
 const en: ILanguage[] = [
@@ -131,6 +139,14 @@ const en: ILanguage[] = [
   {
     name: 'send_email',
     message: 'Send email',
+  },
+  {
+    name: 'description',
+    message: 'Description',
+  },
+  {
+    name: 'no_applet',
+    message: 'You have no applets. Click here to create one',
   },
 ];
 

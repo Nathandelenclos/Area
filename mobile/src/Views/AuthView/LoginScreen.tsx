@@ -2,8 +2,7 @@ import React, { JSX } from 'react';
 import { Image, View } from 'react-native';
 import MyButton from '@components/MyButton';
 import { Title } from '@components/Title';
-import AuthViewContainer from '@components/AuthComponent/AuthViewContainer';
-import AuthFooter from '@components/AuthComponent/AuthList';
+import { AuthViewContainer, AuthFooter } from '@components/Auth';
 import AppContext from '@contexts/app.context';
 
 export default function LoginScreen({
@@ -48,7 +47,7 @@ export default function LoginScreen({
           }}
         >
           <Title
-            title={translate('welcome_to') + appName}
+            title={translate('welcome_to') + ' ' + appName}
             style={{ paddingTop: 20 }}
           />
           <View style={{ marginTop: 30 }} />
