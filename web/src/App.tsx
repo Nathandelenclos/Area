@@ -5,12 +5,13 @@ import SignUp from "@pages/Auth/SignUp";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
 import Welcome from "@pages/Auth/Welcome";
 import CreateApplet from "./pages/CreateApplet";
+import MyApplet from "@pages/MyApplet";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Welcome />} />
+        <Route path="/" element={<MyApplet />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in/recover-password" element={<RecoverPassword />} />
