@@ -1,8 +1,10 @@
 {
   "test": "test",
-  "sign-in": "Connection",
-  "sign-up": "S'enregistrer",
   "login": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "sign-in": "Connection",
+    "sign-up": "S'enregistrer",
     "orConnectWith": "Ou connectez-vous avec",
     "recoverPassword": "Mot de passe oublié ?"
   },
