@@ -1,3 +1,28 @@
 {
-  "test": "test"
+  "test": "test",
+  "welcome": "Welcome to Area !",
+  "login": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "sign-in": "Connection",
+    "sign-up": "S'enregistrer",
+    "orConnectWith": "Ou connectez-vous avec",
+    "recoverPassword": "Mot de passe oublié ?",
+    "fullName": "Nom complet",
+    "recover": "Récupérer"
+  },
+  "nav": {
+    "home": "Accueil",
+    "create": "Créer",
+    "applets": "Mes applets",
+    "profile": "Profil"
+  },
+  "homepage": {
+    "title": "Accueil",
+    "description": "Bienvenue sur la page d'accueil"
+  },
+  "applets": {
+    "title": "Mes applets",
+    "create": "Créer une applet"
+  }
 }

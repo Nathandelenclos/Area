@@ -1,15 +1,17 @@
 import React, { createContext, FC, ReactNode, useState } from "react";
-import lang, { Language } from "@src/lang";
-import Lang from "@src/lang";
+import { lang, LangType, Language } from "@src/lang";
 
 export type AppContextType = {
-  language: string;
-  translate: (key: string) => string;
+  language: Language;
+  appName: string;
+  translate: (...keys: string[]) => string;
   setLanguage: (language: Language) => void;
 };
+
 export const ApplicationContext = createContext<AppContextType>({
-  language: Language.FR,
-  translate: (key: string) => key,
+  language: "en",
+  appName: "AppName",
+  translate: (...keys: string[]): string => keys.join(" "),
   setLanguage: (language: Language) => language,
 });
 
@@ -20,25 +22,26 @@ type AppContextProviderProps = {
 export const AppContextProvider: FC<AppContextProviderProps> = ({
   children,
 }: AppContextProviderProps) => {
-  const [language, setLang] = useState(Language.FR);
+  const [language, setLang] = useState<Language>("fr");
 
-  const setLanguage = (language: Language) => {
-    setLang(language);
+  const defaultValues: AppContextType = {
+    language,
+    appName: "AppName",
+    translate: (...keys: string[]): string => {
+      return keys.reduce((acc: LangType | string, key: string) => {
+        if (typeof acc === "object") {
+          return acc[key];
+        }
+        return "";
+      }, lang[language]) as string;
+    },
+    setLanguage: (language: Language) => {
+      setLang(language);
+    },
   };
 
-  const translate = (key: string) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return lang[language][key];
-  };
   return (
-    <ApplicationContext.Provider
-      value={{
-        language,
-        translate,
-        setLanguage,
-      }}
-    >
+    <ApplicationContext.Provider value={defaultValues}>
       {children}
     </ApplicationContext.Provider>
   );

@@ -1,31 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import MainButton from "@components/MainButton";
+import AuthInput from "@components/AuthInput";
+import AppContext from "@src/context/AppContextProvider";
+import { navigate } from "@src/utils";
 
-function SignUpForms() {
+type SignUpFormsProps = {
+  SignUp?: (fullName: string, email: string, password: string) => void;
+};
+
+function SignUpForms({
+  SignUp = (fullName, email, password) => {
+    console.log(fullName, email, password);
+    navigate("create-applet");
+  },
+}: SignUpFormsProps) {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { translate } = AppContext();
   return (
     <div className="flex flex-col justify-center items-center">
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-4"
-        type="text"
-        placeholder="Full Name"
+      <AuthInput
+        placeholder={translate("login", "fullName")}
+        value={fullName}
+        setValue={setFullName}
       />
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-4"
-        type="text"
-        placeholder="Email"
+      <AuthInput
+        placeholder={translate("login", "email")}
+        value={email}
+        setValue={setEmail}
+        type={"email"}
       />
-      <input
-        className="bg-[#F0F0F0] placeholder-[#CBCBCB] focus:outline-none focus:border-none rounded w-4/5 py-5 px-5 mt-5"
-        type="password"
-        placeholder="Password"
+      <AuthInput
+        placeholder={translate("login", "password")}
+        value={password}
+        setValue={setPassword}
+        type={"password"}
       />
-      <button className="bg-[#7A73E7] hover:bg-[#9490ce] text-white text-2xl font-bold w-4/5 py-5 rounded mt-10 mb-5">
-        Sign up
-      </button>
-      <p className="w-3/5 mb-5">
-        By creating an account you accept our{" "}
-        <a className="text-[#7A73E7]">Terms of services</a> and{" "}
-        <a className="text-[#7A73E7]">Privacy policy</a>.
-      </p>
+      <MainButton
+        title={translate("login", "sign-up")}
+        onPress={() => SignUp(fullName, email, password)}
+      />
     </div>
   );
 }
