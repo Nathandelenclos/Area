@@ -5,6 +5,10 @@ import { AppletEntity } from './applet.entity';
 import { AppletConfigService } from './configuration/applet.config.service';
 import { AppletDto } from './applet.dto';
 
+export enum AppletRelations {
+  CONFIG = 'applet_configs',
+}
+
 @Injectable()
 export class AppletService {
   constructor(
@@ -36,13 +40,11 @@ export class AppletService {
    */
   findOne(
     data: Partial<AppletDto>,
-    relations: boolean = true,
+    relations: AppletRelations[] = [],
   ): Promise<AppletEntity> {
     return this.appletRepository.findOne({
       where: data,
-      relations: {
-        applet_configs: relations,
-      },
+      relations: relations,
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
-import { AppletService } from './applet.service';
+import { AppletRelations, AppletService } from './applet.service';
 import { Response } from 'express';
 import { AppletDto } from './applet.dto';
 
@@ -9,7 +9,9 @@ export class AppletController {
 
   @Get(':id')
   async findById(@Param('id') id: number, @Res() res: Response) {
-    const response = await this.appletsService.findOne({ id: id });
+    const response = await this.appletsService.findOne({ id: id }, [
+      AppletRelations.CONFIG,
+    ]);
     res.status(200).json(response);
   }
 
