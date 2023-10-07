@@ -1,13 +1,15 @@
 import background from "@assets/vectorBackground.jpg";
 import React from "react";
 
+type AuthViewContainerProps = {
+  ContainerTitle: string;
+  children: React.ReactNode;
+};
+
 export default function AuthViewContainer({
   ContainerTitle,
   children,
-}: {
-  ContainerTitle: string;
-  children: React.ReactNode;
-}) {
+}: AuthViewContainerProps) {
   return (
     <div className="overflow-hidden w-full h-full flex items-center justify-center">
       <img
