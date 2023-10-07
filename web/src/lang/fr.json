@@ -6,7 +6,9 @@
     "sign-in": "Connection",
     "sign-up": "S'enregistrer",
     "orConnectWith": "Ou connectez-vous avec",
-    "recoverPassword": "Mot de passe oublié ?"
+    "recoverPassword": "Mot de passe oublié ?",
+    "fullName": "Nom complet"
+
   },
   "nav": {
     "home": "Accueil",

@@ -1,40 +1,46 @@
 import React, { useState } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
+import AppContext from "@src/context/AppContextProvider";
 
-function SignUpForms() {
+type SignUpFormsProps = {
+  SignUp?: (fullName: string, email: string, password: string) => void;
+};
+
+function SignUpForms({
+  SignUp = (fullName, email, password) => {
+    console.log(fullName, email, password);
+    window.location.href = "/create-applet";
+  },
+}: SignUpFormsProps) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const SignUp = () => {
-    //TODO: Implement sign up logic
-    window.location.href = "/create-applet";
-  };
+
+  const { translate } = AppContext();
   return (
     <div className="flex flex-col justify-center items-center">
       <AuthInput
-        placeholder={"Full Name"}
+        placeholder={translate("login", "fullName")}
         value={fullName}
         setValue={setFullName}
       />
       <AuthInput
-        placeholder={"Email"}
+        placeholder={translate("login", "email")}
         value={email}
         setValue={setEmail}
         type={"email"}
       />
       <AuthInput
-        placeholder={"Password"}
+        placeholder={translate("login", "password")}
         value={password}
         setValue={setPassword}
         type={"password"}
       />
-      <MainButton title={"Sign up"} onPress={SignUp} />
-      <p className="w-3/5 mb-5 text-center">
-        By creating an account you accept our{" "}
-        <a className="text-[#7A73E7]">Terms of services</a> and{" "}
-        <a className="text-[#7A73E7]">Privacy policy</a>.
-      </p>
+      <MainButton
+        title={translate("login", "sign-up")}
+        onPress={() => SignUp(fullName, email, password)}
+      />
     </div>
   );
 }

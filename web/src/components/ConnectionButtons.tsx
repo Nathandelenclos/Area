@@ -18,9 +18,12 @@ export default function ConnectionButtons({
   const { translate } = AppContext();
   return (
     <div className="flex flex-col justify-center items-center">
-      <MainButton title={translate("sign-in")} onPress={NavigateToSignIn} />
       <MainButton
-        title={translate("sign-up")}
+        title={translate("login", "sign-in")}
+        onPress={NavigateToSignIn}
+      />
+      <MainButton
+        title={translate("login", "sign-up")}
         reverse={true}
         onPress={NavigateToSignUp}
       />
