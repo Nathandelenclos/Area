@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { AppletEntity } from './applet.entity';
 import { AppletConfigService } from './configuration/applet.config.service';
 import { AppletDto } from './applet.dto';
+import { UserEntity } from '@app/common/users/user.entity';
+import { ReactionEntity } from '@app/common/reactions/reaction.entity';
+import { ActionEntity } from '@app/common/actions/action.entity';
 
 export enum AppletRelations {
   CONFIG = 'applet_configs',
@@ -20,11 +23,20 @@ export class AppletService {
   /**
    * Create a new applet and its configuration
    * @param data Applet data
+   * @param user_id
+   * @param reaction_id
    * @returns Applet
    */
-  async create(data: AppletDto): Promise<AppletEntity> {
+  async create(
+    data: AppletDto,
+    user_id: DeepPartial<UserEntity>,
+  ): Promise<AppletEntity> {
     const { config, ...appletData } = data;
-    const applet: AppletEntity = await this.appletRepository.save(appletData);
+    const applet = await this.appletRepository.save({
+      ...appletData,
+      user: user_id,
+      reaction: 1 as DeepPartial<ReactionEntity>,
+    });
 
     if (config) {
       this.appletConfigService.createMany(applet.id, config);

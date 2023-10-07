@@ -5,10 +5,11 @@ import { HttpStatus } from '@nestjs/common';
 
 class MicroServiceProxy {
   static microServiceQueue = {
-    CRON_SERVICE: 'cron_queue',
     AUTH_SERVICE: 'auth_queue',
+    CRON_SERVICE: 'cron_queue',
     DISCORD_SERVICE: 'discord_queue',
   };
+
   /**
    * Encapsulates the logic to call a microservice and return the response
    * @param client ClientProxy instance of the microservice

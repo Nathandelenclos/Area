@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '@app/common/users/user.service';
 import { NewUser } from '@app/common/users/user.dto';
 import MicroServiceResponse from '@app/common/micro.service.response';
-import { compare } from 'bcrypt';
+//import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -17,11 +17,8 @@ export class AuthService {
    * @param data NewUser
    * @returns MicroServiceResponse
    */
-  async register(data: NewUser) {
-    const user = await this.userService.create(data);
-    return new MicroServiceResponse({
-      data: user,
-    });
+  register(data: NewUser) {
+    return this.userService.create(data);
   }
 
   /**
@@ -38,7 +35,7 @@ export class AuthService {
         message: 'Invalid credentials',
       });
     }
-    const isMatch = await compare(password, user.password);
+    const isMatch = password == user.password; // await compare(password, user.password);
 
     if (!isMatch) {
       return new MicroServiceResponse({
@@ -48,10 +45,8 @@ export class AuthService {
     }
 
     const payload = { id: user.id, email: user.email };
-    return new MicroServiceResponse({
-      data: {
-        access_token: this.jwtService.sign(payload),
-      },
-    });
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

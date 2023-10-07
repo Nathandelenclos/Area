@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { AppletEntity } from '@app/common/applets/applet.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -13,4 +14,7 @@ export class UserEntity {
 
   @Column()
   name: string;
+
+  @OneToMany(() => AppletEntity, (applet) => applet.user)
+  applets: AppletEntity[];
 }

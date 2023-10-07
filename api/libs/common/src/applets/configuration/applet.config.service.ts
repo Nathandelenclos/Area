@@ -16,9 +16,7 @@ export class AppletConfigService {
    * @param data Configuration data
    */
   createMany(applet_id: any, data: any): void {
-    console.log('data', data);
     Object.keys(data).map(async (key) => {
-      console.log('key', key);
       await this.appletConfigRepository.save({
         key,
         value: data[key],

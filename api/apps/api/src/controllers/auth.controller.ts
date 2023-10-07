@@ -12,13 +12,13 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  register(@Body() data: any, @Res() res: Response): void {
+  register(@Body() data: any, @Res() res: Response) {
     MicroServiceProxy.callMicroService(this.authService, 'register', data, res);
   }
 
   @Public()
   @Post('signin')
-  signIn(@Body() data: any, @Res() res: Response): void {
+  signIn(@Body() data: any, @Res() res: Response) {
     MicroServiceProxy.callMicroService(this.authService, 'signin', data, res);
   }
 }
