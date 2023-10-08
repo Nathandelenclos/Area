@@ -1,5 +1,6 @@
 import { UserEntity } from '@app/common/users/user.entity';
 import { DeepPartial } from 'typeorm';
+import { ActionEntity } from '@app/common/actions/action.entity';
 
 export interface AppletDto {
   id: number;
@@ -7,5 +8,10 @@ export interface AppletDto {
   description: string;
   is_active: boolean;
   config: any;
-  user_id?: DeepPartial<UserEntity>;
+}
+
+export interface AppletCreateDto extends AppletDto {
+  action?: DeepPartial<ActionEntity>;
+  reactions?: DeepPartial<ActionEntity>[];
+  user?: DeepPartial<UserEntity>;
 }

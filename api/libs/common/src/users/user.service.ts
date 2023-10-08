@@ -6,6 +6,10 @@ import { NewUser } from '@app/common/users/user.dto';
 import { ConfigService } from '@nestjs/config';
 // import { hash } from 'bcrypt';
 
+export enum UserRelations {
+  APPLETS = 'applets',
+}
+
 @Injectable()
 export class UserService {
   constructor(
@@ -39,6 +43,7 @@ export class UserService {
   findOne(query: any): Promise<UserEntity | undefined> {
     return this.userRepository.findOne({
       where: query,
+      relations: [UserRelations.APPLETS],
     });
   }
 }

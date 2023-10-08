@@ -3,7 +3,6 @@ import {
   Entity,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ServiceEntity } from '@app/common/services/service.entity';
@@ -26,6 +25,6 @@ export class ReactionEntity {
   @ManyToOne(() => ServiceEntity, (service) => service.reactions)
   service: ServiceEntity;
 
-  @OneToMany(() => AppletEntity, (applet) => applet.reaction)
+  @ManyToMany(() => AppletEntity, (applet) => applet.reactions)
   applets: AppletEntity[];
 }

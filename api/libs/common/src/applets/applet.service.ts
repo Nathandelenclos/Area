@@ -10,6 +10,9 @@ import { ActionEntity } from '@app/common/actions/action.entity';
 
 export enum AppletRelations {
   CONFIG = 'applet_configs',
+  USER = 'user',
+  REACTIONS = 'reactions',
+  ACTION = 'action',
 }
 
 @Injectable()
@@ -23,20 +26,25 @@ export class AppletService {
   /**
    * Create a new applet and its configuration
    * @param data Applet data
-   * @param user_id
-   * @param reaction_id
+   * @param user
+   * @param reactions
+   * @param action
    * @returns Applet
    */
   async create(
     data: AppletDto,
-    user_id: DeepPartial<UserEntity>,
+    user: DeepPartial<UserEntity>,
+    reactions: DeepPartial<ReactionEntity>[],
+    action: DeepPartial<ActionEntity>,
   ): Promise<AppletEntity> {
     const { config, ...appletData } = data;
     const applet = await this.appletRepository.save({
       ...appletData,
-      user: user_id,
-      reaction: 1 as DeepPartial<ReactionEntity>,
+      user,
+      reactions,
+      action,
     });
+    console.log('applet', applet);
 
     if (config) {
       this.appletConfigService.createMany(applet.id, config);
