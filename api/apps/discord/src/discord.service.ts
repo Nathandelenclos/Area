@@ -29,9 +29,9 @@ export class DiscordService {
     });
 
     await this.reactionService.create({
-      name: 'Send Message',
+      name: 'Send Message Reaction',
       is_available: true,
-      description: 'Send a message to a Discord channel.',
+      description: 'Send a message to a Discord channel. REACTION',
       service,
     });
 

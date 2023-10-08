@@ -1,8 +1,6 @@
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -32,11 +30,8 @@ export class AppletEntity {
   @ManyToOne(() => ActionEntity, (action) => action.applets)
   action: ActionEntity;
 
-  @ManyToMany(() => ReactionEntity, (reaction) => reaction.applets, {
-    cascade: ['insert', 'update'],
-  })
-  @JoinTable()
-  reactions: ReactionEntity[];
+  @ManyToOne(() => ReactionEntity, (reaction) => reaction.applets)
+  reaction: ReactionEntity;
 
   @OneToMany(() => AppletConfigEntity, (appletConfig) => appletConfig.applet)
   applet_configs: AppletConfigEntity[];
