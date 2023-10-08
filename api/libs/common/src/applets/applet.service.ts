@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { AppletEntity } from './applet.entity';
 import { AppletConfigService } from './configuration/applet.config.service';
-import { AppletDto } from './applet.dto';
+import { AppletCreateDto, AppletDto } from './applet.dto';
 import { UserEntity } from '@app/common/users/user.entity';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { ActionEntity } from '@app/common/actions/action.entity';
@@ -44,7 +44,6 @@ export class AppletService {
       reaction,
       action,
     });
-    console.log('applet', applet);
 
     if (config) {
       this.appletConfigService.createMany(applet.id, config);
@@ -55,16 +54,46 @@ export class AppletService {
 
   /**
    * Find an applet by its id
-   * @param data Applet data
+   * @param options
    * @param relations Include relations
    */
   findOne(
-    data: Partial<AppletDto>,
+    options: Partial<AppletDto>,
     relations: AppletRelations[] = [],
   ): Promise<AppletEntity> {
     return this.appletRepository.findOne({
-      where: data,
+      where: options,
       relations: relations,
     });
+  }
+
+  /**
+   * Find all applets matching the options
+   * @param options
+   * @param relations Include relations
+   */
+  findAll(
+    options: Partial<AppletCreateDto>,
+    relations: AppletRelations[] = [],
+  ): Promise<AppletEntity[]> {
+    return this.appletRepository.find({
+      where: options,
+      relations: relations,
+    });
+  }
+
+  /**
+   * Delete an applet by its id
+   * @param id Applet id
+   * @param userId User id
+   */
+  async delete(id: number, userId: number): Promise<any> {
+    const applet = await this.appletRepository.findOne({
+      where: { id, user: { id: userId } },
+    });
+    if (!applet) throw new Error('Applet not found');
+
+    await this.appletConfigService.delete(id);
+    return this.appletRepository.delete(id);
   }
 }

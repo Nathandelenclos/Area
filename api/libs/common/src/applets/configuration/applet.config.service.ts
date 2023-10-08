@@ -24,4 +24,17 @@ export class AppletConfigService {
       });
     });
   }
+
+  /**
+   * Delete an applet configuration
+   * @param applet_id
+   */
+  async delete(applet_id: number): Promise<any> {
+    const configs = await this.appletConfigRepository.find({
+      where: { applet: { id: applet_id } },
+    });
+    const configIds = configs.map((config) => config.id);
+
+    return this.appletConfigRepository.delete(configIds);
+  }
 }

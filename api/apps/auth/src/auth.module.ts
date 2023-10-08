@@ -11,6 +11,7 @@ import { ActionEntity } from '@app/common/actions/action.entity';
 import { ServiceEntity } from '@app/common/services/service.entity';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
+import { AppletModule } from '@app/common/applets/applet.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
       }),
     }),
     UserModule,
+    AppletModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],

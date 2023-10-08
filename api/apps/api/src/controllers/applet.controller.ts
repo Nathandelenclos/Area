@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
 import {
   AppletRelations,
@@ -32,10 +41,24 @@ export class AppletController {
     try {
       const response = await this.appletService.create(
         data,
-        (data.user || req.user.id) as DeepPartial<UserEntity>,
+        req.user.id as DeepPartial<UserEntity>,
         data.reaction,
         data.action,
       );
+      res.status(200).json(response);
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  }
+
+  @Delete(':id')
+  async delete(
+    @Param('id') id: number,
+    @Res() res: Response,
+    @Req() req: { user: { id: number } },
+  ) {
+    try {
+      const response = await this.appletService.delete(id, req.user.id);
       res.status(200).json(response);
     } catch (e) {
       res.status(500).json(e);

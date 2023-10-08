@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '@app/common/users/user.entity';
 import { Repository } from 'typeorm';
-import { NewUser } from '@app/common/users/user.dto';
+import { NewUserDto, NewUserOAuthDto } from '@app/common/users/user.dto';
 import { ConfigService } from '@nestjs/config';
-// import { hash } from 'bcrypt';
+import MicroServiceResponse from '@app/common/micro.service.response';
 
 export enum UserRelations {
   APPLETS = 'applets',
@@ -21,9 +21,15 @@ export class UserService {
   /**
    * Create a new user
    * @param data NewUser object
-   * @returns UserEntity
+   * @returns UserEntity object
    */
-  async create(data: NewUser) {
+  async create(data: NewUserDto) {
+    if (await this.exists({ email: data.email }))
+      return new MicroServiceResponse({
+        code: HttpStatus.CONFLICT,
+        message: 'User already exists',
+      });
+
     const salt: number = +this.configService.get('BCRYPT_SALT');
     const hashedPassword: string = data.password; // await hash(data.password, salt);
     const user = await this.userRepository.save({
@@ -32,7 +38,34 @@ export class UserService {
     });
     const response = { ...user };
     delete response.password;
-    return response;
+    return new MicroServiceResponse({
+      data: response,
+    });
+  }
+
+  /**
+   * Create a new user with OAuth credentials
+   * @param data NewUserOAuth object
+   * @returns Promise<MicroServiceResponse> object
+   */
+  async createOAuth(data: NewUserOAuthDto): Promise<MicroServiceResponse> {
+    if (await this.exists({ email: data.email }))
+      return new MicroServiceResponse({
+        code: HttpStatus.CONFLICT,
+        message: 'User already exists',
+      });
+
+    const cryptToken: string = data.token;
+    const user = await this.userRepository.save({
+      ...data,
+      password: null,
+      token: cryptToken,
+    });
+    const response = { ...user };
+    delete response.token;
+    return new MicroServiceResponse({
+      data: response,
+    });
   }
 
   /**
@@ -45,5 +78,17 @@ export class UserService {
       where: query,
       relations: [UserRelations.APPLETS],
     });
+  }
+
+  /**
+   * Find if a user exists
+   * @param query Query object
+   * @returns boolean true if user exists
+   */
+  async exists(query: any): Promise<boolean> {
+    const user = await this.userRepository.findOne({
+      where: query,
+    });
+    return !!user;
   }
 }

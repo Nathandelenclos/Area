@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Req, Res } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import MicroServiceProxy from '@app/common/micro.service.proxy';
 import { Response } from 'express';
@@ -17,8 +17,19 @@ export class AuthController {
   }
 
   @Public()
+  @Post('oauth')
+  OAuth(@Body() data: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(this.authService, 'oauth', data, res);
+  }
+
+  @Public()
   @Post('signin')
   signIn(@Body() data: any, @Res() res: Response) {
     MicroServiceProxy.callMicroService(this.authService, 'signin', data, res);
+  }
+
+  @Get('me')
+  me(@Res() res: Response, @Req() req: any) {
+    MicroServiceProxy.callMicroService(this.authService, 'me', req.user, res);
   }
 }
