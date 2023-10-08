@@ -4,6 +4,7 @@ import * as process from 'process';
 const USER = process.argv[2] || process.env.RABBITMQ_USER;
 const PASSWORD = process.argv[3] || process.env.RABBITMQ_PASS;
 const HOST = process.argv[4] || process.env.RABBITMQ_HOST;
+const INTERVAL = +process.argv[5] || +process.env.CRON_INTERVAL || 1000;
 
 type Queue = 'discord_queue' | 'cron_queue';
 type QueueDefinition = {
@@ -11,6 +12,7 @@ type QueueDefinition = {
   channel?: Channel;
   cmd: string;
   data?: any;
+  interval?: number;
 };
 
 const QUEUES: QueueDefinition[] = [
@@ -42,6 +44,6 @@ const sendRequest = (ch: Channel, queue: Queue, cmd: string, data: any) => {
     queue.channel = await conn.createChannel();
     setInterval(() => {
       sendRequest(queue.channel, queue.name, queue.cmd, queue.data || {});
-    }, 1000);
+    }, queue.interval || INTERVAL);
   }
 })();
