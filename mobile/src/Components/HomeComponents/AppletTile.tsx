@@ -65,23 +65,23 @@ export default ({ appletTitle, id, description, color, size, handleOnPress }: Ap
         >
           {description}
         </Text>
-      <TouchableOpacity 
-        onPress={handleOnPress} 
-        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-      >
-        <FontAwesomeIcon
-          icon={'arrow-right'}
-          size={20}
-          style={{ 
-            color: "white",
-            position: 'absolute',
-            right: 0,
-            bottom: 0,
-            marginBottom: 13,
-            marginRight: 15,
-          }}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity 
+          onPress={handleOnPress} 
+          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+        >
+          <FontAwesomeIcon
+            icon={'arrow-right'}
+            size={20}
+            style={{ 
+              color: "white",
+              position: 'absolute',
+              right: 0,
+              bottom: 0,
+              marginBottom: 13,
+              marginRight: 15,
+            }}
+          />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );

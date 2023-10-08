@@ -68,7 +68,11 @@ const fr: ILanguage[] = [
   {
     name: 'home_title',
     message: 'Recommendations du jour',
-  }
+  },
+  {
+    name: 'create_applet_title',
+    message: 'Création d\'Applet',
+  },
 ];
 
 const en: ILanguage[] = [
@@ -139,7 +143,11 @@ const en: ILanguage[] = [
   {
     name: 'home_title',
     message: 'Recommendations of the day',
-  }
+  },
+  {
+    name: 'create_applet_title',
+    message: 'Create Applet',
+  },
 ];
 
 type LanguageList = {
