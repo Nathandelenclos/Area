@@ -13,6 +13,7 @@ export class CronController extends MicroServiceController {
   @MessagePattern({ cmd: 'test' })
   get(@Ctx() context: RmqContext) {
     this.ack(context);
+    console.log('test');
     return new MicroServiceResponse({
       data: 'Hello World! This is a cron.',
     });

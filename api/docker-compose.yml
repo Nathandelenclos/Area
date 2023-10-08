@@ -69,7 +69,7 @@ services:
     volumes:
       - ./:/app
     environment:
-        - MICROSERVICE=cron
+      - MICROSERVICE=cron
     env_file:
       - .env.docker
     depends_on:
@@ -89,6 +89,24 @@ services:
       - MICROSERVICE=discord
     env_file:
       - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  queue:
+    image: node:18
+    container_name: queue
+    hostname: queue
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    env_file:
+      - .env.docker
+    command: "npx ts-node --project tsconfig.json ./script/cron.ts"
     depends_on:
       - mysql
       - rabbitmq

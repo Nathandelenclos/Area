@@ -15,6 +15,8 @@ export class DiscordService {
   ) {}
 
   async test() {
+    console.log('test');
+    return 'test';
     const service = await this.serviceService.create({
       name: 'Discord',
       url: 'https://discord.com/api/webhooks/...',
