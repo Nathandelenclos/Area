@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "@components/NavBar";
 import OptionListContainer from "@components/OptionListContainer";
 import AppletCreationInputName from "@components/AppletCreationInputName";
@@ -7,6 +7,8 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 import AppletService from "@services/AppletService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import AreaService from "@services/AreaService";
+import { ServiceObject, ServiceObjectDto } from "@src/objects/ServiceObject";
 
 type AppletServiceStruct = {
   id: number;
@@ -16,56 +18,27 @@ type AppletServiceStruct = {
 };
 
 export default function CreateAppletTrigger() {
-  const { translate } = AppContext();
+  const { translate, user } = AppContext();
   const navigate = useNavigate();
   const [appletName, setAppletName] = useState<string>("");
+  const [services, setServices] = useState<ServiceObject[]>([]);
+  const [selectedService, setSelectedService] = useState<number>(0);
+  const [selectedAction, setSelectedAction] = useState<number>(0);
 
-  const appletServiceList: AppletServiceStruct[] = [
-    { id: 1, title: "Nom du truc", logo: "apple", isClicked: false },
-    {
-      id: 2,
-      title: "Nom du bazard",
-      logo: "spotify",
-      isClicked: false,
-    },
-  ];
-  const appletTriggerList: AppletServiceStruct[] = [
-    { id: 1, title: "Nom du truc azd", isClicked: false },
-    { id: 2, title: "Nom du bazard", isClicked: false },
-    { id: 3, title: "Nom du bazard", isClicked: false },
-    { id: 4, title: "Nom du bazard", isClicked: false },
-    { id: 5, title: "Nom du bazard", isClicked: false },
-    { id: 6, title: "Nom du bazard", isClicked: false },
-    { id: 7, title: "Nom du bazard", isClicked: false },
-  ];
+  useEffect(() => {
+    if (!user.getAccessToken()) return;
+    getServices();
+  }, [user]);
 
-  const [modifiableTriggerList, modifyTriggerList] =
-    useState(appletTriggerList);
-  const [modifiableServiceList, modifyServiceList] =
-    useState(appletServiceList);
+  const getServices = async () => {
+    const response = await AreaService.getServices(user.getAccessToken());
+    if (!response.data) return;
 
-  const handleStateChangeService = (id: number) => {
-    const updatedServiceList = modifiableServiceList.map((e) => {
-      if (e.id === id) {
-        return { ...e, isClicked: true };
-      } else {
-        return { ...e, isClicked: false };
-      }
-    });
-
-    modifyServiceList(updatedServiceList);
-  };
-
-  const handleStateChangeTrigger = (id: number) => {
-    const updatedTriggerList = modifiableTriggerList.map((e) => {
-      if (e.id === id) {
-        return { ...e, isClicked: true };
-      } else {
-        return { ...e, isClicked: false };
-      }
-    });
-
-    modifyTriggerList(updatedTriggerList);
+    const fetchedServices = response.data;
+    const serviceObjects: ServiceObject[] = fetchedServices.map(
+      (service: ServiceObjectDto) => new ServiceObject(service),
+    );
+    setServices(serviceObjects);
   };
 
   const onAppletCreation = async () => {
@@ -78,14 +51,28 @@ export default function CreateAppletTrigger() {
         reaction: 1,
         config: undefined,
       },
-      "",
+      user.getAccessToken(),
     );
-    console.log("response", response);
     if (!response.data)
       return toast("Error while creating applet", { type: "error" });
     navigate("/create-applet-reaction");
     toast("Applet created", { type: "success" });
   };
+
+  const onServiceClick = (id: number) => {
+    console.log(id);
+  };
+
+  const onActionClick = (id: number) => {
+    console.log(id);
+  };
+
+  /*
+  *  id: number;
+  title: string;
+  logo?: IconName;
+  isClicked: boolean;
+  * */
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -100,13 +87,27 @@ export default function CreateAppletTrigger() {
             "create-applets",
             "supported-services-trigger",
           )}
-          childrens={modifiableServiceList}
-          handleStateChange={handleStateChangeService}
+          children={services.map((service: ServiceObject) => ({
+            id: service.id,
+            title: service.name,
+            logo: "cloud",
+            isClicked: false,
+          }))}
+          onListObjectClick={onServiceClick}
         />
         <OptionListContainer
           ContainerTitle={translate("create-applets", "triggers-for-service")}
-          childrens={modifiableTriggerList}
-          handleStateChange={handleStateChangeTrigger}
+          children={
+            services
+              .find((service: ServiceObject) => service.id === selectedService)
+              ?.actions.map((action) => ({
+                id: action.id,
+                title: action.name,
+                logo: "arrow-right",
+                isClicked: false,
+              })) ?? []
+          }
+          onListObjectClick={onActionClick}
         />
       </div>
       <div
