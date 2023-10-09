@@ -1,0 +1,197 @@
+version: '3.7'
+name: area
+services:
+  rabbitmq:
+    image: rabbitmq:3.8.3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    volumes:
+      - ./rabbitmq/data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env.docker
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    hostname: mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env.docker
+    restart: always
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: api
+    hostname: api
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=api
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  auth:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: auth
+    hostname: auth
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=auth
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  discord:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: discord
+    hostname: discord
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=discord
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  spotify:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: spotify
+    hostname: spotify
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=spotify
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  instagram:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: instagram
+    hostname: instagram
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=instagram
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  gmail:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: gmail
+    hostname: gmail
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=gmail
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  youtube:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: youtube
+    hostname: youtube
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=youtube
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  google_drive:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: google_drive
+    hostname: google_drive
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=google_drive
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  queue:
+    image: node:18
+    container_name: queue
+    hostname: queue
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./api/:/home/node/app
+    env_file:
+      - .env.docker
+    command: "npx ts-node --project tsconfig.json ./script/cron.ts"
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  front:
+    build:
+      context: web
+      dockerfile: Dockerfile
+    container_name: front
+    hostname: front
+    env_file:
+      - .env.docker
+    ports:
+      - "${FRONT_PORT}:${FRONT_PORT}"
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api

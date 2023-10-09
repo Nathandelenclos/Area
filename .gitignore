@@ -2,3 +2,17 @@
 .vscode
 yarn.lock
 node_modules
+yarn.lock
+yarn-error.log
+node_modules
+rabbitmq
+mysql
+dist
+.env
+.DS_Store
+docs
+.yarn
+rabbitmq
+mysql
+build
+.env

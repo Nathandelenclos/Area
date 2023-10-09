@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - main
+      - api
+      - web
+      - app
+
+jobs:
+  create_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Install 📦
+        run: yarn && cd api && yarn
+      - name: Install graphviz
+        run: sudo apt-get install graphviz
+      - name: Build 🏗
+        run: npx typedoc --options typedoc.json
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          folder: ./docs
