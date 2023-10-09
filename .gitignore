@@ -4,3 +4,7 @@ yarn.lock
 node_modules
 docs
 .yarn
+rabbitmq
+mysql
+build
+.env
