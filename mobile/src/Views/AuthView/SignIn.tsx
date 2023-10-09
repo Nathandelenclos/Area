@@ -2,13 +2,11 @@ import React, { JSX } from 'react';
 import { Text, View } from 'react-native';
 import MyButton from '@components/MyButton';
 import { Title } from '@components/Title';
-import AuthViewContainer from '@components/AuthComponent/AuthViewContainer';
-import AuthFooter from '@components/AuthComponent/AuthList';
+import { AuthViewContainer, AuthFooter, AuthTextInput } from '@components/Auth';
 import BackButton from '@components/BackButton';
-import AuthTextInput from '@components/AuthComponent/AuthTextInput';
 import authService from '@services/auth.service';
 import AppContext from '@contexts/app.context';
-import GetMe from '@contexts/user.context';
+import UserCtx from '@contexts/user.context';
 
 export default function SignIn({
   navigation,
@@ -16,18 +14,14 @@ export default function SignIn({
   navigation: any;
 }): JSX.Element {
   const { color, translate } = AppContext();
-  const { setUser } = GetMe();
+  const { setUser } = UserCtx();
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
-
   async function tryLogin() {
-    //const resp = await authService.login({email: email.trim(), password});
-    //console.log(resp);
-    setUser({
-      name: 'John Doe',
-      email: 'john.doe@gmail.com',
-      access_token: '1234567890',
-    });
+    const resp = await authService.login({ email: email.trim(), password });
+    if (resp.data) {
+      setUser(resp.data);
+    }
   }
 
   return (

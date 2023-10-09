@@ -2,12 +2,11 @@ import React, { JSX } from 'react';
 import { Linking, Text, View } from 'react-native';
 import MyButton from '@components/MyButton';
 import { Title } from '@components/Title';
-import AuthViewContainer from '@components/AuthComponent/AuthViewContainer';
-import AuthFooter from '@components/AuthComponent/AuthList';
+import { AuthViewContainer, AuthFooter, AuthTextInput } from '@components/Auth';
 import BackButton from '@components/BackButton';
-import AuthTextInput from '@components/AuthComponent/AuthTextInput';
 import authService from '@services/auth.service';
 import AppContext from '@contexts/app.context';
+import UserCtx from '@contexts/user.context';
 
 function TermsAndConditions(): JSX.Element {
   const { color, translate } = AppContext();
@@ -65,24 +64,20 @@ export default function SignUp({
   navigation: any;
 }): JSX.Element {
   const { color, translate } = AppContext();
-  const [fullName, setFullName] = React.useState<string>('');
+  const { setUser } = UserCtx();
+  const [name, setFullName] = React.useState<string>('');
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
   async function trySignUp() {
-    if (
-      fullName.trim().length === 0 ||
-      email.trim().length === 0 ||
-      password.trim().length === 0
-    ) {
-      return;
-    }
     const resp = await authService.register({
+      name: name.trim(),
       email: email.trim(),
       password,
-      fullName,
     });
-    console.log(resp);
+    if (resp.data) {
+      setUser(resp.data);
+    }
   }
 
   return (
@@ -116,7 +111,7 @@ export default function SignUp({
         >
           <AuthTextInput
             placeholder={translate('full_name')}
-            text={fullName}
+            text={name}
             setText={setFullName}
           />
           <AuthTextInput

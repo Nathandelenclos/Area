@@ -1,11 +1,11 @@
 import React, { createContext, useEffect } from 'react';
 import { NativeModules, Platform, useColorScheme } from 'react-native';
-import { IApplicationContext, ILanguage } from '@interfaces/app.interface';
-import { black, white } from './color.keys';
+import { IApplicationContext, LanguageKeys } from '@interfaces/app.interface';
+import { black, common, white } from './color.keys';
 import { languageList } from './language.keys';
 
 export const ApplicationContext = createContext<IApplicationContext>({
-  color: white,
+  color: { ...white, ...common },
   language: [],
   translate: (key: string) => key,
   appName: '',
@@ -13,7 +13,7 @@ export const ApplicationContext = createContext<IApplicationContext>({
 
 export const ApplicationProvider = (props: { children: any }) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const [language, setLanguage] = React.useState<ILanguage[]>(languageList.fr);
+  const [language, setLanguage] = React.useState<LanguageKeys>(languageList.fr);
 
   const getLanguage = () => {
     let deviceLanguage;
@@ -28,7 +28,7 @@ export const ApplicationProvider = (props: { children: any }) => {
   };
 
   const translate = (key: string) => {
-    return language.find((item) => item.name === key)?.message || key;
+    return language[key] || key;
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export const ApplicationProvider = (props: { children: any }) => {
   }, []);
 
   const value: IApplicationContext = {
-    color: isDarkMode ? black : white,
+    color: { ...(isDarkMode ? black : white), ...common },
     language: language,
     translate: translate,
     appName: 'React Native Template',

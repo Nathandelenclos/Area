@@ -68,3 +68,5 @@ yarn-error.log
 env.ts
 key
 google-services.json
+yarn.lock
+.env

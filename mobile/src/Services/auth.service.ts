@@ -1,21 +1,28 @@
-import { ApiInvoke } from './API/api.invoke';
+import { ApiInvoke, IApiInvokeResponse } from './API/api.invoke';
 import defaultApiHandler from './API/api.handlers';
 
 interface Credentials {
   email: string;
   password: string;
-  fullName?: string;
+  name?: string;
+}
+
+interface OAuthCredentials {
+  email: string;
+  id: string;
+  token: string;
+  provider: string;
 }
 
 class AuthService {
   /**
    * Login
    * @param credentials {email, password}
-   * @returns {Promise} {token, user}
+   * @returns {Promise} {ApiInvokeResponse}
    */
-  login(credentials: Credentials) {
+  login(credentials: Credentials): Promise<IApiInvokeResponse> {
     return ApiInvoke({
-      endpoint: '/login',
+      endpoint: '/auth/signin',
       method: 'POST',
       expectedStatus: 200,
       body: JSON.stringify(credentials),
@@ -24,14 +31,16 @@ class AuthService {
   }
 
   /**
-   * Logout
-   * @returns {Promise}
+   * OAuth Login (Google, Facebook, etc)
+   * @param credentials {OAuthCredentials}
+   * @constructor {Promise<IApiInvokeResponse>}
    */
-  logout() {
+  OAuthLogin(credentials: OAuthCredentials): Promise<IApiInvokeResponse> {
     return ApiInvoke({
-      endpoint: '/logout',
+      endpoint: '/auth/signoauth',
       method: 'POST',
-      expectedStatus: 200,
+      expectedStatus: 201,
+      body: JSON.stringify(credentials),
       handlers: defaultApiHandler,
     });
   }
@@ -39,11 +48,11 @@ class AuthService {
   /**
    * Register
    * @param credentials {email, password, fullName}
-   * @returns {Promise} {token, user}
+   * @returns {Promise} {ApiInvokeResponse}
    */
-  register(credentials: Credentials) {
+  register(credentials: Credentials): Promise<IApiInvokeResponse> {
     return ApiInvoke({
-      endpoint: '/register',
+      endpoint: '/auth/register',
       method: 'POST',
       expectedStatus: 200,
       body: JSON.stringify(credentials),
@@ -54,9 +63,9 @@ class AuthService {
   /**
    * Forgot password
    * @param email {string}
-   * @returns {Promise}
+   * @returns {Promise} {ApiInvokeResponse}
    */
-  forgotPassword(email: string) {
+  forgotPassword(email: string): Promise<IApiInvokeResponse> {
     return ApiInvoke({
       endpoint: '/forgot-password',
       method: 'POST',
