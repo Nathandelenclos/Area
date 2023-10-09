@@ -5,7 +5,7 @@ import AppContext from '@contexts/app.context';
 export default function ViewContainer({
   children,
 }: {
-  children: React.JSX.Element[];
+  children: React.JSX.Element[] | React.JSX.Element;
 }): React.JSX.Element {
   const { color } = AppContext();
 

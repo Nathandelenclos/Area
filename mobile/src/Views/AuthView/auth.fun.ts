@@ -4,23 +4,17 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import { env } from '@src/env';
 
 async function signInWithGoogle() {
-  const IOSconfig = {
+  const config = {
     issuer: 'https://accounts.google.com',
-    clientId: env.GOOGLE_IOS_CLIENT_ID,
+    clientId:
+      Platform.OS === 'ios'
+        ? env.GOOGLE_IOS_CLIENT_ID
+        : env.GOOGLE_ANDROID_CLIENT_ID,
     redirectUrl: env.REDIRECT_URI,
-    scopes: ['openid', 'profile'],
+    scopes: ['openid', 'profile', 'https://mail.google.com/'],
   };
 
-  const Androidconfig = {
-    issuer: 'https://accounts.google.com',
-    clientId: env.GOOGLE_ANDROID_CLIENT_ID,
-    redirectUrl: env.REDIRECT_URI,
-    scopes: ['openid', 'profile'],
-  };
-
-  const authState = await authorize(
-    Platform.OS === 'ios' ? IOSconfig : Androidconfig,
-  );
+  const authState = await authorize(config);
 
   console.log('Google: ', authState);
   return;
@@ -73,7 +67,7 @@ async function signInWithSpotify() {
     clientId: env.SPOTIFY_CLIENT_ID,
     clientSecret: env.SPOTIFY_CLIENT_SECRET,
     redirectUrl: env.REDIRECT_URI,
-    scopes: ['user-read-email', 'playlist-modify-public', 'user-read-private'],
+    scopes: ['user-read-email', 'user-read-private', 'user-library-read'],
     serviceConfiguration: {
       authorizationEndpoint: 'https://accounts.spotify.com/authorize',
       tokenEndpoint: 'https://accounts.spotify.com/api/token',
