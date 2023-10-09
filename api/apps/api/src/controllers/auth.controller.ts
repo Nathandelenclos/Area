@@ -28,6 +28,17 @@ export class AuthController {
     MicroServiceProxy.callMicroService(this.authService, 'signin', data, res);
   }
 
+  @Public()
+  @Post('signoauth')
+  signOAuth(@Body() data: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'signoauth',
+      data,
+      res,
+    );
+  }
+
   @Get('me')
   me(@Res() res: Response, @Req() req: any) {
     MicroServiceProxy.callMicroService(this.authService, 'me', req.user, res);

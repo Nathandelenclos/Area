@@ -15,3 +15,9 @@ export interface UserCredentialsDto {
   email: string;
   password: string;
 }
+
+export interface UserOAuthCredentialsDto {
+  email: string;
+  provider: 'Google' | '';
+  token: string;
+}
