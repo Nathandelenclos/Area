@@ -8,7 +8,6 @@ import {
 } from '@app/common/applets/applet.service';
 import {
   NewUserDto,
-  NewUserOAuthDto,
   UserCredentialsDto,
   UserOAuthCredentialsDto,
 } from '@app/common/users/user.dto';
@@ -30,7 +29,14 @@ export class AuthService {
    * @returns Promise<MicroServiceResponse> object
    */
   async register(data: NewUserDto): Promise<MicroServiceResponse> {
-    if (data.name == null || data.email == null || data.password == null) {
+    if (
+      data.name == null ||
+      data.email == null ||
+      data.password == null ||
+      data.password.length == 0 ||
+      data.email.length == 0 ||
+      data.name.length == 0
+    ) {
       return new MicroServiceResponse({
         code: HttpStatus.BAD_REQUEST,
         message: 'Missing parameters',
@@ -45,13 +51,8 @@ export class AuthService {
    * @param data NewUserOAuth
    * @returns Promise<MicroServiceResponse> object
    */
-  async oAuth(data: NewUserOAuthDto): Promise<MicroServiceResponse> {
-    if (
-      data.name == null ||
-      data.email == null ||
-      data.provider == null ||
-      data.token == null
-    ) {
+  async oAuth(data: UserOAuthCredentialsDto): Promise<MicroServiceResponse> {
+    if (data.email == null || data.provider == null || data.token == null) {
       return new MicroServiceResponse({
         code: HttpStatus.BAD_REQUEST,
         message: 'Missing parameters',
@@ -102,12 +103,7 @@ export class AuthService {
       });
 
     const user = await this.userService.findOne({ email: data.email });
-    if (!user) {
-      return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
-      });
-    }
+    if (!user) return await this.oAuth(data);
 
     if (OAuthServices[data.provider] == undefined)
       return new MicroServiceResponse({
@@ -136,6 +132,7 @@ export class AuthService {
     const payload = { id: user.id, email: data.email };
     return new MicroServiceResponse({
       data: {
+        id: user.id,
         email: user.email,
         name: user.name,
         access_token: this.jwtService.sign(payload),
