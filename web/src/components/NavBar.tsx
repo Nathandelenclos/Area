@@ -15,7 +15,12 @@ function NavBar() {
       </p>
       <div className="h-100 flex items-center flex-row">
         <div className="h-100 flex items-center flex-row px-10">
-          <p className="font-semibold px-5 text-[32px]">
+          <p
+            className="font-semibold px-5 text-[32px] cursor-pointer"
+            onClick={() => {
+              window.location.href = "/home-page";
+            }}
+          >
             {translate("nav", "home")}
           </p>
           <p
@@ -26,10 +31,20 @@ function NavBar() {
           >
             {translate("nav", "create")}
           </p>
-          <p className="font-semibold px-5 text-[32px]">
+          <p
+            className="font-semibold px-5 text-[32px] cursor-pointer"
+            onClick={() => {
+              window.location.href = "/my-applets";
+            }}
+          >
             {translate("nav", "applets")}
           </p>
-          <p className="font-semibold px-5 text-[32px]">
+          <p
+            className="font-semibold px-5 text-[32px] cursor-pointer"
+            onClick={() => {
+              window.location.href = "/profile";
+            }}
+          >
             {translate("nav", "profile")}
           </p>
         </div>

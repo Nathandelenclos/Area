@@ -19,11 +19,16 @@
   },
   "homepage": {
     "title": "Accueil",
-    "description": "Bienvenue sur la page d'accueil"
+    "description": "Bienvenue sur la page d'accueil",
+    "page-title": "Suggestions du jour"
   },
   "applets": {
     "title": "Mes applets",
     "create": "Créer une applet"
+  },
+  "profile": {
+    "title": "Votre profil",
+    "logout-button": "Se Deconnecter"
   },
   "create-applets": {
     "applet-name-trigger": "Nom de votre applet",

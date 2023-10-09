@@ -7,6 +7,7 @@ import CreateAppletReaction from "@pages/CreateAppletReaction";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
+import Profile from "./pages/Profile";
 
 export const Routes: Route[] = [
   {
@@ -56,6 +57,12 @@ export const Routes: Route[] = [
     path: "/api/sessions/oauth/google",
     middleware: [],
     element: <GoogleOAuth />,
+  },
+  {
+    name: "profile",
+    path: "/profile",
+    middleware: [],
+    element: <Profile />,
   },
   {
     name: "404",
