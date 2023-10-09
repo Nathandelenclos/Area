@@ -11,7 +11,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const login = async (email: string, password: string) => {
     const data = await AuthServices.login(email, password);
-    if (data) {
+    if (data.status === 200) {
       setUser(data.data);
       navigate("/create-applet");
     }

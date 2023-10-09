@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
-import { navigate } from "@src/utils";
 
 type SignUpFormsProps = {
   SignUp?: (fullName: string, email: string, password: string) => void;
@@ -11,7 +10,6 @@ type SignUpFormsProps = {
 function SignUpForms({
   SignUp = (fullName, email, password) => {
     console.log(fullName, email, password);
-    navigate("create-applet");
   },
 }: SignUpFormsProps) {
   const [fullName, setFullName] = useState("");

@@ -3,7 +3,6 @@ import AuthViewContainer from "@components/AuthViewContainer";
 import SignUpForms from "@components/SignUpForms";
 import OAuthButtons from "@components/OAuthButtons";
 import AppContext from "@src/context/AppContextProvider";
-import { navigate } from "@src/utils";
 import { AuthServices } from "@src/services/AuthServices";
 import { useNavigate } from "react-router-dom";
 
