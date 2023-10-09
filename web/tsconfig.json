@@ -29,6 +29,7 @@
       "@assets/*": ["assets/*"],
       "@interfaces/*": ["interfaces/*"],
       "@lang/*": ["lang/*"],
+      "@services/*": ["services/*"],
     }
   },
   "include": [

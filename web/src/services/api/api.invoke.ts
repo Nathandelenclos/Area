@@ -1,4 +1,5 @@
 import { API_URL } from "@src/Constants";
+import defaultApiHandler from "@services/api/api.handlers";
 
 type IApiInvokeProps = {
   endpoint: string;
@@ -36,7 +37,7 @@ export async function ApiInvoke({
   expectedStatus,
   body,
   authToken,
-  handlers,
+  handlers = defaultApiHandler,
 }: IApiInvokeProps): Promise<IApiInvokeResponse> {
   let response;
 
@@ -141,5 +142,5 @@ async function HandleResponse(
   } else {
     handlers.defaultHandlers(data);
   }
-  return { status: response.status, data: data };
+  return { status: response.status, data: null };
 }
