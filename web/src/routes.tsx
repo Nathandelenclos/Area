@@ -2,13 +2,13 @@ import { Route } from "@interfaces/Route";
 import Welcome from "@pages/Auth/Welcome";
 import SignIn from "@pages/Auth/SignIn";
 import SignUp from "@pages/Auth/SignUp";
-import CreateAppletTrigger from "@pages/CreateAppletTrigger";
+import CreateAppletAction from "@pages/CreateAppletAction";
 import CreateAppletReaction from "@pages/CreateAppletReaction";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
+import MyApplet from "@pages/MyApplet";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
-import MyApplet from "@pages/MyApplet";
 
 export const Routes: Route[] = [
   {
@@ -16,36 +16,34 @@ export const Routes: Route[] = [
     path: "/",
     middleware: [],
     element: <Welcome />,
+    public: true,
   },
   {
     name: "sign-in",
     path: "/sign-in",
     middleware: [],
     element: <SignIn />,
+    public: true,
   },
   {
     name: "sign-up",
     path: "/sign-up",
     middleware: [],
     element: <SignUp />,
+    public: true,
   },
   {
     name: "recover-password",
     path: "/sign-in/recover-password",
     middleware: [],
     element: <RecoverPassword />,
-  },
-  {
-    name: "applets",
-    path: "/applets",
-    middleware: [],
-    element: <MyApplet />,
+    public: true,
   },
   {
     name: "create-applet-trigger",
     path: "/create-applet-trigger",
     middleware: [],
-    element: <CreateAppletTrigger />,
+    element: <CreateAppletAction />,
   },
   {
     name: "create-applet-reaction",
@@ -64,6 +62,12 @@ export const Routes: Route[] = [
     path: "/api/sessions/oauth/google",
     middleware: [],
     element: <GoogleOAuth />,
+  },
+  {
+    name: "my-applets",
+    path: "/applets",
+    middleware: [],
+    element: <MyApplet />,
   },
   {
     name: "profile",
@@ -86,6 +90,7 @@ export type RouteNames =
   | "sign-up"
   | "404"
   | "recover-password"
+  | "create-applet"
+  | "my-applets"
   | "create-applet-trigger"
   | "create-applet-reaction";
-  | "applets";

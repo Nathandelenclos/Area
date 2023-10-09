@@ -20,9 +20,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <div className="h-screen w-screen">
     <AppContextProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <App />
     </AppContextProvider>
   </div>,
 );

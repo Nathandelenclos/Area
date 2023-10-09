@@ -3,37 +3,35 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type AppletCreationButtonsProps = {
-  ContainerTitle: string;
-  Icon?: IconName;
-  IsClicked: boolean;
-  SetIsClicked: (id: number) => void;
-  Id: number;
+  title: string;
+  icon?: IconName;
+  isSelected: boolean;
+  onClick: (id: number) => void;
+  id: number;
 };
 
 export default function AppletCreationButtons({
-  ContainerTitle,
-  Icon,
-  IsClicked,
-  SetIsClicked,
-  Id,
+  title,
+  icon,
+  isSelected,
+  onClick,
+  id,
 }: AppletCreationButtonsProps) {
   return (
     <div
       className={`px-8 py-10 rounded-[20px] mb-5 ${
-        IsClicked ? "bg-[#38356C]" : "bg-[#7A73E7] hover:bg-[#7A73E7CC]"
+        isSelected ? "bg-[#38356C]" : "bg-[#7A73E7] hover:bg-[#7A73E7CC]"
       } cursor-pointer`}
-      onClick={() => {
-        SetIsClicked(Id);
-      }}
+      onClick={() => onClick(id)}
     >
       <div className="flex justify-evenly items-center w-full">
-        {Icon ? (
-          <FontAwesomeIcon icon={["fab", Icon]} size="2x" color="white" />
+        {icon ? (
+          <FontAwesomeIcon icon={["fab", icon]} size="2x" color="white" />
         ) : (
           <></>
         )}
         <h1 className="text-[27px] text-white font-semibold break-all w-4/6">
-          {ContainerTitle}
+          {title}
         </h1>
       </div>
     </div>

@@ -12,6 +12,8 @@ type Applet = {
 };
 
 export default function MyApplet() {
+  const { translate } = AppContext();
+  const [selectedApplet, setSelectedApplet] = React.useState<any>({ id: 0 });
   const [applets, setApplets] = React.useState<Applet[]>([
     {
       id: 1,
@@ -24,8 +26,6 @@ export default function MyApplet() {
       color: "#FF6666",
     },
   ]);
-  const [selectedApplet, setSelectedApplet] = React.useState<any>({ id: 0 });
-  const { translate } = AppContext();
 
   function CreateApplet() {
     console.log("Create Applet");

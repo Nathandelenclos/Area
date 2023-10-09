@@ -1,30 +1,37 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
-import { navigate } from "@src/utils";
 
 type SignUpFormsProps = {
-  SignUp?: (fullName: string, email: string, password: string) => void;
+  onSignUp?: (fullName: string, email: string, password: string) => void;
 };
 
-function SignUpForms({
-  SignUp = (fullName, email, password) => {
-    console.log(fullName, email, password);
-    navigate("home-page");
-  },
-}: SignUpFormsProps) {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+function SignUpForms({ onSignUp = Function }: SignUpFormsProps) {
   const { translate } = AppContext();
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  useEffect(() => {
+    addEventListener("keydown", onEnterPressed);
+    return () => {
+      removeEventListener("keydown", onEnterPressed);
+    };
+  });
+
+  const onEnterPressed = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      onSignUp(name, email, password);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center">
       <AuthInput
         placeholder={translate("login", "fullName")}
-        value={fullName}
-        setValue={setFullName}
+        value={name}
+        setValue={setName}
       />
       <AuthInput
         placeholder={translate("login", "email")}
@@ -40,7 +47,7 @@ function SignUpForms({
       />
       <MainButton
         title={translate("login", "sign-up")}
-        onPress={() => SignUp(fullName, email, password)}
+        onPress={() => onSignUp(name, email, password)}
       />
     </div>
   );
