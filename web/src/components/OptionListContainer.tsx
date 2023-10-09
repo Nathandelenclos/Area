@@ -11,52 +11,36 @@ type AppletServiceStruct = {
 
 type OptionListContainerProps = {
   ContainerTitle: string;
-  childrens?: AppletServiceStruct[];
-  inputField?: React.ReactNode;
-  handleStateChange?: (id: number) => void;
+  children?: AppletServiceStruct[];
+  onListObjectClick: (id: number) => void;
 };
 
-function AppletList({
-  childs,
-  handleStateChange,
-}: {
+type AppleListProps = {
   childs: AppletServiceStruct[];
-  handleStateChange?: (id: number) => void;
-}) {
-  const handleClick = (id: number) => {
-    if (handleStateChange) {
-      handleStateChange(id);
-    }
-  };
+  onListObjectClick: (id: number) => void;
+};
+
+function AppletList({ childs, onListObjectClick }: AppleListProps) {
   return (
     <div>
-      {childs.map((child) =>
-        child.logo ? (
-          <AppletCreationButtons
-            ContainerTitle={child.title}
-            Icon={child.logo}
-            IsClicked={child.isClicked}
-            SetIsClicked={handleClick}
-            Id={child.id}
-          />
-        ) : (
-          <AppletCreationButtons
-            IsClicked={child.isClicked}
-            SetIsClicked={handleClick}
-            ContainerTitle={child.title}
-            Id={child.id}
-          />
-        ),
-      )}
+      {childs.map((child, index) => (
+        <AppletCreationButtons
+          key={index}
+          icon={child?.logo ?? "cloud"}
+          isSelected={child.isClicked}
+          onClick={onListObjectClick}
+          title={child.title}
+          id={child.id}
+        />
+      ))}
     </div>
   );
 }
 
 export default function OptionListContainer({
   ContainerTitle,
-  childrens,
-  inputField,
-  handleStateChange,
+  children,
+  onListObjectClick,
 }: OptionListContainerProps) {
   return (
     <div className="w-full mx-10 flex flex-col">
@@ -64,14 +48,10 @@ export default function OptionListContainer({
         {ContainerTitle}
       </h1>
       <div className="overflow-y-scroll">
-        {inputField ? (
-          inputField
-        ) : (
-          <AppletList
-            childs={childrens ?? []}
-            handleStateChange={handleStateChange}
-          />
-        )}
+        <AppletList
+          childs={children ?? []}
+          onListObjectClick={onListObjectClick}
+        />
       </div>
     </div>
   );

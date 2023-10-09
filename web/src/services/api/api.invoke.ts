@@ -150,7 +150,7 @@ async function HandleResponse(
   }
 
   if (!handlers || response.status === expectedStatus) {
-    return { status: response.status, data: data };
+    return { status: response.status, data: data?.data ?? data };
   }
 
   // Handle non-successful responses with custom handlers

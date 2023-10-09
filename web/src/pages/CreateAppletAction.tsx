@@ -3,27 +3,23 @@ import NavBar from "@components/NavBar";
 import OptionListContainer from "@components/OptionListContainer";
 import AppletCreationInputName from "@components/AppletCreationInputName";
 import AppContext from "context/AppContextProvider";
-import { IconName } from "@fortawesome/fontawesome-svg-core";
 import AppletService from "@services/AppletService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AreaService from "@services/AreaService";
 import { ServiceObject, ServiceObjectDto } from "@src/objects/ServiceObject";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type AppletServiceStruct = {
-  id: number;
-  title: string;
-  logo?: IconName;
-  isClicked: boolean;
-};
-
-export default function CreateAppletTrigger() {
+export default function CreateAppletAction() {
   const { translate, user } = AppContext();
   const navigate = useNavigate();
   const [appletName, setAppletName] = useState<string>("");
   const [services, setServices] = useState<ServiceObject[]>([]);
-  const [selectedService, setSelectedService] = useState<number>(0);
+  const [selectedServiceAction, setSelectedServiceAction] = useState<number>(0);
   const [selectedAction, setSelectedAction] = useState<number>(0);
+  const [selectedServiceReaction, setSelectedServiceReaction] =
+    useState<number>(0);
+  const [selectedReaction, setSelectedReaction] = useState<number>(0);
 
   useEffect(() => {
     if (!user.getAccessToken()) return;
@@ -42,37 +38,49 @@ export default function CreateAppletTrigger() {
   };
 
   const onAppletCreation = async () => {
+    if (
+      appletName.length === 0 ||
+      !selectedServiceAction ||
+      !selectedAction ||
+      !selectedServiceReaction ||
+      !selectedReaction
+    )
+      return toast("Veuillez selectionner un objet dans chaque colonne", {
+        type: "error",
+      });
+
     const response = await AppletService.create(
       {
         name: appletName,
         description: "",
         is_active: true,
-        action: 1,
-        reaction: 1,
+        action: selectedAction,
+        reaction: selectedReaction,
         config: undefined,
       },
       user.getAccessToken(),
     );
     if (!response.data)
       return toast("Error while creating applet", { type: "error" });
-    navigate("/create-applet-reaction");
+    navigate("/applets");
     toast("Applet created", { type: "success" });
   };
 
-  const onServiceClick = (id: number) => {
-    console.log(id);
+  const onServiceActionClick = (id: number) => {
+    setSelectedServiceAction(id);
   };
 
   const onActionClick = (id: number) => {
-    console.log(id);
+    setSelectedAction(id);
   };
 
-  /*
-  *  id: number;
-  title: string;
-  logo?: IconName;
-  isClicked: boolean;
-  * */
+  const onServiceReactionClick = (id: number) => {
+    setSelectedServiceReaction(id);
+  };
+
+  const onReactionClick = (id: number) => {
+    setSelectedReaction(id);
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -90,31 +98,73 @@ export default function CreateAppletTrigger() {
           children={services.map((service: ServiceObject) => ({
             id: service.id,
             title: service.name,
-            logo: "cloud",
-            isClicked: false,
+            logo: "apple",
+            isClicked: service.id === selectedServiceAction,
           }))}
-          onListObjectClick={onServiceClick}
+          onListObjectClick={onServiceActionClick}
         />
         <OptionListContainer
           ContainerTitle={translate("create-applets", "triggers-for-service")}
           children={
             services
-              .find((service: ServiceObject) => service.id === selectedService)
+              .find(
+                (service: ServiceObject) =>
+                  service.id === selectedServiceAction,
+              )
               ?.actions.map((action) => ({
                 id: action.id,
                 title: action.name,
-                logo: "arrow-right",
-                isClicked: false,
+                logo: "apple",
+                isClicked: action.id === selectedAction,
               })) ?? []
           }
           onListObjectClick={onActionClick}
         />
+        <OptionListContainer
+          ContainerTitle={translate(
+            "create-applets",
+            "supported-services-trigger",
+          )}
+          children={services.map((service: ServiceObject) => ({
+            id: service.id,
+            title: service.name,
+            logo: "apple",
+            isClicked: service.id === selectedServiceReaction,
+          }))}
+          onListObjectClick={onServiceReactionClick}
+        />
+        <OptionListContainer
+          ContainerTitle={translate("create-applets", "triggers-for-service")}
+          children={
+            services
+              .find(
+                (service: ServiceObject) =>
+                  service.id === selectedServiceReaction,
+              )
+              ?.reactions.map((reaction) => ({
+                id: reaction.id,
+                title: reaction.name,
+                logo: "apple",
+                isClicked: reaction.id === selectedReaction,
+              })) ?? []
+          }
+          onListObjectClick={onReactionClick}
+        />
       </div>
       <div
-        className="bg-black text-white font-bold px-20 py-2 rounded-[20px] text-[28px] my-8 hover:bg-[#00000099] cursor-pointer"
+        className={`text-white font-bold px-20 py-2 rounded-[20px] text-[28px] my-8 
+        ${
+          appletName.length === 0 ||
+          !selectedServiceAction ||
+          !selectedAction ||
+          !selectedServiceReaction ||
+          !selectedReaction
+            ? "bg-[#000000CC] cursor-not-allowed"
+            : "bg-black hover:bg-[#00000099] cursor-pointer"
+        }`}
         onClick={onAppletCreation}
       >
-        <p>Suivant</p>
+        <p>Créer mon Applet</p>
       </div>
     </div>
   );

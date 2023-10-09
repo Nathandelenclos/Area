@@ -7,12 +7,13 @@ import {
 
 export default class AppletService {
   static create(applet: NewAppletDto, authToken: string) {
+    console.log("authToken", authToken);
     return ApiInvoke({
       endpoint: "/applets",
       method: "POST",
       body: JSON.stringify(applet),
       expectedStatus: 200,
-      authToken: authToken,
+      authToken,
     });
   }
 
@@ -21,7 +22,7 @@ export default class AppletService {
       endpoint: "/auth/me",
       method: "GET",
       expectedStatus: 200,
-      authToken: authToken,
+      authToken,
     });
     return applets.map((applet: AppletObjectDto) => new AppletObject(applet));
   }
@@ -31,7 +32,7 @@ export default class AppletService {
       endpoint: `/applets/${id}`,
       method: "DELETE",
       expectedStatus: 200,
-      authToken: authToken,
+      authToken,
     });
   }
 }

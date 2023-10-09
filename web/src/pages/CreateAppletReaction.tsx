@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import NavBar from "@components/NavBar";
 import OptionListContainer from "@components/OptionListContainer";
 import AppContext from "context/AppContextProvider";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { navigate } from "@src/utils/navigate";
 
 type AppletServiceStruct = {
   id: number;
@@ -68,33 +67,30 @@ export default function CreateAppletReaction() {
   return (
     <div className="w-full h-full flex flex-col items-center">
       <NavBar />
-      <div className="flex w-5/6 justify-between my-10 overflow-hidden">
-        <OptionListContainer
+      <div className="flex w-5/6 justify-between my-10 overflow-hidden"></div>
+      <div className="bg-black text-white font-bold px-20 py-2 rounded-[20px] text-[28px] my-8 hover:bg-[#00000099] cursor-pointer">
+        <p>Terminé</p>
+      </div>
+    </div>
+  );
+}
+
+/*
+*         <OptionListContainer
           ContainerTitle={translate("create-applets", "reactions-number")}
-          childrens={appletReactionNumberList}
+          children={appletReactionNumberList}
         />
         <OptionListContainer
           ContainerTitle={translate(
             "create-applets",
             "supported-services-reaction",
           )}
-          childrens={modifiableServiceList}
+          children={modifiableServiceList}
           handleStateChange={handleStateChangeService}
         />
         <OptionListContainer
           ContainerTitle={translate("create-applets", "reactions-for-service")}
-          childrens={modifiableReactionList}
+          children={modifiableReactionList}
           handleStateChange={handleStateChangeReaction}
         />
-      </div>
-      <div
-        className="bg-black text-white font-bold px-20 py-2 rounded-[20px] text-[28px] my-8 hover:bg-[#00000099] cursor-pointer"
-        onClick={() => {
-          navigate("create-applet-trigger");
-        }}
-      >
-        <p>Terminé</p>
-      </div>
-    </div>
-  );
-}
+* */

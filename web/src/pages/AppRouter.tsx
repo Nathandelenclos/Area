@@ -10,6 +10,8 @@ export default function AppRouter() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user || !user.getAccessToken()) navigate("/sign-in");
+
     const currentRoute = routes.find(
       (route) => route.path === location.pathname,
     );

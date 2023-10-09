@@ -2,7 +2,7 @@ import { Route } from "@interfaces/Route";
 import Welcome from "@pages/Auth/Welcome";
 import SignIn from "@pages/Auth/SignIn";
 import SignUp from "@pages/Auth/SignUp";
-import CreateAppletTrigger from "@pages/CreateAppletTrigger";
+import CreateAppletAction from "@pages/CreateAppletAction";
 import CreateAppletReaction from "@pages/CreateAppletReaction";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
 import MyApplet from "@pages/MyApplet";
@@ -42,7 +42,7 @@ export const Routes: Route[] = [
     name: "create-applet-trigger",
     path: "/create-applet-trigger",
     middleware: [],
-    element: <CreateAppletTrigger />,
+    element: <CreateAppletAction />,
   },
   {
     name: "create-applet-reaction",
