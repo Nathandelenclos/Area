@@ -73,6 +73,10 @@ const fr: ILanguage[] = [
     name: 'create_applet_title',
     message: 'Création d\'Applet',
   },
+  {
+    name: 'info_applet_title',
+    message: 'Infos sur l\'Applet',
+  },
 ];
 
 const en: ILanguage[] = [
@@ -147,6 +151,10 @@ const en: ILanguage[] = [
   {
     name: 'create_applet_title',
     message: 'Create Applet',
+  },
+  {
+    name: 'info_applet_title',
+    message: 'Infos on Applet',
   },
 ];
 

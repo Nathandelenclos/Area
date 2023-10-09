@@ -10,6 +10,7 @@ import { UserProvider } from '@contexts/user.context';
 import DefineNavigator from '@navigators/define.navigator';
 import Home from '@views/Home';
 import CreateApplet from '@views/CreateApplet';
+import InfoApplet from '@views/InfoApplet';
 
 library.add(fas);
 library.add(fab);
@@ -22,7 +23,8 @@ function App(): JSX.Element {
       <UserProvider>
         {/* <DefineNavigator /> */}
         {/* <Home /> */}
-        <CreateApplet />
+        {/* <CreateApplet /> */}
+        <InfoApplet />
       </UserProvider>
     </ApplicationProvider>
   );

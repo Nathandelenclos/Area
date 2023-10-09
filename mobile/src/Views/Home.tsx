@@ -90,7 +90,7 @@ export default function Home(): JSX.Element {
       }}>
         {appletList.map((applet, i) => (
           <AppletTile
-            key={i}
+            key= {i}
             appletTitle= {applet.appletTitle}
             id= {applet.id}
             description= {applet.description}
