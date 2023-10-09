@@ -24,5 +24,14 @@
   "applets": {
     "title": "Mes applets",
     "create": "Créer une applet"
+  },
+  "create-applets": {
+    "applet-name-trigger": "Nom de votre applet",
+    "supported-services-trigger": "Services pris en charge",
+    "triggers-for-service": "Déclencheurs possible",
+    "reactions-number-reaction": "Nombre de réactions",
+    "supported-services-reaction": "Services pris en charge",
+    "reactions-for-service": "Réactions possible",
+    "input-applet-placeholder": "Nom de votre applet...*"
   }
 }
