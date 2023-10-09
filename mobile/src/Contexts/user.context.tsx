@@ -3,10 +3,14 @@ import { User, UserContextType } from '@interfaces/user.interface';
 
 export const UserContext = createContext<UserContextType>({
   user: {
+    id: '',
     name: '',
     email: '',
+    access_token: '',
   },
-  setUser: () => {},
+  setUser: () => {
+    return;
+  },
 });
 
 export const UserProvider = (props: { children: any }) => {
@@ -22,5 +26,5 @@ export const UserProvider = (props: { children: any }) => {
   );
 };
 
-const GetMe = () => React.useContext(UserContext);
-export default GetMe;
+const UserCtx = () => React.useContext(UserContext);
+export default UserCtx;

@@ -1,17 +1,16 @@
 import React, { JSX } from 'react';
 import { DimensionValue, Text, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
-import {
-  signInWithFacebook,
-  signInWithGithub,
-  signInWithGoogle,
-  signInWithSpotify,
-} from '@views/AuthView/auth.fun';
+import OauthService from '@services/oauth.service';
+import { IApiInvokeResponse } from '@services/API/api.invoke';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IconPrefix, IconName } from '@fortawesome/fontawesome-common-types';
+import UserCtx from '@contexts/user.context';
 
 type AuthItem = {
-  title: string;
   color: string;
-  onPress: () => void;
+  icon: [IconPrefix, IconName];
+  OAuth: () => Promise<IApiInvokeResponse>;
 };
 
 function TextBetweenBar(): JSX.Element {
@@ -53,26 +52,34 @@ function TextBetweenBar(): JSX.Element {
 }
 
 function AuthList(): JSX.Element {
+  const { setUser } = UserCtx();
+  async function handleOAuth(onPress: () => Promise<IApiInvokeResponse>) {
+    const resp = await onPress();
+    if (resp.data) {
+      setUser(resp.data);
+    }
+  }
+
   const authList: AuthItem[] = [
     {
-      title: 'F',
+      icon: ['fab', 'facebook'],
       color: '#3b5998',
-      onPress: () => signInWithFacebook(),
+      OAuth: () => OauthService.FacebookOAuth(),
     },
     {
-      title: 'G',
+      icon: ['fab', 'google'],
       color: '#db4437',
-      onPress: () => signInWithGoogle(),
+      OAuth: () => OauthService.GoogleOAuth(),
     },
     {
-      title: 'S',
+      icon: ['fab', 'spotify'],
       color: '#1db954',
-      onPress: () => signInWithSpotify(),
+      OAuth: () => OauthService.SpotifyOAuth(),
     },
     {
-      title: 'G',
+      icon: ['fab', 'github'],
       color: '#24292e',
-      onPress: () => signInWithGithub(),
+      OAuth: () => OauthService.GithubOAuth(),
     },
   ];
 
@@ -92,17 +99,9 @@ function AuthList(): JSX.Element {
             padding: 10,
             borderRadius: 5,
           }}
-          onPress={item.onPress}
+          onPress={() => handleOAuth(item.OAuth)}
         >
-          <Text
-            style={{
-              fontSize: 12,
-              color: 'white',
-              textAlign: 'center',
-            }}
-          >
-            {item.title}
-          </Text>
+          <FontAwesomeIcon icon={item.icon} size={20} color={'white'} />
         </TouchableOpacity>
       ))}
     </View>

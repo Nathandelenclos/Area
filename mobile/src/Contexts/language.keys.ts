@@ -1,157 +1,50 @@
-import { ILanguage } from '@interfaces/app.interface';
+import { LanguageKeys } from '@interfaces/app.interface';
 
-const fr: ILanguage[] = [
-  {
-    name: 'fr',
-    message: 'Français',
-  },
-  {
-    name: 'welcome_to',
-    message: 'Bienvenue sur',
-  },
-  {
-    name: 'sign_in',
-    message: 'Se connecter',
-  },
-  {
-    name: 'sign_up',
-    message: "S'inscrire",
-  },
-  {
-    name: 'sign_out',
-    message: 'Se déconnecter',
-  },
-  {
-    name: 'or_connect_with',
-    message: 'Ou se connecter avec',
-  },
-  {
-    name: 'email',
-    message: 'Email',
-  },
-  {
-    name: 'password',
-    message: 'Mot de passe',
-  },
-  {
-    name: 'forgot_password',
-    message: 'Mot de passe oublié ?',
-  },
-  {
-    name: 'full_name',
-    message: 'Nom complet',
-  },
-  {
-    name: 'to_pp',
-    message: 'En vous inscrivant, vous acceptez nos',
-  },
-  {
-    name: 'to',
-    message: "Conditions d'utilisation",
-  },
-  {
-    name: 'and',
-    message: 'et',
-  },
-  {
-    name: 'pp',
-    message: 'Politique de confidentialité',
-  },
-  {
-    name: 'recover_password',
-    message: 'Récupérer le mot de passe',
-  },
-  {
-    name: 'send_email',
-    message: "Envoyer l'email",
-  },
-  {
-    name: 'description',
-    message: 'Description',
-  },
-  {
-    name: 'no_applet',
-    message: "Vous n'avez pas d'applet. Cliquez ici pour en créer un",
-  },
-];
+const fr: LanguageKeys = {
+  fr: 'Français',
+  welcome_to: 'Bienvenue sur',
+  sign_in: 'Se connecter',
+  sign_up: "S'inscrire",
+  sign_out: 'Se déconnecter',
+  or_connect_with: 'Ou se connecter avec',
+  email: 'Email',
+  password: 'Mot de passe',
+  forgot_password: 'Mot de passe oublié ?',
+  full_name: 'Nom complet',
+  to_pp: 'En vous inscrivant, vous acceptez nos',
+  to: "Conditions d'utilisation",
+  and: 'et',
+  pp: 'Politique de confidentialité',
+  recover_password: 'Récupérer le mot de passe',
+  send_email: "Envoyer l'email",
+  description: 'Description',
+  no_applet: "Vous n'avez pas d'applet. Cliquez ici pour en créer un",
+};
 
-const en: ILanguage[] = [
-  {
-    name: 'en',
-    message: 'English',
-  },
-  {
-    name: 'welcome_to',
-    message: 'Welcome to',
-  },
-  {
-    name: 'sign_in',
-    message: 'Sign in',
-  },
-  {
-    name: 'sign_up',
-    message: 'Sign up',
-  },
-  {
-    name: 'sign_out',
-    message: 'Sign out',
-  },
-  {
-    name: 'or_connect_with',
-    message: 'Or connect with',
-  },
-  {
-    name: 'email',
-    message: 'Email',
-  },
-  {
-    name: 'password',
-    message: 'Password',
-  },
-  {
-    name: 'forgot_password',
-    message: 'Forgot password ?',
-  },
-  {
-    name: 'full_name',
-    message: 'Full name',
-  },
-  {
-    name: 'to_pp',
-    message: 'By signing up, you agree to our',
-  },
-  {
-    name: 'to',
-    message: 'Terms of service',
-  },
-  {
-    name: 'and',
-    message: 'and',
-  },
-  {
-    name: 'pp',
-    message: 'Privacy policy',
-  },
-  {
-    name: 'recover_password',
-    message: 'Recover password',
-  },
-  {
-    name: 'send_email',
-    message: 'Send email',
-  },
-  {
-    name: 'description',
-    message: 'Description',
-  },
-  {
-    name: 'no_applet',
-    message: 'You have no applets. Click here to create one',
-  },
-];
+const en: LanguageKeys = {
+  en: 'English',
+  welcome_to: 'Welcome to',
+  sign_in: 'Sign in',
+  sign_up: 'Sign up',
+  sign_out: 'Sign out',
+  or_connect_with: 'Or connect with',
+  email: 'Email',
+  password: 'Password',
+  forgot_password: 'Forgot password ?',
+  full_name: 'Full name',
+  to_pp: 'By signing up, you agree to our',
+  to: 'Terms of service',
+  and: 'and',
+  pp: 'Privacy policy',
+  recover_password: 'Recover password',
+  send_email: 'Send email',
+  description: 'Description',
+  no_applet: 'You have no applets. Click here to create one',
+};
 
 type LanguageList = {
-  [key: string]: ILanguage[];
+  fr: LanguageKeys;
+  en: LanguageKeys;
 };
 
 export const languageList: LanguageList = { fr, en };
