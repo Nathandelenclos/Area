@@ -6,7 +6,6 @@ import { AuthController } from './controllers/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@app/common/auth/auth.guard';
-import { CronController } from './controllers/cron.controller';
 import MicroServiceProxy from '@app/common/micro.service.proxy';
 import MicroServiceInit from '@app/common/micro.service.init';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -69,7 +68,6 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
     AppController,
     AuthController,
     AppletController,
-    CronController,
     DiscordController,
     ServiceController,
   ],
@@ -86,10 +84,6 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
     MicroServiceInit.init(
       'DISCORD_SERVICE',
       MicroServiceProxy.microServiceQueue.DISCORD_SERVICE,
-    ),
-    MicroServiceInit.init(
-      'CRON_SERVICE',
-      MicroServiceProxy.microServiceQueue.CRON_SERVICE,
     ),
   ],
 })

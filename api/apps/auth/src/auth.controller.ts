@@ -24,6 +24,11 @@ export class AuthController extends MicroServiceController {
     return await this.authService.signIn(this.ack(context));
   }
 
+  @MessagePattern({ cmd: 'signoauth' })
+  async signOAuth(@Ctx() context: RmqContext) {
+    return await this.authService.signOAuth(this.ack(context));
+  }
+
   @MessagePattern({ cmd: 'me' })
   async me(@Ctx() context: RmqContext) {
     return this.authService.me(this.ack(context));

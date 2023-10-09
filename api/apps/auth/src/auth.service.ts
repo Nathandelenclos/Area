@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '@app/common/users/user.service';
+import { OAuthServices, UserService } from '@app/common/users/user.service';
 import MicroServiceResponse from '@app/common/micro.service.response';
 import {
   AppletRelations,
@@ -10,7 +10,10 @@ import {
   NewUserDto,
   NewUserOAuthDto,
   UserCredentialsDto,
+  UserOAuthCredentialsDto,
 } from '@app/common/users/user.dto';
+import { AES, MD5, enc } from 'crypto-js';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +21,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly appletService: AppletService,
     private jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   /**
@@ -70,7 +74,7 @@ export class AuthService {
         message: 'Invalid credentials',
       });
     }
-    const isMatch = data.password == user.password; // await compare(password, user.password);
+    const isMatch = MD5(data.password).toString() == user.password;
     if (!isMatch) {
       return new MicroServiceResponse({
         code: HttpStatus.UNAUTHORIZED,
@@ -79,6 +83,53 @@ export class AuthService {
     }
 
     const payload = { id: user.id, email: user.email };
+    return new MicroServiceResponse({
+      data: { access_token: this.jwtService.sign(payload) },
+    });
+  }
+
+  async signOAuth(
+    data: UserOAuthCredentialsDto,
+  ): Promise<MicroServiceResponse> {
+    if (data.email == null || data.provider == null || data.token == null)
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Missing parameters',
+      });
+
+    const user = await this.userService.findOne({ email: data.email });
+    if (!user) {
+      return new MicroServiceResponse({
+        code: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid credentials',
+      });
+    }
+
+    if (OAuthServices[data.provider] == undefined)
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Invalid OAuth provider',
+      });
+
+    if (!user[OAuthServices[data.provider]])
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'No OAuth provider linked to this email',
+      });
+
+    const bytes = AES.decrypt(
+      user[OAuthServices[data.provider]],
+      this.configService.get('AES_SECRET'),
+    );
+    const isMatch = bytes.toString(enc.Utf8) == data.token;
+    if (!isMatch) {
+      return new MicroServiceResponse({
+        code: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid credentials',
+      });
+    }
+
+    const payload = { id: user.id, email: data.email };
     return new MicroServiceResponse({
       data: { access_token: this.jwtService.sign(payload) },
     });

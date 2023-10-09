@@ -5,10 +5,17 @@ import { Repository } from 'typeorm';
 import { NewUserDto, NewUserOAuthDto } from '@app/common/users/user.dto';
 import { ConfigService } from '@nestjs/config';
 import MicroServiceResponse from '@app/common/micro.service.response';
+import { AES, MD5 } from 'crypto-js';
 
 export enum UserRelations {
   APPLETS = 'applets',
 }
+
+export const OAuthServices = {
+  google: 'google_token',
+  facebook: 'facebook_token',
+  github: 'github_token',
+};
 
 @Injectable()
 export class UserService {
@@ -30,13 +37,15 @@ export class UserService {
         message: 'User already exists',
       });
 
-    const salt: number = +this.configService.get('BCRYPT_SALT');
-    const hashedPassword: string = data.password; // await hash(data.password, salt);
+    const hashedPassword: string = MD5(data.password).toString();
     const user = await this.userRepository.save({
       ...data,
       password: hashedPassword,
     });
     const response = { ...user };
+    delete response.google_token;
+    delete response.facebook_token;
+    delete response.github_token;
     delete response.password;
     return new MicroServiceResponse({
       data: response,
@@ -49,20 +58,46 @@ export class UserService {
    * @returns Promise<MicroServiceResponse> object
    */
   async createOAuth(data: NewUserOAuthDto): Promise<MicroServiceResponse> {
+    if (
+      data.email == null ||
+      data.provider == null ||
+      data.token == null ||
+      data.name == null
+    )
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Missing parameters',
+      });
+
+    if (OAuthServices[data.provider] == undefined)
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Invalid OAuth provider',
+      });
+
     if (await this.exists({ email: data.email }))
       return new MicroServiceResponse({
         code: HttpStatus.CONFLICT,
         message: 'User already exists',
       });
 
-    const cryptToken: string = data.token;
+    const encryptedToken: string = AES.encrypt(
+      data.token,
+      this.configService.get('AES_SECRET'),
+    ).toString();
+
     const user = await this.userRepository.save({
-      ...data,
+      name: data.name,
+      email: data.email,
+      [OAuthServices[data.provider]]: encryptedToken,
       password: null,
-      token: cryptToken,
     });
+
     const response = { ...user };
-    delete response.token;
+    delete response.google_token;
+    delete response.facebook_token;
+    delete response.github_token;
+    delete response.password;
     return new MicroServiceResponse({
       data: response,
     });
