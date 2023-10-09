@@ -2,9 +2,12 @@ import { Route } from "@interfaces/Route";
 import Welcome from "@pages/Auth/Welcome";
 import SignIn from "@pages/Auth/SignIn";
 import SignUp from "@pages/Auth/SignUp";
-import CreateApplet from "@pages/CreateApplet";
+import CreateAppletTrigger from "@pages/CreateAppletTrigger";
+import CreateAppletReaction from "@pages/CreateAppletReaction";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
 import MyApplet from "@pages/MyApplet";
+import GoogleOAuth from "./pages/GoogleOAuth";
+import HomePage from "./pages/HomePage";
 
 export const Routes: Route[] = [
   {
@@ -36,10 +39,28 @@ export const Routes: Route[] = [
     public: true,
   },
   {
-    name: "create-applet",
-    path: "/create-applet",
+    name: "create-applet-trigger",
+    path: "/create-applet-trigger",
     middleware: [],
-    element: <CreateApplet />,
+    element: <CreateAppletTrigger />,
+  },
+  {
+    name: "create-applet-reaction",
+    path: "/create-applet-reaction",
+    middleware: [],
+    element: <CreateAppletReaction />,
+  },
+  {
+    name: "home-page",
+    path: "/home-page",
+    middleware: [],
+    element: <HomePage />,
+  },
+  {
+    name: "google-auth",
+    path: "/api/sessions/oauth/google",
+    middleware: [],
+    element: <GoogleOAuth />,
   },
   {
     name: "my-applets",
@@ -57,9 +78,12 @@ export const Routes: Route[] = [
 
 export type RouteNames =
   | "home"
+  | "home-page"
   | "sign-in"
   | "sign-up"
   | "404"
   | "recover-password"
   | "create-applet"
-  | "my-applets";
+  | "my-applets"
+  | "create-applet-trigger"
+  | "create-applet-reaction";

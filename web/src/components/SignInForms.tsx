@@ -12,7 +12,7 @@ type SignInFormsProps = {
 function SignInForms({
   SignIn = (email, password) => {
     console.log(email, password);
-    navigate("create-applet");
+    navigate("home-page");
   },
   RecoverPassword = () => {
     navigate("recover-password");

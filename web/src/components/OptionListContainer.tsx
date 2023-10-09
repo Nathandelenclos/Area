@@ -6,15 +6,28 @@ type AppletServiceStruct = {
   id: number;
   title: string;
   logo?: IconName;
+  isClicked: boolean;
 };
 
 type OptionListContainerProps = {
   ContainerTitle: string;
   childrens?: AppletServiceStruct[];
   inputField?: React.ReactNode;
+  handleStateChange?: (id: number) => void;
 };
 
-function AppletList({ childs }: { childs: AppletServiceStruct[] }) {
+function AppletList({
+  childs,
+  handleStateChange,
+}: {
+  childs: AppletServiceStruct[];
+  handleStateChange?: (id: number) => void;
+}) {
+  const handleClick = (id: number) => {
+    if (handleStateChange) {
+      handleStateChange(id);
+    }
+  };
   return (
     <div>
       {childs.map((child) =>
@@ -22,9 +35,17 @@ function AppletList({ childs }: { childs: AppletServiceStruct[] }) {
           <AppletCreationButtons
             ContainerTitle={child.title}
             Icon={child.logo}
+            IsClicked={child.isClicked}
+            SetIsClicked={handleClick}
+            Id={child.id}
           />
         ) : (
-          <AppletCreationButtons ContainerTitle={child.title} />
+          <AppletCreationButtons
+            IsClicked={child.isClicked}
+            SetIsClicked={handleClick}
+            ContainerTitle={child.title}
+            Id={child.id}
+          />
         ),
       )}
     </div>
@@ -35,6 +56,7 @@ export default function OptionListContainer({
   ContainerTitle,
   childrens,
   inputField,
+  handleStateChange,
 }: OptionListContainerProps) {
   return (
     <div className="w-full mx-10 flex flex-col">
@@ -42,7 +64,14 @@ export default function OptionListContainer({
         {ContainerTitle}
       </h1>
       <div className="overflow-y-scroll">
-        {inputField ? inputField : <AppletList childs={childrens ?? []} />}
+        {inputField ? (
+          inputField
+        ) : (
+          <AppletList
+            childs={childrens ?? []}
+            handleStateChange={handleStateChange}
+          />
+        )}
       </div>
     </div>
   );

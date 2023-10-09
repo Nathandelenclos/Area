@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 type AppletCreationButtonsProps = {
   ContainerTitle: string;
   Icon?: IconName;
+  IsClicked: boolean;
+  SetIsClicked: (id: number) => void;
+  Id: number;
 };
 
 export default function AppletCreationButtons({
   ContainerTitle,
   Icon,
+  IsClicked,
+  SetIsClicked,
+  Id,
 }: AppletCreationButtonsProps) {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleDivClick = () => {
-    setIsClicked(!isClicked);
-    console.log("Clicked on " + ContainerTitle);
-  };
-
   return (
     <div
       className={`px-8 py-10 rounded-[20px] mb-5 ${
-        isClicked ? "bg-[#38356C]" : "bg-[#7A73E7]"
-      }`}
-      onClick={handleDivClick}
+        IsClicked ? "bg-[#38356C]" : "bg-[#7A73E7] hover:bg-[#7A73E7CC]"
+      } cursor-pointer`}
+      onClick={() => {
+        SetIsClicked(Id);
+      }}
     >
       <div className="flex justify-evenly items-center w-full">
         {Icon ? (
