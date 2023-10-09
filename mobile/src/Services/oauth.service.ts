@@ -1,13 +1,26 @@
 import { IApiInvokeResponse } from './API/api.invoke';
 import { Platform } from 'react-native';
-import { env } from '@src/env';
-import { authorize } from 'react-native-app-auth';
+import {
+  AuthConfiguration,
+  authorize,
+  AuthorizeResult,
+} from 'react-native-app-auth';
 import AuthService from '@services/auth.service';
-import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import {
+  AccessToken,
+  LoginManager,
+  LoginResult,
+} from 'react-native-fbsdk-next';
+import { env } from '@src/env';
 
 class OAuthService {
+  /**
+   * Google OAuth
+   * @constructor
+   * @returns {Promise<IApiInvokeResponse>}
+   */
   async GoogleOAuth(): Promise<IApiInvokeResponse> {
-    const config = {
+    const config: AuthConfiguration = {
       issuer: 'https://accounts.google.com',
       clientId:
         Platform.OS === 'ios'
@@ -16,8 +29,8 @@ class OAuthService {
       redirectUrl: env.REDIRECT_URI,
       scopes: ['openid', 'profile', 'email', 'https://mail.google.com/'],
     };
-    const authState = await authorize(config);
-    const response = await fetch(
+    const authState: AuthorizeResult = await authorize(config);
+    const response: Response = await fetch(
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${authState.accessToken}`,
     );
     const email = await response.json();
@@ -29,20 +42,25 @@ class OAuthService {
     });
   }
 
+  /**
+   * Facebook OAuth
+   * @constructor
+   * @returns {Promise<IApiInvokeResponse>}
+   */
   async FacebookOAuth(): Promise<IApiInvokeResponse> {
-    const result = await LoginManager.logInWithPermissions([
+    const result: LoginResult = await LoginManager.logInWithPermissions([
       'public_profile',
       'email',
     ]);
     if (result.isCancelled) {
       throw 'User cancelled the login process';
     }
-    const data = await AccessToken.getCurrentAccessToken();
+    const data: AccessToken | null = await AccessToken.getCurrentAccessToken();
     if (!data) {
       throw 'Something went wrong obtaining access token';
     }
-    const facebookCredential = data.accessToken;
-    const response = await fetch(
+    const facebookCredential: string = data.accessToken;
+    const response: Response = await fetch(
       `https://graph.facebook.com/me?access_token=${facebookCredential}&fields=email`,
     );
     const email = await response.json();
@@ -54,8 +72,13 @@ class OAuthService {
     });
   }
 
+  /**
+   * Spotify OAuth
+   * @constructor
+   * @returns {Promise<IApiInvokeResponse>}
+   */
   async SpotifyOAuth(): Promise<IApiInvokeResponse> {
-    const config = {
+    const config: AuthConfiguration = {
       clientId: env.SPOTIFY_CLIENT_ID,
       clientSecret: env.SPOTIFY_CLIENT_SECRET,
       redirectUrl: env.REDIRECT_URI,
@@ -69,8 +92,8 @@ class OAuthService {
         tokenEndpoint: 'https://accounts.spotify.com/api/token',
       },
     };
-    const authState = await authorize(config);
-    const response = await fetch(`https://api.spotify.com/v1/me`, {
+    const authState: AuthorizeResult = await authorize(config);
+    const response: Response = await fetch(`https://api.spotify.com/v1/me`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${authState.accessToken}`,
@@ -87,8 +110,13 @@ class OAuthService {
     });
   }
 
+  /**
+   * Github OAuth
+   * @constructor
+   * @returns {Promise<IApiInvokeResponse>}
+   */
   async GithubOAuth(): Promise<IApiInvokeResponse> {
-    const config = {
+    const config: AuthConfiguration = {
       redirectUrl: 'areadevepitech://',
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
@@ -100,15 +128,18 @@ class OAuthService {
         revocationEndpoint: `https://github.com/settings/connections/applications/${env.GITHUB_CLIENT_ID}`,
       },
     };
-    const result = await authorize(config);
-    const response = await fetch('https://api.github.com/user/emails', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${result.accessToken}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+    const result: AuthorizeResult = await authorize(config);
+    const response: Response = await fetch(
+      'https://api.github.com/user/emails',
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${result.accessToken}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
     const email = await response.json();
     return AuthService.OAuthLogin({
       email: result.accessToken,

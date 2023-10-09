@@ -31,7 +31,7 @@ class AuthService {
   }
 
   /**
-   * OAuth Login
+   * OAuth Login (Google, Facebook, etc)
    * @param credentials {OAuthCredentials}
    * @constructor {Promise<IApiInvokeResponse>}
    */
