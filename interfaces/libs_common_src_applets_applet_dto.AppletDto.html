@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>NewAction | Area</title><meta name="description" content="Documentation for Area"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><link rel="stylesheet" href="../assets/hierarchy.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>AppletDto | Area</title><meta name="description" content="Documentation for Area"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><link rel="stylesheet" href="../assets/hierarchy.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -13,15 +13,32 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../index.html">Area</a></li>
-<li><a href="../modules/libs_common_src_actions_action_dto.html">libs/common/src/actions/action.dto</a></li>
-<li><a href="libs_common_src_actions_action_dto.NewAction.html">NewAction</a></li></ul>
-<h1>Interface NewAction</h1></div>
+<li><a href="../modules/libs_common_src_applets_applet_dto.html">libs/common/src/applets/applet.dto</a></li>
+<li><a href="libs_common_src_applets_applet_dto.AppletDto.html">AppletDto</a></li></ul>
+<h1>Interface AppletDto</h1></div>
+<section class="tsd-panel tsd-hierarchy-diagram">
+                <h4>Hierarchy-Diagram</h4>
+                <a class="diagram" href="../assets/AppletDto-umlClassDiagram-317.svg" title="Click to enlarge">
+                    <img src="../assets/AppletDto-umlClassDiagram-317.svg"
+                            alt="UML class diagram of AppletDto" />
+                </a>
+                <h5>Legend</h5>
+                      <div class="legend"><div>
+                           <span class="dt"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgY29udGVudFN0eWxlVHlwZT0idGV4dC9jc3MiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHpvb21BbmRQYW49Im1hZ25pZnkiIHdpZHRoPSIyM3B4IiBoZWlnaHQ9IjIzcHgiIHN0eWxlPSJ3aWR0aDoyM3B4O2hlaWdodDoyM3B4OyIgdmlld0JveD0iMCAwIDIzIDIzIj4NCjxnPg0KPGVsbGlwc2UgY3g9IjExLjUiIGN5PSIxMS41IiByeD0iMTEiIHJ5PSIxMSIgZmlsbD0iI0I0QTdFNSIgc3R5bGU9InN0cm9rZTogI0E4MDAzNjsgc3Ryb2tlLXdpZHRoOiAxLjA7Ii8+DQo8dGV4dCB4PSI3IiB5PSIxMS41IiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkNvdXJpZXIiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSJib2xkIj5JPC90ZXh0Pg0KPC9nPg0KPC9zdmc+" alt="icon for an interface in the UML class diagram" /></span>
+                           <span class="dd">interface</span>
+                       </div><div>
+                               <span class="dt"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgY29udGVudFN0eWxlVHlwZT0idGV4dC9jc3MiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHpvb21BbmRQYW49Im1hZ25pZnkiIHdpZHRoPSI3cHgiIGhlaWdodD0iN3B4IiBzdHlsZT0id2lkdGg6N3B4O2hlaWdodDo3cHg7IiB2aWV3Qm94PSIwIDAgNyA3Ij4NCjxnPg0KPGVsbGlwc2UgY3g9IjMuNSIgY3k9IjMuNSIgcng9IjMiIHJ5PSIzIiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiAjMDM4MDQ4OyBzdHJva2Utd2lkdGg6IDEuMDsiLz4NCjwvZz4NCjwvc3ZnPg==" alt="icon for a public property in the UML class diagram" /></span>
+                               <span class="dd">public property</span>
+                           </div></div>
+            </section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><span class="target">NewAction</span></li></ul></section><aside class="tsd-sources">
+<li><span class="target">AppletDto</span>
+<ul class="tsd-hierarchy">
+<li><a href="libs_common_src_applets_applet_dto.AppletCreateDto.html" class="tsd-signature-type tsd-kind-interface">AppletCreateDto</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/actions/action.dto.ts#L3">libs/common/src/actions/action.dto.ts:3</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/applets/applet.dto.ts#L6">libs/common/src/applets/applet.dto.ts:6</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -29,33 +46,39 @@
 <div class="tsd-accordion-details">
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
-<div class="tsd-index-list"><a href="libs_common_src_actions_action_dto.NewAction.html#description" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>description</span></a>
-<a href="libs_common_src_actions_action_dto.NewAction.html#is_available" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>is_<wbr/>available</span></a>
-<a href="libs_common_src_actions_action_dto.NewAction.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>name</span></a>
-<a href="libs_common_src_actions_action_dto.NewAction.html#service" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>service</span></a>
+<div class="tsd-index-list"><a href="libs_common_src_applets_applet_dto.AppletDto.html#config" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>config</span></a>
+<a href="libs_common_src_applets_applet_dto.AppletDto.html#description" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>description</span></a>
+<a href="libs_common_src_applets_applet_dto.AppletDto.html#id" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>id</span></a>
+<a href="libs_common_src_applets_applet_dto.AppletDto.html#is_active" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>is_<wbr/>active</span></a>
+<a href="libs_common_src_applets_applet_dto.AppletDto.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>name</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
+<section class="tsd-panel tsd-member"><a id="config" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>config</span><a href="#config" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">config</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/applets/applet.dto.ts#L11">libs/common/src/applets/applet.dto.ts:11</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="description" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>description</span><a href="#description" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">description</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/actions/action.dto.ts#L5">libs/common/src/actions/action.dto.ts:5</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member"><a id="is_available" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>is_<wbr/>available</span><a href="#is_available" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">is_<wbr/>available</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/applets/applet.dto.ts#L9">libs/common/src/applets/applet.dto.ts:9</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="id" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>id</span><a href="#id" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/actions/action.dto.ts#L6">libs/common/src/actions/action.dto.ts:6</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/applets/applet.dto.ts#L7">libs/common/src/applets/applet.dto.ts:7</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="is_active" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is_<wbr/>active</span><a href="#is_active" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">is_<wbr/>active</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/applets/applet.dto.ts#L10">libs/common/src/applets/applet.dto.ts:10</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="name" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">name</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/actions/action.dto.ts#L4">libs/common/src/actions/action.dto.ts:4</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member"><a id="service" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>service</span><a href="#service" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">service</span><span class="tsd-signature-symbol">:</span> <a href="../classes/libs_common_src_services_service_entity.ServiceEntity.html" class="tsd-signature-type tsd-kind-class">ServiceEntity</a></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/actions/action.dto.ts#L7">libs/common/src/actions/action.dto.ts:7</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0cf35c3/api/libs/common/src/applets/applet.dto.ts#L8">libs/common/src/applets/applet.dto.ts:8</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -75,10 +98,11 @@
 <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg>On This Page</h3></summary>
 <div class="tsd-accordion-details">
 <ul>
+<li><a href="#config" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>config</span></a></li>
 <li><a href="#description" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>description</span></a></li>
-<li><a href="#is_available" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>is_<wbr/>available</span></a></li>
-<li><a href="#name" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>name</span></a></li>
-<li><a href="#service" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>service</span></a></li></ul></div></details></div>
+<li><a href="#id" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>id</span></a></li>
+<li><a href="#is_active" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>is_<wbr/>active</span></a></li>
+<li><a href="#name" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>name</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <div class="tree">
 <div class="tree-config"><button class="tree-config__button tree-config__button--expand js-tree-expand" title="Expand All"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 490.72 490.72" fill="currentColor"><path d="M480.027,288.027H10.693c-5.867,0-10.667,4.8-10.667,10.667c0,5.867,4.8,10.667,10.667,10.667h213.333v144.96l-45.76-45.76c-4.267-4.053-10.987-3.947-15.04,0.213c-3.947,4.16-3.947,10.667,0,14.827l64,64c4.16,4.16,10.88,4.16,15.04,0l64-64c4.053-4.267,3.947-10.987-0.213-15.04c-4.16-3.947-10.667-3.947-14.827,0l-45.867,45.76V309.36h234.667c5.867,0,10.667-4.8,10.667-10.667C490.693,292.827,485.893,288.027,480.027,288.027z"></path><path d="M10.693,224.027h469.333c5.867,0,10.667-4.8,10.667-10.667c0-5.867-4.8-10.667-10.667-10.667H245.36V36.4l45.76,45.76c4.267,4.053,10.987,3.947,15.04-0.213c3.947-4.16,3.947-10.667,0-14.827l-64-64c-4.16-4.16-10.88-4.16-15.04,0l-64,64c-4.053,4.267-3.947,10.987,0.213,15.04c4.16,3.947,10.667,3.947,14.827,0l45.867-45.76v166.293H10.693c-5.867,0-10.667,4.8-10.667,10.667C0.027,219.227,4.827,224.027,10.693,224.027z"></path></svg></button><button class="tree-config__button tree-config__button--collapse js-tree-collapse" title="Collapse All"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"></path></svg></button><button class="tree-config__button tree-config__button--target js-tree-target" title="Scroll to current file"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M13 4.069V2h-2v2.069A8.008 8.008 0 0 0 4.069 11H2v2h2.069A8.007 8.007 0 0 0 11 19.931V22h2v-2.069A8.007 8.007 0 0 0 19.931 13H22v-2h-2.069A8.008 8.008 0 0 0 13 4.069zM12 18c-3.309 0-6-2.691-6-6s2.691-6 6-6 6 2.691 6 6-2.691 6-6 6z"></path></svg></button></div>
