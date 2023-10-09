@@ -11,7 +11,13 @@ if (!USER || !PASSWORD || !HOST) {
   process.exit(1);
 }
 
-type Queue = 'discord_queue' | 'cron_queue';
+type Queue =
+  | 'discord_queue'
+  | 'spotify_queue'
+  | 'instagram_queue'
+  | 'gmail_queue'
+  | 'youtube_queue'
+  | 'google_drive_queue';
 type QueueDefinition = {
   name: Queue;
   channel?: Channel;
@@ -21,8 +27,12 @@ type QueueDefinition = {
 };
 
 const QUEUES: QueueDefinition[] = [
-  { name: 'discord_queue', cmd: 'test' },
-  { name: 'cron_queue', cmd: 'test' },
+  { name: 'discord_queue', cmd: 'cron' },
+  { name: 'spotify_queue', cmd: 'cron' },
+  { name: 'instagram_queue', cmd: 'cron' },
+  { name: 'gmail_queue', cmd: 'cron' },
+  { name: 'youtube_queue', cmd: 'cron' },
+  { name: 'google_drive_queue', cmd: 'cron' },
 ];
 
 /**
