@@ -6,6 +6,11 @@ const PASSWORD = process.argv[3] || process.env.RABBITMQ_PASS;
 const HOST = process.argv[4] || process.env.RABBITMQ_HOST;
 const INTERVAL = +process.argv[5] || +process.env.CRON_INTERVAL || 1000;
 
+if (!USER || !PASSWORD || !HOST) {
+  console.error('Missing required environment variables.');
+  process.exit(1);
+}
+
 type Queue = 'discord_queue' | 'cron_queue';
 type QueueDefinition = {
   name: Queue;
