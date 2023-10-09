@@ -36,7 +36,7 @@ services:
     environment:
       - MICROSERVICE=api
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${API_PORT}:${API_PORT}"
     env_file:
       - .env.docker
     depends_on:
