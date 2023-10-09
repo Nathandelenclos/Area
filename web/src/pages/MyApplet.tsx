@@ -1,28 +1,83 @@
 import React from "react";
 import NavBar from "@components/NavBar";
+import AppletButton from "@components/Applet/AppletButton";
+import HeaderMyApplet from "@components/Applet/HeaderMyApplet";
+import HeaderEditApplet from "@components/Applet/HeaderEditApplet";
 import AppContext from "@src/context/AppContextProvider";
 
+type Applet = {
+  id: number;
+  title: string;
+  color: string;
+};
+
 export default function MyApplet() {
-  const { translate, user } = AppContext();
-  console.log(user);
+  const { translate } = AppContext();
+  const [selectedApplet, setSelectedApplet] = React.useState<any>({ id: 0 });
+  const [applets, setApplets] = React.useState<Applet[]>([
+    {
+      id: 1,
+      title: "Send an email when a Elon Musk posts a new tweet",
+      color: "#7A73E7",
+    },
+    {
+      id: 2,
+      title: "Start a Spotify playlist when you arrive in a certain location",
+      color: "#FF6666",
+    },
+  ]);
+
+  function CreateApplet() {
+    console.log("Create Applet");
+  }
+
+  function EditApplet(applet: any) {
+    if (applet.id === selectedApplet.id) {
+      setSelectedApplet({ id: 0 });
+    } else {
+      setSelectedApplet(applet);
+    }
+  }
+
   return (
-    <div className="h-full w-full bg-red-400">
-      <NavBar />
-      <div className="w-full flex justify-center">
-        <div className="flex flex-row items-center justify-between w-10/12 px-5">
-          <h1 className="text-3xl font-bold min-w-fit mr-10">
-            {translate("applets", "title")}
-          </h1>
-          <div className="h-1 w-full bg-black" />
-          <div className="min-w-fit ml-10 bg-black rounded-lg p-2 flex flex-row hover:cursor-pointer items-center justify-center">
-            <p className="text-white font-bold mr-1 text-3xl">
-              {translate("applets", "create")}
-            </p>
+    <div className="flex h-full flex-col">
+      <div className="flex-initial">
+        <NavBar />
+        <HeaderMyApplet CreateApplet={CreateApplet} />
+      </div>
+      <div className="flex flex-row flex-auto justify-center overflow-hidden">
+        <div className="h-full w-full relative">
+          <div className="flex flex-row h-full justify-center">
+            <div className="w-1/4 h-full relative overflow-y-scroll scrollbar-hide">
+              {applets.map((applet) => (
+                <AppletButton
+                  title={applet.title}
+                  key={applet.id}
+                  color={applet.color}
+                  onPress={() => EditApplet(applet)}
+                />
+              ))}
+            </div>
+            {selectedApplet.id !== 0 ? (
+              <div className="w-3/5 h-full p-5">
+                <div
+                  className="w-full h-full border-2 rounded-xl flex overflow-hidden"
+                  style={{ borderColor: selectedApplet.color }}
+                >
+                  <HeaderEditApplet applet={selectedApplet} />
+                </div>
+              </div>
+            ) : (
+              <div className="w-3/5 h-full p-5">
+                <div className="w-full h-full border-2 rounded-xl border-black flex items-center justify-center">
+                  <p className="text-[#808080] text-3xl">
+                    {translate("applets", "selectApplet")}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      </div>
-      <div className={"flex-col bg-red-600"}>
-        <p>Salut</p>
       </div>
     </div>
   );

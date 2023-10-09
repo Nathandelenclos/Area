@@ -8,6 +8,7 @@ import RecoverPassword from "@pages/Auth/RecoverPassword";
 import MyApplet from "@pages/MyApplet";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
+import Profile from "./pages/Profile";
 
 export const Routes: Route[] = [
   {
@@ -67,6 +68,12 @@ export const Routes: Route[] = [
     path: "/applets",
     middleware: [],
     element: <MyApplet />,
+  },
+  {
+    name: "profile",
+    path: "/profile",
+    middleware: [],
+    element: <Profile />,
   },
   {
     name: "404",
