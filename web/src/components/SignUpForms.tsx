@@ -11,7 +11,7 @@ type SignUpFormsProps = {
 function SignUpForms({
   SignUp = (fullName, email, password) => {
     console.log(fullName, email, password);
-    navigate("create-applet");
+    navigate("home-page");
   },
 }: SignUpFormsProps) {
   const [fullName, setFullName] = useState("");
