@@ -1,112 +1,18 @@
 import React from "react";
 import NavBar from "@components/NavBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCirclePlus,
-  faClone,
-  faPause,
-  faPenToSquare,
-  faStar,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
+import AppletButton from "@components/Applet/AppletButton";
+import HeaderMyApplet from "@components/Applet/HeaderMyApplet";
+import HeaderEditApplet from "@components/Applet/HeaderEditApplet";
+import AppContext from "@src/context/AppContextProvider";
 
-function AppletButton({
-  title,
-  color,
-  onPress,
-}: {
+type Applet = {
+  id: number;
   title: string;
   color: string;
-  onPress: () => void;
-}) {
-  return (
-    <div
-      onClick={onPress}
-      className="flex w-full rounded-lg h-[100px] items-center justify-center mt-5 cursor-pointer"
-      style={{ backgroundColor: color }}
-    >
-      <p className="text-white font-bold text-center text-xl px-5 text-ellipsis overflow-hidden">
-        {title}
-      </p>
-    </div>
-  );
-}
-
-function HeaderMyApplet({ CreateApplet }: { CreateApplet: () => void }) {
-  return (
-    <div className="w-full flex justify-center mt-5">
-      <div className="flex flex-row items-center justify-between w-10/12 px-5">
-        <h1 className="text-3xl font-bold min-w-fit mr-10">My Applets</h1>
-        <div className="h-1 w-full bg-black" />
-        <div
-          className="min-w-fit ml-10 bg-black rounded-lg p-2 flex flex-row hover:cursor-pointer items-center justify-center"
-          onClick={CreateApplet}
-        >
-          <p className="text-white font-bold mr-2 text-3xl">Create</p>
-          <FontAwesomeIcon icon={faCirclePlus} size={"lg"} color={"white"} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function HeaderEditApplet({ applet }: { applet: any }) {
-  const [icons, setIcons] = React.useState([
-    {
-      id: 1,
-      icon: faPause,
-      onPress: () => console.log("Pause"),
-    },
-    {
-      id: 2,
-      icon: faPenToSquare,
-      onPress: () => console.log("Edit"),
-    },
-    {
-      id: 3,
-      icon: faStar,
-      onPress: () => console.log("Favorite"),
-    },
-    {
-      id: 4,
-      icon: faClone,
-      onPress: () => console.log("Clone"),
-    },
-    {
-      id: 5,
-      icon: faTrashCan,
-      onPress: () => console.log("Delete"),
-    },
-  ]);
-
-  return (
-    <div
-      className="w-full h-1/6 flex flex-row items-center justify-between px-5"
-      style={{ backgroundColor: applet.color }}
-    >
-      <p className="text-white text-3xl font-bold p-3">{applet.title}</p>
-      <div className="min-w-fit">
-        {icons.map((icon) => (
-          <FontAwesomeIcon
-            icon={icon.icon}
-            size={"xl"}
-            color={"white"}
-            style={{
-              marginLeft: "10px",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
-            onClick={icon.onPress}
-            key={icon.id}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
+};
 
 export default function MyApplet() {
-  const [applets, setApplets] = React.useState([
+  const [applets, setApplets] = React.useState<Applet[]>([
     {
       id: 1,
       title: "Send an email when a Elon Musk posts a new tweet",
@@ -119,6 +25,7 @@ export default function MyApplet() {
     },
   ]);
   const [selectedApplet, setSelectedApplet] = React.useState<any>({ id: 0 });
+  const { translate } = AppContext();
 
   function CreateApplet() {
     console.log("Create Applet");
@@ -164,7 +71,7 @@ export default function MyApplet() {
               <div className="w-3/5 h-full p-5">
                 <div className="w-full h-full border-2 rounded-xl border-black flex items-center justify-center">
                   <p className="text-[#808080] text-3xl">
-                    Click on an applet to edit
+                    {translate("applets", "selectApplet")}
                   </p>
                 </div>
               </div>
