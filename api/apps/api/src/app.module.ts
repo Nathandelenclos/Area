@@ -12,10 +12,6 @@ import MicroServiceInit from '@app/common/micro.service.init';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DiscordController } from './controllers/discord.controller';
 import { UserEntity } from '@app/common/users/user.entity';
-import { AppletEntity } from './modules/applets/applet.entity';
-import { AppletModule } from './modules/applets/applet.module';
-import { AppletConfigEntity } from './modules/applets/configuration/applet.config.entity';
-import { AppletReactionEntity } from './modules/applets/reaction/applet.reaction.entity';
 import { ServiceModule } from '@app/common/services/service.module';
 import { ActionModule } from '@app/common/actions/action.module';
 import { ReactionModule } from '@app/common/reactions/reaction.module';
@@ -23,6 +19,10 @@ import { ServiceEntity } from '@app/common/services/service.entity';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { ActionEntity } from '@app/common/actions/action.entity';
 import { ServiceController } from './controllers/service.controller';
+import { AppletModule } from '@app/common/applets/applet.module';
+import { AppletController } from './controllers/applet.controller';
+import { AppletEntity } from '@app/common/applets/applet.entity';
+import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
 
 @Module({
   imports: [
@@ -53,22 +53,22 @@ import { ServiceController } from './controllers/service.controller';
           ServiceEntity,
           ActionEntity,
           ReactionEntity,
+          UserEntity,
           AppletEntity,
           AppletConfigEntity,
-          AppletReactionEntity,
-          UserEntity,
         ],
         synchronize: true,
       }),
     }),
+    AppletModule,
     ServiceModule,
     ActionModule,
     ReactionModule,
-    AppletModule,
   ],
   controllers: [
     AppController,
     AuthController,
+    AppletController,
     CronController,
     DiscordController,
     ServiceController,

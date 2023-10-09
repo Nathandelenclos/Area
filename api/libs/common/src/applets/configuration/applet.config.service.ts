@@ -16,14 +16,25 @@ export class AppletConfigService {
    * @param data Configuration data
    */
   createMany(applet_id: any, data: any): void {
-    console.log('data', data);
     Object.keys(data).map(async (key) => {
-      console.log('key', key);
       await this.appletConfigRepository.save({
         key,
         value: data[key],
         applet: applet_id,
       });
     });
+  }
+
+  /**
+   * Delete an applet configuration
+   * @param applet_id
+   */
+  async delete(applet_id: number): Promise<any> {
+    const configs = await this.appletConfigRepository.find({
+      where: { applet: { id: applet_id } },
+    });
+    const configIds = configs.map((config) => config.id);
+
+    return this.appletConfigRepository.delete(configIds);
   }
 }

@@ -19,7 +19,13 @@ class MicroServiceResponse {
    * Returns the JSON representation of the response if the data is not null
    */
   getJSON() {
-    if (this.data !== null) return this.data;
+    const response: {
+      data?: any;
+      message?: string;
+    } = {};
+    if (this.data !== null) response.data = this.data;
+    if (this.message !== null) response.message = this.message;
+    return response;
   }
 
   /**

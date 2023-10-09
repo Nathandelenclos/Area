@@ -10,13 +10,22 @@ export class AuthController extends MicroServiceController {
   }
 
   @MessagePattern({ cmd: 'register' })
-  async register(@Ctx() context: RmqContext) {
+  register(@Ctx() context: RmqContext) {
     return this.authService.register(this.ack(context));
+  }
+
+  @MessagePattern({ cmd: 'oauth' })
+  async oAuth(@Ctx() context: RmqContext) {
+    return await this.authService.oAuth(this.ack(context));
   }
 
   @MessagePattern({ cmd: 'signin' })
   async signIn(@Ctx() context: RmqContext) {
-    const data = this.ack(context);
-    return this.authService.signIn(data.username, data.password);
+    return await this.authService.signIn(this.ack(context));
+  }
+
+  @MessagePattern({ cmd: 'me' })
+  async me(@Ctx() context: RmqContext) {
+    return this.authService.me(this.ack(context));
   }
 }

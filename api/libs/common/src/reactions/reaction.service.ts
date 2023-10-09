@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 export enum ReactionRelations {
   SERVICE = 'service',
+  APPLETS = 'applets',
 }
 
 @Injectable()

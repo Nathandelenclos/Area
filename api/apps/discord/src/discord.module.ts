@@ -9,6 +9,9 @@ import { ServiceEntity } from '@app/common/services/service.entity';
 import { ActionEntity } from '@app/common/actions/action.entity';
 import { ReactionModule } from '@app/common/reactions/reaction.module';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
+import { AppletEntity } from '@app/common/applets/applet.entity';
+import { UserEntity } from '@app/common/users/user.entity';
+import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
 
 @Module({
   imports: [
@@ -26,7 +29,14 @@ import { ReactionEntity } from '@app/common/reactions/reaction.entity';
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [ServiceEntity, ActionEntity, ReactionEntity],
+        entities: [
+          ServiceEntity,
+          ActionEntity,
+          ReactionEntity,
+          AppletEntity,
+          UserEntity,
+          AppletConfigEntity,
+        ],
         synchronize: true,
       }),
     }),
