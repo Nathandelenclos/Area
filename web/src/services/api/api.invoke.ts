@@ -1,5 +1,4 @@
-// TODO: Recuperer de l environment
-const API_URL = "http://localhost:3000";
+import { API_URL } from "@src/Constants";
 
 type IApiInvokeProps = {
   endpoint: string;
