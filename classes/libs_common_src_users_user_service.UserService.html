@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">UserService</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L21">libs/common/src/users/user.service.ts:21</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L22">libs/common/src/users/user.service.ts:22</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -34,6 +34,7 @@
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="libs_common_src_users_user_service.UserService.html#configService" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>config<wbr/>Service</span></a>
+<a href="libs_common_src_users_user_service.UserService.html#jwtService" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>jwt<wbr/>Service</span></a>
 <a href="libs_common_src_users_user_service.UserService.html#userRepository" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>user<wbr/>Repository</span></a>
 </div></section>
 <section class="tsd-index-section">
@@ -48,7 +49,7 @@
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_UserService"><span class="tsd-kind-constructor-signature">new <wbr/>User<wbr/>Service</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">userRepository</span>, <span class="tsd-kind-parameter">configService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="libs_common_src_users_user_service.UserService.html" class="tsd-signature-type tsd-kind-class">UserService</a><a href="#constructor.new_UserService" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_UserService"><span class="tsd-kind-constructor-signature">new <wbr/>User<wbr/>Service</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">userRepository</span>, <span class="tsd-kind-parameter">configService</span>, <span class="tsd-kind-parameter">jwtService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="libs_common_src_users_user_service.UserService.html" class="tsd-signature-type tsd-kind-class">UserService</a><a href="#constructor.new_UserService" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -56,22 +57,29 @@
 <li>
 <h5><span class="tsd-kind-parameter">userRepository</span>: <span class="tsd-signature-type ">Repository</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_users_user_entity.UserEntity.html" class="tsd-signature-type tsd-kind-class">UserEntity</a><span class="tsd-signature-symbol">&gt;</span></h5></li>
 <li>
-<h5><span class="tsd-kind-parameter">configService</span>: <span class="tsd-signature-type ">ConfigService</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">configService</span>: <span class="tsd-signature-type ">ConfigService</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol">&gt;</span></h5></li>
+<li>
+<h5><span class="tsd-kind-parameter">jwtService</span>: <span class="tsd-signature-type ">JwtService</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="libs_common_src_users_user_service.UserService.html" class="tsd-signature-type tsd-kind-class">UserService</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L22">libs/common/src/users/user.service.ts:22</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L23">libs/common/src/users/user.service.ts:23</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="configService" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>config<wbr/>Service</span><a href="#configService" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">config<wbr/>Service</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">ConfigService</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type ">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L25">libs/common/src/users/user.service.ts:25</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L26">libs/common/src/users/user.service.ts:26</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="jwtService" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>jwt<wbr/>Service</span><a href="#jwtService" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">jwt<wbr/>Service</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">JwtService</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L27">libs/common/src/users/user.service.ts:27</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="userRepository" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>user<wbr/>Repository</span><a href="#userRepository" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">user<wbr/>Repository</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">Repository</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_users_user_entity.UserEntity.html" class="tsd-signature-type tsd-kind-class">UserEntity</a><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L24">libs/common/src/users/user.service.ts:24</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L25">libs/common/src/users/user.service.ts:25</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="create" class="tsd-anchor"></a>
@@ -93,7 +101,7 @@
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L33">libs/common/src/users/user.service.ts:33</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L35">libs/common/src/users/user.service.ts:35</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="createOAuth" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>createOAuth</span><a href="#createOAuth" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -113,7 +121,7 @@
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L60">libs/common/src/users/user.service.ts:60</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L64">libs/common/src/users/user.service.ts:64</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="exists" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>exists</span><a href="#exists" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -133,7 +141,7 @@
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L123">libs/common/src/users/user.service.ts:123</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L129">libs/common/src/users/user.service.ts:129</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="findOne" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>One</span><a href="#findOne" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -153,7 +161,7 @@
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/46f760a/api/libs/common/src/users/user.service.ts#L111">libs/common/src/users/user.service.ts:111</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/1121d1e/api/libs/common/src/users/user.service.ts#L117">libs/common/src/users/user.service.ts:117</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -175,6 +183,7 @@
 <ul>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
 <li><a href="#configService" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>config<wbr/>Service</span></a></li>
+<li><a href="#jwtService" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>jwt<wbr/>Service</span></a></li>
 <li><a href="#userRepository" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>user<wbr/>Repository</span></a></li>
 <li><a href="#create" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>create</span></a></li>
 <li><a href="#createOAuth" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>createOAuth</span></a></li>
@@ -259,7 +268,92 @@
 <ul>
 <li><a class="category__link js-category-link" href="apps_discord_src_discord_service.DiscordService.html" data-id="/classes/apps_discord_src_discord_service.DiscordService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>DiscordService</a></li></ul></li>
 <li><a class="category__link js-category-link category__link--ts" href="../modules/apps_discord_src_main.html" data-id="/modules/apps_discord_src_main.html">main.ts</a>
-<ul></ul></li></ul></li></ul></li></ul></li>
+<ul></ul></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-apps-gmail">
+<div class="category__folder" data-id="root-api-apps-gmail"></div>gmail</span>
+<ul class="js-category-list category" data-id="root-api-apps-gmail">
+<li><span class="js-category-title category__title" data-id="root-api-apps-gmail-src">
+<div class="category__folder" data-id="root-api-apps-gmail-src"></div>src</span>
+<ul class="js-category-list category" data-id="root-api-apps-gmail-src">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_gmail_src_gmail_controller.html" data-id="/modules/apps_gmail_src_gmail_controller.html">gmail.controller.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_gmail_src_gmail_controller.GmailController.html" data-id="/classes/apps_gmail_src_gmail_controller.GmailController.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>GmailController</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_gmail_src_gmail_module.html" data-id="/modules/apps_gmail_src_gmail_module.html">gmail.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_gmail_src_gmail_module.GmailModule.html" data-id="/classes/apps_gmail_src_gmail_module.GmailModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>GmailModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_gmail_src_gmail_service.html" data-id="/modules/apps_gmail_src_gmail_service.html">gmail.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_gmail_src_gmail_service.GmailService.html" data-id="/classes/apps_gmail_src_gmail_service.GmailService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>GmailService</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_gmail_src_main.html" data-id="/modules/apps_gmail_src_main.html">main.ts</a>
+<ul></ul></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-apps-google_drive">
+<div class="category__folder" data-id="root-api-apps-google_drive"></div>google_drive</span>
+<ul class="js-category-list category" data-id="root-api-apps-google_drive">
+<li><span class="js-category-title category__title" data-id="root-api-apps-google_drive-src">
+<div class="category__folder" data-id="root-api-apps-google_drive-src"></div>src</span>
+<ul class="js-category-list category" data-id="root-api-apps-google_drive-src">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_google_drive_src_google_drive_controller.html" data-id="/modules/apps_google_drive_src_google_drive_controller.html">google_drive.controller.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_google_drive_src_google_drive_controller.GoogleDriveController.html" data-id="/classes/apps_google_drive_src_google_drive_controller.GoogleDriveController.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>GoogleDriveController</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_google_drive_src_google_drive_module.html" data-id="/modules/apps_google_drive_src_google_drive_module.html">google_drive.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_google_drive_src_google_drive_module.GoogleDriveModule.html" data-id="/classes/apps_google_drive_src_google_drive_module.GoogleDriveModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>GoogleDriveModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_google_drive_src_google_drive_service.html" data-id="/modules/apps_google_drive_src_google_drive_service.html">google_drive.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_google_drive_src_google_drive_service.GoogleDriveService.html" data-id="/classes/apps_google_drive_src_google_drive_service.GoogleDriveService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>GoogleDriveService</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_google_drive_src_main.html" data-id="/modules/apps_google_drive_src_main.html">main.ts</a>
+<ul></ul></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-apps-instagram">
+<div class="category__folder" data-id="root-api-apps-instagram"></div>instagram</span>
+<ul class="js-category-list category" data-id="root-api-apps-instagram">
+<li><span class="js-category-title category__title" data-id="root-api-apps-instagram-src">
+<div class="category__folder" data-id="root-api-apps-instagram-src"></div>src</span>
+<ul class="js-category-list category" data-id="root-api-apps-instagram-src">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_instagram_src_instagram_controller.html" data-id="/modules/apps_instagram_src_instagram_controller.html">instagram.controller.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_instagram_src_instagram_controller.InstagramController.html" data-id="/classes/apps_instagram_src_instagram_controller.InstagramController.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>InstagramController</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_instagram_src_instagram_module.html" data-id="/modules/apps_instagram_src_instagram_module.html">instagram.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_instagram_src_instagram_module.InstagramModule.html" data-id="/classes/apps_instagram_src_instagram_module.InstagramModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>InstagramModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_instagram_src_instagram_service.html" data-id="/modules/apps_instagram_src_instagram_service.html">instagram.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_instagram_src_instagram_service.InstagramService.html" data-id="/classes/apps_instagram_src_instagram_service.InstagramService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>InstagramService</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_instagram_src_main.html" data-id="/modules/apps_instagram_src_main.html">main.ts</a>
+<ul></ul></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-apps-spotify">
+<div class="category__folder" data-id="root-api-apps-spotify"></div>spotify</span>
+<ul class="js-category-list category" data-id="root-api-apps-spotify">
+<li><span class="js-category-title category__title" data-id="root-api-apps-spotify-src">
+<div class="category__folder" data-id="root-api-apps-spotify-src"></div>src</span>
+<ul class="js-category-list category" data-id="root-api-apps-spotify-src">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_spotify_src_main.html" data-id="/modules/apps_spotify_src_main.html">main.ts</a>
+<ul></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_spotify_src_spotify_controller.html" data-id="/modules/apps_spotify_src_spotify_controller.html">spotify.controller.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_spotify_src_spotify_controller.SpotifyController.html" data-id="/classes/apps_spotify_src_spotify_controller.SpotifyController.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>SpotifyController</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_spotify_src_spotify_module.html" data-id="/modules/apps_spotify_src_spotify_module.html">spotify.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_spotify_src_spotify_module.SpotifyModule.html" data-id="/classes/apps_spotify_src_spotify_module.SpotifyModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>SpotifyModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_spotify_src_spotify_service.html" data-id="/modules/apps_spotify_src_spotify_service.html">spotify.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_spotify_src_spotify_service.SpotifyService.html" data-id="/classes/apps_spotify_src_spotify_service.SpotifyService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>SpotifyService</a></li></ul></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-apps-youtube">
+<div class="category__folder" data-id="root-api-apps-youtube"></div>youtube</span>
+<ul class="js-category-list category" data-id="root-api-apps-youtube">
+<li><span class="js-category-title category__title" data-id="root-api-apps-youtube-src">
+<div class="category__folder" data-id="root-api-apps-youtube-src"></div>src</span>
+<ul class="js-category-list category" data-id="root-api-apps-youtube-src">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_youtube_src_main.html" data-id="/modules/apps_youtube_src_main.html">main.ts</a>
+<ul></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_youtube_src_youtube_controller.html" data-id="/modules/apps_youtube_src_youtube_controller.html">youtube.controller.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_youtube_src_youtube_controller.YoutubeController.html" data-id="/classes/apps_youtube_src_youtube_controller.YoutubeController.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>YoutubeController</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_youtube_src_youtube_module.html" data-id="/modules/apps_youtube_src_youtube_module.html">youtube.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_youtube_src_youtube_module.YoutubeModule.html" data-id="/classes/apps_youtube_src_youtube_module.YoutubeModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>YoutubeModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_youtube_src_youtube_service.html" data-id="/modules/apps_youtube_src_youtube_service.html">youtube.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_youtube_src_youtube_service.YoutubeService.html" data-id="/classes/apps_youtube_src_youtube_service.YoutubeService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>YoutubeService</a></li></ul></li></ul></li></ul></li></ul></li>
 <li><span class="js-category-title category__title" data-id="root-api-libs">
 <div class="category__folder" data-id="root-api-libs"></div>libs</span>
 <ul class="js-category-list category" data-id="root-api-libs">
