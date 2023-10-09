@@ -31,7 +31,8 @@ function OAuthList() {
       {oAuths.map((oauth) => (
         <button
           key={oauth.name}
-          className={`justify-center items-center flex bg-[${oauth.color}] hover:bg-[#4e6aa3] text-white text-base font-bold w-1/6 px-6 py-2 rounded mt-5 mb-10`}
+          className="justify-center items-center flex hover:bg-[#4e6aa3] text-white text-base font-bold w-1/6 px-6 py-2 rounded mt-5 mb-10"
+          style={{ backgroundColor: oauth.color }}
         >
           {oauth.shortName}
         </button>
@@ -45,11 +46,11 @@ function ConnectionsOptionsSeparator() {
   return (
     <div className="w-full justify-center items-center flex">
       <div className="flex flex-row justify-center items-center w-10/12">
-        <div className="border-2 w-4/6 border-[#DBDBDB]"></div>
-        <p className="text-center text-[#B7B7B7] w-4/5">
+        <div className="border-2 w-full border-[#DBDBDB]"></div>
+        <p className="text-center min-w-max mx-2 text-[#B7B7B7]">
           {translate("login", "orConnectWith")}
         </p>
-        <div className="border-2 w-4/6 border-[#DBDBDB]"></div>
+        <div className="border-2 w-full border-[#DBDBDB]"></div>
       </div>
     </div>
   );
