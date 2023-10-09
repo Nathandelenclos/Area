@@ -12,6 +12,7 @@ export interface UserCredentialsDto {
 }
 
 export interface UserOAuthCredentialsDto {
+  id: string;
   email: string;
   provider: Providers;
   token: string;

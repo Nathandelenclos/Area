@@ -47,22 +47,6 @@ export class AuthService {
   }
 
   /**
-   * Register a new user with OAuth
-   * @param data NewUserOAuth
-   * @returns Promise<MicroServiceResponse> object
-   */
-  async oAuth(data: UserOAuthCredentialsDto): Promise<MicroServiceResponse> {
-    if (data.email == null || data.provider == null || data.token == null) {
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
-      });
-    }
-
-    return await this.userService.createOAuth(data);
-  }
-
-  /**
    * Sign in a user with credentials and return a JWT
    * @param data UserCredentials
    * @returns Promise<MicroServiceResponse> object
@@ -96,14 +80,33 @@ export class AuthService {
   async signOAuth(
     data: UserOAuthCredentialsDto,
   ): Promise<MicroServiceResponse> {
-    if (data.email == null || data.provider == null || data.token == null)
+    if (
+      data.email == null ||
+      data.provider == null ||
+      data.token == null ||
+      data.id == null
+    )
       return new MicroServiceResponse({
         code: HttpStatus.BAD_REQUEST,
         message: 'Missing parameters',
       });
 
-    const user = await this.userService.findOne({ email: data.email });
-    if (!user) return await this.oAuth(data);
+    const hashedId: string = MD5(data.id).toString();
+    const userByEmail = await this.userService.findOne({
+      email: data.email,
+    });
+    const userById = await this.userService.findOne({
+      provider_id: hashedId,
+    });
+    if (!userByEmail && !userById)
+      return await this.userService.createOAuth(data);
+    if ((userByEmail && !userById) || (!userByEmail && userById))
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Invalid Credentials',
+      });
+
+    const user = userByEmail ? userByEmail : userById;
 
     if (OAuthServices[data.provider] == undefined)
       return new MicroServiceResponse({
@@ -117,11 +120,7 @@ export class AuthService {
         message: 'No OAuth provider linked to this email',
       });
 
-    const bytes = AES.decrypt(
-      user[OAuthServices[data.provider]],
-      this.configService.get('AES_SECRET'),
-    );
-    const isMatch = bytes.toString(enc.Utf8) == data.token;
+    const isMatch = user.provider_id == hashedId;
     if (!isMatch) {
       return new MicroServiceResponse({
         code: HttpStatus.UNAUTHORIZED,

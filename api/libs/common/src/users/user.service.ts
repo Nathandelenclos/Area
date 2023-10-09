@@ -36,11 +36,11 @@ export class UserService {
    * @returns UserEntity object
    */
   async create(data: NewUserDto): Promise<MicroServiceResponse> {
-    if (await this.exists({ email: data.email })) return;
-    new MicroServiceResponse({
-      code: HttpStatus.CONFLICT,
-      message: 'User already exists',
-    });
+    if (await this.exists({ email: data.email }))
+      return new MicroServiceResponse({
+        code: HttpStatus.CONFLICT,
+        message: 'User already exists',
+      });
 
     const hashedPassword: string = MD5(data.password).toString();
     const user = await this.userRepository.save({
@@ -51,6 +51,7 @@ export class UserService {
     delete response.google_token;
     delete response.facebook_token;
     delete response.github_token;
+    delete response.provider_id;
     delete response.password;
 
     const payload = { id: user.id, email: data.email };
@@ -67,33 +68,23 @@ export class UserService {
   async createOAuth(
     data: UserOAuthCredentialsDto,
   ): Promise<MicroServiceResponse> {
-    if (data.email == null || data.provider == null || data.token == null)
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
-      });
-
     if (OAuthServices[data.provider] == undefined)
       return new MicroServiceResponse({
         code: HttpStatus.BAD_REQUEST,
         message: 'Invalid OAuth provider',
       });
 
-    if (await this.exists({ email: data.email }))
-      return new MicroServiceResponse({
-        code: HttpStatus.CONFLICT,
-        message: 'User already exists',
-      });
-
     const encryptedToken: string = AES.encrypt(
       data.token,
       this.configService.get('AES_SECRET'),
     ).toString();
+    const hashedId: string = MD5(data.id).toString();
 
     const user = await this.userRepository.save({
       name: '',
       email: data.email,
       [OAuthServices[data.provider]]: encryptedToken,
+      provider_id: hashedId,
       password: null,
     });
 
@@ -101,6 +92,7 @@ export class UserService {
     delete response.google_token;
     delete response.facebook_token;
     delete response.github_token;
+    delete response.provider_id;
     delete response.password;
 
     const payload = { id: user.id, email: data.email };
