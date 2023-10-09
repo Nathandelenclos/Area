@@ -24,7 +24,8 @@
   },
   "applets": {
     "title": "Mes applets",
-    "create": "Créer une applet"
+    "create": "Créer une applet",
+    "select": "Sélectionner un applet"
   },
   "profile": {
     "title": "Votre profil",

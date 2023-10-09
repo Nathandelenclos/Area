@@ -1,3 +1,6 @@
+import { ActionObject, ActionObjectDto } from "@src/objects/ActionObject";
+import { ReactionObject, ReactionObjectDto } from "@src/objects/ReactionObject";
+
 export interface NewAppletDto {
   name: string;
   description: string;
@@ -24,18 +27,35 @@ export interface AppletObjectDto {
   name: string;
   description: string;
   is_active: boolean;
-  action: any;
-  reaction: any;
+  action: ActionObjectDto;
+  reaction: ReactionObjectDto;
 }
 
 export class AppletObject {
   applet: AppletObjectDto;
+  applet_action: ActionObject;
+  applet_reaction: ReactionObject;
 
   constructor(object: AppletObjectDto) {
     this.applet = object;
+    console.log(object);
+    this.applet_action = new ActionObject(object.action);
+    this.applet_reaction = new ReactionObject(object.reaction);
   }
 
   get id() {
     return this.applet.id;
+  }
+
+  get name() {
+    return this.applet.name;
+  }
+
+  get action() {
+    return this.applet_action;
+  }
+
+  get reaction() {
+    return this.applet_reaction;
   }
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import AppletCreationButtons from "./AppletCreationButtons";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 

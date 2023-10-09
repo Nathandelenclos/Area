@@ -17,14 +17,18 @@ export default class AppletService {
     });
   }
 
-  static getApplets(authToken: string) {
-    const applets: any = ApiInvoke({
-      endpoint: "/auth/me",
-      method: "GET",
-      expectedStatus: 200,
-      authToken,
-    });
-    return applets.map((applet: AppletObjectDto) => new AppletObject(applet));
+  static async getApplets(authToken: string) {
+    const applets: any = (
+      await ApiInvoke({
+        endpoint: "/auth/me",
+        method: "GET",
+        expectedStatus: 200,
+        authToken,
+      })
+    )?.data;
+    return (
+      applets?.map((applet: AppletObjectDto) => new AppletObject(applet)) ?? []
+    );
   }
 
   static delete(id: number, authToken: string) {

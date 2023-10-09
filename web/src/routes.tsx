@@ -40,8 +40,8 @@ export const Routes: Route[] = [
     public: true,
   },
   {
-    name: "create-applet-trigger",
-    path: "/create-applet-trigger",
+    name: "create-applet",
+    path: "/create-applet",
     middleware: [],
     element: <CreateAppletAction />,
   },
@@ -92,5 +92,5 @@ export type RouteNames =
   | "recover-password"
   | "create-applet"
   | "my-applets"
-  | "create-applet-trigger"
+  | "create-applet"
   | "create-applet-reaction";

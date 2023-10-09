@@ -15,7 +15,7 @@ export default function SignUp() {
     const data = await AuthServices.register(name, email, password);
     if (data) {
       setUser(new UserObject(data.data));
-      navigate("/create-applet-trigger");
+      navigate("/create-applet");
     }
   };
 
