@@ -16,6 +16,9 @@ export class UserEntity {
   name: string;
 
   @Column({ nullable: true })
+  provider_id: string;
+
+  @Column({ nullable: true })
   google_token: string;
 
   @Column({ nullable: true })
