@@ -1,10 +1,10 @@
 {
   "test": "test",
-  "welcome": "Welcome to Area !",
+  "welcome": "Bienvenue sur l'Area !",
   "login": {
     "email": "Email",
     "password": "Mot de passe",
-    "sign-in": "Connection",
+    "sign-in": "Connexion",
     "sign-up": "S'enregistrer",
     "orConnectWith": "Ou connectez-vous avec",
     "recoverPassword": "Mot de passe oublié ?",
@@ -19,19 +19,25 @@
   },
   "homepage": {
     "title": "Accueil",
-    "description": "Bienvenue sur la page d'accueil"
+    "description": "Bienvenue sur la page d'accueil",
+    "page-title": "Suggestions du jour"
   },
   "applets": {
     "title": "Mes applets",
     "create": "Créer une applet"
   },
+  "profile": {
+    "title": "Votre profil",
+    "logout-button": "Se Deconnecter"
+  },
   "create-applets": {
     "applet-name-trigger": "Nom de votre applet",
     "supported-services-trigger": "Services pris en charge",
     "triggers-for-service": "Déclencheurs possible",
-    "reactions-number-reaction": "Nombre de réactions",
+    "reactions-number": "Nombre de réactions",
     "supported-services-reaction": "Services pris en charge",
     "reactions-for-service": "Réactions possible",
-    "input-applet-placeholder": "Nom de votre applet...*"
+    "input-applet-placeholder": "Nom de votre applet...*",
+    "next-button": "Suivant"
   }
 }
