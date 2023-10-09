@@ -84,7 +84,11 @@ export class AuthService {
 
     const payload = { id: user.id, email: user.email };
     return new MicroServiceResponse({
-      data: { access_token: this.jwtService.sign(payload) },
+      data: {
+        email: user.email,
+        name: user.name,
+        access_token: this.jwtService.sign(payload),
+      },
     });
   }
 
@@ -131,7 +135,11 @@ export class AuthService {
 
     const payload = { id: user.id, email: data.email };
     return new MicroServiceResponse({
-      data: { access_token: this.jwtService.sign(payload) },
+      data: {
+        email: user.email,
+        name: user.name,
+        access_token: this.jwtService.sign(payload),
+      },
     });
   }
 

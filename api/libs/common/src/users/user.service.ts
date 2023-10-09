@@ -6,6 +6,7 @@ import { NewUserDto, NewUserOAuthDto } from '@app/common/users/user.dto';
 import { ConfigService } from '@nestjs/config';
 import MicroServiceResponse from '@app/common/micro.service.response';
 import { AES, MD5 } from 'crypto-js';
+import { JwtService } from '@nestjs/jwt';
 
 export enum UserRelations {
   APPLETS = 'applets',
@@ -23,6 +24,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly configService: ConfigService,
+    private jwtService: JwtService,
   ) {}
 
   /**
@@ -30,12 +32,12 @@ export class UserService {
    * @param data NewUser object
    * @returns UserEntity object
    */
-  async create(data: NewUserDto) {
-    if (await this.exists({ email: data.email }))
-      return new MicroServiceResponse({
-        code: HttpStatus.CONFLICT,
-        message: 'User already exists',
-      });
+  async create(data: NewUserDto): Promise<MicroServiceResponse> {
+    if (await this.exists({ email: data.email })) return;
+    new MicroServiceResponse({
+      code: HttpStatus.CONFLICT,
+      message: 'User already exists',
+    });
 
     const hashedPassword: string = MD5(data.password).toString();
     const user = await this.userRepository.save({
@@ -47,8 +49,10 @@ export class UserService {
     delete response.facebook_token;
     delete response.github_token;
     delete response.password;
+
+    const payload = { id: user.id, email: data.email };
     return new MicroServiceResponse({
-      data: response,
+      data: { ...response, access_token: this.jwtService.sign(payload) },
     });
   }
 
@@ -98,8 +102,10 @@ export class UserService {
     delete response.facebook_token;
     delete response.github_token;
     delete response.password;
+
+    const payload = { id: user.id, email: data.email };
     return new MicroServiceResponse({
-      data: response,
+      data: { ...response, access_token: this.jwtService.sign(payload) },
     });
   }
 
