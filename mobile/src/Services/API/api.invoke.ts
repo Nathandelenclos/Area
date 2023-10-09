@@ -1,4 +1,4 @@
-import { CONST_API_URL } from './api.constants';
+import { env } from '@src/env';
 
 type IApiInvokeProps = {
   endpoint: string;
@@ -38,24 +38,20 @@ export async function ApiInvoke({
   authToken,
   handlers,
 }: IApiInvokeProps): Promise<IApiInvokeResponse> {
-  const response = await methods[method]({
-    endpoint: endpoint,
-    body: body,
-    authToken: authToken,
-  });
+  let response;
 
-  const handledResponse = await HandleResponse(
-    response,
-    expectedStatus,
-    handlers,
-  );
-
-  if (handledResponse.data === null) {
-    console.warn(
-      `[API INVOKE]: Failed to fetch ${endpoint} (status: ${handledResponse.status}, expected: ${expectedStatus})`,
-    );
+  try {
+    response = await methods[method]({
+      endpoint: endpoint,
+      body: body,
+      authToken: authToken,
+    });
+  } catch (e) {
+    response = new Response(null, {
+      status: 500,
+    });
   }
-  return handledResponse;
+  return HandleResponse(response, expectedStatus, handlers);
 }
 
 type ApiGetProps = {
@@ -69,8 +65,8 @@ type ApiGetProps = {
  * @returns {Promise} with the response object
  */
 
-function ApiGet(props: ApiGetProps) {
-  return fetch(`${CONST_API_URL}/${props.endpoint}`, {
+function ApiGet(props: ApiGetProps): Promise<Response> {
+  return fetch(`${env.API_URL}${props.endpoint}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
@@ -91,8 +87,8 @@ type ApiPostProps = {
  * @param {ApiPostProps} props
  * @returns {Promise} with the response object
  */
-function ApiPost(props: ApiPostProps) {
-  return fetch(`${CONST_API_URL}/${props.endpoint}`, {
+function ApiPost(props: ApiPostProps): Promise<Response> {
+  return fetch(`${env.API_URL}${props.endpoint}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
@@ -115,18 +111,24 @@ async function HandleResponse(
   expectedStatus: number,
   handlers?: any,
 ): Promise<IApiInvokeResponse> {
-  let data = null;
+  let resp = null;
 
   try {
     // Data is read as JSON. If it fails, it will be null. HTML responses are not handled for now.
-    data = await response.json();
+    resp = await response.json();
   } catch (e) {
     console.warn('[API INVOKE]: Failed to parse response body: ', e);
   }
 
+  if (!handlers || response.status === expectedStatus) {
+    return { status: response.status, data: resp?.data };
+  }
+
   // Handle non-successful responses with custom handlers
-  (await handlers) &&
-    handlers[response.status] &&
-    handlers[response.status](data);
-  return { status: response.status, data: data };
+  if (handlers[response.status]) {
+    handlers[response.status](resp);
+  } else {
+    handlers.defaultHandlers(resp);
+  }
+  return { status: response.status, data: null };
 }

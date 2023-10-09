@@ -16,14 +16,13 @@ export type IColorScheme = {
   textInput: string;
 };
 
-export type ILanguage = {
-  name: string;
-  message: string;
-};
-
 export type IApplicationContext = {
   color: IColor;
-  language: ILanguage[];
+  language: any;
   translate: (key: string) => string;
   appName: string;
+};
+
+export type LanguageKeys = {
+  [key: string]: string;
 };

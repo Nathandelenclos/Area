@@ -1,10 +1,13 @@
-const defaultApiHandler = {
-  401: async (data: any) => {
-    console.log('[API INVOKE]: 401: ', data?.detail);
-  },
+import Toast from 'react-native-toast-message';
 
-  422: async (data: any) => {
-    console.log('[API INVOKE]: 422: ', data?.detail);
+const defaultApiHandler = {
+  defaultHandlers: (data: any) => {
+    const message = data?.message || 'Something went wrong';
+    Toast.show({
+      type: 'error',
+      text1: `${message}`,
+      position: 'bottom',
+    });
   },
 };
 
