@@ -101,6 +101,7 @@ type ApiPostProps = {
  * @returns {Promise} with the response object
  */
 function ApiPost(props: ApiPostProps): Promise<Response> {
+  console.log("la", `${API_URL}${props.endpoint}`);
   return fetch(`${API_URL}${props.endpoint}`, {
     method: "POST",
     headers: {

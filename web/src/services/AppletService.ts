@@ -1,13 +1,18 @@
 import { ApiInvoke } from "@services/api/api.invoke";
-import AppletObject, { AppletObjectDto } from "@src/objects/AppletObject";
+import {
+  AppletObject,
+  AppletObjectDto,
+  NewAppletDto,
+} from "@src/objects/AppletObject";
 
-export default class AppletServices {
-  static create(applet: AppletObjectDto) {
+export default class AppletService {
+  static create(applet: NewAppletDto, authToken: string) {
     return ApiInvoke({
       endpoint: "/applets",
       method: "POST",
       body: JSON.stringify(applet),
       expectedStatus: 200,
+      authToken: authToken,
     });
   }
 
@@ -18,7 +23,6 @@ export default class AppletServices {
       expectedStatus: 200,
       authToken: authToken,
     });
-    console.log(applets);
     return applets.map((applet: AppletObjectDto) => new AppletObject(applet));
   }
 
