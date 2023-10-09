@@ -28,15 +28,15 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: api
     hostname: api
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=api
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${API_PORT}:${API_PORT}"
     env_file:
       - .env.docker
     depends_on:
@@ -47,11 +47,11 @@ services:
   auth:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: auth
     hostname: auth
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=auth
     env_file:
@@ -64,11 +64,11 @@ services:
   discord:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: discord
     hostname: discord
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=discord
     env_file:
@@ -81,11 +81,11 @@ services:
   spotify:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: spotify
     hostname: spotify
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=spotify
     env_file:
@@ -98,11 +98,11 @@ services:
   instagram:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: instagram
     hostname: instagram
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=instagram
     env_file:
@@ -115,11 +115,11 @@ services:
   gmail:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: gmail
     hostname: gmail
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=gmail
     env_file:
@@ -132,11 +132,11 @@ services:
   youtube:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: youtube
     hostname: youtube
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=youtube
     env_file:
@@ -149,11 +149,11 @@ services:
   google_drive:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: api/Dockerfile
     container_name: google_drive
     hostname: google_drive
     volumes:
-      - ./:/app
+      - ./api/:/app
     environment:
       - MICROSERVICE=google_drive
     env_file:
@@ -172,7 +172,7 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - ./:/home/node/app
+      - ./api/:/home/node/app
     env_file:
       - .env.docker
     command: "npx ts-node --project tsconfig.json ./script/cron.ts"
@@ -180,3 +180,16 @@ services:
       - mysql
       - rabbitmq
     restart: always
+
+  front:
+    build:
+      context: web
+      dockerfile: Dockerfile
+    container_name: front
+    hostname: front
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
