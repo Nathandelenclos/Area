@@ -187,8 +187,10 @@ services:
       dockerfile: Dockerfile
     container_name: front
     hostname: front
+    env_file:
+      - .env.docker
     ports:
-      - "80:80"
+      - "${FRONT_PORT}:${FRONT_PORT}"
     depends_on:
       - mysql
       - rabbitmq

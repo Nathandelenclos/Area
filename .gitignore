@@ -13,3 +13,4 @@ rabbitmq
 mysql
 build
 .env
+.env*
