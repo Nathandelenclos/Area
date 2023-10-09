@@ -61,23 +61,6 @@ services:
       - rabbitmq
     restart: always
 
-  cron:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: cron
-    hostname: cron
-    volumes:
-      - ./:/app
-    environment:
-        - MICROSERVICE=cron
-    env_file:
-      - .env.docker
-    depends_on:
-      - mysql
-      - rabbitmq
-    restart: always
-
   discord:
     build:
       context: .
