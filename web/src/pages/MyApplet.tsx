@@ -3,7 +3,8 @@ import NavBar from "@components/NavBar";
 import AppContext from "@src/context/AppContextProvider";
 
 export default function MyApplet() {
-  const { translate } = AppContext();
+  const { translate, user } = AppContext();
+  console.log(user);
   return (
     <div className="h-full w-full bg-red-400">
       <NavBar />

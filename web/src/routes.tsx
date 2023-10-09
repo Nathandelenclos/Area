@@ -4,6 +4,7 @@ import SignIn from "@pages/Auth/SignIn";
 import SignUp from "@pages/Auth/SignUp";
 import CreateApplet from "@pages/CreateApplet";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
+import MyApplet from "@pages/MyApplet";
 
 export const Routes: Route[] = [
   {
@@ -37,6 +38,12 @@ export const Routes: Route[] = [
     element: <CreateApplet />,
   },
   {
+    name: "my-applets",
+    path: "/applets",
+    middleware: [],
+    element: <MyApplet />,
+  },
+  {
     name: "404",
     path: "/404",
     middleware: [],
@@ -50,4 +57,5 @@ export type RouteNames =
   | "sign-up"
   | "404"
   | "recover-password"
-  | "create-applet";
+  | "create-applet"
+  | "my-applets";
