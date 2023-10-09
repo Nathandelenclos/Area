@@ -15,6 +15,15 @@ export class UserEntity {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  google_token: string;
+
+  @Column({ nullable: true })
+  facebook_token: string;
+
+  @Column({ nullable: true })
+  github_token: string;
+
   @OneToMany(() => AppletEntity, (applet) => applet.user)
   applets: AppletEntity[];
 }

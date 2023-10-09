@@ -10,6 +10,12 @@ export enum UserRelations {
   APPLETS = 'applets',
 }
 
+const OAuthServices = {
+  google: 'google_token',
+  facebook: 'facebook_token',
+  github: 'github_token',
+};
+
 @Injectable()
 export class UserService {
   constructor(
@@ -49,6 +55,23 @@ export class UserService {
    * @returns Promise<MicroServiceResponse> object
    */
   async createOAuth(data: NewUserOAuthDto): Promise<MicroServiceResponse> {
+    if (
+      data.email == null ||
+      data.provider == null ||
+      data.token == null ||
+      data.name == null
+    )
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Missing parameters',
+      });
+
+    if (OAuthServices[data.provider] == undefined)
+      return new MicroServiceResponse({
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Invalid OAuth provider',
+      });
+
     if (await this.exists({ email: data.email }))
       return new MicroServiceResponse({
         code: HttpStatus.CONFLICT,
@@ -56,13 +79,20 @@ export class UserService {
       });
 
     const cryptToken: string = data.token;
+    delete data.token;
+
     const user = await this.userRepository.save({
-      ...data,
+      name: data.name,
+      email: data.email,
       password: null,
-      token: cryptToken,
+      [OAuthServices[data.provider]]: cryptToken,
     });
+
     const response = { ...user };
-    delete response.token;
+    delete response.google_token;
+    delete response.facebook_token;
+    delete response.github_token;
+    delete response.password;
     return new MicroServiceResponse({
       data: response,
     });
