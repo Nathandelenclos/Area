@@ -1,4 +1,4 @@
-import { env } from '@src/env';
+import { API_URL } from '@env';
 
 type IApiInvokeProps = {
   endpoint: string;
@@ -66,7 +66,7 @@ type ApiGetProps = {
  */
 
 function ApiGet(props: ApiGetProps): Promise<Response> {
-  return fetch(`${env.API_URL}${props.endpoint}`, {
+  return fetch(`${API_URL}${props.endpoint}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
@@ -88,7 +88,7 @@ type ApiPostProps = {
  * @returns {Promise} with the response object
  */
 function ApiPost(props: ApiPostProps): Promise<Response> {
-  return fetch(`${env.API_URL}${props.endpoint}`, {
+  return fetch(`${API_URL}${props.endpoint}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${props.authToken}`,

@@ -11,7 +11,15 @@ import {
   LoginManager,
   LoginResult,
 } from 'react-native-fbsdk-next';
-import { env } from '@src/env';
+import {
+  GOOGLE_IOS_CLIENT_ID,
+  GOOGLE_ANDROID_CLIENT_ID,
+  REDIRECT_URI,
+  SPOTIFY_CLIENT_ID,
+  SPOTIFY_CLIENT_SECRET,
+  GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET,
+} from '@env';
 
 class OAuthService {
   /**
@@ -23,10 +31,8 @@ class OAuthService {
     const config: AuthConfiguration = {
       issuer: 'https://accounts.google.com',
       clientId:
-        Platform.OS === 'ios'
-          ? env.GOOGLE_IOS_CLIENT_ID
-          : env.GOOGLE_ANDROID_CLIENT_ID,
-      redirectUrl: env.REDIRECT_URI,
+        Platform.OS === 'ios' ? GOOGLE_IOS_CLIENT_ID : GOOGLE_ANDROID_CLIENT_ID,
+      redirectUrl: REDIRECT_URI,
       scopes: ['openid', 'profile', 'email', 'https://mail.google.com/'],
     };
     const authState: AuthorizeResult = await authorize(config);
@@ -79,9 +85,9 @@ class OAuthService {
    */
   async SpotifyOAuth(): Promise<IApiInvokeResponse> {
     const config: AuthConfiguration = {
-      clientId: env.SPOTIFY_CLIENT_ID,
-      clientSecret: env.SPOTIFY_CLIENT_SECRET,
-      redirectUrl: env.REDIRECT_URI,
+      clientId: SPOTIFY_CLIENT_ID,
+      clientSecret: SPOTIFY_CLIENT_SECRET,
+      redirectUrl: REDIRECT_URI,
       scopes: [
         'user-read-email',
         'playlist-modify-public',
@@ -118,14 +124,14 @@ class OAuthService {
   async GithubOAuth(): Promise<IApiInvokeResponse> {
     const config: AuthConfiguration = {
       redirectUrl: 'areadevepitech://',
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
+      clientId: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_CLIENT_SECRET,
       scopes: ['identity', 'user:email', 'read:user'],
       additionalHeaders: { Accept: 'application/json' },
       serviceConfiguration: {
         authorizationEndpoint: 'https://github.com/login/oauth/authorize',
         tokenEndpoint: 'https://github.com/login/oauth/access_token',
-        revocationEndpoint: `https://github.com/settings/connections/applications/${env.GITHUB_CLIENT_ID}`,
+        revocationEndpoint: `https://github.com/settings/connections/applications/${GITHUB_CLIENT_ID}`,
       },
     };
     const result: AuthorizeResult = await authorize(config);
