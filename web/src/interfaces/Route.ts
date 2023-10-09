@@ -5,4 +5,5 @@ export interface Route {
   path: string;
   name: string;
   element: JSX.Element;
+  public?: boolean;
 }

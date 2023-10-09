@@ -12,24 +12,28 @@ export const Routes: Route[] = [
     path: "/",
     middleware: [],
     element: <Welcome />,
+    public: true,
   },
   {
     name: "sign-in",
     path: "/sign-in",
     middleware: [],
     element: <SignIn />,
+    public: true,
   },
   {
     name: "sign-up",
     path: "/sign-up",
     middleware: [],
     element: <SignUp />,
+    public: true,
   },
   {
     name: "recover-password",
     path: "/sign-in/recover-password",
     middleware: [],
     element: <RecoverPassword />,
+    public: true,
   },
   {
     name: "create-applet",
