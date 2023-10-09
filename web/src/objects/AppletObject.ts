@@ -1,16 +1,20 @@
-interface AppletObjectDto {
+export interface AppletObjectDto {
+  id: number;
   name: string;
   description: string;
   is_active: boolean;
-  action: number;
-  reaction: number;
-  config: any;
+  action: any;
+  reaction: any;
 }
 
-class AppletObject {
+export default class AppletObject {
   applet: AppletObjectDto;
 
   constructor(object: AppletObjectDto) {
     this.applet = object;
+  }
+
+  get id() {
+    return this.applet.id;
   }
 }

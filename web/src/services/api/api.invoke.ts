@@ -19,6 +19,7 @@ export type IApiInvokeResponse = {
 const methods: any = {
   GET: ApiGet,
   POST: ApiPost,
+  DELETE: ApiDelete,
 };
 
 /**
@@ -108,6 +109,22 @@ function ApiPost(props: ApiPostProps): Promise<Response> {
       "Content-Type": "application/json",
     },
     body: props.body,
+  });
+}
+
+/**
+ * Sends a DELETE request to the API.
+ * @param {ApiPostProps} props
+ * @returns {Promise} with the response object
+ */
+function ApiDelete(props: ApiPostProps): Promise<Response> {
+  return fetch(`${API_URL}${props.endpoint}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${props.authToken}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
   });
 }
 

@@ -28,7 +28,10 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({
   children,
 }: AppContextProviderProps) => {
   const [language, setLang] = useState<Language>("fr");
-  const [user, setUser] = useState<UserCredentials | undefined>(undefined);
+  const [user, setUser] = useState<UserCredentials | undefined>({
+    email: "  ",
+    name: "  ",
+  });
 
   const defaultValues: AppContextType = {
     language,
