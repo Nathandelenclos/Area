@@ -1,7 +1,6 @@
 import React from "react";
 import AppContext from "context/AppContextProvider";
 import { RouteNames } from "@src/routes";
-import { navigate } from "@src/utils";
 
 export type NavBarElement = {
   name: string;
@@ -25,7 +24,7 @@ function NavBar({ elements }: NavBarProps) {
     },
     {
       name: translate("nav", "applets"),
-      RouteName: "applets",
+      RouteName: "my-applets",
     },
   ];
   return (
@@ -51,7 +50,7 @@ function NavBar({ elements }: NavBarProps) {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/create-applet-trigger";
+              window.location.href = "/create-applet";
             }}
           >
             {translate("nav", "create")}

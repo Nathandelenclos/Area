@@ -1,19 +1,17 @@
-import React from "react";
-
 export type AppletButtonProps = {
   title: string;
   color: string;
-  onPress: () => void;
+  onClick: () => void;
 };
 
 export default function AppletButton({
   title,
   color,
-  onPress,
+  onClick,
 }: AppletButtonProps) {
   return (
     <div
-      onClick={onPress}
+      onClick={onClick}
       className="flex w-full rounded-lg h-[100px] items-center justify-center mt-5 cursor-pointer"
       style={{ backgroundColor: color }}
     >

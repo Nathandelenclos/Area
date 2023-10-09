@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import SignInForms from "@components/SignInForms";
 import AuthViewContainer from "@components/AuthViewContainer";
 import OAuthButtons from "@components/OAuthButtons";
@@ -14,9 +13,8 @@ export default function SignIn() {
   const login = async (email: string, password: string) => {
     const data = await AuthServices.login(email, password);
     if (data.status === 200) {
-      console.log(data);
       setUser(new UserObject(data.data));
-      navigate("/create-applet-trigger");
+      navigate("/applets");
     }
   };
 

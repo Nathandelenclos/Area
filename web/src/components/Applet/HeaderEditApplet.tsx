@@ -8,9 +8,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { AppletObject } from "@src/objects/AppletObject";
 
 export type HeaderEditAppletProps = {
-  applet: any;
+  applet: AppletObject;
 };
 
 type ActionIcon = {
@@ -19,41 +20,41 @@ type ActionIcon = {
   onPress: () => void;
 };
 
-export default function HeaderEditApplet({ applet }: HeaderEditAppletProps) {
-  const [actionIcons, setActionIcons] = React.useState<ActionIcon[]>([
-    {
-      id: 1,
-      icon: faPause,
-      onPress: () => console.log("Pause"),
-    },
-    {
-      id: 2,
-      icon: faPenToSquare,
-      onPress: () => console.log("Edit"),
-    },
-    {
-      id: 3,
-      icon: faStar,
-      onPress: () => console.log("Favorite"),
-    },
-    {
-      id: 4,
-      icon: faClone,
-      onPress: () => console.log("Clone"),
-    },
-    {
-      id: 5,
-      icon: faTrashCan,
-      onPress: () => console.log("Delete"),
-    },
-  ]);
+const actionIcons: ActionIcon[] = [
+  {
+    id: 1,
+    icon: faPause,
+    onPress: () => console.log("Pause"),
+  },
+  {
+    id: 2,
+    icon: faPenToSquare,
+    onPress: () => console.log("Edit"),
+  },
+  {
+    id: 3,
+    icon: faStar,
+    onPress: () => console.log("Favorite"),
+  },
+  {
+    id: 4,
+    icon: faClone,
+    onPress: () => console.log("Clone"),
+  },
+  {
+    id: 5,
+    icon: faTrashCan,
+    onPress: () => console.log("Delete"),
+  },
+];
 
+export default function HeaderEditApplet({ applet }: HeaderEditAppletProps) {
   return (
     <div
       className="w-full h-1/6 flex flex-row items-center justify-between px-5"
-      style={{ backgroundColor: applet.color }}
+      style={{ backgroundColor: "#7A73E7" }}
     >
-      <p className="text-white text-3xl font-bold p-3">{applet.title}</p>
+      <p className="text-white text-3xl font-bold p-3">{applet.name}</p>
       <div className="min-w-fit">
         {actionIcons.map((icon) => (
           <FontAwesomeIcon
