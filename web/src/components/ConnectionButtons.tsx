@@ -1,7 +1,6 @@
 import React from "react";
 import MainButton from "@components/MainButton";
 import AppContext from "@src/context/AppContextProvider";
-import { navigate } from "@src/utils";
 
 type ConnectionButtonsProps = {
   NavigateToSignIn?: () => void;
@@ -10,10 +9,10 @@ type ConnectionButtonsProps = {
 
 export default function ConnectionButtons({
   NavigateToSignIn = () => {
-    navigate("sign-in");
+    console.log("sign-in");
   },
   NavigateToSignUp = () => {
-    navigate("sign-up");
+    console.log("sign-up");
   },
 }: ConnectionButtonsProps) {
   const { translate } = AppContext();

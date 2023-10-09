@@ -17,7 +17,7 @@ export default function AuthViewContainer({
         alt="background"
         className="w-full h-screen object-cover z-0"
       />
-      <div className="bg-white rounded-3xl absolute h-auto w-3/12 z-10">
+      <div className="bg-white rounded-3xl absolute h-auto w-10/12 md:w-8/12 lg:w-3/12 z-10">
         <h1 className="text-4xl font-bold my-10 text-center">
           {ContainerTitle}
         </h1>

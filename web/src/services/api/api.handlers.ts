@@ -2,6 +2,10 @@ import { toast } from "react-toastify";
 
 const defaultApiHandler = {
   401: (data: any) => {
+    toast(data?.message, {
+      type: "error",
+      autoClose: 4000,
+    });
     console.log("[API INVOKE]: 401: ", data?.detail);
   },
 

@@ -8,7 +8,7 @@ type IApiInvokeProps = {
 
   body?: any;
   authToken?: string;
-  handlers?: any; // As follow {200: () => {}, 404: () => {}, ...}
+  handlers?: any;
 };
 
 export type IApiInvokeResponse = {
@@ -101,7 +101,6 @@ type ApiPostProps = {
  * @returns {Promise} with the response object
  */
 function ApiPost(props: ApiPostProps): Promise<Response> {
-  console.log("la", `${API_URL}${props.endpoint}`);
   return fetch(`${API_URL}${props.endpoint}`, {
     method: "POST",
     headers: {
