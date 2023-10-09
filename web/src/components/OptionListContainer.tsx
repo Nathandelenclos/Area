@@ -1,4 +1,3 @@
-import React from "react";
 import AppletCreationButtons from "./AppletCreationButtons";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 
@@ -6,35 +5,41 @@ type AppletServiceStruct = {
   id: number;
   title: string;
   logo?: IconName;
+  isClicked: boolean;
 };
 
 type OptionListContainerProps = {
   ContainerTitle: string;
-  childrens?: AppletServiceStruct[];
-  inputField?: React.ReactNode;
+  children?: AppletServiceStruct[];
+  onListObjectClick: (id: number) => void;
 };
 
-function AppletList({ childs }: { childs: AppletServiceStruct[] }) {
+type AppleListProps = {
+  childs: AppletServiceStruct[];
+  onListObjectClick: (id: number) => void;
+};
+
+function AppletList({ childs, onListObjectClick }: AppleListProps) {
   return (
     <div>
-      {childs.map((child) =>
-        child.logo ? (
-          <AppletCreationButtons
-            ContainerTitle={child.title}
-            Icon={child.logo}
-          />
-        ) : (
-          <AppletCreationButtons ContainerTitle={child.title} />
-        ),
-      )}
+      {childs.map((child, index) => (
+        <AppletCreationButtons
+          key={index}
+          icon={child?.logo ?? "cloud"}
+          isSelected={child.isClicked}
+          onClick={onListObjectClick}
+          title={child.title}
+          id={child.id}
+        />
+      ))}
     </div>
   );
 }
 
 export default function OptionListContainer({
   ContainerTitle,
-  childrens,
-  inputField,
+  children,
+  onListObjectClick,
 }: OptionListContainerProps) {
   return (
     <div className="w-full mx-10 flex flex-col">
@@ -42,7 +47,10 @@ export default function OptionListContainer({
         {ContainerTitle}
       </h1>
       <div className="overflow-y-scroll">
-        {inputField ? inputField : <AppletList childs={childrens ?? []} />}
+        <AppletList
+          childs={children ?? []}
+          onListObjectClick={onListObjectClick}
+        />
       </div>
     </div>
   );

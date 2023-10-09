@@ -1,46 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
-import { navigate } from "@src/utils";
 
 type SignInFormsProps = {
-  SignIn?: (email: string, password: string) => void;
-  RecoverPassword?: () => void;
+  onSignIn?: (email: string, password: string) => void;
+  onRecoverPassword?: () => void;
 };
 
 function SignInForms({
-  SignIn = (email, password) => {
-    console.log(email, password);
-    navigate("create-applet");
-  },
-  RecoverPassword = () => {
-    navigate("recover-password");
-  },
+  onSignIn = Function,
+  onRecoverPassword = Function,
 }: SignInFormsProps) {
-  const [Email, setEmail] = React.useState("");
-  const [Password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
   const { translate } = AppContext();
+
+  useEffect(() => {
+    addEventListener("keydown", onEnterPressed);
+    return () => {
+      removeEventListener("keydown", onEnterPressed);
+    };
+  });
+
+  const onEnterPressed = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      onSignIn(email, password);
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center items-center mb-5">
       <AuthInput
         placeholder={translate("login", "email")}
-        value={Email}
+        value={email}
         setValue={setEmail}
         type={"email"}
       />
       <AuthInput
         placeholder={translate("login", "password")}
-        value={Password}
+        value={password}
         setValue={setPassword}
         type={"password"}
       />
       <MainButton
         title={translate("login", "sign-in")}
-        onPress={() => SignIn(Email, Password)}
+        onPress={() => onSignIn(email, password)}
       />
-      <p onClick={RecoverPassword} className="text-[#7A73E7] cursor-pointer">
+      <p onClick={onRecoverPassword} className="text-[#7A73E7] cursor-pointer">
         {translate("login", "recoverPassword")}
       </p>
     </div>
