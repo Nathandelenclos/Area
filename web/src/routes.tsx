@@ -8,6 +8,7 @@ import RecoverPassword from "@pages/Auth/RecoverPassword";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
+import MyApplet from "@pages/MyApplet";
 
 export const Routes: Route[] = [
   {
@@ -33,6 +34,12 @@ export const Routes: Route[] = [
     path: "/sign-in/recover-password",
     middleware: [],
     element: <RecoverPassword />,
+  },
+  {
+    name: "applets",
+    path: "/applets",
+    middleware: [],
+    element: <MyApplet />,
   },
   {
     name: "create-applet-trigger",
@@ -81,3 +88,4 @@ export type RouteNames =
   | "recover-password"
   | "create-applet-trigger"
   | "create-applet-reaction";
+  | "applets";
