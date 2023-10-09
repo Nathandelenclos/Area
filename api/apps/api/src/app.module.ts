@@ -85,6 +85,26 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
       'DISCORD_SERVICE',
       MicroServiceProxy.microServiceQueue.DISCORD_SERVICE,
     ),
+    MicroServiceInit.init(
+      'SPOTIFY_SERVICE',
+      MicroServiceProxy.microServiceQueue.SPOTIFY_SERVICE,
+    ),
+    MicroServiceInit.init(
+      'INSTAGRAM_SERVICE',
+      MicroServiceProxy.microServiceQueue.INSTAGRAM_SERVICE,
+    ),
+    MicroServiceInit.init(
+      'GMAIL_SERVICE',
+      MicroServiceProxy.microServiceQueue.GMAIL_SERVICE,
+    ),
+    MicroServiceInit.init(
+      'YOUTUBE_SERVICE',
+      MicroServiceProxy.microServiceQueue.YOUTUBE_SERVICE,
+    ),
+    MicroServiceInit.init(
+      'GOOGLE_DRIVE_SERVICE',
+      MicroServiceProxy.microServiceQueue.GOOGLE_DRIVE_SERVICE,
+    ),
   ],
 })
 export class AppModule {}

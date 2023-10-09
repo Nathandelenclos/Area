@@ -6,8 +6,12 @@ import { HttpStatus } from '@nestjs/common';
 class MicroServiceProxy {
   static microServiceQueue = {
     AUTH_SERVICE: 'auth_queue',
-    CRON_SERVICE: 'cron_queue',
     DISCORD_SERVICE: 'discord_queue',
+    SPOTIFY_SERVICE: 'spotify_queue',
+    INSTAGRAM_SERVICE: 'instagram_queue',
+    GMAIL_SERVICE: 'gmail_queue',
+    YOUTUBE_SERVICE: 'youtube_queue',
+    GOOGLE_DRIVE_SERVICE: 'google_drive_queue',
   };
 
   /**

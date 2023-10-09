@@ -77,3 +77,106 @@ services:
       - mysql
       - rabbitmq
     restart: always
+
+  spotify:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spotify
+    hostname: spotify
+    volumes:
+      - ./:/app
+    environment:
+      - MICROSERVICE=spotify
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  instagram:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: instagram
+    hostname: instagram
+    volumes:
+      - ./:/app
+    environment:
+      - MICROSERVICE=instagram
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  gmail:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gmail
+    hostname: gmail
+    volumes:
+      - ./:/app
+    environment:
+      - MICROSERVICE=gmail
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  youtube:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: youtube
+    hostname: youtube
+    volumes:
+      - ./:/app
+    environment:
+      - MICROSERVICE=youtube
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  google_drive:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: google_drive
+    hostname: google_drive
+    volumes:
+      - ./:/app
+    environment:
+      - MICROSERVICE=google_drive
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
+  queue:
+    image: node:18
+    container_name: queue
+    hostname: queue
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    env_file:
+      - .env.docker
+    command: "npx ts-node --project tsconfig.json ./script/cron.ts"
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
