@@ -14,7 +14,4 @@ jobs:
           username: ${{ vars.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY_DEPLOY }}
           script: |
-            cd /home/nathan/area
-            git pull
-            docker compose up -d --build
-            docker image prune -a
+            pwd
