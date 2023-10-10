@@ -1,6 +1,10 @@
 import { ApiInvoke } from '@services/API/api.invoke';
 
 class ServicesService {
+  /**
+   * Get all services
+   * @param token - User token
+   */
   getServices(token: string) {
     return ApiInvoke({
       endpoint: '/services',
@@ -10,6 +14,11 @@ class ServicesService {
     });
   }
 
+  /**
+   * Get service by id
+   * @param token - User token
+   * @param serviceId - Service id
+   */
   getService(token: string, serviceId: string) {
     return ApiInvoke({
       endpoint: `/services/${serviceId}`,
@@ -19,6 +28,11 @@ class ServicesService {
     });
   }
 
+  /**
+   * Get service actions
+   * @param token - User token
+   * @param serviceId - Service id
+   */
   getActions(token: string, serviceId: string) {
     return ApiInvoke({
       endpoint: `/services/${serviceId}/actions`,
@@ -28,6 +42,11 @@ class ServicesService {
     });
   }
 
+  /**
+   * Get service reactions
+   * @param token - User token
+   * @param serviceId - Service id
+   */
   getReactions(token: string, serviceId: string) {
     return ApiInvoke({
       endpoint: `/services/${serviceId}/reactions`,

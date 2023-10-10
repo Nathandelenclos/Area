@@ -2,6 +2,10 @@ import { ApiInvoke } from '@services/API/api.invoke';
 import { IApplet } from '@interfaces/applet.interface';
 
 class AppletService {
+  /**
+   * Get all applets
+   * @param token - User token
+   */
   getMyApplets(token: string) {
     return ApiInvoke({
       endpoint: '/auth/me',
@@ -11,6 +15,11 @@ class AppletService {
     });
   }
 
+  /**
+   * Create applet
+   * @param token - User token
+   * @param data - Applet data
+   */
   createApplet(token: string, data: IApplet) {
     return ApiInvoke({
       endpoint: '/applets',
@@ -21,6 +30,11 @@ class AppletService {
     });
   }
 
+  /**
+   * Update applet
+   * @param token - User token
+   * @param appletId - Applet id
+   */
   getApplet(token: string, appletId: number) {
     return ApiInvoke({
       endpoint: `/applets/${appletId}`,
@@ -30,6 +44,11 @@ class AppletService {
     });
   }
 
+  /**
+   * Update applet
+   * @param token - User token
+   * @param appletId - Applet id
+   */
   async deleteApplet(token: string, appletId: number) {
     const data = ApiInvoke({
       endpoint: `/applets/${appletId}`,
