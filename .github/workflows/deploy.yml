@@ -12,7 +12,7 @@ jobs:
         with:
           host: ${{ vars.VM_HOST }}
           username: ${{ vars.VM_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_DEPLOY }}
           script: |
             cd /home/nathan/area
             git pull
