@@ -8,7 +8,6 @@ import {
 } from '@app/common/applets/applet.service';
 import {
   NewUserDto,
-  NewUserOAuthDto,
   UserCredentialsDto,
   UserOAuthCredentialsDto,
 } from '@app/common/users/user.dto';
@@ -30,27 +29,13 @@ export class AuthService {
    * @returns Promise<MicroServiceResponse> object
    */
   async register(data: NewUserDto): Promise<MicroServiceResponse> {
-    if (data.name == null || data.email == null || data.password == null) {
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
-      });
-    }
-
-    return await this.userService.create(data);
-  }
-
-  /**
-   * Register a new user with OAuth
-   * @param data NewUserOAuth
-   * @returns Promise<MicroServiceResponse> object
-   */
-  async oAuth(data: NewUserOAuthDto): Promise<MicroServiceResponse> {
     if (
       data.name == null ||
       data.email == null ||
-      data.provider == null ||
-      data.token == null
+      data.password == null ||
+      data.password.length == 0 ||
+      data.email.length == 0 ||
+      data.name.length == 0
     ) {
       return new MicroServiceResponse({
         code: HttpStatus.BAD_REQUEST,
@@ -58,7 +43,7 @@ export class AuthService {
       });
     }
 
-    return await this.userService.createOAuth(data);
+    return await this.userService.create(data);
   }
 
   /**
@@ -95,19 +80,33 @@ export class AuthService {
   async signOAuth(
     data: UserOAuthCredentialsDto,
   ): Promise<MicroServiceResponse> {
-    if (data.email == null || data.provider == null || data.token == null)
+    if (
+      data.email == null ||
+      data.provider == null ||
+      data.token == null ||
+      data.id == null
+    )
       return new MicroServiceResponse({
         code: HttpStatus.BAD_REQUEST,
         message: 'Missing parameters',
       });
 
-    const user = await this.userService.findOne({ email: data.email });
-    if (!user) {
+    const hashedId: string = MD5(data.id).toString();
+    const userByEmail = await this.userService.findOne({
+      email: data.email,
+    });
+    const userById = await this.userService.findOne({
+      provider_id: hashedId,
+    });
+    if (!userByEmail && !userById)
+      return await this.userService.createOAuth(data);
+    if ((userByEmail && !userById) || (!userByEmail && userById))
       return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Invalid Credentials',
       });
-    }
+
+    const user = userByEmail ? userByEmail : userById;
 
     if (OAuthServices[data.provider] == undefined)
       return new MicroServiceResponse({
@@ -121,11 +120,7 @@ export class AuthService {
         message: 'No OAuth provider linked to this email',
       });
 
-    const bytes = AES.decrypt(
-      user[OAuthServices[data.provider]],
-      this.configService.get('AES_SECRET'),
-    );
-    const isMatch = bytes.toString(enc.Utf8) == data.token;
+    const isMatch = user.provider_id == hashedId;
     if (!isMatch) {
       return new MicroServiceResponse({
         code: HttpStatus.UNAUTHORIZED,
@@ -136,6 +131,7 @@ export class AuthService {
     const payload = { id: user.id, email: data.email };
     return new MicroServiceResponse({
       data: {
+        id: user.id,
         email: user.email,
         name: user.name,
         access_token: this.jwtService.sign(payload),
