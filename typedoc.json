@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "extends": ["./api/typedoc.json"],
+  "extends": ["./api/typedoc.json", "./mobile/typedoc.json", "./web/typedoc.json"],
   "exclude": ["**/node_modules/**", "**/dist/**", "**/test/**"],
   "plugin": ["typedoc-theme-hierarchy", "typedoc-umlclass"],
   "umlClassDiagram": {
