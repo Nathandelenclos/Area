@@ -1,11 +1,11 @@
 import React, { JSX, useEffect, useState } from 'react';
 import {
-  Pressable,
   DimensionValue,
+  Modal,
+  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
-  Modal,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -20,6 +20,11 @@ import {
   faToggleOn,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import appletService from '@services/applet.service';
+import UserCtx from '@contexts/user.context';
+import { IApplet } from '@interfaces/applet.interface';
+import { IReaction } from '@interfaces/reaction.interface';
+import { IAction } from '@interfaces/action.interface';
 
 export type AppletBubbleProps = {
   appletTitle: string;
@@ -117,22 +122,73 @@ export default function InfoApplet({
   navigation: any;
 }): JSX.Element {
   const { color, translate } = AppContext();
+  const { user } = UserCtx();
+  if (!user) {
+    return <></>;
+  }
   const appletDescription = 'Send an email when a Elon Musk posts a new tweet';
   const [modalVisible, setModalVisible] = useState(false);
   const [id, setId] = useState(0);
+  const [applet, setApplet] = useState<IApplet>({
+    reaction: {
+      name: 'Reaction name',
+      description: 'Reaction description',
+      id: 1,
+      is_available: false,
+      serviceId: 1,
+    },
+    config: '',
+    is_active: false,
+    name: 'Applet name',
+    description: 'Applet description',
+    action: {
+      name: 'Action name',
+      description: 'Action description',
+      id: 1,
+      is_available: false,
+      serviceId: 1,
+    },
+  });
   let isdarkmode = false;
 
   if (color.mode === 'black') {
     isdarkmode = true;
   }
 
-  useEffect(() => {
-    console.log(route.params.id);
-    setId(route.params.id);
-  }, []);
+  const getInfoApplet = async (id: number) => {
+    const data = await appletService.getApplet(user.access_token, id);
+    setApplet({
+      name: data.data.name,
+      description: data.data.description,
+      is_active: data.data.is_active,
+      reaction: data.data.reaction,
+      action: data.data.action,
+      config: data.data.config,
+    });
+    setId(data.data.id);
+  };
 
-  const handleDuplicatePress = () => {
-    console.log('Duplicate button pressed');
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      if (route.params?.id || route.params?.id !== 0) {
+        getInfoApplet(route.params.id);
+      }
+    });
+  }, [navigation]);
+
+  const handleDuplicatePress = async () => {
+    const data = await appletService.createApplet(user.access_token, {
+      name: applet.name,
+      action: applet.action,
+      reaction: applet.reaction,
+      description: applet.description,
+      config: applet.config,
+      is_active: applet.is_active,
+    });
+    navigation.navigate('Mes Applets', {
+      screen: 'MyApplets',
+      id: data.data.id,
+    });
   };
 
   const handleFavoritePress = () => {
@@ -148,35 +204,12 @@ export default function InfoApplet({
   };
 
   const handleDeletePress = () => {
-    console.log('Delete button pressed');
+    if (id === 0) {
+      return;
+    }
+    appletService.deleteApplet(user.access_token, id);
+    navigation.navigate('Mes Applets', { screen: 'MyApplets' });
   };
-
-  const [appletList, setappletList] = React.useState<AppletBubbleProps[]>([
-    {
-      appletTitle: 'ReactionInterface #1',
-      description: ['Send an email to “simon.riembault@epitech.eu”'],
-      color: color.mainColor,
-      size: 'reaction',
-    },
-    {
-      appletTitle: 'ReactionInterface #2',
-      description: ['Open Twitter on my phone'],
-      color: color.mainColor,
-      size: 'reaction',
-    },
-    {
-      appletTitle: 'ReactionInterface #3',
-      description: ["J'aime le gros crane de Simon"],
-      color: color.mainColor,
-      size: 'reaction',
-    },
-    {
-      appletTitle: 'ReactionInterface #4',
-      description: ["J'aime le crane de Frankeinstein #Noa"],
-      color: color.mainColor,
-      size: 'reaction',
-    },
-  ]);
 
   const [settingsList, setSettingsList] = React.useState<SettingsProps[]>([
     {
@@ -212,11 +245,6 @@ export default function InfoApplet({
       end: true,
     },
   ]);
-
-  if (!id) {
-    //is loading
-    return <></>;
-  }
 
   return (
     <SafeAreaView
@@ -271,7 +299,7 @@ export default function InfoApplet({
             fontSize: 18,
           }}
         >
-          {appletDescription}
+          {applet.description || 'No description'}
         </Text>
         <View
           style={{
@@ -414,8 +442,8 @@ export default function InfoApplet({
           size="informations"
         />
         <AppletBubble
-          appletTitle="Applet informations:"
-          description={['New tweet by: Elon Musk']}
+          appletTitle={applet.action.name || 'No Name'}
+          description={[applet.action.description || 'No description']}
           color={color.mainColor}
           size="action"
         />
@@ -439,13 +467,13 @@ export default function InfoApplet({
             paddingTop: 21,
           }}
         >
-          {appletList.map((applet, i) => (
+          {[applet.reaction].map((applet, i) => (
             <AppletBubble
               key={i}
-              appletTitle={applet.appletTitle}
-              description={applet.description}
-              color={applet.color}
-              size={applet.size}
+              appletTitle={applet.name}
+              description={[applet.description]}
+              color={color.mainColor}
+              size={'reaction'}
             />
           ))}
         </ScrollView>

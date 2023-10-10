@@ -25,6 +25,7 @@ const fr: LanguageKeys = {
   select_service: 'Selectionnez un service',
   select_action: 'Selectionnez une action',
   select_reaction: 'Selectionnez une réaction',
+  save: 'Sauvegarder',
 };
 
 const en: LanguageKeys = {
@@ -52,6 +53,7 @@ const en: LanguageKeys = {
   select_service: 'Select a service',
   select_action: 'Select an action',
   select_reaction: 'Select a reaction',
+  save: 'Save',
 };
 
 type LanguageList = {

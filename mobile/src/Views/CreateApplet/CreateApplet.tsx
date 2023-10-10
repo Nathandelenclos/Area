@@ -1,5 +1,6 @@
 import React, { JSX } from 'react';
 import {
+  LogBox,
   SafeAreaView,
   ScrollView,
   Text,
@@ -9,6 +10,9 @@ import {
 import AppContext from '@contexts/app.context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IAction } from '@interfaces/action.interface';
+import appletService from '@services/applet.service';
+import UserCtx from '@contexts/user.context';
+import { AuthTextInput } from '@components/Auth';
 
 export type BoxType = 'action' | 'reaction';
 
@@ -19,7 +23,12 @@ export type BoxCreateAppletProps = {
   handleOnPressMinus: (idToDelete: number) => void;
   text: string;
   type: BoxType;
+  extended?: boolean;
 };
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 const BoxCreateApplet = ({
   colorMode,
@@ -28,6 +37,7 @@ const BoxCreateApplet = ({
   handleOnPressMinus,
   text,
   type,
+  extended = true,
 }: BoxCreateAppletProps) => {
   let color = '';
   let colorText = '';
@@ -118,14 +128,18 @@ const BoxCreateApplet = ({
           )}
         </View>
       </TouchableOpacity>
-      <View
-        style={{
-          backgroundColor: '#D9D9D9',
-          width: '2%',
-          height: 24,
-          marginLeft: '49%',
-        }}
-      />
+      {extended ? (
+        <View
+          style={{
+            backgroundColor: '#D9D9D9',
+            width: '2%',
+            height: 24,
+            marginLeft: '49%',
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
@@ -136,6 +150,10 @@ export default function CreateApplet({
   navigation: any;
 }): JSX.Element {
   const { color, translate } = AppContext();
+  const { user } = UserCtx();
+  if (!user) {
+    return <></>;
+  }
   const [action, setAction] = React.useState<IAction>({
     id: 0,
     name: '',
@@ -144,6 +162,8 @@ export default function CreateApplet({
     serviceId: 0,
   });
   const [reactions, setReactions] = React.useState<IAction[]>([]);
+  const [appletName, setAppletName] = React.useState<string>('');
+  const [appletDescription, setAppletDescription] = React.useState<string>('');
 
   const handleAppletPress = () => {
     navigation.navigate('ListServices', {
@@ -162,6 +182,21 @@ export default function CreateApplet({
       setReactions: setReactions,
       type: 'reaction',
     });
+  };
+
+  const handleSave = () => {
+    appletService.createApplet(user.access_token, {
+      name: appletName,
+      action,
+      reaction: reactions[0],
+      description: appletDescription,
+      config: '',
+      is_active: true,
+    });
+    navigation.navigate('Mes Applets', { screen: 'MyApplets' });
+    setAppletName('');
+    setAppletDescription('');
+    setReactions([]);
   };
 
   return (
@@ -211,37 +246,66 @@ export default function CreateApplet({
             type={'reaction'}
             text={reaction.name}
             handleOnPressMinus={handleAppletPressMinus}
+            extended={false}
           />
         ))}
-        <TouchableOpacity
-          onPress={handleAppletPressPlus}
-          hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <View
+        {reactions.length < 1 ? (
+          <TouchableOpacity
+            onPress={handleAppletPressPlus}
+            hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
             style={{
-              backgroundColor: '#D9D9D9',
-              width: 30,
-              height: 30,
-              borderRadius: 15,
-              top: -3,
+              flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
-            <FontAwesomeIcon
-              icon={'plus'}
-              size={20}
+            <View
               style={{
-                color: 'black',
+                backgroundColor: '#D9D9D9',
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                top: -3,
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
+            >
+              <FontAwesomeIcon
+                icon={'plus'}
+                size={20}
+                style={{
+                  color: 'black',
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <View
+            style={{
+              padding: 20,
+            }}
+          >
+            <AuthTextInput setText={setAppletName} placeholder={'Name'} />
+            <AuthTextInput
+              setText={setAppletDescription}
+              placeholder={'Description'}
             />
+            <TouchableOpacity
+              style={{
+                marginTop: '6%',
+                marginLeft: '6%',
+                marginRight: '6%',
+                marginBottom: '6%',
+                backgroundColor: color.mainColor,
+                padding: 20,
+                borderRadius: 20,
+              }}
+              onPress={handleSave}
+            >
+              <Text>{translate('save')}</Text>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
