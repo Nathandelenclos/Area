@@ -19,6 +19,9 @@ const fr: LanguageKeys = {
   send_email: "Envoyer l'email",
   description: 'Description',
   no_applet: "Vous n'avez pas d'applet. Cliquez ici pour en créer un",
+  home_title: 'Recommendations du jour',
+  create_applet_title: "Création d'Applet",
+  info_applet_title: "Infos sur l'Applet",
 };
 
 const en: LanguageKeys = {
@@ -40,6 +43,9 @@ const en: LanguageKeys = {
   send_email: 'Send email',
   description: 'Description',
   no_applet: 'You have no applets. Click here to create one',
+  home_title: 'Recommendations of the day',
+  create_applet_title: 'Applet creation',
+  info_applet_title: 'Applet information',
 };
 
 type LanguageList = {

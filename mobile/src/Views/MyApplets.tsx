@@ -29,7 +29,7 @@ export default function MyAppletsView(): React.JSX.Element {
       title: 'Applet #2',
       description: 'Spotify -> Drive\nLike une musique -> post sur drive',
       backgroundColor: '#73E77B',
-      titleColor: 'black',
+      titleColor: 'white',
       active: false,
     },
     {

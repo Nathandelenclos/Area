@@ -1,68 +1,74 @@
 import React, { JSX } from 'react';
-import { DimensionValue, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import AppContext from '@contexts/app.context';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Title from '@components/HomeComponents/Title';
 import AppletTile, { AppletProps } from '@components/HomeComponents/AppletTile';
 
-export default function Home(): JSX.Element {
+export default function Home({ navigation }: { navigation: any }): JSX.Element {
   const { color, translate } = AppContext();
 
   const handleAppletPress = () => {
+    navigation.navigate('InfoApplet', { id: 1 });
     console.log('Applet pressed');
   };
 
   const appletList: AppletProps[] = [
     {
-      appletTitle: "Applet",
+      appletTitle: 'Applet',
       id: 1,
-      description: "je fais une belle description hidididbd",
-      color: "red",
-      size: "big",
+      description: 'je fais une belle description hidididbd',
+      color: '#7a73e7',
+      size: 'big',
       handleOnPress: handleAppletPress,
-    }, {
-      appletTitle: "Applet",
+    },
+    {
+      appletTitle: 'Applet',
       id: 2,
-      description: "je fais une belle description hidididbd",
-      color: "blue",
-      size: "small",
+      description: 'je fais une belle description hidididbd',
+      color: '#73E77B',
+      size: 'small',
       handleOnPress: handleAppletPress,
-    }, {
-      appletTitle: "Applet",
+    },
+    {
+      appletTitle: 'Applet',
       id: 3,
-      description: "je fais une belle description hidididbd",
-      color: "green",
-      size: "small",
+      description: 'je fais une belle description hidididbd',
+      color: '#E77B73',
+      size: 'small',
       handleOnPress: handleAppletPress,
-    }, {
-      appletTitle: "Applet",
+    },
+    {
+      appletTitle: 'Applet',
       id: 4,
-      description: "je fais une belle description hidididbd",
-      color: "purple",
-      size: "sall",
+      description: 'je fais une belle description hidididbd',
+      color: '#7a73e7',
+      size: 'sall',
       handleOnPress: handleAppletPress,
-    }, {
-      appletTitle: "Applet",
+    },
+    {
+      appletTitle: 'Applet',
       id: 5,
-      description: "je fais une belle description hidididbd",
-      color: "cyan",
-      size: "sall",
+      description: 'je fais une belle description hidididbd',
+      color: '#73E77B',
+      size: 'sall',
       handleOnPress: handleAppletPress,
-    }, {
-      appletTitle: "Applet",
+    },
+    {
+      appletTitle: 'Applet',
       id: 6,
-      description: "je fais une belle description hidididbd",
-      color: "yellow",
-      size: "sall",
+      description: 'je fais une belle description hidididbd',
+      color: '#E77B73',
+      size: 'sall',
       handleOnPress: handleAppletPress,
-    }, {
-      appletTitle: "Applet",
+    },
+    {
+      appletTitle: 'Applet',
       id: 7,
-      description: "je fais une belle description hidididbd",
-      color: "purple",
-      size: "sall",
+      description: 'je fais une belle description hidididbd',
+      color: '#7a73e7',
+      size: 'sall',
       handleOnPress: handleAppletPress,
-    }
+    },
   ];
 
   return (
@@ -82,21 +88,23 @@ export default function Home(): JSX.Element {
           marginBottom: '8%',
         }}
       >
-        <Title text={translate('home_title')} textColor={color.text}/>
+        <Title text={translate('home_title')} textColor={color.text} />
       </View>
-      <ScrollView contentContainerStyle={{
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-      }}>
+      <ScrollView
+        contentContainerStyle={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}
+      >
         {appletList.map((applet, i) => (
           <AppletTile
-            key= {i}
-            appletTitle= {applet.appletTitle}
-            id= {applet.id}
-            description= {applet.description}
-            color= {applet.color}
-            size= {applet.size}
-            handleOnPress= {applet.handleOnPress}
+            key={i}
+            appletTitle={applet.appletTitle}
+            id={applet.id}
+            description={applet.description}
+            color={applet.color}
+            size={applet.size}
+            handleOnPress={applet.handleOnPress}
           />
         ))}
       </ScrollView>

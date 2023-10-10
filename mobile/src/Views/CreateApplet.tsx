@@ -1,52 +1,64 @@
 import React, { JSX } from 'react';
-import { DimensionValue, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AppContext from '@contexts/app.context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Title from '@components/HomeComponents/Title';
-import AppletTile from '@components/HomeComponents/AppletTile';
 
 export type BoxCreateAppletProps = {
-  colormode: string,
-  id: number,
-  handleOnPress: () => void,
-  handleOnPressMinus: (idToDelete: number) => void,
-}
-  
-const BoxCreateApplet = ({ colormode, id, handleOnPress, handleOnPressMinus }: BoxCreateAppletProps) => {
-  let color: string = '';
-  let colortext: string = '';
-  let text: string = '';
-  let isdarkmode: boolean = false;
-  let isid1: boolean = false;
+  colormode: string;
+  id: number;
+  handleOnPress: () => void;
+  handleOnPressMinus: (idToDelete: number) => void;
+};
+
+const BoxCreateApplet = ({
+  colormode,
+  id,
+  handleOnPress,
+  handleOnPressMinus,
+}: BoxCreateAppletProps) => {
+  let color = '';
+  let colortext = '';
+  let text = '';
+  let isdarkmode = false;
+  let isid1 = false;
 
   if (id === 1) {
     isid1 = true;
-      if (colormode === 'black') {
-        isdarkmode = true;
-        color = 'white';
-        colortext = 'black';
-      } else {
-        color = 'black';
-        colortext = 'white';
-      }
-      text = 'If This';
-  } else {
-      if (colormode === 'white') {
-        color = '#6F6F6F';
-      } else {
-        isdarkmode = true;
-        color = '#6F6F6F';
-      }
+    if (colormode === 'black') {
+      isdarkmode = true;
+      color = 'white';
+      colortext = 'black';
+    } else {
+      color = 'black';
       colortext = 'white';
-      text = 'Then That';
+    }
+    text = 'If This';
+  } else {
+    if (colormode === 'white') {
+      color = '#6F6F6F';
+    } else {
+      isdarkmode = true;
+      color = '#6F6F6F';
+    }
+    colortext = 'white';
+    text = 'Then That';
   }
 
   return (
-    <View style={{
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-    }}>
-      <TouchableOpacity onPress={handleOnPress}
+    <View
+      style={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+    >
+      <TouchableOpacity
+        onPress={handleOnPress}
         style={{
           backgroundColor: color,
           borderRadius: 10,
@@ -56,12 +68,12 @@ const BoxCreateApplet = ({ colormode, id, handleOnPress, handleOnPressMinus }: B
           display: 'flex',
         }}
       >
-        <View 
+        <View
           style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100%'
+            height: '100%',
           }}
         >
           <Text
@@ -73,7 +85,7 @@ const BoxCreateApplet = ({ colormode, id, handleOnPress, handleOnPressMinus }: B
           >
             {`${text} #${id}`}
           </Text>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={handleOnPress}
             style={{
               backgroundColor: isdarkmode ? 'black' : 'white',
@@ -97,8 +109,8 @@ const BoxCreateApplet = ({ colormode, id, handleOnPress, handleOnPressMinus }: B
               Add
             </Text>
           </TouchableOpacity>
-          { !isid1 ? (
-            <TouchableOpacity 
+          {!isid1 ? (
+            <TouchableOpacity
               onPress={() => handleOnPressMinus(id)}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               style={{
@@ -116,7 +128,7 @@ const BoxCreateApplet = ({ colormode, id, handleOnPress, handleOnPressMinus }: B
               <FontAwesomeIcon
                 icon={'minus'}
                 size={15}
-                style={{ 
+                style={{
                   color: isdarkmode ? 'white' : 'black',
                 }}
               />
@@ -126,25 +138,29 @@ const BoxCreateApplet = ({ colormode, id, handleOnPress, handleOnPressMinus }: B
           )}
         </View>
       </TouchableOpacity>
-      <View style={{
-        backgroundColor: '#D9D9D9',
-        width: '2%',
-        height: 24,
-        marginLeft: '49%',
-      }} />
+      <View
+        style={{
+          backgroundColor: '#D9D9D9',
+          width: '2%',
+          height: 24,
+          marginLeft: '49%',
+        }}
+      />
     </View>
   );
 };
 
 export default function CreateApplet(): JSX.Element {
   const { color, translate } = AppContext();
-  
+
   const handleAppletPress = () => {
     console.log('Applet pressed');
   };
-  
+
   const handleAppletPressMinus = (idToDelete: number) => {
-    setappletList(prevList => prevList.filter(applet => applet.id !== idToDelete));
+    setappletList((prevList) =>
+      prevList.filter((applet) => applet.id !== idToDelete),
+    );
     console.log('Minus pressed');
   };
 
@@ -157,31 +173,31 @@ export default function CreateApplet(): JSX.Element {
         id: lastId + 1,
         handleOnPress: handleAppletPress,
         handleOnPressMinus: handleAppletPressMinus,
-      }
+      },
     ]);
     console.log('Plus pressed');
   };
-  
-  const [appletList, setappletList] = React.useState<BoxCreateAppletProps[]>(
-    [
-      {
-        colormode: color.mode,
-        id: 1,
-        handleOnPress: handleAppletPress,
-        handleOnPressMinus: handleAppletPressMinus,
-      }, {
-        colormode: color.mode,
-        id: 2,
-        handleOnPress: handleAppletPress,
-        handleOnPressMinus: handleAppletPressMinus,
-      }, {
-        colormode: color.mode,
-        id: 3,
-        handleOnPress: handleAppletPress,
-        handleOnPressMinus: handleAppletPressMinus,
-      },
-    ]
-  );
+
+  const [appletList, setappletList] = React.useState<BoxCreateAppletProps[]>([
+    {
+      colormode: color.mode,
+      id: 1,
+      handleOnPress: handleAppletPress,
+      handleOnPressMinus: handleAppletPressMinus,
+    },
+    {
+      colormode: color.mode,
+      id: 2,
+      handleOnPress: handleAppletPress,
+      handleOnPressMinus: handleAppletPressMinus,
+    },
+    {
+      colormode: color.mode,
+      id: 3,
+      handleOnPress: handleAppletPress,
+      handleOnPressMinus: handleAppletPressMinus,
+    },
+  ]);
 
   return (
     <SafeAreaView
@@ -216,10 +232,10 @@ export default function CreateApplet(): JSX.Element {
         {appletList.map((applet, i) => (
           <BoxCreateApplet
             key={applet.id}
-            colormode= {applet.colormode}
-            id= {applet.id}
-            handleOnPress= {applet.handleOnPress}
-            handleOnPressMinus= {() => applet.handleOnPressMinus(applet.id)}
+            colormode={applet.colormode}
+            id={applet.id}
+            handleOnPress={applet.handleOnPress}
+            handleOnPressMinus={() => applet.handleOnPressMinus(applet.id)}
           />
         ))}
         <TouchableOpacity
@@ -229,21 +245,24 @@ export default function CreateApplet(): JSX.Element {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
-          <View style={{
-            backgroundColor: '#D9D9D9',
-            width: 30,
-            height: 30,
-            borderRadius: 15,
-            top: -3,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: '#D9D9D9',
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              top: -3,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <FontAwesomeIcon
               icon={'plus'}
               size={20}
-              style={{ 
-                color: "black",
+              style={{
+                color: 'black',
               }}
             />
           </View>
