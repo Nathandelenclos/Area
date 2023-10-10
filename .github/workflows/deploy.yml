@@ -16,5 +16,5 @@ jobs:
           script: |
             cd /home/nathan/area
             git pull
-            docker compose up -d --build
-            docker image prune -a
+            cd api && yarn && cd ../web && yarn && cd ../mobile && yarn
+            docker-compose up --build -d && docker image prune -a -f
