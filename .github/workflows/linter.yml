@@ -3,7 +3,6 @@ on:
     branches-ignore:
       - 'ga-ignore-*'
 
-
 jobs:
   web_linter:
     runs-on: ubuntu-latest

@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install 📦
-        run: yarn && cd api && yarn
+        run: yarn && cd api && yarn && cd ../web && yarn && cd ../mobile && yarn
       - name: Install graphviz
         run: sudo apt-get install graphviz
       - name: Build 🏗
