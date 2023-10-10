@@ -18,6 +18,7 @@ export type IApiInvokeResponse = {
 const methods: any = {
   GET: ApiGet,
   POST: ApiPost,
+  DELETE: ApiDelete,
 };
 
 /**
@@ -100,6 +101,22 @@ function ApiPost(props: ApiPostProps): Promise<Response> {
 }
 
 /**
+ * Sends a DELETE request to the API.
+ * @param {ApiPostProps} props
+ * @returns {Promise} with the response object
+ */
+function ApiDelete(props: ApiPostProps): Promise<Response> {
+  return fetch(`${API_URL}${props.endpoint}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${props.authToken}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+/**
  * Handles the response of the API call.
  * @param response The response object
  * @param expectedStatus The expected status code
@@ -121,7 +138,7 @@ async function HandleResponse(
   }
 
   if (!handlers || response.status === expectedStatus) {
-    return { status: response.status, data: resp?.data };
+    return { status: response.status, data: resp?.data || resp };
   }
 
   // Handle non-successful responses with custom handlers

@@ -10,6 +10,8 @@ import { UserProvider } from '@contexts/user.context';
 import DefineNavigator from '@navigators/define.navigator';
 import Toast from 'react-native-toast-message';
 
+console.log('FACEBOOK_APP_ID', FACEBOOK_APP_ID);
+
 library.add(fas);
 library.add(fab);
 library.add(far);

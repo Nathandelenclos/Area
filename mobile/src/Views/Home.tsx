@@ -8,8 +8,7 @@ export default function Home({ navigation }: { navigation: any }): JSX.Element {
   const { color, translate } = AppContext();
 
   const handleAppletPress = () => {
-    navigation.navigate('InfoApplet', { id: 1 });
-    console.log('Applet pressed');
+    navigation.navigate('InfoApplet', { id: 0 });
   };
 
   const appletList: AppletProps[] = [
