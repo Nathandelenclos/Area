@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run eslint
-        run: npx eslint --ext .js,.jsx,.ts,.tsx src
+        run: npx eslint --ext .js,.jsx,.ts,.tsx ./src
 
   api_linter:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run tests
-        run: npx eslint --ext .js,.jsx,.ts,.tsx src
+        run: npx eslint --ext .js,.jsx,.ts,.tsx ./apps ./libs
 
   mobile_linter:
     runs-on: ubuntu-latest
@@ -57,4 +57,4 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run tests
-        run: npx eslint --ext .js,.jsx,.ts,.tsx src
+        run: npx eslint --ext .js,.jsx,.ts,.tsx ./src

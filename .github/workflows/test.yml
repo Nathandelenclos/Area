@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run tests
-        run: npw jest
+        run: npx jest
 
   api_test:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run tests
-        run: npw jest
+        run: npx jest
 
   mobile_test:
     runs-on: ubuntu-latest
@@ -56,4 +56,4 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run tests
-        run: npw jest
+        run: npx jest
