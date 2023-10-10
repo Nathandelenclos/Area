@@ -6,11 +6,30 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Settings from '@views/Settings';
 import AppContext from '@contexts/app.context';
 import MyAppletsView from '@views/MyApplets';
+import CreateApplet from '@views/CreateApplet/CreateApplet';
+import InfoApplet from '@views/InfoApplet';
+import ListServices from '@views/CreateApplet/ListServices';
+import ListActions from '@views/CreateApplet/ListActions';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function HomeNavigator(): JSX.Element {
+function MyAppletNavigator(): JSX.Element {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+      }}
+      initialRouteName={'MyApplets'}
+    >
+      <Stack.Screen name="MyApplets" component={MyAppletsView} />
+      <Stack.Screen name="InfoApplet" component={InfoApplet} />
+    </Stack.Navigator>
+  );
+}
+
+function RecommandationNavigator(): JSX.Element {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -20,6 +39,7 @@ function HomeNavigator(): JSX.Element {
       initialRouteName={'Home'}
     >
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="InfoApplet" component={InfoApplet} />
     </Stack.Navigator>
   );
 }
@@ -34,6 +54,22 @@ function SettingsNavigator(): JSX.Element {
       initialRouteName={'Setting'}
     >
       <Stack.Screen name="Setting" component={Settings} />
+    </Stack.Navigator>
+  );
+}
+
+function CreateAppletNavigator(): JSX.Element {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+      }}
+      initialRouteName={'CreateApplet'}
+    >
+      <Stack.Screen name="CreateApplet" component={CreateApplet} />
+      <Stack.Screen name="ListServices" component={ListServices} />
+      <Stack.Screen name="ListActions" component={ListActions} />
     </Stack.Navigator>
   );
 }
@@ -54,8 +90,9 @@ export default function AppNavigator(): JSX.Element {
         }}
         initialRouteName={'Home1'}
       >
-        <Tab.Screen name="Recommandation" component={HomeNavigator} />
-        <Tab.Screen name="Mes Applets" component={MyAppletsView} />
+        <Tab.Screen name="Recommandation" component={RecommandationNavigator} />
+        <Tab.Screen name="Mes Applets" component={MyAppletNavigator} />
+        <Tab.Screen name="Créer" component={CreateAppletNavigator} />
         <Tab.Screen name="Settings" component={SettingsNavigator} />
       </Tab.Navigator>
     </NavigationContainer>

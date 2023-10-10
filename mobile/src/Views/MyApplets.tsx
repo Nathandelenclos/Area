@@ -1,5 +1,12 @@
-import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  FlatList,
+  LogBox,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AppContext from '@contexts/app.context';
 import Header from '@components/Header';
 import ViewContainer from '@components/ViewContainer';
@@ -10,47 +17,72 @@ import {
   DropDownItemProps,
 } from '@components/Applets';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import appletService from '@services/applet.service';
+import UserCtx from '@contexts/user.context';
+import { Title } from '@components/Title';
 
-export default function MyAppletsView(): React.JSX.Element {
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+export default function MyAppletsView({
+  navigation,
+}: {
+  navigation: any;
+}): React.JSX.Element {
   const { color, translate, appName } = AppContext();
+  const { user } = UserCtx();
   const [filterList, setFilterList] = React.useState<FilterProps[]>([
     { name: 'Active Filter', active: false },
     { name: 'Inactive Filter', active: false },
   ]);
-  const [itemList, setItemList] = React.useState<DropDownItemProps[]>([
-    {
-      title: 'Applet #1',
-      description: 'Youtube -> Gmail\nPost d’une vidéo -> envoi d’un mail',
-      backgroundColor: color.mainColor,
-      titleColor: 'white',
-      active: false,
-    },
-    {
-      title: 'Applet #2',
-      description: 'Spotify -> Drive\nLike une musique -> post sur drive',
-      backgroundColor: '#73E77B',
-      titleColor: 'black',
-      active: false,
-    },
-    {
-      title: 'Applet #3',
-      description:
-        "Outlook -> Text Compare\nMail de marvin -> envoi l'image de text compare par message",
-      backgroundColor: '#E77B73',
-      titleColor: 'white',
-      active: false,
-    },
-  ]);
+  const [itemList, setItemList] = React.useState<DropDownItemProps[]>([]);
 
-  function toggleActive(title: string) {
+  const colors = ['#7a73e7', '#73E77B', '#E77B73', '#73e7d6', '#7e1eb0'];
+  if (!user) {
+    return <></>;
+  }
+  function toggleActive(id: number) {
     const newItemList = itemList.map((item: DropDownItemProps) => {
-      if (item.title === title) {
+      if (item.id === id) {
         item.active = !item.active;
       }
       return item;
     });
     setItemList(newItemList);
   }
+
+  const getMyApplets = async () => {
+    const data = await appletService.getMyApplets(user.access_token);
+    const list: DropDownItemProps[] = [];
+    for (const applet of data.data) {
+      list.push({
+        id: applet.id,
+        title: applet.name,
+        backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+        description: applet.description,
+        titleColor: 'white',
+        active: false,
+      });
+    }
+    setItemList(list);
+  };
+
+  const handleTrashPress = async (item: DropDownItemProps) => {
+    appletService.deleteApplet(user.access_token, item.id);
+    const newList = itemList.filter((i) => i.id !== item.id);
+    setItemList(newList);
+  };
+
+  const handleEyePress = async (item: DropDownItemProps) => {
+    navigation.navigate('InfoApplet', { id: item.id });
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getMyApplets();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <ViewContainer>
@@ -59,7 +91,7 @@ export default function MyAppletsView(): React.JSX.Element {
         filterList={filterList}
         setFilterList={setFilterList}
       />
-      <ScrollView style={{ flex: 1, paddingHorizontal: 10 }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 10, paddingBottom: 50 }}>
         {itemList.length === 0 && (
           <View
             style={{
@@ -91,17 +123,44 @@ export default function MyAppletsView(): React.JSX.Element {
             </Text>
           </View>
         )}
-        {itemList.map((item: DropDownItemProps) => (
-          <DropDownItem
-            key={item.title}
-            title={item.title}
-            description={item.description}
-            backgroundColor={item.backgroundColor}
-            titleColor={item.titleColor}
-            active={item.active}
-            toggleActive={toggleActive}
-          />
-        ))}
+        {itemList
+          .filter((item) => item.active || !filterList[0].active)
+          .filter((item) => !item.active || !filterList[1].active)
+          .map((item, i) => (
+            <DropDownItem key={i} {...item} toggleActive={toggleActive}>
+              <Title
+                title={translate('description')}
+                style={{
+                  alignSelf: 'flex-start',
+                  fontSize: 17,
+                  color: 'black',
+                }}
+              />
+              <Text style={{ fontSize: 15, paddingTop: 10, color: 'gray' }}>
+                {item.description}
+              </Text>
+              <View
+                style={{
+                  justifyContent: 'space-around',
+                  flexDirection: 'row',
+                }}
+              >
+                <TouchableOpacity
+                  style={{ justifyContent: 'center', alignItems: 'center' }}
+                  onPress={() => handleTrashPress(item)}
+                >
+                  <FontAwesomeIcon icon={'trash'} size={20} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{ justifyContent: 'center', alignItems: 'center' }}
+                  onPress={() => handleEyePress(item)}
+                >
+                  <FontAwesomeIcon icon={'eye'} size={20} />
+                </TouchableOpacity>
+              </View>
+            </DropDownItem>
+          ))}
       </ScrollView>
     </ViewContainer>
   );

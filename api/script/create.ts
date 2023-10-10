@@ -10,7 +10,7 @@ const needParams = {
 const args = process.argv.slice(2);
 
 if (needParams[args[0]] === undefined) {
-  console.error('Usage: Action, Reaction, Service');
+  console.error('Usage: Action, ReactionInterface, ServiceInterface');
   process.exit(84);
 }
 if (args.length != needParams[args[0]].length + 1) {

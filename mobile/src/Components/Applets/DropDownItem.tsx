@@ -30,12 +30,14 @@ type DropDownAnimationsValues = {
 };
 
 export type DropDownItemProps = {
+  id: number;
   title: string;
-  description: string;
+  description?: string;
   backgroundColor: ColorValue;
   titleColor: ColorValue;
   active: boolean;
-  toggleActive?: (title: string) => void;
+  toggleActive?: (id: number) => void;
+  children?: React.ReactNode;
 };
 
 function useDropDownAnimations(): DropDownAnimationsValues {
@@ -101,12 +103,14 @@ function useDropDownAnimations(): DropDownAnimationsValues {
 }
 
 export default function DropDownItem({
+  id,
   title,
-  description,
+  description = '',
   backgroundColor,
   titleColor,
   active,
   toggleActive,
+  children,
 }: DropDownItemProps): React.JSX.Element {
   const { color, translate } = AppContext();
   const {
@@ -158,7 +162,7 @@ export default function DropDownItem({
             value={active}
             color={titleColor}
             bgColor={backgroundColor}
-            onPress={() => (toggleActive ? toggleActive(title) : null)}
+            onPress={() => (toggleActive ? toggleActive(id) : null)}
           />
         </View>
       </View>
@@ -191,17 +195,7 @@ export default function DropDownItem({
                 padding: 10,
               }}
             >
-              <Title
-                title={translate('description')}
-                style={{
-                  alignSelf: 'flex-start',
-                  fontSize: 17,
-                  color: 'black',
-                }}
-              />
-              <Text style={{ fontSize: 15, paddingTop: 10, color: 'gray' }}>
-                {description}
-              </Text>
+              {children}
             </View>
           </Animated.View>
         </Animated.View>

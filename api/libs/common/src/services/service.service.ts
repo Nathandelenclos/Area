@@ -53,7 +53,7 @@ export class ServiceService {
 
   /**
    * Update a service
-   * @param id Service id
+   * @param id ServiceInterface id
    * @param data Data to update
    * @returns Promise<UpdateResult>
    */
@@ -63,7 +63,7 @@ export class ServiceService {
 
   /**
    * Remove a service
-   * @param id Service id
+   * @param id ServiceInterface id
    * @returns Promise<DeleteResult>
    */
   remove(id: number): Promise<DeleteResult> {
