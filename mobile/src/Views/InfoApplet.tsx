@@ -153,25 +153,25 @@ export default function InfoApplet({
 
   const [appletList, setappletList] = React.useState<AppletBubbleProps[]>([
     {
-      appletTitle: 'Reaction #1',
+      appletTitle: 'ReactionInterface #1',
       description: ['Send an email to “simon.riembault@epitech.eu”'],
       color: color.mainColor,
       size: 'reaction',
     },
     {
-      appletTitle: 'Reaction #2',
+      appletTitle: 'ReactionInterface #2',
       description: ['Open Twitter on my phone'],
       color: color.mainColor,
       size: 'reaction',
     },
     {
-      appletTitle: 'Reaction #3',
+      appletTitle: 'ReactionInterface #3',
       description: ["J'aime le gros crane de Simon"],
       color: color.mainColor,
       size: 'reaction',
     },
     {
-      appletTitle: 'Reaction #4',
+      appletTitle: 'ReactionInterface #4',
       description: ["J'aime le crane de Frankeinstein #Noa"],
       color: color.mainColor,
       size: 'reaction',

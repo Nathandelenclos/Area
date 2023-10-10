@@ -6,8 +6,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Settings from '@views/Settings';
 import AppContext from '@contexts/app.context';
 import MyAppletsView from '@views/MyApplets';
-import CreateApplet from '@views/CreateApplet';
+import CreateApplet from '@views/CreateApplet/CreateApplet';
 import InfoApplet from '@views/InfoApplet';
+import ListServices from '@views/CreateApplet/ListServices';
+import ListActions from '@views/CreateApplet/ListActions';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -66,6 +68,8 @@ function CreateAppletNavigator(): JSX.Element {
       initialRouteName={'CreateApplet'}
     >
       <Stack.Screen name="CreateApplet" component={CreateApplet} />
+      <Stack.Screen name="ListServices" component={ListServices} />
+      <Stack.Screen name="ListActions" component={ListActions} />
     </Stack.Navigator>
   );
 }

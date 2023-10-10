@@ -22,6 +22,9 @@ const fr: LanguageKeys = {
   home_title: 'Recommendations du jour',
   create_applet_title: "Création d'Applet",
   info_applet_title: "Infos sur l'Applet",
+  select_service: 'Selectionnez un service',
+  select_action: 'Selectionnez une action',
+  select_reaction: 'Selectionnez une réaction',
 };
 
 const en: LanguageKeys = {
@@ -46,6 +49,9 @@ const en: LanguageKeys = {
   home_title: 'Recommendations of the day',
   create_applet_title: 'Applet creation',
   info_applet_title: 'Applet information',
+  select_service: 'Select a service',
+  select_action: 'Select an action',
+  select_reaction: 'Select a reaction',
 };
 
 type LanguageList = {

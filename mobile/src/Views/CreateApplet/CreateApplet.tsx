@@ -8,46 +8,50 @@ import {
 } from 'react-native';
 import AppContext from '@contexts/app.context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IAction } from '@interfaces/action.interface';
+
+export type BoxType = 'action' | 'reaction';
 
 export type BoxCreateAppletProps = {
-  colormode: string;
+  colorMode: string;
   id: number;
   handleOnPress: () => void;
   handleOnPressMinus: (idToDelete: number) => void;
+  text: string;
+  type: BoxType;
 };
 
 const BoxCreateApplet = ({
-  colormode,
+  colorMode,
   id,
   handleOnPress,
   handleOnPressMinus,
+  text,
+  type,
 }: BoxCreateAppletProps) => {
   let color = '';
-  let colortext = '';
-  let text = '';
-  let isdarkmode = false;
-  let isid1 = false;
+  let colorText = '';
+  let isDarkMode = false;
+  let isId1 = false;
 
-  if (id === 1) {
-    isid1 = true;
-    if (colormode === 'black') {
-      isdarkmode = true;
+  if (type === 'action') {
+    isId1 = true;
+    if (colorMode === 'black') {
+      isDarkMode = true;
       color = 'white';
-      colortext = 'black';
+      colorText = 'black';
     } else {
       color = 'black';
-      colortext = 'white';
+      colorText = 'white';
     }
-    text = 'If This';
   } else {
-    if (colormode === 'white') {
+    if (colorMode === 'white') {
       color = '#6F6F6F';
     } else {
-      isdarkmode = true;
+      isDarkMode = true;
       color = '#6F6F6F';
     }
-    colortext = 'white';
-    text = 'Then That';
+    colorText = 'white';
   }
 
   return (
@@ -78,43 +82,19 @@ const BoxCreateApplet = ({
         >
           <Text
             style={{
-              color: colortext,
+              color: colorText,
               fontSize: 24,
               fontWeight: 'bold',
             }}
           >
-            {`${text} #${id}`}
+            {text}
           </Text>
-          <TouchableOpacity
-            onPress={handleOnPress}
-            style={{
-              backgroundColor: isdarkmode ? 'black' : 'white',
-              width: '15%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 20,
-              position: 'absolute',
-              left: '79%',
-              right: '6%',
-              paddingVertical: 2,
-            }}
-          >
-            <Text
-              style={{
-                color: isdarkmode ? 'white' : 'black',
-                fontSize: 12,
-                fontWeight: 'bold',
-              }}
-            >
-              Add
-            </Text>
-          </TouchableOpacity>
-          {!isid1 ? (
+          {!isId1 ? (
             <TouchableOpacity
               onPress={() => handleOnPressMinus(id)}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               style={{
-                backgroundColor: isdarkmode ? 'black' : 'white',
+                backgroundColor: isDarkMode ? 'black' : 'white',
                 width: 20,
                 height: 20,
                 borderRadius: 10,
@@ -129,7 +109,7 @@ const BoxCreateApplet = ({
                 icon={'minus'}
                 size={15}
                 style={{
-                  color: isdarkmode ? 'white' : 'black',
+                  color: isDarkMode ? 'white' : 'black',
                 }}
               />
             </TouchableOpacity>
@@ -150,54 +130,39 @@ const BoxCreateApplet = ({
   );
 };
 
-export default function CreateApplet(): JSX.Element {
+export default function CreateApplet({
+  navigation,
+}: {
+  navigation: any;
+}): JSX.Element {
   const { color, translate } = AppContext();
+  const [action, setAction] = React.useState<IAction>({
+    id: 0,
+    name: '',
+    description: '',
+    is_available: false,
+    serviceId: 0,
+  });
+  const [reactions, setReactions] = React.useState<IAction[]>([]);
 
   const handleAppletPress = () => {
-    console.log('Applet pressed');
+    navigation.navigate('ListServices', {
+      setAction: setAction,
+      type: 'action',
+    });
   };
 
   const handleAppletPressMinus = (idToDelete: number) => {
-    setappletList((prevList) =>
-      prevList.filter((applet) => applet.id !== idToDelete),
-    );
-    console.log('Minus pressed');
+    setReactions(reactions.splice(idToDelete, 1));
   };
 
   const handleAppletPressPlus = () => {
-    const lastId = appletList[appletList.length - 1].id;
-    setappletList([
-      ...appletList,
-      {
-        colormode: color.mode,
-        id: lastId + 1,
-        handleOnPress: handleAppletPress,
-        handleOnPressMinus: handleAppletPressMinus,
-      },
-    ]);
-    console.log('Plus pressed');
+    navigation.navigate('ListServices', {
+      reactions: reactions,
+      setReactions: setReactions,
+      type: 'reaction',
+    });
   };
-
-  const [appletList, setappletList] = React.useState<BoxCreateAppletProps[]>([
-    {
-      colormode: color.mode,
-      id: 1,
-      handleOnPress: handleAppletPress,
-      handleOnPressMinus: handleAppletPressMinus,
-    },
-    {
-      colormode: color.mode,
-      id: 2,
-      handleOnPress: handleAppletPress,
-      handleOnPressMinus: handleAppletPressMinus,
-    },
-    {
-      colormode: color.mode,
-      id: 3,
-      handleOnPress: handleAppletPress,
-      handleOnPressMinus: handleAppletPressMinus,
-    },
-  ]);
 
   return (
     <SafeAreaView
@@ -229,13 +194,23 @@ export default function CreateApplet(): JSX.Element {
         </Text>
       </View>
       <ScrollView>
-        {appletList.map((applet, i) => (
+        <BoxCreateApplet
+          colorMode={color.mode}
+          id={action.id}
+          handleOnPress={handleAppletPress}
+          handleOnPressMinus={() => 0}
+          text={action.name}
+          type={'action'}
+        />
+        {reactions.map((reaction, i) => (
           <BoxCreateApplet
-            key={applet.id}
-            colormode={applet.colormode}
-            id={applet.id}
-            handleOnPress={applet.handleOnPress}
-            handleOnPressMinus={() => applet.handleOnPressMinus(applet.id)}
+            colorMode={color.mode}
+            key={i}
+            id={reaction.id}
+            handleOnPress={() => handleAppletPress}
+            type={'reaction'}
+            text={reaction.name}
+            handleOnPressMinus={handleAppletPressMinus}
           />
         ))}
         <TouchableOpacity

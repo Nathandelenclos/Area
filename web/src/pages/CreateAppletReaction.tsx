@@ -33,7 +33,7 @@ export default function CreateAppletReaction() {
     { id: 7, title: "Nom du bazard", isClicked: false },
   ];
   const appletReactionNumberList: AppletServiceStruct[] = [
-    { id: 1, title: "Reaction #1", isClicked: false },
+    { id: 1, title: "ReactionInterface #1", isClicked: false },
   ];
   const [modifiableReactionList, modifyReactionList] =
     useState(appletReactionList);
