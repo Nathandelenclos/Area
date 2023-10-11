@@ -10,13 +10,11 @@ export default function AppRouter() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !user.getAccessToken()) navigate("/sign-in");
-
     const currentRoute = routes.find(
       (route) => route.path === location.pathname,
     );
 
-    if (!user && !currentRoute?.public) {
+    if ((!user || !user.getAccessToken()) && !currentRoute?.public) {
       toast("You must be logged in to access this page", {
         type: "error",
         autoClose: 5000,
