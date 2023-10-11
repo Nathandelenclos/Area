@@ -17,4 +17,4 @@ jobs:
             cd /home/nathan/area
             git pull
             cd api && yarn && cd ../web && yarn && cd ../mobile && yarn
-            docker compose up --build -d && docker image prune -a -f
+            sudo docker compose up --build -d && sudo docker image prune -a -f
