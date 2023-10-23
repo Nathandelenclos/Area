@@ -25,7 +25,7 @@ export class ActionService {
   async create(data?: NewAction): Promise<ActionEntity> {
     //return this.actionRepository.save(data);
     const action = await this.actionRepository.save({
-      name: 'At date',
+      name: 'At cron',
       description: 'Trigger at a specific date',
       is_available: true,
       service: { id: 16 },
