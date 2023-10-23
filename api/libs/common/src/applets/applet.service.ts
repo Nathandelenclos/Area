@@ -15,6 +15,7 @@ export enum AppletRelations {
   SERVICE = 'service',
   REACTIONS = 'reaction',
   ACTION = 'action',
+  REACTION_SERVICE = 'reaction.service',
 }
 
 @Injectable()

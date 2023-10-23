@@ -17,6 +17,9 @@ export class ServiceEntity {
   @Column()
   is_available: boolean;
 
+  @Column()
+  rmq_queue: string;
+
   @OneToMany(() => ActionEntity, (action) => action.service)
   actions: ActionEntity[];
 

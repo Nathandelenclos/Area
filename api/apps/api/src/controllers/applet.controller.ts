@@ -75,6 +75,6 @@ export class AppletController {
 
   @Post('test')
   test() {
-    return this.reactionService.create();
+    return this.actionService.create();
   }
 }

@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ActionService } from '@app/common/actions/action.service';
-import {
-  ServiceRelations,
-  ServiceService,
-} from '@app/common/services/service.service';
+import { ServiceService } from '@app/common/services/service.service';
 import { ReactionService } from '@app/common/reactions/reaction.service';
 
 @Injectable()
@@ -14,28 +11,17 @@ export class DiscordService {
     private readonly reactionService: ReactionService,
   ) {}
 
-  async cron(): Promise<void> {
-    /*
-    const service = await this.serviceService.create({
-      name: 'Discord',
-      url: 'https://discord.com/api/webhooks/...',
-      is_available: true,
-    });
+  async cron(): Promise<void> {}
 
-    await this.actionService.create({
-      name: 'Send Message',
-      is_available: true,
-      description: 'Send a message to a Discord channel.',
-      service,
+  async message(webhook: string, message: string) {
+    await fetch(webhook, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: message,
+      }),
     });
-
-    await this.reactionService.create({
-      name: 'Send Message Reaction',
-      is_available: true,
-      description: 'Send a message to a Discord channel. REACTION',
-      service,
-    });
-    
-     */
   }
 }
