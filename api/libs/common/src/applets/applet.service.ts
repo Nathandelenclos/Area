@@ -7,10 +7,12 @@ import { AppletCreateDto, AppletDto } from './applet.dto';
 import { UserEntity } from '@app/common/users/user.entity';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { ActionEntity } from '@app/common/actions/action.entity';
+import { ServiceEntity } from '@app/common/services/service.entity';
 
 export enum AppletRelations {
   CONFIG = 'applet_configs',
   USER = 'user',
+  SERVICE = 'service',
   REACTIONS = 'reaction',
   ACTION = 'action',
 }
@@ -27,6 +29,7 @@ export class AppletService {
    * Create a new applet and its configuration
    * @param data Applet data
    * @param user
+   * @param service
    * @param reaction
    * @param action
    * @returns Applet
@@ -34,19 +37,21 @@ export class AppletService {
   async create(
     data: AppletDto,
     user: DeepPartial<UserEntity>,
+    service: DeepPartial<ServiceEntity>,
     reaction: DeepPartial<ReactionEntity>,
     action: DeepPartial<ActionEntity>,
   ): Promise<AppletEntity> {
     const { config, ...appletData } = data;
     const applet = await this.appletRepository.save({
       ...appletData,
+      service,
       user,
       reaction,
       action,
     });
 
     if (config) {
-      this.appletConfigService.createMany(applet.id, config);
+      this.appletConfigService.createMany('applet', applet.id, config);
     }
 
     return applet;

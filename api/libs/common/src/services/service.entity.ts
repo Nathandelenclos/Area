@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ActionEntity } from '@app/common/actions/action.entity';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
+import { AppletEntity } from '@app/common/applets/applet.entity';
 
 @Entity('service')
 export class ServiceEntity {
@@ -21,4 +22,7 @@ export class ServiceEntity {
 
   @OneToMany(() => ReactionEntity, (reaction) => reaction.service)
   reactions: ReactionEntity[];
+
+  @OneToMany(() => AppletEntity, (applet) => applet.service)
+  applets: AppletEntity[];
 }

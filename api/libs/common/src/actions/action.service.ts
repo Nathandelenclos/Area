@@ -3,6 +3,7 @@ import { ActionEntity } from '@app/common/actions/action.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewAction } from '@app/common/actions/action.dto';
+import { AppletConfigService } from '@app/common/applets/configuration/applet.config.service';
 
 export enum ActionRelations {
   SERVICE = 'service',
@@ -13,6 +14,7 @@ export class ActionService {
   constructor(
     @InjectRepository(ActionEntity)
     private readonly actionRepository: Repository<ActionEntity>,
+    private readonly appletConfigService: AppletConfigService,
   ) {}
 
   /**
@@ -20,8 +22,21 @@ export class ActionService {
    * @param data NewAction object
    * @returns Promise<ActionEntity>
    */
-  create(data: NewAction): Promise<ActionEntity> {
-    return this.actionRepository.save(data);
+  async create(data?: NewAction): Promise<ActionEntity> {
+    //return this.actionRepository.save(data);
+    const action = await this.actionRepository.save({
+      name: 'At date',
+      description: 'Trigger at a specific date',
+      is_available: true,
+      service: { id: 16 },
+    });
+
+    const config = {
+      date: 'date',
+    };
+
+    this.appletConfigService.createMany('action', action.id, config);
+    return action;
   }
 
   /**
@@ -31,7 +46,7 @@ export class ActionService {
    */
   findAll(relations: ActionRelations[] = []): Promise<ActionEntity[]> {
     return this.actionRepository.find({
-      relations,
+      relations: [...relations, 'action_configs'],
     });
   }
 
@@ -47,7 +62,7 @@ export class ActionService {
   ): Promise<ActionEntity | undefined> {
     return this.actionRepository.findOne({
       where: query,
-      relations,
+      relations: [...relations, 'action_configs'],
     });
   }
 

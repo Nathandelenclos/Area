@@ -12,6 +12,7 @@ class MicroServiceProxy {
     GMAIL_SERVICE: 'gmail_queue',
     YOUTUBE_SERVICE: 'youtube_queue',
     GOOGLE_DRIVE_SERVICE: 'google_drive_queue',
+    TIMER_SERVICE: 'timer_queue',
   };
 
   /**
