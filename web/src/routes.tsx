@@ -65,7 +65,7 @@ export const Routes: Route[] = [
   },
   {
     name: "my-applets",
-    path: "/applets",
+    path: "/my-applets",
     middleware: [],
     element: <MyApplet />,
   },
@@ -93,4 +93,5 @@ export type RouteNames =
   | "create-applet"
   | "my-applets"
   | "create-applet"
-  | "create-applet-reaction";
+  | "create-applet-reaction"
+  | "profile";

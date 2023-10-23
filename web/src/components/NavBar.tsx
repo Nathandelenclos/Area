@@ -1,6 +1,8 @@
 import React from "react";
 import AppContext from "context/AppContextProvider";
 import { RouteNames } from "@src/routes";
+import { useNavigate } from "react-router-dom";
+import { slide as Menu } from "react-burger-menu";
 
 export type NavBarElement = {
   name: string;
@@ -13,36 +15,16 @@ export type NavBarProps = {
 
 function NavBar({ elements }: NavBarProps) {
   const { translate, appName } = AppContext();
-  const defaultRoutes: NavBarElement[] = [
-    {
-      name: translate("nav", "home"),
-      RouteName: "home",
-    },
-    {
-      name: translate("nav", "create"),
-      RouteName: "create-applet",
-    },
-    {
-      name: translate("nav", "applets"),
-      RouteName: "my-applets",
-    },
-  ];
+  const navigate = useNavigate();
+
   return (
-    <div className="w-full h-fit drop-shadow bg-white flex justify-between px-10 py-5 align-center">
-      <p
-        className="text-[40px] font-extrabold cursor-pointer"
-        onClick={() => {
-          window.location.href = "/home-page";
-        }}
-      >
-        {appName}
-      </p>
-      <div className="h-100 flex items-center flex-row">
-        <div className="h-100 flex items-center flex-row px-10">
+    <div>
+      <div className="block md:hidden">
+        <Menu right>
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/home-page";
+              navigate("/home-page");
             }}
           >
             {translate("nav", "home")}
@@ -50,7 +32,7 @@ function NavBar({ elements }: NavBarProps) {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/create-applet";
+              navigate("/create-applet");
             }}
           >
             {translate("nav", "create")}
@@ -58,7 +40,7 @@ function NavBar({ elements }: NavBarProps) {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/my-applets";
+              navigate("/my-applets");
             }}
           >
             {translate("nav", "applets")}
@@ -66,7 +48,51 @@ function NavBar({ elements }: NavBarProps) {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/profile";
+              navigate("/profile");
+            }}
+          >
+            {translate("nav", "profile")}
+          </p>
+        </Menu>
+      </div>
+      <div className="w-full h-fit drop-shadow bg-white flex justify-between px-10 py-5 align-center">
+        <p
+          className="text-[40px] font-extrabold cursor-pointer text-white md:text-black"
+          onClick={() => {
+            navigate("/home-page");
+          }}
+        >
+          {appName}
+        </p>
+        <div className="h-100 hidden items-center flex-row px-10 md:flex">
+          <p
+            className="font-semibold px-5 text-[32px] cursor-pointer"
+            onClick={() => {
+              navigate("/home-page");
+            }}
+          >
+            {translate("nav", "home")}
+          </p>
+          <p
+            className="font-semibold px-5 text-[32px] cursor-pointer"
+            onClick={() => {
+              navigate("/create-applet");
+            }}
+          >
+            {translate("nav", "create")}
+          </p>
+          <p
+            className="font-semibold px-5 text-[32px] cursor-pointer"
+            onClick={() => {
+              navigate("/my-applets");
+            }}
+          >
+            {translate("nav", "applets")}
+          </p>
+          <p
+            className="font-semibold px-5 text-[32px] cursor-pointer"
+            onClick={() => {
+              navigate("/profile");
             }}
           >
             {translate("nav", "profile")}

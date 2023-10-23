@@ -29,7 +29,10 @@
   },
   "profile": {
     "title": "Votre profil",
-    "logout-button": "Se Deconnecter"
+    "logout-button": "Se Deconnecter",
+    "modify-password": "Modifier le mot de passe",
+    "connected-services": "Services connectés",
+    "connect-other-services": "Connecter d'autres services"
   },
   "create-applets": {
     "applet-name-trigger": "Nom de votre applet",
