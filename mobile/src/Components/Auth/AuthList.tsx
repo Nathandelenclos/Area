@@ -6,6 +6,7 @@ import { IApiInvokeResponse } from '@services/API/api.invoke';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-common-types';
 import UserCtx from '@contexts/user.context';
+import { Storage } from '@src/Storage/user.storage';
 
 type AuthItem = {
   color: string;
@@ -55,6 +56,7 @@ function AuthList(): JSX.Element {
   const { setUser } = UserCtx();
   async function handleOAuth(onPress: () => Promise<IApiInvokeResponse>) {
     const resp = await onPress();
+    await Storage.saveToken(resp.data?.access_token);
     if (resp.data) {
       setUser(resp.data);
     }

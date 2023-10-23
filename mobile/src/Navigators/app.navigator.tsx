@@ -24,7 +24,10 @@ function MyAppletNavigator(): JSX.Element {
       initialRouteName={'MyApplets'}
     >
       <Stack.Screen name="MyApplets" component={MyAppletsView} />
+      <Stack.Screen name="CreateApplet" component={CreateApplet} />
       <Stack.Screen name="InfoApplet" component={InfoApplet} />
+      <Stack.Screen name={'ListServices'} component={ListServices} />
+      <Stack.Screen name={'ListActions'} component={ListActions} />
     </Stack.Navigator>
   );
 }
@@ -88,7 +91,7 @@ export default function AppNavigator(): JSX.Element {
           tabBarActiveTintColor: color.mainColor,
           tabBarInactiveTintColor: color.inactive,
         }}
-        initialRouteName={'Home1'}
+        initialRouteName={'Mes Applets'}
       >
         <Tab.Screen name="Recommandation" component={RecommandationNavigator} />
         <Tab.Screen name="Mes Applets" component={MyAppletNavigator} />

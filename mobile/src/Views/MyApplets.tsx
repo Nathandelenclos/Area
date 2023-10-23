@@ -1,12 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  FlatList,
-  LogBox,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { LogBox, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
 import Header from '@components/Header';
 import ViewContainer from '@components/ViewContainer';
@@ -21,9 +14,6 @@ import appletService from '@services/applet.service';
 import UserCtx from '@contexts/user.context';
 import { Title } from '@components/Title';
 
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
 export default function MyAppletsView({
   navigation,
 }: {
@@ -31,6 +21,7 @@ export default function MyAppletsView({
 }): React.JSX.Element {
   const { color, translate, appName } = AppContext();
   const { user } = UserCtx();
+  if (!user) return <></>;
   const [filterList, setFilterList] = React.useState<FilterProps[]>([
     { name: 'Active Filter', active: false },
     { name: 'Inactive Filter', active: false },
@@ -38,9 +29,6 @@ export default function MyAppletsView({
   const [itemList, setItemList] = React.useState<DropDownItemProps[]>([]);
 
   const colors = ['#7a73e7', '#73E77B', '#E77B73', '#73e7d6', '#7e1eb0'];
-  if (!user) {
-    return <></>;
-  }
   function toggleActive(id: number) {
     const newItemList = itemList.map((item: DropDownItemProps) => {
       if (item.id === id) {
@@ -53,18 +41,26 @@ export default function MyAppletsView({
 
   const getMyApplets = async () => {
     const data = await appletService.getMyApplets(user.access_token);
-    const list: DropDownItemProps[] = [];
-    for (const applet of data.data) {
-      list.push({
-        id: applet.id,
-        title: applet.name,
+    const list: DropDownItemProps[] = data.data.map(
+      (e: { id: string; name: string; description: string }) => ({
+        id: e.id,
+        title: e.name,
         backgroundColor: colors[Math.floor(Math.random() * colors.length)],
-        description: applet.description,
+        description: e.description,
         titleColor: 'white',
         active: false,
-      });
-    }
-    setItemList(list);
+      }),
+    );
+    // setItemList([
+    //   {
+    //     id: '1',
+    //     title: 'TEST',
+    //     backgroundColor: colors[0],
+    //     description: 'desccc',
+    //     titleColor: 'white',
+    //     active: false,
+    //   },
+    // ]);
   };
 
   const handleTrashPress = async (item: DropDownItemProps) => {
@@ -77,11 +73,14 @@ export default function MyAppletsView({
     navigation.navigate('InfoApplet', { id: item.id });
   };
 
+  const handleEmptyAppletPressed = () => {
+    navigation.navigate('CreateApplet');
+  };
+
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getMyApplets();
+    return navigation.addListener('focus', async () => {
+      await getMyApplets();
     });
-    return unsubscribe;
   }, [navigation]);
 
   return (
@@ -93,7 +92,7 @@ export default function MyAppletsView({
       />
       <ScrollView style={{ flex: 1, paddingHorizontal: 10, paddingBottom: 50 }}>
         {itemList.length === 0 && (
-          <View
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderStyle: 'dashed',
@@ -102,6 +101,7 @@ export default function MyAppletsView({
               padding: 20,
               paddingHorizontal: 50,
             }}
+            onPress={handleEmptyAppletPressed}
           >
             <Text
               style={{
@@ -111,17 +111,8 @@ export default function MyAppletsView({
               }}
             >
               {translate('no_applet')}
-              <FontAwesomeIcon
-                icon={'plus'}
-                size={15}
-                color={color.textOverMainColor}
-                style={{
-                  alignContent: 'center',
-                  backgroundColor: 'orange',
-                }}
-              />
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
         {itemList
           .filter((item) => item.active || !filterList[0].active)

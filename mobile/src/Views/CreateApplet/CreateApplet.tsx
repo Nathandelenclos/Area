@@ -1,312 +1,279 @@
-import React, { JSX } from 'react';
-import {
-  LogBox,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { JSX, useEffect } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IAction } from '@interfaces/action.interface';
 import appletService from '@services/applet.service';
 import UserCtx from '@contexts/user.context';
-import { AuthTextInput } from '@components/Auth';
-
-export type BoxType = 'action' | 'reaction';
-
-export type BoxCreateAppletProps = {
-  colorMode: string;
-  id: number;
-  handleOnPress: () => void;
-  handleOnPressMinus: (idToDelete: number) => void;
-  text: string;
-  type: BoxType;
-  extended?: boolean;
-};
-
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
-
-const BoxCreateApplet = ({
-  colorMode,
-  id,
-  handleOnPress,
-  handleOnPressMinus,
-  text,
-  type,
-  extended = true,
-}: BoxCreateAppletProps) => {
-  let color = '';
-  let colorText = '';
-  let isDarkMode = false;
-  let isId1 = false;
-
-  if (type === 'action') {
-    isId1 = true;
-    if (colorMode === 'black') {
-      isDarkMode = true;
-      color = 'white';
-      colorText = 'black';
-    } else {
-      color = 'black';
-      colorText = 'white';
-    }
-  } else {
-    if (colorMode === 'white') {
-      color = '#6F6F6F';
-    } else {
-      isDarkMode = true;
-      color = '#6F6F6F';
-    }
-    colorText = 'white';
-  }
-
+import ViewContainer from '@components/ViewContainer';
+import Header from '@components/Header';
+function DrawSeparator(): JSX.Element {
   return (
     <View
       style={{
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        backgroundColor: '#bbbbbb',
+        width: 20,
+        height: 30,
+        alignSelf: 'center',
       }}
-    >
+    />
+  );
+}
+
+function AppletBox({
+  isAction,
+  id,
+  title,
+  addAction,
+  removeAction,
+}: {
+  isAction: boolean;
+  id: number;
+  title: string;
+  addAction: () => void;
+  removeAction: () => void;
+}): JSX.Element {
+  const actionBoxPressed = () => {
+    addAction();
+  };
+
+  return (
+    <>
+      {!isAction && <DrawSeparator />}
       <TouchableOpacity
-        onPress={handleOnPress}
+        onPress={actionBoxPressed}
         style={{
-          backgroundColor: color,
-          borderRadius: 10,
-          width: '88%',
-          height: 89,
-          marginLeft: '6%',
-          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: isAction ? 'black' : '#6F6F6F',
+          marginHorizontal: 20,
+          borderRadius: 20,
+          paddingVertical: 25,
+          paddingHorizontal: 30,
         }}
       >
         <View
           style={{
-            display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'row',
             alignItems: 'center',
-            height: '100%',
+            flexShrink: 1,
           }}
         >
+          <Text style={{ color: 'white', fontSize: 25, fontWeight: 'bold' }}>
+            {isAction ? 'IF' : 'THEN'}
+          </Text>
           <Text
             style={{
-              color: colorText,
-              fontSize: 24,
+              color: 'white',
+              fontSize: 20,
               fontWeight: 'bold',
+              flexWrap: 'wrap',
+              flexShrink: 1,
+              paddingHorizontal: title === '...' ? 0 : 20,
             }}
           >
-            {text}
+            {' ' + title}
           </Text>
-          {!isId1 ? (
-            <TouchableOpacity
-              onPress={() => handleOnPressMinus(id)}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-              style={{
-                backgroundColor: isDarkMode ? 'black' : 'white',
-                width: 20,
-                height: 20,
-                borderRadius: 10,
-                position: 'absolute',
-                left: '8%',
-                right: '86%',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <FontAwesomeIcon
-                icon={'minus'}
-                size={15}
-                style={{
-                  color: isDarkMode ? 'white' : 'black',
-                }}
-              />
-            </TouchableOpacity>
-          ) : (
-            <></>
-          )}
         </View>
+        {id ? (
+          <TouchableOpacity
+            onPress={removeAction}
+            hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+          >
+            <FontAwesomeIcon
+              icon={'minus-circle'}
+              size={25}
+              color={'white'}
+              style={{ color: 'red' }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <FontAwesomeIcon icon={'plus-circle'} size={25} color={'white'} />
+        )}
       </TouchableOpacity>
-      {extended ? (
-        <View
-          style={{
-            backgroundColor: '#D9D9D9',
-            width: '2%',
-            height: 24,
-            marginLeft: '49%',
-          }}
-        />
-      ) : (
-        <></>
-      )}
-    </View>
+    </>
   );
-};
+}
 
 export default function CreateApplet({
   navigation,
+  route,
 }: {
   navigation: any;
+  route: any;
 }): JSX.Element {
   const { color, translate } = AppContext();
   const { user } = UserCtx();
   if (!user) {
     return <></>;
   }
-  const [action, setAction] = React.useState<IAction>({
-    id: 0,
-    name: '',
-    description: '',
-    is_available: false,
-    serviceId: 0,
-  });
-  const [reactions, setReactions] = React.useState<IAction[]>([]);
-  const [appletName, setAppletName] = React.useState<string>('');
-  const [appletDescription, setAppletDescription] = React.useState<string>('');
+  const [action, setAction] = React.useState<IAction | null>();
+  const [reactions, setReactions] = React.useState<IAction[]>([
+    { id: 0, name: '...', is_available: false, serviceId: 0 },
+  ]);
+  const [appletName, setAppletName] = React.useState<string>('Saluuut');
+  const [edition, setEdition] = React.useState<string>('information');
+  const [canSave, setCanSave] = React.useState<boolean>(false);
 
-  const handleAppletPress = () => {
+  useEffect(() => {
+    if (
+      (edition === 'creation' || edition === 'edition') &&
+      action?.id &&
+      reactions[0].id &&
+      appletName
+    ) {
+      if (!canSave) setCanSave(true);
+    } else {
+      if (canSave) setCanSave(false);
+    }
+  }, [edition, action, reactions, appletName]);
+
+  const handleAppletPressAction = () => {
     navigation.navigate('ListServices', {
       setAction: setAction,
       type: 'action',
     });
   };
 
-  const handleAppletPressMinus = (idToDelete: number) => {
-    setReactions(reactions.splice(idToDelete, 1));
+  const handleAppletRemoveAction = () => {
+    setAction(null);
   };
 
-  const handleAppletPressPlus = () => {
+  const handleAppletRemoveReaction = (idToDelete: number) => {
+    if (reactions.length === 1) {
+      setReactions([{ id: 0, name: '...', is_available: false, serviceId: 0 }]);
+      return;
+    }
+    setReactions((prev) => prev.filter((e) => e.id !== idToDelete));
+  };
+
+  const handleAppletPressReaction = (id?: number) => {
     navigation.navigate('ListServices', {
+      id: id,
       reactions: reactions,
       setReactions: setReactions,
       type: 'reaction',
     });
   };
 
-  const handleSave = () => {
-    appletService.createApplet(user.access_token, {
-      name: appletName,
-      action,
-      reaction: reactions[0],
-      description: appletDescription,
-      config: '',
-      is_active: true,
-    });
+  const handleSave = async () => {
+    if (edition === 'creation') {
+      await appletService.createApplet(user.access_token, {
+        name: appletName,
+        action: action as IAction,
+        reaction: reactions[0],
+        config: '',
+        is_active: true,
+      });
+    } else if (edition === 'edition') {
+      await appletService.updateApplet(user.access_token, {
+        id: route.params.applet.id,
+        name: appletName,
+        action: action as IAction,
+        reaction: reactions[0],
+        config: '',
+        is_active: true,
+      });
+    } else {
+      return;
+    }
     navigation.navigate('Mes Applets', { screen: 'MyApplets' });
     setAppletName('');
-    setAppletDescription('');
     setReactions([]);
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: color.mode,
-      }}
-    >
-      <View
-        style={{
-          borderBottomColor: color.text,
-          borderBottomWidth: 2,
-          marginLeft: '6%',
-          marginRight: '6%',
-          marginTop: '8%',
-          marginBottom: '8%',
-        }}
-      >
-        <Text
-          style={{
-            color: color.text,
-            fontSize: 32,
-            fontWeight: 'bold',
-            marginBottom: '6%',
-            textAlign: 'center',
-          }}
-        >
-          {translate('create_applet_title')}
-        </Text>
-      </View>
-      <ScrollView>
-        <BoxCreateApplet
-          colorMode={color.mode}
-          id={action.id}
-          handleOnPress={handleAppletPress}
-          handleOnPressMinus={() => 0}
-          text={action.name}
-          type={'action'}
+    <ViewContainer>
+      <Header
+        hideInput={edition === 'information'}
+        title={translate('create_applet_title')}
+        navigation={navigation}
+        string={appletName}
+        setString={setAppletName}
+        onBackPress={
+          edition === 'edition' ? () => setEdition('information') : null
+        }
+        onTrashPress={edition === 'edition' ? () => console.log('trash') : null}
+        onEditPress={
+          edition === 'information' ? () => setEdition('edition') : null
+        }
+        openPopUp={
+          edition === 'information' ? () => console.log('popup') : null
+        }
+      />
+      <ScrollView contentContainerStyle={{ paddingTop: 40 }}>
+        <AppletBox
+          isAction={true}
+          id={action?.id || 0}
+          title={action?.name || '...'}
+          addAction={handleAppletPressAction}
+          removeAction={handleAppletRemoveAction}
         />
-        {reactions.map((reaction, i) => (
-          <BoxCreateApplet
-            colorMode={color.mode}
-            key={i}
+        {reactions.map((reaction, index) => (
+          <AppletBox
+            key={index}
+            isAction={false}
             id={reaction.id}
-            handleOnPress={() => handleAppletPress}
-            type={'reaction'}
-            text={reaction.name}
-            handleOnPressMinus={handleAppletPressMinus}
-            extended={false}
+            title={reaction.name}
+            addAction={() => handleAppletPressReaction(reaction.id)}
+            removeAction={() => handleAppletRemoveReaction(reaction.id)}
           />
         ))}
-        {reactions.length < 1 ? (
-          <TouchableOpacity
-            onPress={handleAppletPressPlus}
-            hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <View
+        {(edition === 'edition' || edition === 'creation') && (
+          <>
+            <DrawSeparator />
+            <TouchableOpacity
+              onPress={() => handleAppletPressReaction(undefined)}
+              hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
               style={{
-                backgroundColor: '#D9D9D9',
-                width: 30,
-                height: 30,
-                borderRadius: 15,
-                top: -3,
+                flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
+              activeOpacity={1}
             >
-              <FontAwesomeIcon
-                icon={'plus'}
-                size={20}
+              <View
                 style={{
-                  color: 'black',
+                  top: -5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: color.inverseMode,
+                  borderRadius: 100,
                 }}
-              />
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <View
-            style={{
-              padding: 20,
-            }}
-          >
-            <AuthTextInput setText={setAppletName} placeholder={'Name'} />
-            <AuthTextInput
-              setText={setAppletDescription}
-              placeholder={'Description'}
-            />
-            <TouchableOpacity
-              style={{
-                marginTop: '6%',
-                marginLeft: '6%',
-                marginRight: '6%',
-                marginBottom: '6%',
-                backgroundColor: color.mainColor,
-                padding: 20,
-                borderRadius: 20,
-              }}
-              onPress={handleSave}
-            >
-              <Text>{translate('save')}</Text>
+              >
+                <FontAwesomeIcon
+                  icon={'plus-circle'}
+                  size={40}
+                  color={color.mode}
+                  style={{ color: 'orange' }}
+                />
+              </View>
             </TouchableOpacity>
-          </View>
+          </>
         )}
       </ScrollView>
-    </SafeAreaView>
+      <View>
+        {canSave && (
+          <TouchableOpacity
+            onPress={handleSave}
+            style={{
+              backgroundColor: color.mainColor,
+              borderRadius: 20,
+              marginHorizontal: 30,
+              marginBottom: 30,
+              paddingVertical: 20,
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{ color: 'white', fontSize: 25, fontWeight: 'bold' }}>
+              {edition === 'edition'
+                ? translate('save_applet')
+                : translate('create_applet')}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </ViewContainer>
   );
 }

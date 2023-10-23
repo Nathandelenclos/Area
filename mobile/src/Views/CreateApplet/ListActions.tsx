@@ -96,7 +96,26 @@ export default function ListActions({
             }}
             onPress={() => {
               if (route.params.type === 'reaction') {
-                route.params.setReactions([...route.params.reactions, action]);
+                if (route.params.id !== undefined) {
+                  route.params.setReactions((prev) => {
+                    const newReactions = prev.filter(
+                      (reaction) => reaction.id !== route.params.id,
+                    );
+                    action.id = route.params.id == 0 ? 1 : route.params.id;
+                    return [action, ...newReactions];
+                  });
+                } else {
+                  route.params.setReactions((prev) => {
+                    if (prev[0].id) {
+                      return [
+                        ...route.params.reactions,
+                        { ...action, id: prev.length + 1 },
+                      ];
+                    } else {
+                      return [{ ...action, id: 1 }];
+                    }
+                  });
+                }
               } else {
                 route.params.setAction(action);
               }

@@ -62,16 +62,38 @@ class AuthService {
 
   /**
    * Forgot password
-   * @param email {string}
+   * @param token {string}
    * @returns {Promise} {ApiInvokeResponse}
    */
-  forgotPassword(email: string): Promise<IApiInvokeResponse> {
+  forgotPasswordToken(token: string): Promise<IApiInvokeResponse> {
     return ApiInvoke({
-      endpoint: '/forgot-password',
-      method: 'POST',
+      endpoint: `/auth/recover-password/${token}`,
+      method: 'GET',
       expectedStatus: 200,
-      body: JSON.stringify({ email }),
       handlers: defaultApiHandler,
+    });
+  }
+
+  /**
+   * Forgot password
+   * @returns {Promise} {ApiInvokeResponse}
+   */
+  forgotPassword(): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/recover-password/',
+      method: 'GET',
+      expectedStatus: 200,
+      handlers: defaultApiHandler,
+    });
+  }
+
+  getProfile(token: string): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/me',
+      method: 'GET',
+      expectedStatus: 200,
+      handlers: defaultApiHandler,
+      authToken: token,
     });
   }
 }

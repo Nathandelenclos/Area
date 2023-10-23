@@ -3,10 +3,12 @@ interface IColor extends IColorScheme, ICommon {}
 export type ICommon = {
   dropDownColor: string;
   inactive: string;
+  textInputPlaceholder: string;
 };
 
 export type IColorScheme = {
   mode: string;
+  inverseMode: string;
   background: string;
   text: string;
   mainColor: string;

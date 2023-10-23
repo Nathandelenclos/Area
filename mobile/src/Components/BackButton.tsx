@@ -5,8 +5,10 @@ import AppContext from '@contexts/app.context';
 
 export default function BackButton({
   navigation,
+  buttonColor,
 }: {
   navigation: any;
+  buttonColor?: string;
 }): JSX.Element {
   const { color } = AppContext();
 
@@ -18,7 +20,7 @@ export default function BackButton({
       <FontAwesomeIcon
         icon={'arrow-left'}
         size={25}
-        style={{ color: color.textOverMainColor }}
+        style={{ color: buttonColor ?? color.textOverMainColor }}
       />
     </TouchableOpacity>
   );

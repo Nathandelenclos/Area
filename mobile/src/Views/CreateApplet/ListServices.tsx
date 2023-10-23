@@ -20,7 +20,7 @@ export default function ListServices({
 }): JSX.Element {
   const { color, translate } = AppContext();
   const { user } = UserCtx();
-  const [services, setServices] = React.useState<IService[]>([]);
+  const [services, setServices] = React.useState<IService[] | null>(null);
 
   if (!user) {
     return <></>;
@@ -34,6 +34,23 @@ export default function ListServices({
   useEffect(() => {
     getServices();
   }, []);
+
+  if (!services) {
+    return <></>;
+  }
+
+  if (services.length === 0) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: color.mode,
+        }}
+      >
+        <Text>Empty Service List</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView

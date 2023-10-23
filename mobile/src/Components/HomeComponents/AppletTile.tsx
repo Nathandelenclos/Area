@@ -1,15 +1,6 @@
-import React, { JSX } from 'react';
-import {
-  DimensionValue,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import AppContext from '@contexts/app.context';
+import React from 'react';
+import { DimensionValue, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Title from '@components/HomeComponents/Title';
 
 export type AppletProps = {
   appletTitle: string;

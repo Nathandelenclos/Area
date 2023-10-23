@@ -1,7 +1,7 @@
 import React, { JSX } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
 import AppContext from '@contexts/app.context';
-import Title from '@components/HomeComponents/Title';
+import HomeTitle from '@components/HomeComponents/HomeTitle';
 import AppletTile, { AppletProps } from '@components/HomeComponents/AppletTile';
 
 export default function Home({ navigation }: { navigation: any }): JSX.Element {
@@ -84,15 +84,15 @@ export default function Home({ navigation }: { navigation: any }): JSX.Element {
           marginLeft: '6%',
           marginRight: '6%',
           marginTop: '8%',
-          marginBottom: '8%',
         }}
       >
-        <Title text={translate('home_title')} textColor={color.text} />
+        <HomeTitle text={translate('home_title')} textColor={color.text} />
       </View>
       <ScrollView
         contentContainerStyle={{
           flexDirection: 'row',
           flexWrap: 'wrap',
+          paddingTop: 20,
         }}
       >
         {appletList.map((applet, i) => (

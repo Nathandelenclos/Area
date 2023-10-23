@@ -11,7 +11,7 @@ export default function ViewContainer({
 
   return (
     <View style={{ flex: 1, backgroundColor: color.background }}>
-      <SafeAreaView style={{ backgroundColor: color.mode, flex: 0 }} />
+      <SafeAreaView style={{ backgroundColor: color.mainColor, flex: 0 }} />
       <SafeAreaView style={{ flex: 1, backgroundColor: color.background }}>
         {children}
       </SafeAreaView>

@@ -25,6 +25,8 @@ import UserCtx from '@contexts/user.context';
 import { IApplet } from '@interfaces/applet.interface';
 import { IReaction } from '@interfaces/reaction.interface';
 import { IAction } from '@interfaces/action.interface';
+import BackButton from '@components/BackButton';
+import Header from '@components/Header';
 
 export type AppletBubbleProps = {
   appletTitle: string;
@@ -114,68 +116,7 @@ function AppletBubble({
   );
 }
 
-export default function InfoApplet({
-  route,
-  navigation,
-}: {
-  route: any;
-  navigation: any;
-}): JSX.Element {
-  const { color, translate } = AppContext();
-  const { user } = UserCtx();
-  if (!user) {
-    return <></>;
-  }
-  const appletDescription = 'Send an email when a Elon Musk posts a new tweet';
-  const [modalVisible, setModalVisible] = useState(false);
-  const [id, setId] = useState(0);
-  const [applet, setApplet] = useState<IApplet>({
-    reaction: {
-      name: 'Reaction name',
-      description: 'Reaction description',
-      id: 1,
-      is_available: false,
-      serviceId: 1,
-    },
-    config: '',
-    is_active: false,
-    name: 'Applet name',
-    description: 'Applet description',
-    action: {
-      name: 'Action name',
-      description: 'Action description',
-      id: 1,
-      is_available: false,
-      serviceId: 1,
-    },
-  });
-  let isdarkmode = false;
-
-  if (color.mode === 'black') {
-    isdarkmode = true;
-  }
-
-  const getInfoApplet = async (id: number) => {
-    const data = await appletService.getApplet(user.access_token, id);
-    setApplet({
-      name: data.data.name,
-      description: data.data.description,
-      is_active: data.data.is_active,
-      reaction: data.data.reaction,
-      action: data.data.action,
-      config: data.data.config,
-    });
-    setId(data.data.id);
-  };
-
-  useEffect(() => {
-    return navigation.addListener('focus', () => {
-      if (route.params?.id || route.params?.id !== 0) {
-        getInfoApplet(route.params.id);
-      }
-    });
-  }, [navigation]);
-
+function SettingsApplet({ modalVisible, setModalVisible, applet, navigation }) {
   const handleDuplicatePress = async () => {
     const data = await appletService.createApplet(user.access_token, {
       name: applet.name,
@@ -185,10 +126,7 @@ export default function InfoApplet({
       config: applet.config,
       is_active: applet.is_active,
     });
-    navigation.navigate('Mes Applets', {
-      screen: 'MyApplets',
-      id: data.data.id,
-    });
+    navigation.pop();
   };
 
   const handleFavoritePress = () => {
@@ -247,41 +185,177 @@ export default function InfoApplet({
   ]);
 
   return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <Pressable
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: !isdarkmode ? '#00000075' : '#FFFFFF75',
+        }}
+        onPress={() => setModalVisible(!modalVisible)}
+      ></Pressable>
+      <View
+        style={{
+          width: '100%',
+          height: '40.5%',
+          top: '-40.5%',
+          backgroundColor: color.mode,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {settingsList.map((applet, i) => (
+          <View
+            key={i}
+            style={{
+              flexDirection: 'row',
+              borderBottomColor: !applet.end ? '#6F6F6F' : '',
+              borderBottomWidth: !applet.end ? 1 : 0,
+              width: '88%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <TouchableOpacity
+              key={i}
+              onPress={() => {
+                applet.handleOnPress;
+                applet.isActive = !applet.isActive;
+                setSettingsList(settingsList);
+              }}
+              style={{
+                marginLeft: '6%',
+                marginRight: '6%',
+                marginTop: '4%',
+                marginBottom: '4%',
+              }}
+            >
+              <Text
+                key={i}
+                style={{
+                  color: !applet.end ? '#6F6F6F' : '#FF000075',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                }}
+              >
+                {applet.isActive && applet.settingTitle[1]
+                  ? applet.settingTitle[1]
+                  : applet.settingTitle[0]}
+              </Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                position: 'absolute',
+                left: '0%',
+              }}
+            >
+              <FontAwesomeIcon
+                key={i}
+                icon={
+                  applet.isActive && applet.iconName[1]
+                    ? applet.iconName[1]
+                    : applet.iconName[0]
+                }
+                size={35}
+                style={{
+                  color: applet.end
+                    ? '#FF000075'
+                    : applet.fav && applet.isActive
+                    ? '#FF0000'
+                    : '#6F6F6F',
+                }}
+              />
+            </View>
+          </View>
+        ))}
+      </View>
+    </Modal>
+  );
+}
+
+export default function InfoApplet({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}): JSX.Element {
+  const { color, translate } = AppContext();
+  const { user } = UserCtx();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [id, setId] = useState(0);
+  const [applet, setApplet] = useState<IApplet>({
+    reaction: {
+      name: 'Reaction name',
+      description: 'Reaction description',
+      id: 1,
+      is_available: false,
+      serviceId: 1,
+    },
+    config: '',
+    is_active: false,
+    name: 'Applet name',
+    description: 'Applet description',
+    action: {
+      name: 'Action name',
+      description: 'Action description',
+      id: 1,
+      is_available: false,
+      serviceId: 1,
+    },
+  });
+
+  const getInfoApplet = async (id: number) => {
+    const data = await appletService.getApplet(user.access_token, id);
+    setApplet({
+      name: data.data.name,
+      description: data.data.description,
+      is_active: data.data.is_active,
+      reaction: data.data.reaction,
+      action: data.data.action,
+      config: data.data.config,
+    });
+    setId(data.data.id);
+  };
+
+  useEffect(() => {
+    return navigation.addListener('focus', async () => {
+      if (route.params?.id || route.params?.id !== 0) {
+        await getInfoApplet(route.params.id);
+      }
+    });
+  }, [navigation]);
+
+  return (
     <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: color.mode,
       }}
     >
-      <View
-        style={{
-          borderBottomColor: color.text,
-          borderBottomWidth: 2,
-          marginLeft: '6%',
-          marginRight: '6%',
-          marginTop: '8%',
-          marginBottom: '5%',
-        }}
-      >
-        <Text
-          style={{
-            color: color.text,
-            fontSize: 32,
-            fontWeight: 'bold',
-            marginBottom: '6%',
-            textAlign: 'center',
-          }}
-        >
-          {`${translate('info_applet_title')} #${id}`}
-        </Text>
-      </View>
+      <Header
+        title={`${translate('info_applet_title')} #${id}`}
+        navigation={navigation}
+      />
       <View
         style={{
           marginLeft: '6%',
           marginRight: '6%',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '15%',
+          paddingVertical: 20,
+          maxHeight: '15%',
           borderColor: color.mainColor,
           backgroundColor: color.mainColor,
           borderWidth: 1,
@@ -293,9 +367,9 @@ export default function InfoApplet({
       >
         <Text
           style={{
-            marginLeft: '2%',
-            marginRight: '25%',
             color: 'white',
+            alignSelf: 'flex-start',
+            marginLeft: 10,
             fontSize: 18,
           }}
         >
@@ -309,108 +383,18 @@ export default function InfoApplet({
             right: 0,
           }}
         >
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
+          <Pressable
+            onPress={() => {
+              console.log('Settings button pressed');
+              setModalVisible(true);
             }}
           >
-            <Pressable
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: !isdarkmode ? '#00000075' : '#FFFFFF75',
-              }}
-              onPress={() => setModalVisible(!modalVisible)}
-            ></Pressable>
-            <View
-              style={{
-                width: '100%',
-                height: '40.5%',
-                top: '-40.5%',
-                backgroundColor: color.mode,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              {settingsList.map((applet, i) => (
-                <View
-                  key={i}
-                  style={{
-                    flexDirection: 'row',
-                    borderBottomColor: !applet.end ? '#6F6F6F' : '',
-                    borderBottomWidth: !applet.end ? 1 : 0,
-                    width: '88%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <TouchableOpacity
-                    key={i}
-                    onPress={() => {
-                      applet.handleOnPress;
-                      applet.isActive = !applet.isActive;
-                      setSettingsList(settingsList);
-                    }}
-                    style={{
-                      marginLeft: '6%',
-                      marginRight: '6%',
-                      marginTop: '4%',
-                      marginBottom: '4%',
-                    }}
-                  >
-                    <Text
-                      key={i}
-                      style={{
-                        color: !applet.end ? '#6F6F6F' : '#FF000075',
-                        fontSize: 24,
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {applet.isActive && applet.settingTitle[1]
-                        ? applet.settingTitle[1]
-                        : applet.settingTitle[0]}
-                    </Text>
-                  </TouchableOpacity>
-                  <View
-                    style={{
-                      position: 'absolute',
-                      left: '0%',
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      key={i}
-                      icon={
-                        applet.isActive && applet.iconName[1]
-                          ? applet.iconName[1]
-                          : applet.iconName[0]
-                      }
-                      size={35}
-                      style={{
-                        color: applet.end
-                          ? '#FF000075'
-                          : applet.fav && applet.isActive
-                          ? '#FF0000'
-                          : '#6F6F6F',
-                      }}
-                    />
-                  </View>
-                </View>
-              ))}
-            </View>
-          </Modal>
-          <Pressable onPress={() => setModalVisible(true)}>
             <FontAwesomeIcon
               icon={'ellipsis-v'}
-              size={50}
+              size={30}
               style={{
                 color: 'white',
+                marginRight: 10,
               }}
             />
           </Pressable>
@@ -420,7 +404,6 @@ export default function InfoApplet({
         style={{
           marginLeft: '6%',
           marginRight: '6%',
-          height: '61%',
           borderColor: color.mainColor,
           backgroundColor: color.mode,
           borderWidth: 1,
@@ -429,6 +412,8 @@ export default function InfoApplet({
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
           paddingTop: 21,
+          flex: 1,
+          marginBottom: 20,
         }}
       >
         <AppletBubble
