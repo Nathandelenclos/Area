@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export type TitleProps = {
-  text: string,
-  textColor: string,
-}
+export type HomeTitleProps = {
+  text: string;
+  textColor: string;
+};
 
-export default ( {text, textColor}: TitleProps ) => {
-  const parts = text.split(" ");
+export default function HomeTitle({ text, textColor }: HomeTitleProps) {
+  const parts = text.split(' ');
 
   return (
     <View>
@@ -32,4 +32,4 @@ export default ( {text, textColor}: TitleProps ) => {
       </Text>
     </View>
   );
-};
+}

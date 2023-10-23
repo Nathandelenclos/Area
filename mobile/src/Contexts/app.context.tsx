@@ -2,7 +2,7 @@ import React, { createContext, useEffect } from 'react';
 import { NativeModules, Platform, useColorScheme } from 'react-native';
 import { IApplicationContext, LanguageKeys } from '@interfaces/app.interface';
 import { black, common, white } from './color.keys';
-import { languageList } from './language.keys';
+import { LanguageList, languageList } from './language.keys';
 
 export const ApplicationContext = createContext<IApplicationContext>({
   color: { ...white, ...common },
@@ -24,7 +24,11 @@ export const ApplicationProvider = (props: { children: any }) => {
     } else {
       deviceLanguage = NativeModules.I18nManager.localeIdentifier;
     }
-    const lang = deviceLanguage.substring(0, 2);
+    const lang: string = deviceLanguage.substring(0, 2);
+    if (lang in languageList) {
+      const tmp = lang as keyof LanguageList;
+      setLanguage(languageList[tmp]);
+    }
   };
 
   const translate = (key: string) => {

@@ -56,7 +56,7 @@ const en: LanguageKeys = {
   save: 'Save',
 };
 
-type LanguageList = {
+export type LanguageList = {
   fr: LanguageKeys;
   en: LanguageKeys;
 };
