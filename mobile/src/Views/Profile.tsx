@@ -1,19 +1,91 @@
-import React, { JSX } from 'react';
-import { StyleSheet, TextInput, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { Dispatch, JSX, SetStateAction, useState } from 'react';
+import { Modal, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Title } from '@components/Title';
-import AppletTile, { AppletProps } from '@components/HomeComponents/AppletTile';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { AuthViewContainer, AuthFooter, AuthTextInput } from '@components/Auth';
-import BackButton from '@components/BackButton';
+
+type InputFieldProps = {
+  title: string;
+  placeholder: string;
+  hide?: boolean;
+  mode: string;
+};
+
+function InputField({
+  title,
+  placeholder,
+  hide = false,
+  mode,
+}: InputFieldProps): React.JSX.Element {
+  const [text, onChangeText] = React.useState<string>(placeholder);
+  const [isPasswordVisible, setPasswordVisibility] = React.useState<boolean>(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!isPasswordVisible);
+  };
+
+  return (
+    <View>
+      <Text
+        style={{
+          color: mode === 'white' ? 'black' : 'white',
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginBottom: '2%',
+        }}
+      >
+        {title}
+      </Text>
+      <View style={{
+        justifyContent: 'center',
+      }}
+      >
+        <TextInput
+          secureTextEntry={hide ? !isPasswordVisible : false}
+          autoCapitalize="none"
+          style={{
+            height: 40,
+            borderColor: '#EEEEEE',
+            borderWidth: 3,
+            color: 'black',
+            backgroundColor: 'white',
+            borderRadius: 10,
+            padding: 10,
+            fontWeight: 'bold',
+          }}
+          onChangeText={onChangeText}
+          value={text}
+        />
+        {hide && (
+          <TouchableOpacity
+            onPress={togglePasswordVisibility}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            style={{
+              position: 'absolute',
+              right: 10,
+            }}
+          >
+            <FontAwesomeIcon
+              icon={isPasswordVisible ? faEyeSlash : faEye}
+              size={24}
+              style={{
+                color: 'gray',
+              }}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+}
 
 type servicesProps = {
   color: string;
   name: string;
 };
 
-function renderRows(data: servicesProps[], itemsPerRow: number, pressInfoService: any) {
+function RenderRows(data: servicesProps[], itemsPerRow: number, pressInfoService: any) {
   const rows = [];
   const totalRows = Math.ceil(data.length / itemsPerRow);
 
@@ -57,11 +129,158 @@ function renderRows(data: servicesProps[], itemsPerRow: number, pressInfoService
   return rows;
 }
 
+type LogoutModalProps = {
+  modalLogoutVisible: boolean;
+  setModalLogoutVisible: Dispatch<SetStateAction<boolean>>;
+}
+
+function LogoutModal({modalLogoutVisible, setModalLogoutVisible} : LogoutModalProps): React.JSX.Element {
+  const { color, translate } = AppContext();
+
+  const logoutUser = () => {
+    console.log('logout user');
+  };
+
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalLogoutVisible}
+      onRequestClose={() => {
+        setModalLogoutVisible(!modalLogoutVisible);
+      }}
+    >
+      <Pressable
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          backgroundColor: color.mode === 'white' ? '#00000075' : '#FFFFFF75',
+        }}
+        onPress={() => setModalLogoutVisible(!modalLogoutVisible)}
+      />
+      <View 
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: color.mode,
+            width: '70%',
+            padding: 12,
+            justifyContent: 'center',
+            borderRadius: 20,
+          }}
+        >
+          <TouchableOpacity style={{ position: 'absolute', top: 0, right: 0, marginRight: 12, marginTop: 12,}} onPress={() => setModalLogoutVisible(!modalLogoutVisible)}>
+            <FontAwesomeIcon
+              icon={'times'}
+              size={25}
+              style={{color: color.text}}
+            />
+          </TouchableOpacity>
+          <Text style={{ color: color.text, fontSize: 12, fontWeight: '500', marginRight: 39, marginBottom: 20,}}>
+            {translate('decolog_message')}
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: '5%',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <TouchableOpacity style={{ backgroundColor: 'white', borderRadius: 10, borderColor: 'black', borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8, marginRight: 12, }} onPress={() => setModalLogoutVisible(!modalLogoutVisible)}>
+              <Text style={{ color: 'black', fontSize: 12, fontWeight: '700'}}>
+                {translate('cancel')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ backgroundColor: color.mainColor, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, }} onPress={logoutUser}>
+              <Text style={{ color: 'white', fontSize: 12, fontWeight: '700'}}>
+                {translate('decolog')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
+type PasswordModalProps = {
+  modalPasswordVisible: boolean;
+  setModalPasswordVisible: Dispatch<SetStateAction<boolean>>;
+}
+
+function PasswordModal({modalPasswordVisible, setModalPasswordVisible} : PasswordModalProps): React.JSX.Element {
+  const { color, translate } = AppContext();
+
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalPasswordVisible}
+      onRequestClose={() => {
+        setModalPasswordVisible(!modalPasswordVisible);
+      }}
+    >
+      <Pressable
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          backgroundColor: color.mode === 'white' ? '#00000075' : '#FFFFFF75',
+        }}
+        onPress={() => setModalPasswordVisible(!modalPasswordVisible)}
+      />
+      <View 
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: color.mode,
+            height: '40%',
+            width: '80%',
+            padding: 12,
+            justifyContent: 'center',
+            borderRadius: 20,
+          }}
+        >
+          <TouchableOpacity style={{ position: 'absolute', top: 0, right: 0, marginRight: 12, marginTop: 12,}} onPress={() => setModalPasswordVisible(!modalPasswordVisible)}>
+            <FontAwesomeIcon
+              icon={'times'}
+              size={25}
+              style={{color: color.text}}
+            />
+          </TouchableOpacity>
+          <InputField
+            placeholder='Ancien mot de passe'
+            title={translate('modify_password')}
+            hide={true}
+            mode={color.mode}
+          />
+        </View>
+      </View>
+    </Modal>
+  );
+} 
+
 export default function Profile(): JSX.Element {
   const { color, translate } = AppContext();
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [modalLogoutVisible, setModalLogoutVisible] = useState(false);
 
   const changePassword = () => {
     console.log('change password pressed');
+    setModalPasswordVisible(true);
   };
 
   const changePic = () => {
@@ -71,6 +290,11 @@ export default function Profile(): JSX.Element {
   const pressInfoService = ( name : string ) => {
     console.log('press info ' + name + ' pressed');
   }
+
+  const logoutUserPressed = () => {
+    console.log('logout pressed');
+    setModalLogoutVisible(true);
+  };
 
   const coServicesList: servicesProps[] = [
     {
@@ -87,22 +311,22 @@ export default function Profile(): JSX.Element {
 
   const servicesList: servicesProps[] = [
     {
-      color: 'black',
+      color: '#6F6F6F',
       name: 'Spotify',
     }, {
-      color: 'black',
+      color: '#6F6F6F',
       name: 'Google',
     }, {
-      color: 'black',
+      color: '#6F6F6F',
       name: 'Facebook',
     }, {
-      color: 'black',
+      color: '#6F6F6F',
       name: 'Twitter',
     }, {
-      color: 'black',
+      color: '#6F6F6F',
       name: 'Outlook',
     }, {
-      color: 'black',
+      color: '#6F6F6F',
       name: 'WhatsApp',
     },
   ];
@@ -123,11 +347,31 @@ export default function Profile(): JSX.Element {
           paddingVertical: 32,
         }}
       >
-        <BackButton navigation={{}} />
-        <Title
-          title={translate('pofile_title')}
-          style={{ color: color.textOverMainColor, marginBottom: '9%' }}
-        />
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 36,
+            width: '100%',
+          }}
+        >
+          <Title
+            title={translate('pofile_title')}
+            style={{ color: color.textOverMainColor }}
+          />
+          <TouchableOpacity
+            style={{position: 'absolute', right: 0, marginRight: 24}}
+            onPress={logoutUserPressed}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          >
+            <FontAwesomeIcon
+              icon={'sign-out-alt'}
+              size={25}
+              style={{ color: color.textOverMainColor }}
+            />
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity onPress={changePic}>
           <FontAwesomeIcon
             icon={'circle-user'}
@@ -135,29 +379,33 @@ export default function Profile(): JSX.Element {
             style={{ color: color.textOverMainColor, marginBottom: '3%'}}
           />
         </TouchableOpacity>
+
         <Text style={{ color: color.textOverMainColor, fontSize: 20, fontWeight: 'bold', marginBottom: '2%'}}>
           Simon Riembault
           {/* {user.surname + ' ' + user.name} */}
         </Text>
+
         <Text style={{ color: color.textOverMainColor, textDecorationLine: 'underline', fontSize: 12, fontWeight: '500', marginBottom: '8%'}}>
           simon.riembault@gmail.com
           {/* {user.email} */}
         </Text>
+
         <TouchableOpacity
           style={{
-            backgroundColor: color.mode,
+            backgroundColor: 'white',
             borderRadius: 10,
             paddingVertical: 8,
             paddingHorizontal: 12,
           }}
           onPress={changePassword}
         >
-          <Text style={{ color: color.text, fontSize: 12, fontWeight: '700'}}>
+          <Text style={{ color: 'black', fontSize: 12, fontWeight: '700'}}>
             {translate('modify_password') + ' >'}
           </Text>
         </TouchableOpacity>
       </View>
-      <View>
+
+      <ScrollView>
         <View
           style={{
             alignItems: 'center',
@@ -168,16 +416,21 @@ export default function Profile(): JSX.Element {
             {translate('connected_services')}
           </Text>
           <View>
-            {renderRows(coServicesList, 3, pressInfoService)}
+            {RenderRows(coServicesList, 3, pressInfoService)}
           </View>
           <Text style={{ color: color.text, fontSize: 18, fontWeight: '700', marginBottom: 30}}>
             {translate('to_connect_services')}
           </Text>
           <View>
-            {renderRows(servicesList, 3, pressInfoService)}
+            {RenderRows(servicesList, 3, pressInfoService)}
           </View>
         </View>
-      </View>
+      </ScrollView>
+
+      <PasswordModal modalPasswordVisible={modalPasswordVisible} setModalPasswordVisible={setModalPasswordVisible}/>
+
+      <LogoutModal modalLogoutVisible={modalLogoutVisible} setModalLogoutVisible={setModalLogoutVisible}/>
+
     </SafeAreaView>
   );
 }

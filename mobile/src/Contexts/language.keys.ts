@@ -30,6 +30,9 @@ const fr: LanguageKeys = {
   pofile_title: 'Ton Profil',
   connected_services: 'Services connectés',
   to_connect_services: 'Connecter d\'autres services',
+  cancel: 'Annuler',
+  decolog: 'Se Déconnecter',
+  decolog_message: 'Êtes-vous sûr de vouloir vous déconnecter ?',
 };
 
 const en: LanguageKeys = {
@@ -62,6 +65,9 @@ const en: LanguageKeys = {
   pofile_title: 'Your Profile',
   connected_services: 'Connected services',
   to_connect_services: 'Connect other services',
+  cancel: 'Cancel',
+  decolog: 'Sign out',
+  decolog_message: 'Are you sure you want to sign out ?',
 };
 
 type LanguageList = {
