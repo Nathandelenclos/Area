@@ -10,6 +10,7 @@ const fr: LanguageKeys = {
   email: 'Email',
   password: 'Mot de passe',
   forgot_password: 'Mot de passe oublié ?',
+  modify_password: 'Modifier le mot de passe',
   full_name: 'Nom complet',
   to_pp: 'En vous inscrivant, vous acceptez nos',
   to: "Conditions d'utilisation",
@@ -26,6 +27,9 @@ const fr: LanguageKeys = {
   select_action: 'Selectionnez une action',
   select_reaction: 'Selectionnez une réaction',
   save: 'Sauvegarder',
+  pofile_title: 'Ton Profil',
+  connected_services: 'Services connectés',
+  to_connect_services: 'Connecter d\'autres services',
 };
 
 const en: LanguageKeys = {
@@ -38,6 +42,7 @@ const en: LanguageKeys = {
   email: 'Email',
   password: 'Password',
   forgot_password: 'Forgot password ?',
+  modify_password: 'Modify Password',
   full_name: 'Full name',
   to_pp: 'By signing up, you agree to our',
   to: 'Terms of service',
@@ -54,6 +59,9 @@ const en: LanguageKeys = {
   select_action: 'Select an action',
   select_reaction: 'Select a reaction',
   save: 'Save',
+  pofile_title: 'Your Profile',
+  connected_services: 'Connected services',
+  to_connect_services: 'Connect other services',
 };
 
 type LanguageList = {

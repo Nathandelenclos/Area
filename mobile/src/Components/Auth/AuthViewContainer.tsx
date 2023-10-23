@@ -4,13 +4,15 @@ import AppContext from '@contexts/app.context';
 
 export default function AuthViewContainer({
   children,
+  bgColor,
 }: {
   children: JSX.Element[];
+  bgColor?: string;
 }): JSX.Element {
   const { color } = AppContext();
 
   return (
-    <View style={{ flex: 1, backgroundColor: color.background }}>
+    <View style={{ flex: 1, backgroundColor: bgColor?bgColor:color.background }}>
       <View
         style={{
           backgroundColor: color.mainColor,

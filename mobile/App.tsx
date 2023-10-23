@@ -9,8 +9,9 @@ import { ApplicationProvider } from '@contexts/app.context';
 import { UserProvider } from '@contexts/user.context';
 import DefineNavigator from '@navigators/define.navigator';
 import Toast from 'react-native-toast-message';
-
-console.log('FACEBOOK_APP_ID', FACEBOOK_APP_ID);
+import Profile from '@views/Profile';
+import RecoverPassword from '@views/AuthView/RecoverPassword';
+import SignUp from '@views/AuthView/SignUp';
 
 library.add(fas);
 library.add(fab);
@@ -22,7 +23,10 @@ function App(): JSX.Element {
     <>
       <ApplicationProvider>
         <UserProvider>
-          <DefineNavigator />
+          {/* <DefineNavigator /> */}
+          <Profile />
+          {/* <RecoverPassword navigation={{}}/> */}
+          {/* <SignUp navigation={{}}/> */}
         </UserProvider>
       </ApplicationProvider>
       <Toast />
