@@ -10,6 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import MicroServiceResponse from '@app/common/micro.service.response';
 import { AES, MD5 } from 'crypto-js';
 import { JwtService } from '@nestjs/jwt';
+import { OauthService } from '@app/common/OAuth/oauth.service';
 
 export enum UserRelations {
   APPLETS = 'applets',
@@ -26,6 +27,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly oauthService: OauthService,
     private readonly configService: ConfigService,
     private jwtService: JwtService,
   ) {}
@@ -48,10 +50,6 @@ export class UserService {
       password: hashedPassword,
     });
     const response = { ...user };
-    delete response.google_token;
-    delete response.facebook_token;
-    delete response.github_token;
-    delete response.provider_id;
     delete response.password;
 
     const payload = { id: user.id, email: data.email };
@@ -83,16 +81,18 @@ export class UserService {
     const user = await this.userRepository.save({
       name: '',
       email: data.email,
-      [OAuthServices[data.provider]]: encryptedToken,
-      provider_id: hashedId,
       password: null,
     });
 
+    const oauth = await this.oauthService.create({
+      user,
+      provider: data.provider,
+      providerId: hashedId,
+      email: data.email,
+      token: encryptedToken,
+    });
+
     const response = { ...user };
-    delete response.google_token;
-    delete response.facebook_token;
-    delete response.github_token;
-    delete response.provider_id;
     delete response.password;
 
     const payload = { id: user.id, email: data.email };

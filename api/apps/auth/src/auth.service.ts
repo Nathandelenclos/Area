@@ -1,26 +1,25 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { OAuthServices, UserService } from '@app/common/users/user.service';
-import MicroServiceResponse from '@app/common/micro.service.response';
+import { MD5 } from 'crypto-js';
 import {
+  OAuthServices,
+  UserService,
   AppletRelations,
   AppletService,
-} from '@app/common/applets/applet.service';
-import {
+  MicroServiceResponse,
+  OauthService,
   NewUserDto,
   UserCredentialsDto,
   UserOAuthCredentialsDto,
-} from '@app/common/users/user.dto';
-import { AES, MD5, enc } from 'crypto-js';
-import { ConfigService } from '@nestjs/config';
+} from '@app/common';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
+    private readonly oauthService: OauthService,
     private readonly appletService: AppletService,
     private jwtService: JwtService,
-    private readonly configService: ConfigService,
   ) {}
 
   /**

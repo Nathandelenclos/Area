@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserService } from './user.service';
-import { UserEntity } from './user.entity';
-import { AppletEntity } from '@app/common/applets/applet.entity';
+import { OauthEntity } from '@app/common/OAuth/oauth.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { OauthEntity } from '@app/common/OAuth/oauth.entity';
+import { OauthService } from '@app/common/OAuth/oauth.service';
+import { UserEntity } from '@app/common/users/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity, AppletEntity, OauthEntity]),
+    TypeOrmModule.forFeature([OauthEntity, UserEntity]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -20,7 +19,7 @@ import { OauthEntity } from '@app/common/OAuth/oauth.entity';
       }),
     }),
   ],
-  providers: [UserService],
-  exports: [UserService],
+  providers: [OauthService],
+  exports: [OauthService],
 })
-export class UserModule {}
+export class OauthModule {}

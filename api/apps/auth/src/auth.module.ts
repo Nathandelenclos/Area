@@ -3,15 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from '@app/common/users/user.module';
-import { UserEntity } from '@app/common/users/user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { AppletEntity } from '@app/common/applets/applet.entity';
-import { ActionEntity } from '@app/common/actions/action.entity';
-import { ServiceEntity } from '@app/common/services/service.entity';
-import { ReactionEntity } from '@app/common/reactions/reaction.entity';
-import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
-import { AppletModule } from '@app/common/applets/applet.module';
+import { Entities, UserModule, AppletModule, OauthService } from '@app/common';
 
 @Module({
   imports: [
@@ -29,14 +22,8 @@ import { AppletModule } from '@app/common/applets/applet.module';
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [
-          UserEntity,
-          AppletEntity,
-          ActionEntity,
-          ServiceEntity,
-          ReactionEntity,
-          AppletConfigEntity,
-        ],
+        autoLoadEntities: true,
+        entities: Entities,
         synchronize: true,
       }),
     }),
@@ -51,6 +38,7 @@ import { AppletModule } from '@app/common/applets/applet.module';
     }),
     UserModule,
     AppletModule,
+    OauthService,
   ],
   controllers: [AuthController],
   providers: [AuthService],

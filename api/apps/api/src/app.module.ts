@@ -10,18 +10,16 @@ import MicroServiceProxy from '@app/common/micro.service.proxy';
 import MicroServiceInit from '@app/common/micro.service.init';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DiscordController } from './controllers/discord.controller';
-import { UserEntity } from '@app/common/users/user.entity';
-import { ServiceModule } from '@app/common/services/service.module';
-import { ActionModule } from '@app/common/actions/action.module';
-import { ReactionModule } from '@app/common/reactions/reaction.module';
-import { ServiceEntity } from '@app/common/services/service.entity';
-import { ReactionEntity } from '@app/common/reactions/reaction.entity';
-import { ActionEntity } from '@app/common/actions/action.entity';
 import { ServiceController } from './controllers/service.controller';
-import { AppletModule } from '@app/common/applets/applet.module';
 import { AppletController } from './controllers/applet.controller';
-import { AppletEntity } from '@app/common/applets/applet.entity';
-import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
+import {
+  AppletModule,
+  ActionModule,
+  ReactionModule,
+  ServiceModule,
+  OauthModule,
+  Entities,
+} from '@app/common';
 
 @Module({
   imports: [
@@ -48,14 +46,7 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [
-          ServiceEntity,
-          ActionEntity,
-          ReactionEntity,
-          UserEntity,
-          AppletEntity,
-          AppletConfigEntity,
-        ],
+        entities: Entities,
         synchronize: true,
       }),
     }),
@@ -63,6 +54,7 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
     ServiceModule,
     ActionModule,
     ReactionModule,
+    OauthModule,
   ],
   controllers: [
     AppController,
