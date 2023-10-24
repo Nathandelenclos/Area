@@ -22,6 +22,7 @@ import { AppletModule } from '@app/common/applets/applet.module';
 import { AppletController } from './controllers/applet.controller';
 import { AppletEntity } from '@app/common/applets/applet.entity';
 import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
+import { AppletRequiredConfigEntity } from '@app/common/applets/required_configuration/applet.required.config.entity';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
           UserEntity,
           AppletEntity,
           AppletConfigEntity,
+          AppletRequiredConfigEntity,
         ],
         synchronize: true,
       }),

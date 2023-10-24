@@ -3,7 +3,7 @@ import { ActionEntity } from '@app/common/actions/action.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewAction } from '@app/common/actions/action.dto';
-import { AppletConfigService } from '@app/common/applets/configuration/applet.config.service';
+import { AppletRequiredConfigService } from '@app/common/applets/required_configuration/applet.required.config.service';
 
 export enum ActionRelations {
   SERVICE = 'service',
@@ -14,7 +14,7 @@ export class ActionService {
   constructor(
     @InjectRepository(ActionEntity)
     private readonly actionRepository: Repository<ActionEntity>,
-    private readonly appletConfigService: AppletConfigService,
+    private readonly appletRequiredConfigService: AppletRequiredConfigService,
   ) {}
 
   /**
@@ -31,11 +31,22 @@ export class ActionService {
       service: { id: 16 },
     });
 
-    const config = {
-      date: 'date',
-    };
+    const config = [
+      {
+        name: 'Now',
+        description: 'Date of the creation of the applet',
+        key: 'lastExec',
+        type: 'date',
+      },
+      {
+        name: 'Delta',
+        description: 'Seconds between now and the next execution',
+        key: 'delta',
+        type: 'number',
+      },
+    ];
 
-    this.appletConfigService.createMany('action', action.id, config);
+    this.appletRequiredConfigService.createMany('action', action.id, config);
     return action;
   }
 

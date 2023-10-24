@@ -12,6 +12,7 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
 import { ServiceModule } from '@app/common/services/service.module';
 import { ActionModule } from '@app/common/actions/action.module';
 import { ReactionModule } from '@app/common/reactions/reaction.module';
+import { AppletRequiredConfigEntity } from '@app/common/applets/required_configuration/applet.required.config.entity';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ReactionModule } from '@app/common/reactions/reaction.module';
           AppletEntity,
           UserEntity,
           AppletConfigEntity,
+          AppletRequiredConfigEntity,
         ],
         synchronize: true,
       }),

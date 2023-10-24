@@ -50,8 +50,13 @@ export class TimerService {
     const now = new Date();
 
     for (const applet of applets) {
+      const dateValue: string | null = applet.applet_configs.find(
+        (e) => e.key === 'date',
+      )?.value;
+      if (!dateValue) continue;
+
       const date = new Date(
-        applet.applet_configs.find((e) => e.key === 'date').value,
+        applet.applet_configs.find((e) => e.key === 'date')?.value,
       );
 
       if (date.getTime() > now.getTime()) continue;
@@ -101,7 +106,6 @@ export class TimerService {
 
       lastExec.setSeconds(lastExec.getSeconds() + delta);
       if (lastExec.getTime() > now.getTime()) continue;
-
       await this.appletConfigService.update(lastExecConfig.id, {
         value: new Date().toISOString(),
       });

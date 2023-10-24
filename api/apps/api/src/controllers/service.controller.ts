@@ -28,6 +28,7 @@ export class ServiceController {
   async getServiceActions(@Param('id') id: number) {
     const service = await this.serviceService.findOne({ id }, [
       ServiceRelations.ACTIONS,
+      ServiceRelations.ACTION_CONFIG,
     ]);
     return service.actions;
   }
@@ -36,6 +37,7 @@ export class ServiceController {
   async getServiceReactions(@Param('id') id: number) {
     const service = await this.serviceService.findOne({ id }, [
       ServiceRelations.REACTIONS,
+      ServiceRelations.REACTION_CONFIG,
     ]);
     return service.reactions;
   }

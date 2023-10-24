@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { ServiceEntity } from '@app/common/services/service.entity';
 import { AppletEntity } from '@app/common/applets/applet.entity';
-import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
+import { AppletRequiredConfigEntity } from '@app/common/applets/required_configuration/applet.required.config.entity';
 
 @Entity('action')
 export class ActionEntity {
@@ -29,6 +29,9 @@ export class ActionEntity {
   @OneToMany(() => AppletEntity, (applet) => applet.action)
   applets: AppletEntity[];
 
-  @OneToMany(() => AppletConfigEntity, (appletConfig) => appletConfig.action)
-  action_configs: AppletConfigEntity[];
+  @OneToMany(
+    () => AppletRequiredConfigEntity,
+    (appletRequiredConfig) => appletRequiredConfig.action,
+  )
+  config: AppletRequiredConfigEntity[];
 }
