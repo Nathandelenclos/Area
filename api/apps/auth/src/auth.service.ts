@@ -1,24 +1,26 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { MD5 } from 'crypto-js';
+import { AES, MD5, enc } from 'crypto-js';
 import {
-  OAuthServices,
-  UserService,
-  AppletRelations,
-  AppletService,
-  MicroServiceResponse,
+  OAuthRelations,
   OauthService,
-  NewUserDto,
-  UserCredentialsDto,
+  UnAuthorizeError,
+  UserEntity,
+  UserLoggedInDto,
+  UserNativeCredentialsDto,
   UserOAuthCredentialsDto,
+  UserRelations,
+  UserService,
+  ValidationError,
 } from '@app/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly oauthService: OauthService,
-    private readonly appletService: AppletService,
+    private readonly configService: ConfigService,
     private jwtService: JwtService,
   ) {}
 
@@ -27,22 +29,23 @@ export class AuthService {
    * @param data NewUser
    * @returns Promise<MicroServiceResponse> object
    */
-  async register(data: NewUserDto): Promise<MicroServiceResponse> {
-    if (
-      data.name == null ||
-      data.email == null ||
-      data.password == null ||
-      data.password.length == 0 ||
-      data.email.length == 0 ||
-      data.name.length == 0
-    ) {
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
-      });
+  async register(data: UserNativeCredentialsDto): Promise<UserLoggedInDto> {
+    if (data.name == null || data.email == null || data.password == null) {
+      throw new ValidationError<keyof UserNativeCredentialsDto>([
+        'password',
+        'email',
+        'name',
+      ]);
     }
 
-    return await this.userService.create(data);
+    const user = await this.userService.create(data);
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      token: this.jwtService.sign({ id: user.id, email: user.email }),
+    };
   }
 
   /**
@@ -50,92 +53,96 @@ export class AuthService {
    * @param data UserCredentials
    * @returns Promise<MicroServiceResponse> object
    */
-  async signIn(data: UserCredentialsDto): Promise<MicroServiceResponse> {
+  async signIn(data: UserNativeCredentialsDto): Promise<UserLoggedInDto> {
+    if (!data.email || !data.password) {
+      throw new ValidationError<keyof UserNativeCredentialsDto>([
+        'password',
+        'email',
+      ]);
+    }
     const user = await this.userService.findOne({ email: data.email });
     if (!user) {
-      return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
-      });
+      throw new UnAuthorizeError();
     }
     const isMatch = MD5(data.password).toString() == user.password;
     if (!isMatch) {
-      return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
-      });
+      throw new UnAuthorizeError();
     }
 
-    const payload = { id: user.id, email: user.email };
-    return new MicroServiceResponse({
-      data: {
-        email: user.email,
-        name: user.name,
-        access_token: this.jwtService.sign(payload),
-      },
-    });
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      token: this.jwtService.sign({ id: user.id, email: user.email }),
+    };
   }
 
-  async signOAuth(
-    data: UserOAuthCredentialsDto,
-  ): Promise<MicroServiceResponse> {
+  async signOAuth(data: UserOAuthCredentialsDto): Promise<UserLoggedInDto> {
+    if (!data.email || !data.provider || !data.refreshToken || !data.providerId)
+      throw new ValidationError<keyof UserOAuthCredentialsDto>([
+        'email',
+        'provider',
+        'refreshToken',
+        'providerId',
+      ]);
+
+    const hashedId: string = MD5(data.providerId).toString();
+    const hashedRefreshToken: string = AES.encrypt(
+      data.refreshToken,
+      this.configService.get('AES_SECRET'),
+    ).toString();
+
+    let oauth = await this.oauthService.findOne(
+      {
+        providerId: hashedId,
+        provider: data.provider,
+      },
+      [OAuthRelations.USER],
+    );
+
     if (
-      data.email == null ||
-      data.provider == null ||
-      data.token == null ||
-      data.id == null
-    )
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
-      });
+      !oauth ||
+      (oauth &&
+        AES.decrypt(
+          oauth.refreshToken,
+          this.configService.get('AES_SECRET'),
+        ).toString(enc.Utf8) != data.refreshToken)
+    ) {
+      throw new UnAuthorizeError();
+    }
 
-    const hashedId: string = MD5(data.id).toString();
-    const userByEmail = await this.userService.findOne({
-      email: data.email,
-    });
-    const userById = await this.userService.findOne({
-      provider_id: hashedId,
-    });
-    if (!userByEmail && !userById)
-      return await this.userService.createOAuth(data);
-    if ((userByEmail && !userById) || (!userByEmail && userById))
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Invalid Credentials',
-      });
-
-    const user = userByEmail ? userByEmail : userById;
-
-    if (OAuthServices[data.provider] == undefined)
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Invalid OAuth provider',
-      });
-
-    if (!user[OAuthServices[data.provider]])
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'No OAuth provider linked to this email',
-      });
-
-    const isMatch = user.provider_id == hashedId;
-    if (!isMatch) {
-      return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
+    let user = await this.userService.findOne({ id: oauth?.user.id });
+    if (!oauth) {
+      oauth = await this.oauthService.create({
+        accessToken: null,
+        providerId: hashedId,
+        email: data.email,
+        provider: data.provider,
+        refreshToken: hashedRefreshToken,
+        user: user,
       });
     }
 
-    const payload = { id: user.id, email: data.email };
-    return new MicroServiceResponse({
-      data: {
+    if (oauth && !user) {
+      user = await this.userService.create({
+        email: data.email,
+        name: data.name || data.email,
+        password: null,
+      });
+      await this.oauthService.update(oauth.id, {
+        user: user,
+      });
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      token: this.jwtService.sign({
         id: user.id,
         email: user.email,
-        name: user.name,
-        access_token: this.jwtService.sign(payload),
-      },
-    });
+      }),
+    };
   }
 
   /**
@@ -143,14 +150,14 @@ export class AuthService {
    * @param data UserEntity
    * @returns Promise<MicroServiceResponse> object
    */
-  async me(data: any): Promise<MicroServiceResponse> {
-    return new MicroServiceResponse({
-      data: await this.appletService.findAll(
-        {
-          user: { id: data.id },
-        },
-        [AppletRelations.REACTIONS, AppletRelations.ACTION],
-      ),
-    });
+  async me(data: Partial<UserEntity>): Promise<Partial<UserEntity>> {
+    const user = await this.userService.findOne(data, [
+      UserRelations.APPLETS,
+      UserRelations.APPLETS_ACTION,
+      UserRelations.APPLETS_REACTION,
+      UserRelations.OAUTH,
+    ]);
+    delete user.password;
+    return user;
   }
 }

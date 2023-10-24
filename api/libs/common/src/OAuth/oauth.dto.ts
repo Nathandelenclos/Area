@@ -1,10 +1,10 @@
-import { Providers } from '@app/common/users/user.dto';
+import { Providers, UserDto } from '@app/common/users/user.dto';
 import { UserEntity } from '@app/common/users/user.entity';
 
-export interface OauthDto {
-  email: string;
-  token: string;
-  providerId: string;
+export interface UserOAuthCredentialsDto extends UserDto {
   provider: Providers;
-  user: UserEntity;
+  refreshToken: string;
+  providerId: string;
+  accessToken?: string;
+  user?: UserEntity;
 }

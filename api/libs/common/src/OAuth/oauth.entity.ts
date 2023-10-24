@@ -13,11 +13,17 @@ export class OauthEntity {
   email: string;
 
   @Column({ nullable: true })
-  token: string;
+  accessToken: string;
 
-  @Column({ nullable: true })
+  @Column()
+  refreshToken: string;
+
+  @Column()
   providerId: string;
 
   @Column({ nullable: true })
+  lastUpdate: Date;
+
+  @Column()
   provider: string;
 }

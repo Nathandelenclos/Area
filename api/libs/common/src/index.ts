@@ -49,6 +49,11 @@ export * from './users/user.entity';
 export * from './users/user.module';
 export * from './users/user.service';
 
+export * from './errors';
+export * from './HttpCode';
+
+export * from './micro.service.response';
+
 const Entities = [
   UserEntity,
   ServiceEntity,

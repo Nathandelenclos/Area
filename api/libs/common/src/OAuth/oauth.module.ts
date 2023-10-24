@@ -4,11 +4,10 @@ import { OauthEntity } from '@app/common/OAuth/oauth.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { OauthService } from '@app/common/OAuth/oauth.service';
-import { UserEntity } from '@app/common/users/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([OauthEntity, UserEntity]),
+    TypeOrmModule.forFeature([OauthEntity]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

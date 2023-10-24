@@ -73,7 +73,7 @@ export class AppletService {
    * @param relations Include relations
    */
   findAll(
-    options: Partial<AppletCreateDto>,
+    options: Partial<AppletEntity>,
     relations: AppletRelations[] = [],
   ): Promise<AppletEntity[]> {
     return this.appletRepository.find({

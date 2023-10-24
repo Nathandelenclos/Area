@@ -4,7 +4,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { Entities, UserModule, AppletModule, OauthService } from '@app/common';
+import { Entities, UserModule, AppletModule, OauthModule } from '@app/common';
 
 @Module({
   imports: [
@@ -38,7 +38,7 @@ import { Entities, UserModule, AppletModule, OauthService } from '@app/common';
     }),
     UserModule,
     AppletModule,
-    OauthService,
+    OauthModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],

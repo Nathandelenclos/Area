@@ -19,7 +19,7 @@ export class AuthController {
   @Public()
   @Post('signin')
   signIn(@Body() data: any, @Res() res: Response) {
-    MicroServiceProxy.callMicroService(this.authService, 'signin', data, res);
+    MicroServiceProxy.callMicroService(this.authService, 'signing', data, res);
   }
 
   @Public()
