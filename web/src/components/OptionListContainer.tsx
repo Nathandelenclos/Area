@@ -42,7 +42,7 @@ export default function OptionListContainer({
   onListObjectClick,
 }: OptionListContainerProps) {
   return (
-    <div className="w-full mx-10 flex flex-col">
+    <div className="w-full lg:mx-10 flex flex-col">
       <h1 className="font-bold text-[30px] text-center my-10">
         {ContainerTitle}
       </h1>
