@@ -150,13 +150,19 @@ export class AuthService {
    * @param data UserEntity
    * @returns Promise<MicroServiceResponse> object
    */
-  async me(data: Partial<UserEntity>): Promise<Partial<UserEntity>> {
-    const user = await this.userService.findOne(data, [
-      UserRelations.APPLETS,
-      UserRelations.APPLETS_ACTION,
-      UserRelations.APPLETS_REACTION,
-      UserRelations.OAUTH,
-    ]);
+  async me(data: any): Promise<Partial<UserEntity>> {
+    const user = await this.userService.findOne(
+      {
+        id: data.id,
+        email: data.email,
+      },
+      [
+        UserRelations.APPLETS,
+        UserRelations.APPLETS_ACTION,
+        UserRelations.APPLETS_REACTION,
+        UserRelations.OAUTH,
+      ],
+    );
     delete user.password;
     return user;
   }

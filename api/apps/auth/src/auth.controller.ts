@@ -115,6 +115,7 @@ export class AuthController extends MicroServiceController {
     try {
       props.data = await this.authService.me(this.ack(context));
     } catch (error) {
+      console.error(`[ERROR] ${error}`);
       props = {
         code: HttpCode.INTERNAL_SERVER_ERROR,
         message: 'Internal server error',
