@@ -16,16 +16,10 @@ import {
 import { AppletCreateDto } from '@app/common/applets/applet.dto';
 import { DeepPartial } from 'typeorm';
 import { UserEntity } from '@app/common/users/user.entity';
-import { ActionService } from '@app/common/actions/action.service';
-import { ReactionService } from '@app/common/reactions/reaction.service';
 
 @Controller('applets')
 export class AppletController {
-  constructor(
-    private readonly appletService: AppletService,
-    private readonly actionService: ActionService,
-    private readonly reactionService: ReactionService,
-  ) {}
+  constructor(private readonly appletService: AppletService) {}
 
   @Get(':id')
   async findById(@Param('id') id: number, @Res() res: Response) {
@@ -71,10 +65,5 @@ export class AppletController {
     } catch (e) {
       res.status(500).json(e);
     }
-  }
-
-  @Post('test')
-  test() {
-    return this.actionService.create();
   }
 }

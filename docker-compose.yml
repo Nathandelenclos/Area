@@ -61,6 +61,23 @@ services:
       - rabbitmq
     restart: always
 
+  service:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: service
+    hostname: service
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=service
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
   discord:
     build:
       context: .
@@ -88,74 +105,6 @@ services:
       - ./api/:/app
     environment:
       - MICROSERVICE=spotify
-    env_file:
-      - .env.docker
-    depends_on:
-      - mysql
-      - rabbitmq
-    restart: always
-
-  instagram:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    container_name: instagram
-    hostname: instagram
-    volumes:
-      - ./api/:/app
-    environment:
-      - MICROSERVICE=instagram
-    env_file:
-      - .env.docker
-    depends_on:
-      - mysql
-      - rabbitmq
-    restart: always
-
-  gmail:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    container_name: gmail
-    hostname: gmail
-    volumes:
-      - ./api/:/app
-    environment:
-      - MICROSERVICE=gmail
-    env_file:
-      - .env.docker
-    depends_on:
-      - mysql
-      - rabbitmq
-    restart: always
-
-  youtube:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    container_name: youtube
-    hostname: youtube
-    volumes:
-      - ./api/:/app
-    environment:
-      - MICROSERVICE=youtube
-    env_file:
-      - .env.docker
-    depends_on:
-      - mysql
-      - rabbitmq
-    restart: always
-
-  google_drive:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    container_name: google_drive
-    hostname: google_drive
-    volumes:
-      - ./api/:/app
-    environment:
-      - MICROSERVICE=google_drive
     env_file:
       - .env.docker
     depends_on:

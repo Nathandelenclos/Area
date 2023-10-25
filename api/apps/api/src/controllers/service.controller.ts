@@ -1,44 +1,63 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import {
-  ServiceRelations,
-  ServiceService,
-} from '@app/common/services/service.service';
+import { Body, Controller, Get, Inject, Param, Res } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { MicroServiceProxy, Public } from '@app/common';
+import { Response } from 'express';
 
 @Controller('services')
 export class ServiceController {
-  constructor(private readonly serviceService: ServiceService) {}
+  constructor(
+    @Inject('SERVICE_SERVICE') private readonly serviceService: ClientProxy,
+  ) {}
 
+  @Public()
   @Get()
-  getServices() {
-    return this.serviceService.findAll([
-      ServiceRelations.ACTIONS,
-      ServiceRelations.REACTIONS,
-    ]);
+  getServices(@Body() data: any, @Res() res: Response) {
+    return MicroServiceProxy.callMicroService(
+      this.serviceService,
+      'getServices',
+      {},
+      res,
+    );
   }
 
+  @Public()
   @Get(':id')
-  getService(@Param('id') id: number) {
-    return this.serviceService.findOne({ id: id }, [
-      ServiceRelations.ACTIONS,
-      ServiceRelations.REACTIONS,
-    ]);
+  getService(@Param('id') id: number, @Body() data: any, @Res() res: Response) {
+    return MicroServiceProxy.callMicroService(
+      this.serviceService,
+      'getServices',
+      { id },
+      res,
+    );
   }
 
+  @Public()
   @Get(':id/actions')
-  async getServiceActions(@Param('id') id: number) {
-    const service = await this.serviceService.findOne({ id }, [
-      ServiceRelations.ACTIONS,
-      ServiceRelations.ACTION_CONFIG,
-    ]);
-    return service.actions;
+  async getServiceActions(
+    @Param('id') id: number,
+    @Body() data: any,
+    @Res() res: Response,
+  ) {
+    return MicroServiceProxy.callMicroService(
+      this.serviceService,
+      'getAction',
+      { id },
+      res,
+    );
   }
 
+  @Public()
   @Get(':id/reactions')
-  async getServiceReactions(@Param('id') id: number) {
-    const service = await this.serviceService.findOne({ id }, [
-      ServiceRelations.REACTIONS,
-      ServiceRelations.REACTION_CONFIG,
-    ]);
-    return service.reactions;
+  async getServiceReactions(
+    @Param('id') id: number,
+    @Body() data: any,
+    @Res() res: Response,
+  ) {
+    return MicroServiceProxy.callMicroService(
+      this.serviceService,
+      'getReaction',
+      { id },
+      res,
+    );
   }
 }
