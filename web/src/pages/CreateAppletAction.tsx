@@ -85,11 +85,11 @@ export default function CreateAppletAction() {
   return (
     <div className="w-full h-full flex flex-col items-center">
       <NavBar />
-      <div className="flex w-5/6 justify-between my-10 overflow-hidden">
-        <AppletCreationInputName
-          value={appletName}
-          onChange={(value) => setAppletName(value)}
-        />
+      <AppletCreationInputName
+        value={appletName}
+        onChange={(value) => setAppletName(value)}
+      />
+      <div className="flex w-full sm:w-5/6 lg:flex-row flex-col justify-between my-10">
         <OptionListContainer
           ContainerTitle={translate(
             "create-applets",
@@ -152,7 +152,7 @@ export default function CreateAppletAction() {
         />
       </div>
       <div
-        className={`text-white font-bold px-20 py-2 rounded-[20px] text-[28px] my-8 
+        className={`text-white font-bold px-10 py-4 rounded-[20px] text-[28px] my-8
         ${
           appletName.length === 0 ||
           !selectedServiceAction ||
@@ -164,7 +164,7 @@ export default function CreateAppletAction() {
         }`}
         onClick={onAppletCreation}
       >
-        <p>Créer mon Applet</p>
+        <p className="w-full text-center">Créer mon Applet</p>
       </div>
     </div>
   );

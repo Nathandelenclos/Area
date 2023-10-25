@@ -18,7 +18,7 @@ function NavBar({ elements }: NavBarProps) {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="w-full">
       <div className="block md:hidden">
         <Menu right>
           <p
