@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import AppContext from "context/AppContextProvider";
-import { RouteNames } from "@src/routes";
 import { useNavigate } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
 
-export type NavBarElement = {
-  name: string;
-  RouteName: RouteNames;
+export type listType = {
+  lang: string;
 };
 
-export type NavBarProps = {
-  elements?: NavBarElement[];
-};
+const choices: listType[] = [
+  { lang: "Francais" },
+  { lang: "English" },
+  { lang: "Espanol" },
+];
 
-function NavBar({ elements }: NavBarProps) {
+function NavBar() {
   const { translate, appName } = AppContext();
   const navigate = useNavigate();
+  const [selectedValue, setSelectedValue] = useState("Francais");
 
   return (
     <div className="w-full">
@@ -53,6 +54,17 @@ function NavBar({ elements }: NavBarProps) {
           >
             {translate("nav", "profile")}
           </p>
+          <select
+            value={selectedValue}
+            className="border py-2 px-5 ml-2 rounded-[10px] text-black"
+            onChange={(e) => setSelectedValue(e.target.value)}
+          >
+            {choices.map((choice, index: number) => (
+              <option key={index} value={choice.lang}>
+                {choice.lang}
+              </option>
+            ))}
+          </select>
         </Menu>
       </div>
       <div className="w-full h-fit drop-shadow bg-white flex justify-between px-10 py-5 align-center">
@@ -97,6 +109,17 @@ function NavBar({ elements }: NavBarProps) {
           >
             {translate("nav", "profile")}
           </p>
+          <select
+            value={selectedValue}
+            onChange={(e) => setSelectedValue(e.target.value)}
+            className="border py-2 px-5 ml-2 rounded-[10px] text-black"
+          >
+            {choices.map((choice, index: number) => (
+              <option key={index} value={choice.lang}>
+                {choice.lang}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>
