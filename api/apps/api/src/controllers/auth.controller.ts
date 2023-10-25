@@ -9,9 +9,8 @@ import {
   Res,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import MicroServiceProxy from '@app/common/micro.service.proxy';
 import { Response } from 'express';
-import { Public } from '@app/common/auth/public.decorator';
+import { Public, MicroServiceProxy } from '@app/common';
 
 @Controller('auth')
 export class AuthController {

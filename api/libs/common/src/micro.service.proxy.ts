@@ -8,10 +8,7 @@ class MicroServiceProxy {
     AUTH_SERVICE: 'auth_queue',
     DISCORD_SERVICE: 'discord_queue',
     SPOTIFY_SERVICE: 'spotify_queue',
-    INSTAGRAM_SERVICE: 'instagram_queue',
-    GMAIL_SERVICE: 'gmail_queue',
-    YOUTUBE_SERVICE: 'youtube_queue',
-    GOOGLE_DRIVE_SERVICE: 'google_drive_queue',
+    SERVICE_SERVICE: 'service_queue',
     TIMER_SERVICE: 'timer_queue',
   };
 
@@ -45,7 +42,7 @@ class MicroServiceProxy {
       );
     });
     if (!res) return;
-    res.status(response.getStatus()).json(response.getJSON());
+    res.status(response.getStatus()).send(response.getJSON());
   }
 }
 

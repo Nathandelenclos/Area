@@ -5,10 +5,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   AppletModule,
-  ActionModule,
-  ReactionModule,
-  ServiceModule,
-  OauthModule,
   Entities,
   MicroServiceInit,
   MicroServiceProxy,
@@ -50,10 +46,6 @@ import { AppletController } from './controllers/applet.controller';
       }),
     }),
     AppletModule,
-    ServiceModule,
-    ActionModule,
-    ReactionModule,
-    OauthModule,
   ],
   controllers: [
     AppController,
@@ -70,6 +62,10 @@ import { AppletController } from './controllers/applet.controller';
     MicroServiceInit.init(
       'AUTH_SERVICE',
       MicroServiceProxy.microServiceQueue.AUTH_SERVICE,
+    ),
+    MicroServiceInit.init(
+      'SERVICE_SERVICE',
+      MicroServiceProxy.microServiceQueue.SERVICE_SERVICE,
     ),
   ],
 })

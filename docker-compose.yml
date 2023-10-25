@@ -61,6 +61,23 @@ services:
       - rabbitmq
     restart: always
 
+  service:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: service
+    hostname: service
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=service
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
   discord:
     build:
       context: .
