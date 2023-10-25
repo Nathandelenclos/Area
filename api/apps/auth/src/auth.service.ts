@@ -77,6 +77,10 @@ export class AuthService {
     };
   }
 
+  /**
+   * Sign in a user with OAuth credentials and return a JWT
+   * @param data
+   */
   async signOAuth(data: UserOAuthCredentialsDto): Promise<UserLoggedInDto> {
     if (!data.email || !data.provider || !data.refreshToken || !data.providerId)
       throw new ValidationError<keyof UserOAuthCredentialsDto>([
@@ -167,10 +171,18 @@ export class AuthService {
     return user;
   }
 
+  /**
+   * Recover a password
+   * @param data
+   */
   async recoverPassword(data: any): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
+  /**
+   * Reset a password
+   * @param data
+   */
   async resetPassword(data: any): Promise<void> {
     throw new Error('Method not implemented.');
   }
