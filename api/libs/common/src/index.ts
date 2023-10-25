@@ -11,6 +11,7 @@ import {
   ReactionEntity,
   ActionEntity,
   ServiceEntity,
+  AppletRequiredConfigEntity,
 } from '@app/common';
 
 export * from './common.module';
@@ -29,6 +30,10 @@ export * from './applets/applet.service';
 export * from './applets/configuration/applet.config.entity';
 export * from './applets/configuration/applet.config.module';
 export * from './applets/configuration/applet.config.service';
+
+export * from './applets/required_configuration/applet.required.config.entity';
+export * from './applets/required_configuration/applet.required.config.module';
+export * from './applets/required_configuration/applet.required.config.service';
 
 export * from './OAuth/oauth.dto';
 export * from './OAuth/oauth.entity';
@@ -66,6 +71,7 @@ const Entities = [
   OauthEntity,
   AppletEntity,
   AppletConfigEntity,
+  AppletRequiredConfigEntity,
 ];
 
 export {

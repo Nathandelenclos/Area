@@ -48,11 +48,8 @@ export class AppletRequiredConfigService {
    * @param id Applet configuration id
    * @param data Configuration data
    */
-  update(
-    id: number,
-    data: DeepPartial<AppletRequiredConfigEntity>,
-  ): Promise<any> {
-    return this.appletRequiredConfigRepository.update(id, data);
+  update(id: number, data: DeepPartial<AppletRequiredConfigEntity>): void {
+    this.appletRequiredConfigRepository.update(id, data);
   }
 
   /**
