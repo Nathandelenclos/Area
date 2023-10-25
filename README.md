@@ -36,4 +36,6 @@ This software suite will be broken into three parts :
 - **Database:** MySQL
 - **Contenerization:** Docker, Docker Compose
 
+## Architecture Backend
 
+![Architecture Backend](./back_archi.svg)
