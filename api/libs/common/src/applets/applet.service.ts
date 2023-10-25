@@ -52,7 +52,7 @@ export class AppletService {
     });
 
     if (config) {
-      this.appletConfigService.createMany('applet', applet.id, config);
+      this.appletConfigService.createMany(applet.id, config);
     }
 
     return applet;

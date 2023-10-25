@@ -64,7 +64,10 @@ export class ServiceController extends MicroServiceController {
     };
     try {
       props.data = (
-        await this.serviceService.findOne({ id }, [ServiceRelations.ACTIONS])
+        await this.serviceService.findOne({ id }, [
+          ServiceRelations.ACTIONS,
+          ServiceRelations.ACTION_CONFIG,
+        ])
       ).actions;
     } catch (error) {
       props = {
@@ -84,7 +87,10 @@ export class ServiceController extends MicroServiceController {
     };
     try {
       props.data = (
-        await this.serviceService.findOne({ id }, [ServiceRelations.REACTIONS])
+        await this.serviceService.findOne({ id }, [
+          ServiceRelations.REACTIONS,
+          ServiceRelations.REACTION_CONFIG,
+        ])
       ).reactions;
     } catch (error) {
       props = {

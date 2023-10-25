@@ -7,6 +7,8 @@ import { NewService } from '@app/common/services/service.dto';
 export enum ServiceRelations {
   ACTIONS = 'actions',
   REACTIONS = 'reactions',
+  ACTION_CONFIG = 'actions.config',
+  REACTION_CONFIG = 'reactions.config',
 }
 
 @Injectable()

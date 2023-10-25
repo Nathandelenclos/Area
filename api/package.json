@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "create": "npx ts-node --project tsconfig.json script/create.ts",
+    "init": "npx ts-node --project tsconfig.json script/init.ts",
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",

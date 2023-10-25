@@ -3,12 +3,14 @@ import { TimerController } from './timer.controller';
 import { TimerService } from './timer.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServiceModule } from '@app/common/services/service.module';
-import { ActionModule } from '@app/common/actions/action.module';
-import { ReactionModule } from '@app/common/reactions/reaction.module';
-import { AppletModule } from '@app/common/applets/applet.module';
-import { AppletConfigModule } from '@app/common/applets/configuration/applet.config.module';
-import { Entities } from '@app/common';
+import {
+  Entities,
+  ServiceModule,
+  ActionModule,
+  ReactionModule,
+  AppletModule,
+  AppletConfigModule,
+} from '@app/common';
 
 @Module({
   imports: [

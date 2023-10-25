@@ -4,8 +4,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { NewReaction } from '@app/common/reactions/reaction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NewAction } from '@app/common/actions/action.dto';
-import { ActionEntity } from '@app/common/actions/action.entity';
-import { AppletConfigService } from '@app/common/applets/configuration/applet.config.service';
+import { AppletRequiredConfigService } from '@app/common/applets/required_configuration/applet.required.config.service';
 
 export enum ReactionRelations {
   SERVICE = 'service',
@@ -17,7 +16,7 @@ export class ReactionService {
   constructor(
     @InjectRepository(ReactionEntity)
     private readonly reactionRepository: Repository<ReactionEntity>,
-    private readonly appletConfigService: AppletConfigService,
+    private readonly appletRequiredConfigService: AppletRequiredConfigService,
   ) {}
 
   /**
@@ -37,12 +36,18 @@ export class ReactionService {
       cmd,
     });
 
+    /*
     const config = {
       webhook: 'string',
       message: 'string',
     };
 
-    this.appletConfigService.createMany('reaction', reaction.id, config);
+    this.appletRequiredConfigService.createMany(
+      'reaction',
+      reaction.id,
+      config,
+    );
+    */
     return reaction;
   }
 
@@ -53,7 +58,7 @@ export class ReactionService {
    */
   findAll(relations: ReactionRelations[] = []): Promise<ReactionEntity[]> {
     return this.reactionRepository.find({
-      relations,
+      relations: [...relations, 'reaction_configs'],
     });
   }
 
