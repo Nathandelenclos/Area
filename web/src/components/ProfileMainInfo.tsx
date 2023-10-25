@@ -20,7 +20,7 @@ export default function ProfileMainInfo() {
         </div>
         <div className="flex flex-1 text-center flex-col h-auto space-y-5 md:text-left">
           <p className="text-[30px] font-semibold">Simon Riembault</p>
-          <p className="text-[30px] md:break-normal break-all">
+          <p className="text-[25px] md:break-normal break-all">
             simon.riembault@epitech.eu
           </p>
           <div className="min-w-fit h-auto bg-black hover:bg-[#000000CC] rounded-[20px] py-4 px-8 flex flex-row hover:cursor-pointer items-center justify-center">

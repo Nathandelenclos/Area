@@ -87,6 +87,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
 /* Individual item */
 .bm-item {
   display: inline-block;
+  margin: 15px 0;
+}
+
+.bm-item:hover {
+  text-decoration: underline;
 }
 
 /* Styling of overlay */
