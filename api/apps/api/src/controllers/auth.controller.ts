@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Inject, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import MicroServiceProxy from '@app/common/micro.service.proxy';
 import { Response } from 'express';
@@ -36,5 +45,29 @@ export class AuthController {
   @Get('me')
   me(@Res() res: Response, @Req() req: any) {
     MicroServiceProxy.callMicroService(this.authService, 'me', req.user, res);
+  }
+
+  @Get('recover-password')
+  recoverPassword(@Res() res: Response, @Req() req: any) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'recover-password',
+      req.user,
+      res,
+    );
+  }
+
+  @Get('reset-password/:token')
+  resetPassword(
+    @Param('token') token: string,
+    @Res() res: Response,
+    @Req() req: any,
+  ) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'reset-password',
+      { token, ...req.user },
+      res,
+    );
   }
 }

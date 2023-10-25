@@ -166,4 +166,12 @@ export class AuthService {
     delete user.password;
     return user;
   }
+
+  async recoverPassword(data: any): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  async resetPassword(data: any): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 }
