@@ -164,7 +164,9 @@ export default function CreateAppletAction() {
         }`}
         onClick={onAppletCreation}
       >
-        <p className="w-full text-center">Créer mon Applet</p>
+        <p className="w-full text-center">
+          {translate("create-applets", "next-button")}
+        </p>
       </div>
     </div>
   );

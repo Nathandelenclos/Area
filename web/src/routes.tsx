@@ -9,6 +9,7 @@ import MyApplet from "@pages/MyApplet";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
+import ConfigureApplet from "./pages/ConfigureApplet";
 
 export const Routes: Route[] = [
   {
@@ -76,6 +77,12 @@ export const Routes: Route[] = [
     element: <Profile />,
   },
   {
+    name: "configure-applet",
+    path: "/configure-applet",
+    middleware: [],
+    element: <ConfigureApplet />,
+  },
+  {
     name: "404",
     path: "/404",
     middleware: [],
@@ -94,4 +101,5 @@ export type RouteNames =
   | "my-applets"
   | "create-applet"
   | "create-applet-reaction"
-  | "profile";
+  | "profile"
+  | "configure-applet";
