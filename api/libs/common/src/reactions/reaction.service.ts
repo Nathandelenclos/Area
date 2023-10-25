@@ -3,6 +3,9 @@ import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewReaction } from '@app/common/reactions/reaction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { NewAction } from '@app/common/actions/action.dto';
+import { ActionEntity } from '@app/common/actions/action.entity';
+import { AppletConfigService } from '@app/common/applets/configuration/applet.config.service';
 
 export enum ReactionRelations {
   SERVICE = 'service',
@@ -14,6 +17,7 @@ export class ReactionService {
   constructor(
     @InjectRepository(ReactionEntity)
     private readonly reactionRepository: Repository<ReactionEntity>,
+    private readonly appletConfigService: AppletConfigService,
   ) {}
 
   /**
@@ -21,8 +25,25 @@ export class ReactionService {
    * @param data NewReaction object
    * @returns Promise<ReactionEntity>
    */
-  create(data: NewReaction): Promise<ReactionEntity> {
-    return this.reactionRepository.save(data);
+  async create(data?: NewAction): Promise<ReactionEntity> {
+    //return this.reactionRepository.save(data);
+    const cmd: string = 'message';
+
+    const reaction = await this.reactionRepository.save({
+      name: 'Discord Message',
+      description: 'Send a discord message through a webhook',
+      is_available: true,
+      service: { id: 1 },
+      cmd,
+    });
+
+    const config = {
+      webhook: 'string',
+      message: 'string',
+    };
+
+    this.appletConfigService.createMany('reaction', reaction.id, config);
+    return reaction;
   }
 
   /**

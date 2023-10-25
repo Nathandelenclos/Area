@@ -90,6 +90,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/google_drive/tsconfig.app.json"
       }
+    },
+    "timer": {
+      "type": "application",
+      "root": "apps/timer",
+      "entryFile": "main",
+      "sourceRoot": "apps/timer/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/timer/tsconfig.app.json"
+      }
     }
   }
 }

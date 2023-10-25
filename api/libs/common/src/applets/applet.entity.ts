@@ -9,6 +9,7 @@ import { AppletConfigEntity } from './configuration/applet.config.entity';
 import { UserEntity } from '@app/common/users/user.entity';
 import { ActionEntity } from '@app/common/actions/action.entity';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
+import { ServiceEntity } from '@app/common/services/service.entity';
 
 @Entity('applets')
 export class AppletEntity {
@@ -32,6 +33,9 @@ export class AppletEntity {
 
   @ManyToOne(() => ReactionEntity, (reaction) => reaction.applets)
   reaction: ReactionEntity;
+
+  @ManyToOne(() => ServiceEntity, (service) => service.applets)
+  service: ServiceEntity;
 
   @OneToMany(() => AppletConfigEntity, (appletConfig) => appletConfig.applet)
   applet_configs: AppletConfigEntity[];

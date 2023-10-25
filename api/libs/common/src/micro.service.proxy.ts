@@ -12,6 +12,7 @@ class MicroServiceProxy {
     GMAIL_SERVICE: 'gmail_queue',
     YOUTUBE_SERVICE: 'youtube_queue',
     GOOGLE_DRIVE_SERVICE: 'google_drive_queue',
+    TIMER_SERVICE: 'timer_queue',
   };
 
   /**
@@ -25,7 +26,7 @@ class MicroServiceProxy {
     client: ClientProxy,
     cmd: string,
     data: any,
-    res: Response,
+    res?: Response,
   ): Promise<void> {
     const response = await new Promise<MicroServiceResponse>((resolve) => {
       client.send({ cmd: cmd }, data).subscribe(
@@ -44,6 +45,7 @@ class MicroServiceProxy {
         },
       );
     });
+    if (!res) return;
     res.status(response.getStatus()).json(response.getJSON());
   }
 }

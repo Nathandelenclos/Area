@@ -163,6 +163,23 @@ services:
       - rabbitmq
     restart: always
 
+  timer:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: timer
+    hostname: timer
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=timer
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
   queue:
     image: node:18
     container_name: queue

@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { AppletConfigEntity } from './applet.config.entity';
+
+type AppletConfigLinkableEntities = 'applet' | 'action' | 'reaction';
 
 @Injectable()
 export class AppletConfigService {
@@ -12,17 +14,27 @@ export class AppletConfigService {
 
   /**
    * Create a new applet configuration linked to an applet
-   * @param applet_id Applet id to link the configuration to
+   * @param entity Applet entity to link the configuration to
+   * @param id Applet id to link the configuration to
    * @param data Configuration data
    */
-  createMany(applet_id: any, data: any): void {
+  createMany(entity: AppletConfigLinkableEntities, id: any, data: any): void {
     Object.keys(data).map(async (key) => {
       await this.appletConfigRepository.save({
         key,
         value: data[key],
-        applet: applet_id,
+        [entity]: id,
       });
     });
+  }
+
+  /**
+   * Update an applet configuration
+   * @param id Applet configuration id
+   * @param data Configuration data
+   */
+  update(id: number, data: DeepPartial<AppletConfigEntity>): Promise<any> {
+    return this.appletConfigRepository.update(id, data);
   }
 
   /**
