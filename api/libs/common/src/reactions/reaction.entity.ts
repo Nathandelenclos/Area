@@ -15,6 +15,9 @@ export class ReactionEntity {
   id: number;
 
   @Column()
+  key: string;
+
+  @Column()
   name: string;
 
   @Column()

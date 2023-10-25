@@ -9,6 +9,9 @@ export class ServiceEntity {
   id: number;
 
   @Column()
+  key: string;
+
+  @Column()
   name: string;
 
   @Column()

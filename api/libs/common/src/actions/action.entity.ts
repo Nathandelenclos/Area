@@ -15,6 +15,9 @@ export class ActionEntity {
   id: number;
 
   @Column()
+  key: string;
+
+  @Column()
   name: string;
 
   @Column()

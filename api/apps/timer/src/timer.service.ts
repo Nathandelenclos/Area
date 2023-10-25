@@ -33,8 +33,8 @@ export class TimerService {
   async atDate(): Promise<void> {
     const applets = await this.appletService.findAll(
       {
-        service: { name: 'Timer' },
-        action: { name: 'At date' },
+        service: { key: 'timer' },
+        action: { key: 'at_date' },
       },
       [
         AppletRelations.CONFIG,
@@ -80,8 +80,8 @@ export class TimerService {
   async atCron(): Promise<void> {
     const applets = await this.appletService.findAll(
       {
-        service: { name: 'Timer' },
-        action: { name: 'At cron' },
+        service: { key: 'timer' },
+        action: { key: 'at_cron' },
       },
       [
         AppletRelations.CONFIG,
