@@ -76,4 +76,8 @@ export class UserService {
     });
     return !!user;
   }
+
+  async update(id: number, data: Partial<UserEntity>): Promise<void> {
+    await this.userRepository.update(id, data);
+  }
 }

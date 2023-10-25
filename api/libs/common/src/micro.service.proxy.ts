@@ -31,7 +31,6 @@ class MicroServiceProxy {
     const response = await new Promise<MicroServiceResponse>((resolve) => {
       client.send({ cmd: cmd }, data).subscribe(
         (response) => {
-          console.log('response', response);
           resolve(new MicroServiceResponse(response));
         },
         (error) => {

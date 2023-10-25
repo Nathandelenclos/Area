@@ -124,13 +124,13 @@ export class AuthController extends MicroServiceController {
   }
 
   @MessagePattern({ cmd: 'recover-password' })
-  async recoverPassword(@Ctx() context: RmqContext) {
+  async recoverPassword() {
     let props: MicroServiceHttpCodeProps = {
       code: HttpCode.OK,
       message: 'OK',
     };
     try {
-      props.data = await this.authService.recoverPassword(this.ack(context));
+      props.data = await this.authService.recoverPassword();
     } catch (error) {
       console.error(`[ERROR] ${error}`);
       props = {
@@ -155,6 +155,31 @@ export class AuthController extends MicroServiceController {
         code: HttpCode.INTERNAL_SERVER_ERROR,
         message: 'Internal server error',
       };
+    }
+    return new MicroServiceResponse(props);
+  }
+
+  @MessagePattern({ cmd: 'connect-oauth' })
+  async connectOAuth(@Ctx() context: RmqContext) {
+    let props: MicroServiceHttpCodeProps = {
+      code: HttpCode.OK,
+      message: 'OK',
+    };
+    try {
+      props.data = await this.authService.connectOAuth(this.ack(context));
+    } catch (error) {
+      console.error(`[ERROR] ${error}`);
+      if (error instanceof ValidationError) {
+        props = {
+          code: HttpCode.BAD_REQUEST,
+          message: error.message,
+        };
+      } else {
+        props = {
+          code: HttpCode.INTERNAL_SERVER_ERROR,
+          message: 'Internal server error',
+        };
+      }
     }
     return new MicroServiceResponse(props);
   }

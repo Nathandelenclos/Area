@@ -72,9 +72,4 @@ export class AppletController {
       res.status(500).json(e);
     }
   }
-
-  @Post('test')
-  test() {
-    return this.actionService.create();
-  }
 }

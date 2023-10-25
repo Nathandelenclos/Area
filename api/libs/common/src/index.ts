@@ -1,6 +1,7 @@
 import MicroServiceResponse from './micro.service.response';
 import MicroServiceInit from './micro.service.init';
 import MicroServiceController from './micro.service.controller';
+import MicroServiceProxy from './micro.service.proxy';
 
 import {
   OauthEntity,
@@ -54,6 +55,9 @@ export * from './HttpCode';
 
 export * from './micro.service.response';
 
+export * from './auth/public.decorator';
+export * from './auth/auth.guard';
+
 const Entities = [
   UserEntity,
   ServiceEntity,
@@ -68,5 +72,6 @@ export {
   MicroServiceResponse,
   MicroServiceInit,
   MicroServiceController,
+  MicroServiceProxy,
   Entities,
 };

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AES, MD5, enc } from 'crypto-js';
 import {
+  OauthEntity,
   OAuthRelations,
   OauthService,
   UnAuthorizeError,
@@ -175,7 +176,7 @@ export class AuthService {
    * Recover a password
    * @param data
    */
-  async recoverPassword(data: any): Promise<void> {
+  async recoverPassword(): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
@@ -183,7 +184,53 @@ export class AuthService {
    * Reset a password
    * @param data
    */
-  async resetPassword(data: any): Promise<void> {
-    throw new Error('Method not implemented.');
+  async resetPassword(data: UserNativeCredentialsDto): Promise<void> {
+    if (!data.id || !data.email || !data.password) {
+      throw new ValidationError<keyof UserNativeCredentialsDto>([
+        'id',
+        'password',
+        'email',
+      ]);
+    }
+
+    const user = this.userService.findOne({ id: data.id, email: data.email });
+    if (!user) {
+      throw new UnAuthorizeError();
+    }
+    await this.userService.update(data.id, {
+      password: MD5(data.password).toString(),
+    });
+  }
+
+  /**
+   * Link an OAuth account to a user
+   * @param data
+   */
+  async connectOAuth(data: UserOAuthCredentialsDto): Promise<OauthEntity> {
+    if (
+      !data.id ||
+      !data.email ||
+      !data.provider ||
+      !data.refreshToken ||
+      !data.providerId
+    )
+      throw new ValidationError<keyof UserOAuthCredentialsDto>([
+        'id',
+        'email',
+        'provider',
+        'refreshToken',
+        'providerId',
+      ]);
+    return this.oauthService.create({
+      accessToken: null,
+      providerId: MD5(data.providerId).toString(),
+      email: data.email,
+      provider: data.provider,
+      refreshToken: AES.encrypt(
+        data.refreshToken,
+        this.configService.get('AES_SECRET'),
+      ).toString(),
+      user: await this.userService.findOne({ id: data.id }),
+    });
   }
 }

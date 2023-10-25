@@ -70,4 +70,24 @@ export class AuthController {
       res,
     );
   }
+
+  @Post('reset-password')
+  resetPasswordPost(@Body() data: any, @Res() res: Response, @Req() req: any) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'reset-password',
+      { ...data, ...req.user },
+      res,
+    );
+  }
+
+  @Post('connect-oauth')
+  connectOAuth(@Body() data: any, @Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'connect-oauth',
+      { ...data, ...req.user },
+      res,
+    );
+  }
 }
