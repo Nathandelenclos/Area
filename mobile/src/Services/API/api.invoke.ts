@@ -1,4 +1,5 @@
 import UrlServiceTs from '@services/url.service.ts';
+import { TIMEOUT } from '@env';
 
 type IApiInvokeProps = {
   endpoint: string;
@@ -19,6 +20,18 @@ const methods: any = {
   GET: ApiGet,
   POST: ApiPost,
   DELETE: ApiDelete,
+};
+
+const fetchWithTimeout = (method: any, options: any, timeout: number) => {
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error('Request timed out'));
+    }, timeout);
+  });
+
+  const fetchPromise = method(options);
+
+  return Promise.race([fetchPromise, timeoutPromise]);
 };
 
 /**
@@ -42,11 +55,12 @@ export async function ApiInvoke({
   let response;
 
   try {
-    response = await methods[method]({
-      endpoint: endpoint,
-      body: body,
-      authToken: authToken,
-    });
+    //TODO: Number(TIMEOUT)
+    response = await fetchWithTimeout(
+      methods[method],
+      { endpoint, body, authToken },
+      TIMEOUT,
+    );
   } catch (e) {
     response = new Response(null, {
       status: 500,

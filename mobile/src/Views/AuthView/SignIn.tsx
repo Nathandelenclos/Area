@@ -8,6 +8,7 @@ import authService from '@services/auth.service';
 import AppContext from '@contexts/app.context';
 import UserCtx from '@contexts/user.context';
 import { Storage } from '@src/Storage/user.storage';
+import SettingsButton from '@components/SettingsButton';
 
 export default function SignIn({
   navigation,
@@ -35,6 +36,7 @@ export default function SignIn({
           alignItems: 'center',
         }}
       >
+        <SettingsButton onPress={() => navigation.navigate('ChangeURL')} />
         <BackButton navigation={navigation} />
         <Title
           title={translate('sign_in')}

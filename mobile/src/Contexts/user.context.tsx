@@ -19,7 +19,7 @@ export const UserContext = createContext<UserContextType>({
 
 export const UserProvider = (props: { children: any }) => {
   const [user, setUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const { color } = AppContext();
 
   const value: UserContextType = {
@@ -34,11 +34,17 @@ export const UserProvider = (props: { children: any }) => {
       if (!resp.data) {
         await Storage.removeToken();
         setUser(null);
-      }
-      setUser({ ...resp.data, access_token: token });
+      } else setUser({ ...resp.data, access_token: token });
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) {
+      Storage.removeToken();
+    }
+  }, [user]);
 
   useEffect(() => {
     getUser();

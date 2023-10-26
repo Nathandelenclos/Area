@@ -11,6 +11,7 @@ import InfoApplet from '@views/InfoApplet';
 import ListServices from '@views/CreateApplet/ListServices';
 import ListActions from '@views/CreateApplet/ListActions';
 import ConfigActions from '@views/CreateApplet/ConfigActions';
+import ChangeURL from '@views/ChangeURL';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,6 +60,7 @@ function SettingsNavigator(): JSX.Element {
       initialRouteName={'Setting'}
     >
       <Stack.Screen name="Setting" component={Settings} />
+      <Stack.Screen name="ChangeURL" component={ChangeURL} />
     </Stack.Navigator>
   );
 }

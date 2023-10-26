@@ -26,6 +26,9 @@ const fr: LanguageKeys = {
   select_action: 'Selectionnez une action',
   select_reaction: 'Selectionnez une réaction',
   save: 'Sauvegarder',
+  modify_app_url: "Modifier l'url de l'api",
+  modify: 'Modifier',
+  invalid_url: 'Url invalide',
 };
 
 const en: LanguageKeys = {
@@ -54,6 +57,9 @@ const en: LanguageKeys = {
   select_action: 'Select an action',
   select_reaction: 'Select a reaction',
   save: 'Save',
+  modify_app_url: 'Modify api url',
+  modify: 'Modify',
+  invalid_url: 'Invalid url',
 };
 
 export type LanguageList = {

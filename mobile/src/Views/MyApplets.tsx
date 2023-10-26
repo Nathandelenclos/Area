@@ -276,12 +276,6 @@ export default function MyAppletsView({
             </DropDownItem>
           ))}
       </ScrollView>
-      <Button
-        title={'Test'}
-        onPress={async () => {
-          await UrlServiceTs.editUrl('http://10.17.72.4:3000/api');
-        }}
-      />
     </ViewContainer>
   );
 }

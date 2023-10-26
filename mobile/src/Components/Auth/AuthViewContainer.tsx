@@ -1,6 +1,7 @@
 import React, { JSX } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export default function AuthViewContainer({
   children,
@@ -22,6 +23,7 @@ export default function AuthViewContainer({
           right: 0,
           bottom: 0,
           height: '45%',
+          width: '100%',
         }}
       />
       <SafeAreaView style={{ flex: 1, position: 'relative' }}>

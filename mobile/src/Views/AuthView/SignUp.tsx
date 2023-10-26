@@ -7,6 +7,7 @@ import BackButton from '@components/BackButton';
 import authService from '@services/auth.service';
 import AppContext from '@contexts/app.context';
 import UserCtx from '@contexts/user.context';
+import SettingsButton from '@components/SettingsButton';
 
 function TermsAndConditions(): JSX.Element {
   const { color, translate } = AppContext();
@@ -94,6 +95,7 @@ export default function SignUp({
           alignItems: 'center',
         }}
       >
+        <SettingsButton onPress={() => navigation.navigate('ChangeURL')} />
         <BackButton navigation={navigation} />
         <Title
           title={translate('sign_up')}

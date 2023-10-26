@@ -1,5 +1,5 @@
 import { ApiInvoke, IApiInvokeResponse } from './API/api.invoke';
-import defaultApiHandler from './API/api.handlers';
+import { defaultApiHandler, profileApiHandler } from './API/api.handlers';
 import UrlServiceTs from '@services/url.service.ts';
 
 interface Credentials {
@@ -95,7 +95,7 @@ class AuthService {
       endpoint: '/auth/me',
       method: 'GET',
       expectedStatus: 200,
-      handlers: defaultApiHandler,
+      handlers: profileApiHandler,
       authToken: token,
     });
   }

@@ -4,6 +4,8 @@ import MyButton from '@components/MyButton';
 import { Title } from '@components/Title';
 import { AuthViewContainer, AuthFooter } from '@components/Auth';
 import AppContext from '@contexts/app.context';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import SettingsButton from '@components/SettingsButton';
 
 export default function LoginScreen({
   navigation,
@@ -22,6 +24,7 @@ export default function LoginScreen({
           alignItems: 'center',
         }}
       >
+        <SettingsButton onPress={() => navigation.navigate('ChangeURL')} />
         <Image
           source={IMAGE}
           style={{
