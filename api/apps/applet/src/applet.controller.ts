@@ -9,36 +9,57 @@ import {
   MicroServiceResponse,
   ReactionAppletService,
   UserEntity,
+  ValidationError,
 } from '@app/common';
 import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
 import { DeepPartial } from 'typeorm';
+import { AppletService } from './applet.service';
+import { ForbiddenError } from '@app/common/errors/forbidden.error';
 
 @Controller()
 export class AppletController extends MicroServiceController {
   constructor(
-    private readonly appletService: AppletCommonService,
+    private readonly appletService: AppletService,
+    private readonly appletCommonService: AppletCommonService,
     private readonly reactionService: ReactionAppletService,
     private readonly actionService: ActionAppletService,
   ) {
     super();
   }
 
-  @MessagePattern({ cmd: 'findById' })
-  async findById(@Ctx() context: RmqContext) {
-    const { id } = this.ack(context);
+  @MessagePattern({ cmd: 'findAll' })
+  async findAll(@Ctx() context: RmqContext) {
+    const data = this.ack(context);
     const props: MicroServiceHttpCodeProps = {
       code: HttpCode.OK,
       message: 'OK',
     };
     try {
-      props.data = await this.appletService.findOne({ id: id }, [
-        AppletRelations.REACTIONS,
-        AppletRelations.USER,
-        AppletRelations.SERVICE,
-      ]);
+      props.data = await this.appletService.getAllApplets(data.user.id);
     } catch (error) {
       props.code = HttpCode.INTERNAL_SERVER_ERROR;
       props.message = 'Internal server error';
+    }
+    return new MicroServiceResponse(props);
+  }
+
+  @MessagePattern({ cmd: 'findById' })
+  async findById(@Ctx() context: RmqContext) {
+    const { id, user } = this.ack(context);
+    const props: MicroServiceHttpCodeProps = {
+      code: HttpCode.OK,
+      message: 'OK',
+    };
+    try {
+      props.data = await this.appletService.getAppletById(id, user.id);
+    } catch (error) {
+      if (error instanceof ForbiddenError) {
+        props.code = HttpCode.FORBIDDEN;
+        props.message = error.message;
+      } else {
+        props.code = HttpCode.INTERNAL_SERVER_ERROR;
+        props.message = 'Internal server error';
+      }
     }
     return new MicroServiceResponse(props);
   }
@@ -51,13 +72,29 @@ export class AppletController extends MicroServiceController {
       message: 'OK',
     };
     try {
-      props.data = await this.appletService.create(
-        data,
-        data.user.id as DeepPartial<UserEntity>,
-        data.service,
-        data.reaction,
-        data.action,
-      );
+      props.data = await this.appletService.createApplet(data, data.user);
+    } catch (e) {
+      if (e instanceof ValidationError) {
+        props.code = HttpCode.BAD_REQUEST;
+        props.message = e.message;
+        props.data = e.fields;
+      } else {
+        props.code = HttpCode.INTERNAL_SERVER_ERROR;
+        props.message = e.message || 'Internal server error';
+      }
+    }
+    return new MicroServiceResponse(props);
+  }
+
+  @MessagePattern({ cmd: 'test' })
+  async test(@Ctx() context: RmqContext) {
+    const data = this.ack(context);
+    const props: MicroServiceHttpCodeProps = {
+      code: HttpCode.OK,
+      message: 'OK',
+    };
+    try {
+      props.data = await this.appletCommonService.create(data);
     } catch (e) {
       props.code = HttpCode.INTERNAL_SERVER_ERROR;
       props.message = 'Internal server error';
@@ -73,29 +110,7 @@ export class AppletController extends MicroServiceController {
       message: 'OK',
     };
     try {
-      props.data = await this.appletService.delete(data.id, data.user.id);
-    } catch (e) {
-      props.code = HttpCode.INTERNAL_SERVER_ERROR;
-      props.message = 'Internal server error';
-    }
-    return new MicroServiceResponse(props);
-  }
-
-  @MessagePattern({ cmd: 'test' })
-  async test(@Ctx() context: RmqContext) {
-    const props: MicroServiceHttpCodeProps = {
-      code: HttpCode.OK,
-      message: 'OK',
-    };
-    try {
-      props.data = await this.appletService.findAll([
-        AppletRelations.USER,
-        AppletRelations.SERVICE,
-        AppletRelations.ACTIONS,
-        AppletRelations.REACTIONS,
-        AppletRelations.ACTIONS_CONFIG,
-        AppletRelations.REACTION_CONFIG,
-      ]);
+      props.data = await this.appletCommonService.delete(data.id, data.user.id);
     } catch (e) {
       props.code = HttpCode.INTERNAL_SERVER_ERROR;
       props.message = 'Internal server error';

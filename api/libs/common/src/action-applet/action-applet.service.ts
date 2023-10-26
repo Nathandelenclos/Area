@@ -99,7 +99,6 @@ export class ActionAppletService {
     return this.actionAppletRepository.save({
       action: { id: data.action },
       applet: { id: data.applet },
-      configs: data.configs.map((config) => ({ id: config })),
     });
   }
 

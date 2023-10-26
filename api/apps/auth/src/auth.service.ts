@@ -5,7 +5,7 @@ import {
   OauthEntity,
   OAuthRelations,
   OauthService,
-  UnAuthorizeError,
+  UnauthorizeError,
   UserEntity,
   UserLoggedInDto,
   UserNativeCredentialsDto,
@@ -63,11 +63,11 @@ export class AuthService {
     }
     const user = await this.userService.findOne({ email: data.email });
     if (!user) {
-      throw new UnAuthorizeError();
+      throw new UnauthorizeError();
     }
     const isMatch = MD5(data.password).toString() == user.password;
     if (!isMatch) {
-      throw new UnAuthorizeError();
+      throw new UnauthorizeError();
     }
 
     return {
@@ -112,8 +112,10 @@ export class AuthService {
         this.configService.get('AES_SECRET'),
       ).toString(enc.Utf8) != data.refreshToken
     ) {
-      throw new UnAuthorizeError();
+      throw new UnauthorizeError();
     }
+
+    let user;
 
     if (!oauth) {
       oauth = await this.oauthService.create({
@@ -124,9 +126,10 @@ export class AuthService {
         refreshToken: hashedRefreshToken,
         user: null,
       });
+      user = null;
+    } else {
+      user = await this.userService.findOne({ id: oauth.user?.id });
     }
-
-    let user = await this.userService.findOne({ id: oauth.user?.id });
 
     if (oauth && !user) {
       user = await this.userService.create({
@@ -195,7 +198,7 @@ export class AuthService {
 
     const user = this.userService.findOne({ id: data.id, email: data.email });
     if (!user) {
-      throw new UnAuthorizeError();
+      throw new UnauthorizeError();
     }
     await this.userService.update(data.id, {
       password: MD5(data.password).toString(),

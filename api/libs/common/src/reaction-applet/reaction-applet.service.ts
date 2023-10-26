@@ -121,7 +121,6 @@ export class ReactionAppletService {
     return this.reactionAppletRepository.save({
       applet: { id: data.applet },
       reaction: { id: data.reaction },
-      configs: data.configs.map((config) => ({ id: config })),
     });
   }
 }

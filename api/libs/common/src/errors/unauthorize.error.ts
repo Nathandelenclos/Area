@@ -1,4 +1,4 @@
-export class UnAuthorizeError extends Error {
+export class UnauthorizeError extends Error {
   message: string;
 
   constructor() {

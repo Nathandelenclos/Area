@@ -7,6 +7,10 @@ import {
   ActionAppletModule,
   ReactionAppletService,
   ReactionAppletModule,
+  AppletConfigModule,
+  AppletRequiredConfigModule,
+  ActionModule,
+  ReactionModule,
 } from '@app/common';
 import { AppletController } from './applet.controller';
 import { AppletService } from './applet.service';
@@ -35,6 +39,9 @@ import { AppletService } from './applet.service';
     AppletCommonModule,
     ActionAppletModule,
     ReactionAppletModule,
+    AppletConfigModule,
+    ActionModule,
+    ReactionModule,
   ],
   controllers: [AppletController],
   providers: [AppletService],

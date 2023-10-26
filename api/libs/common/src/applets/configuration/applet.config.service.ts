@@ -15,13 +15,23 @@ export class AppletConfigService {
    * @param id Applet id to link the configuration to
    * @param data Configuration data
    */
-  createMany(id: any, data: any): void {
-    Object.keys(data).map(async (key) => {
-      await this.appletConfigRepository.save({
-        key,
-        value: data[key],
-        applet: id,
-      });
+  createMany(): void {}
+
+  /**
+   * Create a new applet configuration
+   * @param id Applet id to link the configuration to
+   * @param type
+   * @param data Configuration data
+   */
+  create(
+    id: number,
+    type: 'actionApplet' | 'reactionApplet',
+    data: DeepPartial<AppletConfigEntity>,
+  ): Promise<any> {
+    return this.appletConfigRepository.save({
+      [type]: { id },
+      key: data.key,
+      value: data.value,
     });
   }
 

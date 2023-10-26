@@ -7,7 +7,7 @@ import { AppletRequiredConfigService } from '@app/common/applets/required_config
 
 export enum ReactionRelations {
   SERVICE = 'service',
-  REQUIRE_CONFIGS = 'config',
+  REQUIRE_CONFIGS = 'config.reaction',
   REACTION_APPLET = 'reactionApplets',
   CONFIGS = 'reactionApplets.configs',
   APPLET = 'reactionApplets.applet',

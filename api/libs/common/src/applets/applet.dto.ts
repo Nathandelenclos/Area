@@ -5,16 +5,10 @@ import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { ServiceEntity } from '@app/common/services/service.entity';
 
 export interface AppletDto {
-  id: number;
   name: string;
   description: string;
   is_active: boolean;
-  config: any;
-  service?: DeepPartial<ServiceEntity>;
-}
-
-export interface AppletCreateDto extends AppletDto {
-  action?: DeepPartial<ActionEntity>;
-  reaction: DeepPartial<ReactionEntity>;
-  user?: DeepPartial<UserEntity>;
+  user: Partial<UserEntity>;
+  actions?: Partial<ActionEntity>[];
+  reactions?: Partial<ReactionEntity>[];
 }

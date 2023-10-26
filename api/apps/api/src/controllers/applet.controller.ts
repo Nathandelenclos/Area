@@ -10,9 +10,6 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { AppletCreateDto } from '@app/common/applets/applet.dto';
-import { DeepPartial } from 'typeorm';
-import { UserEntity } from '@app/common/users/user.entity';
 import { ClientProxy } from '@nestjs/microservices';
 import { MicroServiceProxy } from '@app/common';
 
@@ -22,28 +19,42 @@ export class AppletController {
     @Inject('APPLET_SERVICE') private readonly appletService: ClientProxy,
   ) {}
 
+  @Get()
+  findAll(@Res() res: Response, @Req() req: { user: { id: number } }) {
+    MicroServiceProxy.callMicroService(
+      this.appletService,
+      'findAll',
+      { user: req.user },
+      res,
+    );
+  }
+
   @Get(':id')
-  findById(@Param('id') id: number, @Res() res: Response) {
+  findById(
+    @Param('id') id: number,
+    @Res() res: Response,
+    @Req() req: Request & { user: { id: number } },
+  ) {
     MicroServiceProxy.callMicroService(
       this.appletService,
       'findById',
-      { id },
+      { id, user: req.user },
       res,
     );
   }
 
   @Post()
   create(
-    @Body() data: AppletCreateDto,
+    @Body() data: any,
     @Res() res: Response,
-    @Req() req: { user: { id: number } },
+    @Req() req: Request & { user: { id: number } },
   ) {
     MicroServiceProxy.callMicroService(
       this.appletService,
       'create',
       {
         ...data,
-        user: req.user.id as Partial<UserEntity>,
+        user: req.user,
       },
       res,
     );
@@ -53,21 +64,16 @@ export class AppletController {
   delete(
     @Param('id') id: number,
     @Res() res: Response,
-    @Req() req: { user: { id: number } },
+    @Req() req: Request & { user: { id: number } },
   ) {
     MicroServiceProxy.callMicroService(
       this.appletService,
       'delete',
       {
         id,
-        user: req.user.id as DeepPartial<UserEntity>,
+        user: req.user,
       },
       res,
     );
-  }
-
-  @Get()
-  test(@Res() res: Response) {
-    MicroServiceProxy.callMicroService(this.appletService, 'test', {}, res);
   }
 }

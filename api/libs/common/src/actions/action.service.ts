@@ -7,7 +7,7 @@ import { AppletRequiredConfigService } from '@app/common/applets/required_config
 
 export enum ActionRelations {
   SERVICE = 'service',
-  REQUIRE_CONFIG = 'config',
+  REQUIRE_CONFIG = 'config.action',
   APPLETS = 'applets',
   CONFIGS = 'applets.configs',
   APPLET = 'applets.applet',
@@ -44,7 +44,7 @@ export class ActionService {
   ): Promise<ActionEntity | undefined> {
     return this.actionRepository.findOne({
       where: query,
-      relations: [...relations, 'action_configs'],
+      relations: relations,
     });
   }
 

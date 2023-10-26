@@ -8,7 +8,7 @@ import {
   MicroServiceResponse,
   ValidationError,
   AlreadyExistError,
-  UnAuthorizeError,
+  UnauthorizeError,
 } from '@app/common';
 
 @Controller()
@@ -60,7 +60,7 @@ export class AuthController extends MicroServiceController {
           code: HttpCode.BAD_REQUEST,
           message: error.message,
         };
-      } else if (error instanceof UnAuthorizeError) {
+      } else if (error instanceof UnauthorizeError) {
         props = {
           code: HttpCode.UNAUTHORIZED,
           message: error.message,
@@ -90,7 +90,7 @@ export class AuthController extends MicroServiceController {
           code: HttpCode.BAD_REQUEST,
           message: error.message,
         };
-      } else if (error instanceof UnAuthorizeError) {
+      } else if (error instanceof UnauthorizeError) {
         props = {
           code: HttpCode.UNAUTHORIZED,
           message: error.message,
