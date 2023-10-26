@@ -6,10 +6,10 @@ export class ActionAppletEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => ActionEntity, (action) => action.actionApplets)
+  @ManyToOne(() => ActionEntity, (action) => action.applets)
   action: ActionEntity;
 
-  @ManyToOne(() => AppletEntity, (applet) => applet.actionApplets)
+  @ManyToOne(() => AppletEntity, (applet) => applet.actions)
   applet: AppletEntity;
 
   @OneToMany(() => AppletConfigEntity, (config) => config.actionApplet)

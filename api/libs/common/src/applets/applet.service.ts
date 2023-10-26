@@ -12,12 +12,12 @@ import {
 } from '@app/common';
 
 export enum AppletRelations {
-  CONFIG = 'applet_configs',
   USER = 'user',
   SERVICE = 'service',
-  REACTIONS = 'reaction',
-  ACTION = 'action',
-  REACTION_SERVICE = 'reaction.service',
+  ACTIONS = 'actions.action',
+  REACTIONS = 'reactions.reaction',
+  ACTIONS_CONFIG = 'actions.configs',
+  REACTION_CONFIG = 'reactions.configs',
 }
 
 @Injectable()
@@ -77,16 +77,59 @@ export class AppletService {
   }
 
   /**
-   * Find all applets matching the options
+   * Find all applets
    * @param options
    * @param relations Include relations
    */
-  findAll(
-    options: Partial<AppletEntity>,
-    relations: AppletRelations[] = [],
+  findAll(relations?: AppletRelations[]): Promise<AppletEntity[]> {
+    return this.appletRepository.find({
+      relations: relations,
+    });
+  }
+
+  /**
+   * Find all applets by user id
+   * @param userId User id
+   * @param relations Include relations
+   */
+  findAllByUserId(
+    userId: number,
+    relations?: AppletRelations[],
   ): Promise<AppletEntity[]> {
     return this.appletRepository.find({
-      where: options,
+      where: { user: { id: userId } },
+      relations: relations,
+    });
+  }
+
+  /**
+   * Find all applets by service id
+   * @param serviceId Service id
+   * @param relations Include relations
+   */
+  findAllByServiceId(
+    serviceId: number,
+    relations?: AppletRelations[],
+  ): Promise<AppletEntity[]> {
+    return this.appletRepository.find({
+      where: { service: { id: serviceId } },
+      relations: relations,
+    });
+  }
+
+  /**
+   * Find all applets by user id and service id
+   * @param userId User id
+   * @param serviceId Service id
+   * @param relations Include relations
+   */
+  findAllByUserIdAndServiceId(
+    userId: number,
+    serviceId: number,
+    relations?: AppletRelations[],
+  ): Promise<AppletEntity[]> {
+    return this.appletRepository.find({
+      where: { user: { id: userId }, service: { id: serviceId } },
       relations: relations,
     });
   }

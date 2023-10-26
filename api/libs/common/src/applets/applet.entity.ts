@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -33,8 +32,8 @@ export class AppletEntity {
   service: ServiceEntity;
 
   @OneToMany(() => ActionAppletEntity, (action) => action.applet)
-  actionApplets: ActionEntity[];
+  actions: ActionEntity[];
 
   @OneToMany(() => ReactionAppletEntity, (reaction) => reaction.applet)
-  reactionApplets: ActionEntity[];
+  reactions: ActionEntity[];
 }

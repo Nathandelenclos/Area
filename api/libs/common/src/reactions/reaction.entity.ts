@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ServiceEntity } from '@app/common/services/service.entity';
-import { AppletEntity } from '@app/common/applets/applet.entity';
 import { AppletRequiredConfigEntity } from '@app/common/applets/required_configuration/applet.required.config.entity';
 import { ReactionAppletEntity } from '@app/common/reaction-applet/reaction-applet.entity';
 
@@ -40,5 +39,5 @@ export class ReactionEntity {
   config: AppletRequiredConfigEntity[];
 
   @OneToMany(() => ReactionAppletEntity, (reaction) => reaction.reaction)
-  reactionApplets: ReactionAppletEntity[];
+  applets: ReactionAppletEntity[];
 }

@@ -21,8 +21,8 @@ export class ActionAppletService {
    * Find all action applets
    * @returns Promise<ActionAppletEntity[]>
    */
-  findAll(): Promise<ActionAppletEntity[]> {
-    return this.actionAppletRepository.find();
+  findAll(relations?: ActionAppletRelations[]): Promise<ActionAppletEntity[]> {
+    return this.actionAppletRepository.find({ relations });
   }
 
   /**
@@ -83,8 +83,8 @@ export class ActionAppletService {
     appletId: number,
     actionId: number,
     relations?: ActionAppletRelations[],
-  ): Promise<ActionAppletEntity | undefined> {
-    return this.actionAppletRepository.findOne({
+  ): Promise<ActionAppletEntity[] | undefined> {
+    return this.actionAppletRepository.find({
       where: { applet: { id: appletId }, action: { id: actionId } },
       relations,
     });

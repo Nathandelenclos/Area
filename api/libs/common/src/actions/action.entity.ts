@@ -1,14 +1,11 @@
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ServiceEntity } from '@app/common/services/service.entity';
-import { AppletEntity } from '@app/common/applets/applet.entity';
 import { AppletRequiredConfigEntity } from '@app/common/applets/required_configuration/applet.required.config.entity';
 import { ActionAppletEntity } from '@app/common/action-applet/action-applet.entity';
 
@@ -39,5 +36,5 @@ export class ActionEntity {
   config: AppletRequiredConfigEntity[];
 
   @OneToMany(() => ActionAppletEntity, (action) => action.action)
-  actionApplets: ActionEntity[];
+  applets: ActionEntity[];
 }

@@ -1,7 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Entities, AppletModule as AppletCommonModule } from '@app/common';
+import {
+  Entities,
+  AppletModule as AppletCommonModule,
+  ActionAppletModule,
+  ReactionAppletService,
+  ReactionAppletModule,
+} from '@app/common';
 import { AppletController } from './applet.controller';
 import { AppletService } from './applet.service';
 
@@ -27,6 +33,8 @@ import { AppletService } from './applet.service';
       }),
     }),
     AppletCommonModule,
+    ActionAppletModule,
+    ReactionAppletModule,
   ],
   controllers: [AppletController],
   providers: [AppletService],

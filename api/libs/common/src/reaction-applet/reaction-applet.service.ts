@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ActionAppletRelations, ReactionAppletEntity } from '@app/common';
+import { ReactionAppletEntity } from '@app/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewReactionApplet } from '@app/common/reaction-applet/reaction.applet.dto';
 
@@ -21,8 +21,10 @@ export class ReactionAppletService {
    * Find all reaction applets
    * @returns Promise<ReactionAppletEntity[]>
    */
-  findAll(): Promise<ReactionAppletEntity[]> {
-    return this.reactionAppletRepository.find();
+  findAll(
+    relations?: ReactionAppletRelations[],
+  ): Promise<ReactionAppletEntity[]> {
+    return this.reactionAppletRepository.find({ relations });
   }
 
   /**

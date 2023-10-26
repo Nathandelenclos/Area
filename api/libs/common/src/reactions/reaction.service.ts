@@ -10,6 +10,7 @@ export enum ReactionRelations {
   REQUIRE_CONFIGS = 'config',
   REACTION_APPLET = 'reactionApplets',
   CONFIGS = 'reactionApplets.configs',
+  APPLET = 'reactionApplets.applet',
 }
 
 @Injectable()

@@ -65,4 +65,9 @@ export class AppletController {
       res,
     );
   }
+
+  @Get()
+  test(@Res() res: Response) {
+    MicroServiceProxy.callMicroService(this.appletService, 'test', {}, res);
+  }
 }

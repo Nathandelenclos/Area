@@ -6,10 +6,10 @@ export class ReactionAppletEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => ReactionEntity, (reaction) => reaction.reactionApplets)
+  @ManyToOne(() => ReactionEntity, (reaction) => reaction.applets)
   reaction: ReactionEntity;
 
-  @ManyToOne(() => AppletEntity, (applet) => applet.reactionApplets)
+  @ManyToOne(() => AppletEntity, (applet) => applet.reactions)
   applet: AppletEntity;
 
   @OneToMany(() => AppletConfigEntity, (config) => config.actionApplet)
