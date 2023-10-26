@@ -72,6 +72,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/service/tsconfig.app.json"
       }
+    },
+    "applet": {
+      "type": "application",
+      "root": "apps/applet",
+      "entryFile": "main",
+      "sourceRoot": "apps/applet/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/applet/tsconfig.app.json"
+      }
     }
   }
 }

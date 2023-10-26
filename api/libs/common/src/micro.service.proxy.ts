@@ -10,6 +10,7 @@ class MicroServiceProxy {
     SPOTIFY_SERVICE: 'spotify_queue',
     SERVICE_SERVICE: 'service_queue',
     TIMER_SERVICE: 'timer_queue',
+    APPLET_SERVICE: 'applet_queue',
   };
 
   /**

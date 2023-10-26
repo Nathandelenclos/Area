@@ -18,39 +18,6 @@ export class ActionService {
   ) {}
 
   /**
-   * Create a new action
-   * @param data NewAction object
-   * @returns Promise<ActionEntity>
-   */
-  async create(data?: NewAction): Promise<ActionEntity> {
-    //return this.actionRepository.save(data);
-    const action = await this.actionRepository.save({
-      name: 'At cron',
-      description: 'Trigger at a specific date',
-      is_available: true,
-      service: { id: 16 },
-    });
-
-    const config = [
-      {
-        name: 'Now',
-        description: 'Date of the creation of the applet',
-        key: 'lastExec',
-        type: 'date',
-      },
-      {
-        name: 'Delta',
-        description: 'Seconds between now and the next execution',
-        key: 'delta',
-        type: 'number',
-      },
-    ];
-
-    this.appletRequiredConfigService.createMany('action', action.id, config);
-    return action;
-  }
-
-  /**
    * Find all actions
    * @param relations Relations to include
    * @returns Promise<ActionEntity[]>

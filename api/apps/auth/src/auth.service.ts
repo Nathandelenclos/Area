@@ -106,17 +106,15 @@ export class AuthService {
     );
 
     if (
-      !oauth ||
-      (oauth &&
-        AES.decrypt(
-          oauth.refreshToken,
-          this.configService.get('AES_SECRET'),
-        ).toString(enc.Utf8) != data.refreshToken)
+      oauth &&
+      AES.decrypt(
+        oauth.refreshToken,
+        this.configService.get('AES_SECRET'),
+      ).toString(enc.Utf8) != data.refreshToken
     ) {
       throw new UnAuthorizeError();
     }
 
-    let user = await this.userService.findOne({ id: oauth?.user.id });
     if (!oauth) {
       oauth = await this.oauthService.create({
         accessToken: null,
@@ -124,9 +122,11 @@ export class AuthService {
         email: data.email,
         provider: data.provider,
         refreshToken: hashedRefreshToken,
-        user: user,
+        user: null,
       });
     }
+
+    let user = await this.userService.findOne({ id: oauth.user?.id });
 
     if (oauth && !user) {
       user = await this.userService.create({

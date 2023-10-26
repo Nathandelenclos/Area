@@ -78,6 +78,23 @@ services:
       - rabbitmq
     restart: always
 
+  applet:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: applet
+    hostname: applet
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=applet
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
   discord:
     build:
       context: .

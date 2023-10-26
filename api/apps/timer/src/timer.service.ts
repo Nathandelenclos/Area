@@ -9,6 +9,7 @@ import {
 import MicroServiceInit from '@app/common/micro.service.init';
 import { ConfigService } from '@nestjs/config';
 import { AppletConfigService } from '@app/common/applets/configuration/applet.config.service';
+import { ServiceEntity } from '@app/common';
 
 @Injectable()
 export class TimerService {
@@ -31,10 +32,14 @@ export class TimerService {
    * @returns {Promise<void>}
    */
   async atDate(): Promise<void> {
+    const service = await this.serviceService.findOne({ key: 'timer' });
+    if (!service) return;
+    const action = await this.actionService.findOne({ key: 'at_date' });
+    if (!action) return;
     const applets = await this.appletService.findAll(
       {
-        service: { key: 'timer' },
-        action: { key: 'at_date' },
+        service,
+        action,
       },
       [
         AppletRelations.CONFIG,
@@ -78,10 +83,14 @@ export class TimerService {
   }
 
   async atCron(): Promise<void> {
+    const service = await this.serviceService.findOne({ key: 'timer' });
+    if (!service) return;
+    const action = await this.actionService.findOne({ key: 'at_cron' });
+    if (!action) return;
     const applets = await this.appletService.findAll(
       {
-        service: { key: 'timer' },
-        action: { key: 'at_cron' },
+        service,
+        action,
       },
       [
         AppletRelations.CONFIG,

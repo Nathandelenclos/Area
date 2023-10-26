@@ -3,11 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { AppletEntity } from './applet.entity';
 import { AppletConfigService } from './configuration/applet.config.service';
-import { AppletCreateDto, AppletDto } from './applet.dto';
-import { UserEntity } from '@app/common/users/user.entity';
-import { ReactionEntity } from '@app/common/reactions/reaction.entity';
-import { ActionEntity } from '@app/common/actions/action.entity';
-import { ServiceEntity } from '@app/common/services/service.entity';
+import { AppletDto } from './applet.dto';
+import {
+  ReactionEntity,
+  UserEntity,
+  ActionEntity,
+  ServiceEntity,
+} from '@app/common';
 
 export enum AppletRelations {
   CONFIG = 'applet_configs',
@@ -43,6 +45,7 @@ export class AppletService {
     action: DeepPartial<ActionEntity>,
   ): Promise<AppletEntity> {
     const { config, ...appletData } = data;
+    console.log(user);
     const applet = await this.appletRepository.save({
       ...appletData,
       service,
@@ -64,7 +67,7 @@ export class AppletService {
    * @param relations Include relations
    */
   findOne(
-    options: Partial<AppletDto>,
+    options: Partial<AppletEntity>,
     relations: AppletRelations[] = [],
   ): Promise<AppletEntity> {
     return this.appletRepository.findOne({
@@ -79,7 +82,7 @@ export class AppletService {
    * @param relations Include relations
    */
   findAll(
-    options: DeepPartial<AppletEntity>,
+    options: Partial<AppletEntity>,
     relations: AppletRelations[] = [],
   ): Promise<AppletEntity[]> {
     return this.appletRepository.find({
@@ -99,7 +102,7 @@ export class AppletService {
     });
     if (!applet) throw new Error('Applet not found');
 
-    await this.appletConfigService.delete(id);
+    // await this.appletConfigService.delete(id);
     return this.appletRepository.delete(id);
   }
 }

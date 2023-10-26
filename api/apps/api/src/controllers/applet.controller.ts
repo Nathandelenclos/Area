@@ -3,67 +3,66 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Post,
   Req,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import {
-  AppletRelations,
-  AppletService,
-} from '@app/common/applets/applet.service';
 import { AppletCreateDto } from '@app/common/applets/applet.dto';
 import { DeepPartial } from 'typeorm';
 import { UserEntity } from '@app/common/users/user.entity';
+import { ClientProxy } from '@nestjs/microservices';
+import { MicroServiceProxy } from '@app/common';
 
 @Controller('applets')
 export class AppletController {
-  constructor(private readonly appletService: AppletService) {}
+  constructor(
+    @Inject('APPLET_SERVICE') private readonly appletService: ClientProxy,
+  ) {}
 
   @Get(':id')
-  async findById(@Param('id') id: number, @Res() res: Response) {
-    const response = await this.appletService.findOne({ id: id }, [
-      AppletRelations.CONFIG,
-      AppletRelations.ACTION,
-      AppletRelations.REACTIONS,
-      AppletRelations.USER,
-      AppletRelations.SERVICE,
-    ]);
-    res.status(200).json(response);
+  findById(@Param('id') id: number, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.appletService,
+      'findById',
+      { id },
+      res,
+    );
   }
 
   @Post()
-  async create(
+  create(
     @Body() data: AppletCreateDto,
     @Res() res: Response,
     @Req() req: { user: { id: number } },
   ) {
-    try {
-      const response = await this.appletService.create(
-        data,
-        req.user.id as DeepPartial<UserEntity>,
-        data.service,
-        data.reaction,
-        data.action,
-      );
-      res.status(200).json(response);
-    } catch (e) {
-      res.status(500).json(e);
-    }
+    MicroServiceProxy.callMicroService(
+      this.appletService,
+      'create',
+      {
+        ...data,
+        user: req.user.id as Partial<UserEntity>,
+      },
+      res,
+    );
   }
 
   @Delete(':id')
-  async delete(
+  delete(
     @Param('id') id: number,
     @Res() res: Response,
     @Req() req: { user: { id: number } },
   ) {
-    try {
-      const response = await this.appletService.delete(id, req.user.id);
-      res.status(200).json(response);
-    } catch (e) {
-      res.status(500).json(e);
-    }
+    MicroServiceProxy.callMicroService(
+      this.appletService,
+      'delete',
+      {
+        id,
+        user: req.user.id as DeepPartial<UserEntity>,
+      },
+      res,
+    );
   }
 }

@@ -67,6 +67,10 @@ import { AppletController } from './controllers/applet.controller';
       'SERVICE_SERVICE',
       MicroServiceProxy.microServiceQueue.SERVICE_SERVICE,
     ),
+    MicroServiceInit.init(
+      'APPLET_SERVICE',
+      MicroServiceProxy.microServiceQueue.APPLET_SERVICE,
+    ),
   ],
 })
 export class AppModule {}
