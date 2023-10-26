@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">AppletService</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L22">libs/common/src/applets/applet.service.ts:22</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L16">libs/common/src/applets/applet.service.ts:16</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -33,14 +33,15 @@
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
-<div class="tsd-index-list"><a href="libs_common_src_applets_applet_service.AppletService.html#appletConfigService" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>applet<wbr/>Config<wbr/>Service</span></a>
-<a href="libs_common_src_applets_applet_service.AppletService.html#appletRepository" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>applet<wbr/>Repository</span></a>
+<div class="tsd-index-list"><a href="libs_common_src_applets_applet_service.AppletService.html#appletRepository" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>applet<wbr/>Repository</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
 <div class="tsd-index-list"><a href="libs_common_src_applets_applet_service.AppletService.html#create" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>create</span></a>
 <a href="libs_common_src_applets_applet_service.AppletService.html#delete" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete</span></a>
+<a href="libs_common_src_applets_applet_service.AppletService.html#find" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find</span></a>
 <a href="libs_common_src_applets_applet_service.AppletService.html#findAll" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>All</span></a>
+<a href="libs_common_src_applets_applet_service.AppletService.html#findAllByUserId" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>All<wbr/>By<wbr/>User<wbr/>Id</span></a>
 <a href="libs_common_src_applets_applet_service.AppletService.html#findOne" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>One</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
@@ -48,36 +49,29 @@
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_AppletService"><span class="tsd-kind-constructor-signature">new <wbr/>Applet<wbr/>Service</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">appletRepository</span>, <span class="tsd-kind-parameter">appletConfigService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="libs_common_src_applets_applet_service.AppletService.html" class="tsd-signature-type tsd-kind-class">AppletService</a><a href="#constructor.new_AppletService" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_AppletService"><span class="tsd-kind-constructor-signature">new <wbr/>Applet<wbr/>Service</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">appletRepository</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="libs_common_src_applets_applet_service.AppletService.html" class="tsd-signature-type tsd-kind-class">AppletService</a><a href="#constructor.new_AppletService" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">appletRepository</span>: <span class="tsd-signature-type ">Repository</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></h5></li>
-<li>
-<h5><span class="tsd-kind-parameter">appletConfigService</span>: <a href="libs_common_src_applets_configuration_applet_config_service.AppletConfigService.html" class="tsd-signature-type tsd-kind-class">AppletConfigService</a></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">appletRepository</span>: <span class="tsd-signature-type ">Repository</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="libs_common_src_applets_applet_service.AppletService.html" class="tsd-signature-type tsd-kind-class">AppletService</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L23">libs/common/src/applets/applet.service.ts:23</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L17">libs/common/src/applets/applet.service.ts:17</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="appletConfigService" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>applet<wbr/>Config<wbr/>Service</span><a href="#appletConfigService" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">applet<wbr/>Config<wbr/>Service</span><span class="tsd-signature-symbol">:</span> <a href="libs_common_src_applets_configuration_applet_config_service.AppletConfigService.html" class="tsd-signature-type tsd-kind-class">AppletConfigService</a></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L26">libs/common/src/applets/applet.service.ts:26</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="appletRepository" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>applet<wbr/>Repository</span><a href="#appletRepository" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">applet<wbr/>Repository</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">Repository</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L25">libs/common/src/applets/applet.service.ts:25</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L19">libs/common/src/applets/applet.service.ts:19</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="create" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create</span><a href="#create" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="create.create-1"><span class="tsd-kind-call-signature">create</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">data</span>, <span class="tsd-kind-parameter">user</span>, <span class="tsd-kind-parameter">service</span>, <span class="tsd-kind-parameter">reaction</span>, <span class="tsd-kind-parameter">action</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span><a href="#create.create-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="create.create-1"><span class="tsd-kind-call-signature">create</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span><a href="#create.create-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Create a new applet and its configuration</p>
 </div>
@@ -88,24 +82,12 @@
 <h5><span class="tsd-kind-parameter">data</span>: <a href="../interfaces/libs_common_src_applets_applet_dto.AppletDto.html" class="tsd-signature-type tsd-kind-interface">AppletDto</a></h5>
 <div class="tsd-comment tsd-typography"><p>Applet data</p>
 </div>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h5><span class="tsd-kind-parameter">user</span>: <span class="tsd-signature-type ">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_users_user_entity.UserEntity.html" class="tsd-signature-type tsd-kind-class">UserEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h5><span class="tsd-kind-parameter">service</span>: <span class="tsd-signature-type ">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_services_service_entity.ServiceEntity.html" class="tsd-signature-type tsd-kind-class">ServiceEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h5><span class="tsd-kind-parameter">reaction</span>: <span class="tsd-signature-type ">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_reactions_reaction_entity.ReactionEntity.html" class="tsd-signature-type tsd-kind-class">ReactionEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h5><span class="tsd-kind-parameter">action</span>: <span class="tsd-signature-type ">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_actions_action_entity.ActionEntity.html" class="tsd-signature-type tsd-kind-class">ActionEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></h4><p>Applet</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L38">libs/common/src/applets/applet.service.ts:38</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L27">libs/common/src/applets/applet.service.ts:27</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="delete" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete</span><a href="#delete" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -129,19 +111,21 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L96">libs/common/src/applets/applet.service.ts:96</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="findAll" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>find<wbr/>All</span><a href="#findAll" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L92">libs/common/src/applets/applet.service.ts:92</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="find" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>find</span><a href="#find" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="findAll.findAll-1"><span class="tsd-kind-call-signature">find<wbr/>All</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span>, <span class="tsd-kind-parameter">relations</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#findAll.findAll-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="find.find-1"><span class="tsd-kind-call-signature">find</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span>, <span class="tsd-kind-parameter">relations</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#find.find-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Find all applets matching the options</p>
+<div class="tsd-comment tsd-typography"><p>Find all applets by options</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">DeepPartial</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
+<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
+<div class="tsd-comment tsd-typography"><p>Options</p>
+</div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
 <h5><span class="tsd-kind-parameter">relations</span>: <a href="../enums/libs_common_src_applets_applet_service.AppletRelations.html" class="tsd-signature-type tsd-kind-enum">AppletRelations</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
@@ -151,7 +135,50 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L81">libs/common/src/applets/applet.service.ts:81</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L62">libs/common/src/applets/applet.service.ts:62</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="findAll" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>find<wbr/>All</span><a href="#findAll" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="findAll.findAll-1"><span class="tsd-kind-call-signature">find<wbr/>All</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">relations</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#findAll.findAll-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Find all applets</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">relations</span>: <a href="../enums/libs_common_src_applets_applet_service.AppletRelations.html" class="tsd-signature-type tsd-kind-enum">AppletRelations</a><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>Include relations</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L51">libs/common/src/applets/applet.service.ts:51</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="findAllByUserId" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>find<wbr/>All<wbr/>By<wbr/>User<wbr/>Id</span><a href="#findAllByUserId" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="findAllByUserId.findAllByUserId-1"><span class="tsd-kind-call-signature">find<wbr/>All<wbr/>By<wbr/>User<wbr/>Id</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">userId</span>, <span class="tsd-kind-parameter">relations</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#findAllByUserId.findAllByUserId-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Find all applets by user id</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">userId</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>User id</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">relations</span>: <a href="../enums/libs_common_src_applets_applet_service.AppletRelations.html" class="tsd-signature-type tsd-kind-enum">AppletRelations</a><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>Include relations</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L77">libs/common/src/applets/applet.service.ts:77</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="findOne" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>One</span><a href="#findOne" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -163,7 +190,7 @@
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/libs_common_src_applets_applet_dto.AppletDto.html" class="tsd-signature-type tsd-kind-interface">AppletDto</a><span class="tsd-signature-symbol">&gt;</span></h5>
+<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
 <h5><span class="tsd-kind-parameter">relations</span>: <a href="../enums/libs_common_src_applets_applet_service.AppletRelations.html" class="tsd-signature-type tsd-kind-enum">AppletRelations</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
@@ -173,7 +200,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="libs_common_src_applets_applet_entity.AppletEntity.html" class="tsd-signature-type tsd-kind-class">AppletEntity</a><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/0402eab/api/libs/common/src/applets/applet.service.ts#L66">libs/common/src/applets/applet.service.ts:66</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/Nathandelenclos/area/blob/3f28a9c/api/libs/common/src/applets/applet.service.ts#L36">libs/common/src/applets/applet.service.ts:36</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -194,11 +221,12 @@
 <div class="tsd-accordion-details">
 <ul>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
-<li><a href="#appletConfigService" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>applet<wbr/>Config<wbr/>Service</span></a></li>
 <li><a href="#appletRepository" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>applet<wbr/>Repository</span></a></li>
 <li><a href="#create" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>create</span></a></li>
 <li><a href="#delete" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete</span></a></li>
+<li><a href="#find" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find</span></a></li>
 <li><a href="#findAll" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>All</span></a></li>
+<li><a href="#findAllByUserId" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>All<wbr/>By<wbr/>User<wbr/>Id</span></a></li>
 <li><a href="#findOne" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>One</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <div class="tree">
@@ -239,6 +267,23 @@
 <ul>
 <li><a class="category__link js-category-link" href="apps_api_src_app_service.AppService.html" data-id="/classes/apps_api_src_app_service.AppService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>AppService</a></li></ul></li>
 <li><a class="category__link js-category-link category__link--ts" href="../modules/apps_api_src_main.html" data-id="/modules/apps_api_src_main.html">main.ts</a>
+<ul></ul></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-apps-applet">
+<div class="category__folder" data-id="root-api-apps-applet"></div>applet</span>
+<ul class="js-category-list category" data-id="root-api-apps-applet">
+<li><span class="js-category-title category__title" data-id="root-api-apps-applet-src">
+<div class="category__folder" data-id="root-api-apps-applet-src"></div>src</span>
+<ul class="js-category-list category" data-id="root-api-apps-applet-src">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_applet_src_applet_controller.html" data-id="/modules/apps_applet_src_applet_controller.html">applet.controller.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_applet_src_applet_controller.AppletController.html" data-id="/classes/apps_applet_src_applet_controller.AppletController.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>AppletController</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_applet_src_applet_module.html" data-id="/modules/apps_applet_src_applet_module.html">applet.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_applet_src_applet_module.AppletModule.html" data-id="/classes/apps_applet_src_applet_module.AppletModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>AppletModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_applet_src_applet_service.html" data-id="/modules/apps_applet_src_applet_service.html">applet.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="apps_applet_src_applet_service.AppletService.html" data-id="/classes/apps_applet_src_applet_service.AppletService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>AppletService</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/apps_applet_src_main.html" data-id="/modules/apps_applet_src_main.html">main.ts</a>
 <ul></ul></li></ul></li></ul></li>
 <li><span class="js-category-title category__title" data-id="root-api-apps-auth">
 <div class="category__folder" data-id="root-api-apps-auth"></div>auth</span>
@@ -350,6 +395,22 @@
 <ul>
 <li><a class="category__link js-category-link" href="../enums/libs_common_src_OAuth_oauth_service.OAuthRelations.html" data-id="/enums/libs_common_src_OAuth_oauth_service.OAuthRelations.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-8"></use></svg>OAuthRelations</a></li>
 <li><a class="category__link js-category-link" href="libs_common_src_OAuth_oauth_service.OauthService.html" data-id="/classes/libs_common_src_OAuth_oauth_service.OauthService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>OauthService</a></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-libs-common-src-action-applet">
+<div class="category__folder" data-id="root-api-libs-common-src-action-applet"></div>action-applet</span>
+<ul class="js-category-list category" data-id="root-api-libs-common-src-action-applet">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_action_applet_action_applet_dto.html" data-id="/modules/libs_common_src_action_applet_action_applet_dto.html">action-applet.dto.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="../interfaces/libs_common_src_action_applet_action_applet_dto.NewActionApplet.html" data-id="/interfaces/libs_common_src_action_applet_action_applet_dto.NewActionApplet.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>NewActionApplet</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_action_applet_action_applet_entity.html" data-id="/modules/libs_common_src_action_applet_action_applet_entity.html">action-applet.entity.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="libs_common_src_action_applet_action_applet_entity.ActionAppletEntity.html" data-id="/classes/libs_common_src_action_applet_action_applet_entity.ActionAppletEntity.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ActionAppletEntity</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_action_applet_action_applet_module.html" data-id="/modules/libs_common_src_action_applet_action_applet_module.html">action-applet.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="libs_common_src_action_applet_action_applet_module.ActionAppletModule.html" data-id="/classes/libs_common_src_action_applet_action_applet_module.ActionAppletModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ActionAppletModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_action_applet_action_applet_service.html" data-id="/modules/libs_common_src_action_applet_action_applet_service.html">action-applet.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="../enums/libs_common_src_action_applet_action_applet_service.ActionAppletRelations.html" data-id="/enums/libs_common_src_action_applet_action_applet_service.ActionAppletRelations.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-8"></use></svg>ActionAppletRelations</a></li>
+<li><a class="category__link js-category-link" href="libs_common_src_action_applet_action_applet_service.ActionAppletService.html" data-id="/classes/libs_common_src_action_applet_action_applet_service.ActionAppletService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ActionAppletService</a></li></ul></li></ul></li>
 <li><span class="js-category-title category__title" data-id="root-api-libs-common-src-actions">
 <div class="category__folder" data-id="root-api-libs-common-src-actions"></div>actions</span>
 <ul class="js-category-list category" data-id="root-api-libs-common-src-actions">
@@ -395,7 +456,6 @@
 <li><a class="category__link js-category-link" href="libs_common_src_applets_required_configuration_applet_required_config_service.AppletRequiredConfigService.html" data-id="/classes/libs_common_src_applets_required_configuration_applet_required_config_service.AppletRequiredConfigService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>AppletRequiredConfigService</a></li></ul></li></ul></li>
 <li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_applets_applet_dto.html" data-id="/modules/libs_common_src_applets_applet_dto.html">applet.dto.ts</a>
 <ul>
-<li><a class="category__link js-category-link" href="../interfaces/libs_common_src_applets_applet_dto.AppletCreateDto.html" data-id="/interfaces/libs_common_src_applets_applet_dto.AppletCreateDto.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AppletCreateDto</a></li>
 <li><a class="category__link js-category-link" href="../interfaces/libs_common_src_applets_applet_dto.AppletDto.html" data-id="/interfaces/libs_common_src_applets_applet_dto.AppletDto.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AppletDto</a></li></ul></li>
 <li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_applets_applet_entity.html" data-id="/modules/libs_common_src_applets_applet_entity.html">applet.entity.ts</a>
 <ul>
@@ -423,17 +483,36 @@
 <li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors.html" data-id="/modules/libs_common_src_errors.html">index.ts</a>
 <ul>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src_errors.html#AlreadyExistError" data-id="/modules/libs_common_src_errors.html#AlreadyExistError"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AlreadyExistError</a></li>
-<li><a class="category__link js-category-link" href="../modules/libs_common_src_errors.html#UnAuthorizeError" data-id="/modules/libs_common_src_errors.html#UnAuthorizeError"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>UnAuthorizeError</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src_errors.html#UnauthorizeError" data-id="/modules/libs_common_src_errors.html#UnauthorizeError"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>UnauthorizeError</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src_errors.html#ValidationError" data-id="/modules/libs_common_src_errors.html#ValidationError"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ValidationError</a></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors_AlreadyExistError.html" data-id="/modules/libs_common_src_errors_AlreadyExistError.html">AlreadyExistError.ts</a>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors_already_exist_error.html" data-id="/modules/libs_common_src_errors_already_exist_error.html">already-exist.error.ts</a>
 <ul>
-<li><a class="category__link js-category-link" href="libs_common_src_errors_AlreadyExistError.AlreadyExistError.html" data-id="/classes/libs_common_src_errors_AlreadyExistError.AlreadyExistError.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>AlreadyExistError</a></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors_UnAuthorizeError.html" data-id="/modules/libs_common_src_errors_UnAuthorizeError.html">UnAuthorizeError.ts</a>
+<li><a class="category__link js-category-link" href="libs_common_src_errors_already_exist_error.AlreadyExistError.html" data-id="/classes/libs_common_src_errors_already_exist_error.AlreadyExistError.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>AlreadyExistError</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors_forbidden_error.html" data-id="/modules/libs_common_src_errors_forbidden_error.html">forbidden.error.ts</a>
 <ul>
-<li><a class="category__link js-category-link" href="libs_common_src_errors_UnAuthorizeError.UnAuthorizeError.html" data-id="/classes/libs_common_src_errors_UnAuthorizeError.UnAuthorizeError.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>UnAuthorizeError</a></li></ul></li>
-<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors_ValidationError.html" data-id="/modules/libs_common_src_errors_ValidationError.html">ValidationError.ts</a>
+<li><a class="category__link js-category-link" href="libs_common_src_errors_forbidden_error.ForbiddenError.html" data-id="/classes/libs_common_src_errors_forbidden_error.ForbiddenError.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ForbiddenError</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors_unauthorize_error.html" data-id="/modules/libs_common_src_errors_unauthorize_error.html">unauthorize.error.ts</a>
 <ul>
-<li><a class="category__link js-category-link" href="libs_common_src_errors_ValidationError.ValidationError.html" data-id="/classes/libs_common_src_errors_ValidationError.ValidationError.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ValidationError</a></li></ul></li></ul></li>
+<li><a class="category__link js-category-link" href="libs_common_src_errors_unauthorize_error.UnauthorizeError.html" data-id="/classes/libs_common_src_errors_unauthorize_error.UnauthorizeError.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>UnauthorizeError</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_errors_validation_error.html" data-id="/modules/libs_common_src_errors_validation_error.html">validation.error.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="libs_common_src_errors_validation_error.ValidationError.html" data-id="/classes/libs_common_src_errors_validation_error.ValidationError.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ValidationError</a></li></ul></li></ul></li>
+<li><span class="js-category-title category__title" data-id="root-api-libs-common-src-reaction-applet">
+<div class="category__folder" data-id="root-api-libs-common-src-reaction-applet"></div>reaction-applet</span>
+<ul class="js-category-list category" data-id="root-api-libs-common-src-reaction-applet">
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_reaction_applet_reaction_applet_entity.html" data-id="/modules/libs_common_src_reaction_applet_reaction_applet_entity.html">reaction-applet.entity.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="libs_common_src_reaction_applet_reaction_applet_entity.ReactionAppletEntity.html" data-id="/classes/libs_common_src_reaction_applet_reaction_applet_entity.ReactionAppletEntity.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ReactionAppletEntity</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_reaction_applet_reaction_applet_module.html" data-id="/modules/libs_common_src_reaction_applet_reaction_applet_module.html">reaction-applet.module.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="libs_common_src_reaction_applet_reaction_applet_module.ReactionAppletModule.html" data-id="/classes/libs_common_src_reaction_applet_reaction_applet_module.ReactionAppletModule.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ReactionAppletModule</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_reaction_applet_reaction_applet_service.html" data-id="/modules/libs_common_src_reaction_applet_reaction_applet_service.html">reaction-applet.service.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="../enums/libs_common_src_reaction_applet_reaction_applet_service.ReactionAppletRelations.html" data-id="/enums/libs_common_src_reaction_applet_reaction_applet_service.ReactionAppletRelations.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-8"></use></svg>ReactionAppletRelations</a></li>
+<li><a class="category__link js-category-link" href="libs_common_src_reaction_applet_reaction_applet_service.ReactionAppletService.html" data-id="/classes/libs_common_src_reaction_applet_reaction_applet_service.ReactionAppletService.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg>ReactionAppletService</a></li></ul></li>
+<li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src_reaction_applet_reaction_applet_dto.html" data-id="/modules/libs_common_src_reaction_applet_reaction_applet_dto.html">reaction.applet.dto.ts</a>
+<ul>
+<li><a class="category__link js-category-link" href="../interfaces/libs_common_src_reaction_applet_reaction_applet_dto.NewReactionApplet.html" data-id="/interfaces/libs_common_src_reaction_applet_reaction_applet_dto.NewReactionApplet.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>NewReactionApplet</a></li></ul></li></ul></li>
 <li><span class="js-category-title category__title" data-id="root-api-libs-common-src-reactions">
 <div class="category__folder" data-id="root-api-libs-common-src-reactions"></div>reactions</span>
 <ul class="js-category-list category" data-id="root-api-libs-common-src-reactions">
@@ -489,6 +568,10 @@
 <li><a class="category__link js-category-link" href="../variables/libs_common_src_users_user_service.OAuthServices.html" data-id="/variables/libs_common_src_users_user_service.OAuthServices.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg>OAuthServices</a></li></ul></li></ul></li>
 <li><a class="category__link js-category-link category__link--ts" href="../modules/libs_common_src.html" data-id="/modules/libs_common_src.html">index.ts</a>
 <ul>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ActionAppletEntity" data-id="/modules/libs_common_src.html#ActionAppletEntity"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ActionAppletEntity</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ActionAppletModule" data-id="/modules/libs_common_src.html#ActionAppletModule"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ActionAppletModule</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ActionAppletRelations" data-id="/modules/libs_common_src.html#ActionAppletRelations"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ActionAppletRelations</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ActionAppletService" data-id="/modules/libs_common_src.html#ActionAppletService"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ActionAppletService</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ActionEntity" data-id="/modules/libs_common_src.html#ActionEntity"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ActionEntity</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ActionModule" data-id="/modules/libs_common_src.html#ActionModule"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ActionModule</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ActionRelations" data-id="/modules/libs_common_src.html#ActionRelations"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ActionRelations</a></li>
@@ -497,7 +580,6 @@
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#AppletConfigEntity" data-id="/modules/libs_common_src.html#AppletConfigEntity"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AppletConfigEntity</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#AppletConfigModule" data-id="/modules/libs_common_src.html#AppletConfigModule"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AppletConfigModule</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#AppletConfigService" data-id="/modules/libs_common_src.html#AppletConfigService"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AppletConfigService</a></li>
-<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#AppletCreateDto" data-id="/modules/libs_common_src.html#AppletCreateDto"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AppletCreateDto</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#AppletDto" data-id="/modules/libs_common_src.html#AppletDto"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AppletDto</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#AppletEntity" data-id="/modules/libs_common_src.html#AppletEntity"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AppletEntity</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#AppletModule" data-id="/modules/libs_common_src.html#AppletModule"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>AppletModule</a></li>
@@ -526,6 +608,10 @@
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#OauthService" data-id="/modules/libs_common_src.html#OauthService"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>OauthService</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#Providers" data-id="/modules/libs_common_src.html#Providers"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>Providers</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#Public" data-id="/modules/libs_common_src.html#Public"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>Public</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ReactionAppletEntity" data-id="/modules/libs_common_src.html#ReactionAppletEntity"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ReactionAppletEntity</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ReactionAppletModule" data-id="/modules/libs_common_src.html#ReactionAppletModule"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ReactionAppletModule</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ReactionAppletRelations" data-id="/modules/libs_common_src.html#ReactionAppletRelations"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ReactionAppletRelations</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ReactionAppletService" data-id="/modules/libs_common_src.html#ReactionAppletService"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ReactionAppletService</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ReactionEntity" data-id="/modules/libs_common_src.html#ReactionEntity"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ReactionEntity</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ReactionModule" data-id="/modules/libs_common_src.html#ReactionModule"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ReactionModule</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ReactionRelations" data-id="/modules/libs_common_src.html#ReactionRelations"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ReactionRelations</a></li>
@@ -534,7 +620,7 @@
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ServiceModule" data-id="/modules/libs_common_src.html#ServiceModule"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ServiceModule</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ServiceRelations" data-id="/modules/libs_common_src.html#ServiceRelations"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ServiceRelations</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#ServiceService" data-id="/modules/libs_common_src.html#ServiceService"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>ServiceService</a></li>
-<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#UnAuthorizeError" data-id="/modules/libs_common_src.html#UnAuthorizeError"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>UnAuthorizeError</a></li>
+<li><a class="category__link js-category-link" href="../modules/libs_common_src.html#UnauthorizeError" data-id="/modules/libs_common_src.html#UnauthorizeError"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>UnauthorizeError</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#UserCredentialsDto" data-id="/modules/libs_common_src.html#UserCredentialsDto"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>UserCredentialsDto</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#UserDto" data-id="/modules/libs_common_src.html#UserDto"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>UserDto</a></li>
 <li><a class="category__link js-category-link" href="../modules/libs_common_src.html#UserEntity" data-id="/modules/libs_common_src.html#UserEntity"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg>UserEntity</a></li>
