@@ -3,12 +3,13 @@ import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewReaction } from '@app/common/reactions/reaction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NewAction } from '@app/common/actions/action.dto';
 import { AppletRequiredConfigService } from '@app/common/applets/required_configuration/applet.required.config.service';
 
 export enum ReactionRelations {
   SERVICE = 'service',
-  APPLETS = 'applets',
+  REQUIRE_CONFIGS = 'config',
+  REACTION_APPLET = 'reactionApplets',
+  CONFIGS = 'reactionApplets.configs',
 }
 
 @Injectable()
@@ -20,45 +21,13 @@ export class ReactionService {
   ) {}
 
   /**
-   * Create a new reaction
-   * @param data NewReaction object
-   * @returns Promise<ReactionEntity>
-   */
-  async create(data?: NewAction): Promise<ReactionEntity> {
-    //return this.reactionRepository.save(data);
-    const cmd: string = 'message';
-
-    const reaction = await this.reactionRepository.save({
-      name: 'Discord Message',
-      description: 'Send a discord message through a webhook',
-      is_available: true,
-      service: { id: 1 },
-      cmd,
-    });
-
-    /*
-    const config = {
-      webhook: 'string',
-      message: 'string',
-    };
-
-    this.appletRequiredConfigService.createMany(
-      'reaction',
-      reaction.id,
-      config,
-    );
-    */
-    return reaction;
-  }
-
-  /**
    * Find all reactions
    * @param relations Relations to include
    * @returns Promise<ReactionEntity[]>
    */
   findAll(relations: ReactionRelations[] = []): Promise<ReactionEntity[]> {
     return this.reactionRepository.find({
-      relations: [...relations, 'reaction_configs'],
+      relations: [...relations],
     });
   }
 
