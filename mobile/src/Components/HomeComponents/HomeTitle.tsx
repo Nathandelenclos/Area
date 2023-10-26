@@ -7,7 +7,8 @@ export type HomeTitleProps = {
 };
 
 export default function HomeTitle({ text, textColor }: HomeTitleProps) {
-  const parts = text.split(' ');
+  const firstPart = text.split(' ')[0];
+  const parts = text.slice(firstPart.length).split(' ').join(' ');
 
   return (
     <View>
@@ -18,7 +19,7 @@ export default function HomeTitle({ text, textColor }: HomeTitleProps) {
           fontWeight: 'bold',
         }}
       >
-        {parts[0]}
+        {firstPart}
       </Text>
       <Text
         style={{
@@ -28,7 +29,7 @@ export default function HomeTitle({ text, textColor }: HomeTitleProps) {
           fontWeight: 'bold',
         }}
       >
-        {parts[1] + ' ' + parts[2]}
+        {parts}
       </Text>
     </View>
   );

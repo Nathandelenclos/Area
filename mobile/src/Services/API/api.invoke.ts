@@ -1,4 +1,4 @@
-import { API_URL } from '@env';
+import UrlServiceTs from '@services/url.service.ts';
 
 type IApiInvokeProps = {
   endpoint: string;
@@ -67,7 +67,9 @@ type ApiGetProps = {
  */
 
 function ApiGet(props: ApiGetProps): Promise<Response> {
-  return fetch(`${API_URL}${props.endpoint}`, {
+  const url = UrlServiceTs.getBaseUrl();
+  console.log(`${url}${props.endpoint}`);
+  return fetch(`${url}${props.endpoint}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
@@ -89,7 +91,9 @@ type ApiPostProps = {
  * @returns {Promise} with the response object
  */
 function ApiPost(props: ApiPostProps): Promise<Response> {
-  return fetch(`${API_URL}${props.endpoint}`, {
+  const url = UrlServiceTs.getBaseUrl();
+  console.log(`${url}${props.endpoint}`);
+  return fetch(`${url}${props.endpoint}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
@@ -106,7 +110,8 @@ function ApiPost(props: ApiPostProps): Promise<Response> {
  * @returns {Promise} with the response object
  */
 function ApiDelete(props: ApiPostProps): Promise<Response> {
-  return fetch(`${API_URL}${props.endpoint}`, {
+  const url = UrlServiceTs.getBaseUrl();
+  return fetch(`${url}${props.endpoint}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${props.authToken}`,

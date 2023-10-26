@@ -1,5 +1,6 @@
 import { ApiInvoke, IApiInvokeResponse } from './API/api.invoke';
 import defaultApiHandler from './API/api.handlers';
+import UrlServiceTs from '@services/url.service.ts';
 
 interface Credentials {
   email: string;
@@ -15,6 +16,8 @@ interface OAuthCredentials {
 }
 
 class AuthService {
+  url = UrlServiceTs.getBaseUrl();
+
   /**
    * Login
    * @param credentials {email, password}

@@ -7,5 +7,4 @@ declare module '@env' {
   export const SPOTIFY_CLIENT_SECRET: string;
   export const FACEBOOK_APP_ID: string;
   export const REDIRECT_URI: string;
-  export const API_URL: string;
 }

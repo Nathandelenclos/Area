@@ -36,8 +36,11 @@ export type DropDownItemProps = {
   backgroundColor: ColorValue;
   titleColor: ColorValue;
   active: boolean;
-  toggleActive?: (id: number) => void;
+  selected: boolean;
+  toggleSelected?: (id: number) => void;
   children?: React.ReactNode;
+  editing: boolean;
+  onPressElipsis: () => void;
 };
 
 function useDropDownAnimations(): DropDownAnimationsValues {
@@ -61,7 +64,7 @@ function useDropDownAnimations(): DropDownAnimationsValues {
 
   const angleAnimationStyle: ViewStyle = useAnimatedStyle(
     (): ViewStyle => ({
-      transform: [{ rotate: withTiming(`${open.value ? 180 : 0}deg`) }],
+      transform: [{ rotate: withTiming(`${open.value ? -180 : 0}deg`) }],
     }),
   );
 
@@ -108,8 +111,10 @@ export default function DropDownItem({
   description = '',
   backgroundColor,
   titleColor,
-  active,
-  toggleActive,
+  selected,
+  toggleSelected,
+  editing,
+  onPressElipsis,
   children,
 }: DropDownItemProps): React.JSX.Element {
   const { color, translate } = AppContext();
@@ -152,18 +157,29 @@ export default function DropDownItem({
             <Animated.View style={angleAnimationStyle}>
               <FontAwesomeIcon
                 icon={'angle-down'}
+                size={25}
                 style={{
                   color: checkBoxColor,
                 }}
               />
             </Animated.View>
           </TouchableOpacity>
-          <AppletsCheckBox
-            value={active}
-            color={titleColor}
-            bgColor={backgroundColor}
-            onPress={() => (toggleActive ? toggleActive(id) : null)}
-          />
+          {editing ? (
+            <AppletsCheckBox
+              value={selected}
+              color={titleColor}
+              bgColor={backgroundColor}
+              onPress={() => (toggleSelected ? toggleSelected(id) : null)}
+            />
+          ) : (
+            <TouchableOpacity onPress={onPressElipsis}>
+              <FontAwesomeIcon
+                icon={'ellipsis-vertical'}
+                size={25}
+                style={{ color: checkBoxColor }}
+              />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <View>

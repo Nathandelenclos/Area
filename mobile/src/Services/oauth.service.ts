@@ -4,6 +4,7 @@ import {
   AuthConfiguration,
   authorize,
   AuthorizeResult,
+  prefetchConfiguration,
 } from 'react-native-app-auth';
 import AuthService from '@services/auth.service';
 import {
@@ -89,8 +90,10 @@ class OAuthService {
       clientSecret: SPOTIFY_CLIENT_SECRET,
       redirectUrl: REDIRECT_URI,
       scopes: [
+        'user-modify-playback-state',
+        'user-read-playback-state',
+        'user-read-currently-playing',
         'user-read-email',
-        'playlist-modify-public',
         'user-read-private',
       ],
       serviceConfiguration: {

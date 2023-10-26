@@ -10,6 +10,7 @@ import CreateApplet from '@views/CreateApplet/CreateApplet';
 import InfoApplet from '@views/InfoApplet';
 import ListServices from '@views/CreateApplet/ListServices';
 import ListActions from '@views/CreateApplet/ListActions';
+import ConfigActions from '@views/CreateApplet/ConfigActions';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -28,6 +29,7 @@ function MyAppletNavigator(): JSX.Element {
       <Stack.Screen name="InfoApplet" component={InfoApplet} />
       <Stack.Screen name={'ListServices'} component={ListServices} />
       <Stack.Screen name={'ListActions'} component={ListActions} />
+      <Stack.Screen name={'ConfigAction'} component={ConfigActions} />
     </Stack.Navigator>
   );
 }
@@ -61,22 +63,6 @@ function SettingsNavigator(): JSX.Element {
   );
 }
 
-function CreateAppletNavigator(): JSX.Element {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        animation: 'slide_from_right',
-      }}
-      initialRouteName={'CreateApplet'}
-    >
-      <Stack.Screen name="CreateApplet" component={CreateApplet} />
-      <Stack.Screen name="ListServices" component={ListServices} />
-      <Stack.Screen name="ListActions" component={ListActions} />
-    </Stack.Navigator>
-  );
-}
-
 export default function AppNavigator(): JSX.Element {
   const { color } = AppContext();
 
@@ -95,7 +81,6 @@ export default function AppNavigator(): JSX.Element {
       >
         <Tab.Screen name="Recommandation" component={RecommandationNavigator} />
         <Tab.Screen name="Mes Applets" component={MyAppletNavigator} />
-        <Tab.Screen name="Créer" component={CreateAppletNavigator} />
         <Tab.Screen name="Settings" component={SettingsNavigator} />
       </Tab.Navigator>
     </NavigationContainer>

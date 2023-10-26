@@ -18,7 +18,7 @@ export default function ListActions({
 }: {
   route: any;
   navigation: any;
-}): JSX.Element {
+}): React.JSX.Element {
   const { color, translate } = AppContext();
   const { user } = UserCtx();
   const [actions, setActions] = React.useState<IAction[] | IReaction[]>([]);
@@ -28,20 +28,74 @@ export default function ListActions({
   }
 
   const getActions = async () => {
+    let data;
     if (route.params.type === 'action') {
-      const data = await servicesService.getActions(
+      const tmp = await servicesService.getActions(
         user.access_token,
         route.params.serviceId,
       );
-      setActions(data.data);
+      data = tmp.data;
+    } else {
+      const tmp = await servicesService.getReactions(
+        user.access_token,
+        route.params.serviceId,
+      );
+      data = tmp.data;
+    }
+    data = data || [];
+    setActions(data);
+  };
+
+  function saveReaction(action) {
+    if (route.params.id !== undefined) {
+      route.params.setReactions((prev: IReaction[]) => {
+        const newReactions = prev.filter(
+          (reaction: IReaction) => reaction.id !== route.params.id,
+        );
+        action.reactionId = action.id;
+        action.id = route.params.id == 0 ? 1 : route.params.id;
+        return [action, ...newReactions];
+      });
+    } else {
+      route.params.setReactions((prev: IReaction[]) => {
+        if (prev[0].id) {
+          return [
+            ...route.params.reactions,
+            {
+              ...action,
+              id: prev.length + 1,
+              reactionId: action.id,
+            },
+          ];
+        } else {
+          return [{ ...action, id: 1, reactionId: action.id }];
+        }
+      });
+    }
+  }
+
+  function saveAction(action) {
+    route.params.setAction({
+      ...action,
+      serviceId: route.params.serviceId,
+    });
+  }
+
+  function selectAction(action) {
+    if (action.config.length > 0) {
+      navigation.navigate('ConfigAction', {
+        ...route.params,
+        action,
+      });
       return;
     }
-    const data = await servicesService.getReactions(
-      user.access_token,
-      route.params.serviceId,
-    );
-    setActions(data.data);
-  };
+    if (route.params.type === 'reaction') {
+      saveReaction(action);
+    } else {
+      saveAction(action);
+    }
+    navigation.navigate('CreateApplet');
+  }
 
   useEffect(() => {
     getActions();
@@ -94,33 +148,7 @@ export default function ListActions({
               padding: 20,
               borderRadius: 20,
             }}
-            onPress={() => {
-              if (route.params.type === 'reaction') {
-                if (route.params.id !== undefined) {
-                  route.params.setReactions((prev) => {
-                    const newReactions = prev.filter(
-                      (reaction) => reaction.id !== route.params.id,
-                    );
-                    action.id = route.params.id == 0 ? 1 : route.params.id;
-                    return [action, ...newReactions];
-                  });
-                } else {
-                  route.params.setReactions((prev) => {
-                    if (prev[0].id) {
-                      return [
-                        ...route.params.reactions,
-                        { ...action, id: prev.length + 1 },
-                      ];
-                    } else {
-                      return [{ ...action, id: 1 }];
-                    }
-                  });
-                }
-              } else {
-                route.params.setAction(action);
-              }
-              navigation.navigate('CreateApplet');
-            }}
+            onPress={() => selectAction(action)}
           >
             <Text>{action.name}</Text>
           </TouchableOpacity>

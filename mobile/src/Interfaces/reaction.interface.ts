@@ -3,4 +3,5 @@ export interface IReaction {
   name: string;
   is_available: boolean;
   serviceId: number;
+  reactionId?: number;
 }

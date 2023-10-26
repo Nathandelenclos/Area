@@ -2,7 +2,6 @@ import React from 'react';
 import AppContext from '@contexts/app.context';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Title } from '@components/Title';
-import BackButton from '@components/BackButton';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export default function Header({

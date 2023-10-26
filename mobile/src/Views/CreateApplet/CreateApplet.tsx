@@ -112,8 +112,8 @@ export default function CreateApplet({
   const [reactions, setReactions] = React.useState<IAction[]>([
     { id: 0, name: '...', is_available: false, serviceId: 0 },
   ]);
-  const [appletName, setAppletName] = React.useState<string>('Saluuut');
-  const [edition, setEdition] = React.useState<string>('information');
+  const [appletName, setAppletName] = React.useState<string>('');
+  const [edition, setEdition] = React.useState<string>('creation');
   const [canSave, setCanSave] = React.useState<boolean>(false);
 
   useEffect(() => {
@@ -159,13 +159,30 @@ export default function CreateApplet({
 
   const handleSave = async () => {
     if (edition === 'creation') {
-      await appletService.createApplet(user.access_token, {
+      const obj = {
         name: appletName,
-        action: action as IAction,
-        reaction: reactions[0],
-        config: '',
+        description: "My applet's description",
         is_active: true,
-      });
+        service: action?.serviceId,
+        reaction: reactions[0].reactionId,
+        action: action?.id,
+        config_action: {
+          ...action?.config,
+        },
+        config_reaction: {
+          ...reactions[0]?.config,
+        },
+        config: {
+          lastExec: new Date().toISOString(),
+          delta: '5',
+          webhook:
+            'https://discord.com/api/webhooks/1161058023947640883/noO2ahWZ6yFxlWd7deX6Ihaj9nghOESxLlx2c-N0Ch8TFYWjIDRUgSFk_wlsJGWmSlaE',
+          message: '<@689473103063023882> tu finis quand ton pcp ?',
+        },
+      };
+      console.log(obj);
+      return;
+      await appletService.createApplet(user.access_token, obj);
     } else if (edition === 'edition') {
       await appletService.updateApplet(user.access_token, {
         id: route.params.applet.id,
@@ -220,38 +237,38 @@ export default function CreateApplet({
             removeAction={() => handleAppletRemoveReaction(reaction.id)}
           />
         ))}
-        {(edition === 'edition' || edition === 'creation') && (
-          <>
-            <DrawSeparator />
-            <TouchableOpacity
-              onPress={() => handleAppletPressReaction(undefined)}
-              hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              activeOpacity={1}
-            >
-              <View
-                style={{
-                  top: -5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: color.inverseMode,
-                  borderRadius: 100,
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={'plus-circle'}
-                  size={40}
-                  color={color.mode}
-                  style={{ color: 'orange' }}
-                />
-              </View>
-            </TouchableOpacity>
-          </>
-        )}
+        {/*{(edition === 'edition' || edition === 'creation') && (*/}
+        {/*  <>*/}
+        {/*    <DrawSeparator />*/}
+        {/*    <TouchableOpacity*/}
+        {/*      onPress={() => handleAppletPressReaction(undefined)}*/}
+        {/*      hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}*/}
+        {/*      style={{*/}
+        {/*        flex: 1,*/}
+        {/*        justifyContent: 'center',*/}
+        {/*        alignItems: 'center',*/}
+        {/*      }}*/}
+        {/*      activeOpacity={1}*/}
+        {/*    >*/}
+        {/*      <View*/}
+        {/*        style={{*/}
+        {/*          top: -5,*/}
+        {/*          justifyContent: 'center',*/}
+        {/*          alignItems: 'center',*/}
+        {/*          backgroundColor: color.inverseMode,*/}
+        {/*          borderRadius: 100,*/}
+        {/*        }}*/}
+        {/*      >*/}
+        {/*        <FontAwesomeIcon*/}
+        {/*          icon={'plus-circle'}*/}
+        {/*          size={40}*/}
+        {/*          color={color.mode}*/}
+        {/*          style={{ color: 'orange' }}*/}
+        {/*        />*/}
+        {/*      </View>*/}
+        {/*    </TouchableOpacity>*/}
+        {/*  </>*/}
+        {/*)}*/}
       </ScrollView>
       <View>
         {canSave && (
