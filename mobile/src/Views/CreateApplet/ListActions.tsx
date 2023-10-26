@@ -11,6 +11,57 @@ import {
 } from 'react-native';
 import { IAction } from '@interfaces/action.interface';
 import { IReaction } from '@interfaces/reaction.interface';
+import { MyAppletHeader } from '@views/MyApplets';
+import StyledButton from '@components/MyButton';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IconName } from '@fortawesome/fontawesome-common-types';
+
+export function AppletButtonSelector({
+  icon,
+  title,
+  onPress,
+}: {
+  icon?: IconName;
+  title: string;
+  onPress: () => void;
+}) {
+  const { color } = AppContext();
+
+  return (
+    <TouchableOpacity
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 20,
+        marginRight: 20,
+        marginBottom: 20,
+        backgroundColor: color.mainColor,
+        padding: 20,
+        borderRadius: 20,
+      }}
+      onPress={onPress}
+    >
+      {icon && (
+        <FontAwesomeIcon
+          icon={['fab', icon]}
+          size={25}
+          color={color.textOverMainColor}
+          style={{ marginRight: 10 }}
+        />
+      )}
+      <Text
+        style={{
+          color: color.textOverMainColor,
+          fontWeight: 'bold',
+          fontSize: 20,
+        }}
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
+}
 
 export default function ListActions({
   route,
@@ -82,7 +133,7 @@ export default function ListActions({
   }
 
   function selectAction(action) {
-    if (action.config.length > 0) {
+    if (action.config?.length > 0) {
       navigation.navigate('ConfigAction', {
         ...route.params,
         action,
@@ -108,50 +159,20 @@ export default function ListActions({
         backgroundColor: color.mode,
       }}
     >
-      <View
-        style={{
-          borderBottomColor: color.text,
-          borderBottomWidth: 2,
-          marginLeft: '6%',
-          marginRight: '6%',
-          marginTop: '8%',
-          marginBottom: '8%',
-        }}
-      >
-        <Text
-          style={{
-            color: color.text,
-            fontSize: 32,
-            fontWeight: 'bold',
-            marginBottom: '6%',
-            textAlign: 'center',
-          }}
-        >
-          {translate(
-            route.params.type === 'action'
-              ? 'select_action'
-              : 'select_reaction',
-          )}
-        </Text>
-      </View>
-      <ScrollView>
+      <MyAppletHeader
+        title={translate(
+          route.params.type === 'action' ? 'select_action' : 'select_reaction',
+        )}
+        leftIcon={'angle-left'}
+        onPressLeft={() => navigation.pop()}
+      />
+      <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         {actions.map((action, i) => (
-          <TouchableOpacity
+          <AppletButtonSelector
             key={i}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: '6%',
-              marginRight: '6%',
-              marginBottom: '6%',
-              backgroundColor: color.mainColor,
-              padding: 20,
-              borderRadius: 20,
-            }}
+            title={action.name}
             onPress={() => selectAction(action)}
-          >
-            <Text>{action.name}</Text>
-          </TouchableOpacity>
+          />
         ))}
       </ScrollView>
     </SafeAreaView>

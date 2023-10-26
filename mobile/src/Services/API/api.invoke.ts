@@ -55,11 +55,10 @@ export async function ApiInvoke({
   let response;
 
   try {
-    //TODO: Number(TIMEOUT)
     response = await fetchWithTimeout(
       methods[method],
       { endpoint, body, authToken },
-      TIMEOUT,
+      +TIMEOUT,
     );
   } catch (e) {
     response = new Response(null, {

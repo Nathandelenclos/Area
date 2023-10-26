@@ -113,7 +113,9 @@ export default function CreateApplet({
     { id: 0, name: '...', is_available: false, serviceId: 0 },
   ]);
   const [appletName, setAppletName] = React.useState<string>('');
-  const [edition, setEdition] = React.useState<string>('creation');
+  const [edition, setEdition] = React.useState<
+    'creation' | 'information' | 'edition'
+  >('creation');
   const [canSave, setCanSave] = React.useState<boolean>(false);
 
   useEffect(() => {

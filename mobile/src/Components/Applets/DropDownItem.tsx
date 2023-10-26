@@ -133,8 +133,8 @@ export default function DropDownItem({
         style={{
           backgroundColor,
           borderRadius: 20,
-          padding: 10,
-          paddingVertical: 20,
+          padding: 15,
+          paddingVertical: 25,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',

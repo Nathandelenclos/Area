@@ -17,7 +17,7 @@ export default function ChangeURL({
 }): JSX.Element {
   const { color, translate } = AppContext();
   const { setUser } = UserCtx();
-  const [url, setUrl] = React.useState<string>('');
+  const [url, setUrl] = React.useState<string>(UrlServiceTs.getBaseUrl());
 
   function showErrorUrl() {
     Toast.show({
@@ -47,7 +47,11 @@ export default function ChangeURL({
       showErrorUrl();
       return;
     }
-    await UrlServiceTs.editUrl(url);
+    let newUrl = url;
+    if (newUrl[newUrl.length - 1] === '/') {
+      newUrl = newUrl.slice(0, newUrl.length - 1);
+    }
+    await UrlServiceTs.editUrl(newUrl);
     Keyboard.dismiss();
     setUser(null);
     navigation.popToTop();

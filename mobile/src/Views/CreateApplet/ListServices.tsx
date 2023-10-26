@@ -10,6 +10,9 @@ import AppContext from '@contexts/app.context';
 import UserCtx from '@contexts/user.context';
 import servicesService from '@services/services.service';
 import { IService } from '@interfaces/service.interface';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { MyAppletHeader } from '@views/MyApplets';
+import { AppletButtonSelector } from '@views/CreateApplet/ListActions';
 
 export default function ListServices({
   route,
@@ -63,51 +66,23 @@ export default function ListServices({
         backgroundColor: color.mode,
       }}
     >
-      <View
-        style={{
-          borderBottomColor: color.text,
-          borderBottomWidth: 2,
-          marginLeft: '6%',
-          marginRight: '6%',
-          marginTop: '8%',
-          marginBottom: '8%',
-        }}
-      >
-        <Text
-          style={{
-            color: color.text,
-            fontSize: 32,
-            fontWeight: 'bold',
-            marginBottom: '6%',
-            textAlign: 'center',
-          }}
-        >
-          {translate('select_service')}
-        </Text>
-      </View>
-      <ScrollView>
+      <MyAppletHeader
+        title={translate('select_service')}
+        leftIcon={'angle-left'}
+        onPressLeft={() => navigation.pop()}
+      />
+      <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         {services.map((service, i) => (
-          <TouchableOpacity
+          <AppletButtonSelector
             key={i}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: '6%',
-              marginRight: '6%',
-              marginBottom: '6%',
-              backgroundColor: color.mainColor,
-              padding: 20,
-              borderRadius: 20,
-            }}
+            title={service.name}
             onPress={() => {
               navigation.navigate('ListActions', {
                 serviceId: service.id,
                 ...route.params,
               });
             }}
-          >
-            <Text>{service.name}</Text>
-          </TouchableOpacity>
+          />
         ))}
       </ScrollView>
     </SafeAreaView>

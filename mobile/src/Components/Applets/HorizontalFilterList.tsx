@@ -25,7 +25,7 @@ export default function HorizontalFilterList({
       <ScrollView
         style={{
           flexDirection: 'row',
-          marginBottom: 20,
+          marginVertical: 20,
         }}
         horizontal={true}
         showsHorizontalScrollIndicator={false}

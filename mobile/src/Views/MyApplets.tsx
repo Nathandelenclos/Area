@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Button,
   LogBox,
+  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -24,7 +25,7 @@ import UrlServiceTs from '@services/url.service.ts';
 import AuthService from '@services/auth.service';
 import { Icon, IconProp } from '@fortawesome/fontawesome-svg-core';
 
-function MyAppletHeader({
+export function MyAppletHeader({
   leftIcon,
   onPressLeft,
   rightIcon,
@@ -37,6 +38,7 @@ function MyAppletHeader({
   onPressRight?: () => void;
   title: string;
 }) {
+  const { color } = AppContext();
   return (
     <View
       style={{
@@ -46,33 +48,43 @@ function MyAppletHeader({
       <View
         style={{
           width: '90%',
-          justifyContent: 'space-between',
           flexDirection: 'row',
           alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        {onPressLeft && leftIcon ? (
-          <TouchableOpacity onPress={onPressLeft}>
-            <FontAwesomeIcon icon={leftIcon} size={25} />
+        {onPressLeft && leftIcon && (
+          <TouchableOpacity
+            onPress={onPressLeft}
+            style={{ position: 'absolute', left: 0 }}
+          >
+            <FontAwesomeIcon icon={leftIcon} size={25} color={color.text} />
           </TouchableOpacity>
-        ) : (
-          <View />
         )}
-        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>{title}</Text>
-        {onPressRight && rightIcon ? (
-          <TouchableOpacity onPress={onPressRight}>
-            <FontAwesomeIcon icon={rightIcon} size={25} />
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: 'bold',
+            color: color.text,
+          }}
+        >
+          {title}
+        </Text>
+        {onPressRight && rightIcon && (
+          <TouchableOpacity
+            onPress={onPressRight}
+            style={{ position: 'absolute', right: 0 }}
+          >
+            <FontAwesomeIcon icon={rightIcon} size={25} color={color.text} />
           </TouchableOpacity>
-        ) : (
-          <View />
         )}
       </View>
       <View
         style={{
           height: 1,
-          backgroundColor: 'black',
+          backgroundColor: color.text,
           width: '90%',
-          marginVertical: 20,
+          marginTop: 20,
         }}
       />
     </View>
@@ -142,17 +154,23 @@ export default function MyAppletsView({
         selected: false,
       }),
     );
-    setItemList([
-      {
-        id: '1',
-        title: 'TEST',
-        backgroundColor: colors[0],
-        description: 'desccc',
-        titleColor: 'white',
-        active: false,
-        selected: false,
-      },
-    ]);
+    const obj = {
+      id: '1',
+      title: 'TEST',
+      backgroundColor: colors[0],
+      description: 'desccc',
+      titleColor: 'white',
+      active: false,
+      selected: false,
+    };
+    const listTest = [];
+    for (let i = 1; i < 11; i++) {
+      listTest.push({ ...obj });
+      obj.id = (parseInt(obj.id) + 1).toString();
+      obj.backgroundColor = colors[i % colors.length];
+      console.log(obj);
+    }
+    setItemList(listTest);
   };
 
   const handleTrashPress = async (item: DropDownItemProps) => {
@@ -209,7 +227,7 @@ export default function MyAppletsView({
   }
 
   return (
-    <ViewContainer background={color.background}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
       <MyAppletHeader
         title={'My Applets'}
         leftIcon={getIconLeft()}
@@ -221,7 +239,12 @@ export default function MyAppletsView({
         filterList={filterList}
         setFilterList={setFilterList}
       />
-      <ScrollView style={{ flex: 1, paddingHorizontal: 10, paddingBottom: 50 }}>
+      <ScrollView
+        style={{
+          flex: 1,
+          paddingHorizontal: 20,
+        }}
+      >
         {itemList.length === 0 && (
           <TouchableOpacity
             style={{
@@ -276,6 +299,6 @@ export default function MyAppletsView({
             </DropDownItem>
           ))}
       </ScrollView>
-    </ViewContainer>
+    </SafeAreaView>
   );
 }
