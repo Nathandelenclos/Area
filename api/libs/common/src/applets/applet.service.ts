@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AppletEntity } from './applet.entity';
-import { AppletConfigService } from './configuration/applet.config.service';
 import { AppletDto } from './applet.dto';
 
 export enum AppletRelations {
@@ -18,7 +17,6 @@ export class AppletService {
   constructor(
     @InjectRepository(AppletEntity)
     private readonly appletRepository: Repository<AppletEntity>,
-    private readonly appletConfigService: AppletConfigService,
   ) {}
 
   /**
@@ -52,6 +50,21 @@ export class AppletService {
    */
   findAll(relations?: AppletRelations[]): Promise<AppletEntity[]> {
     return this.appletRepository.find({
+      relations: relations,
+    });
+  }
+
+  /**
+   * Find all applets by options
+   * @param options Options
+   * @param relations Include relations
+   */
+  find(
+    options: Partial<AppletEntity>,
+    relations: AppletRelations[] = [],
+  ): Promise<AppletEntity[]> {
+    return this.appletRepository.find({
+      where: options,
       relations: relations,
     });
   }

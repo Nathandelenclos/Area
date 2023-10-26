@@ -5,7 +5,7 @@ import { AppletEntity } from './applet.entity';
 import { AppletConfigModule } from './configuration/applet.config.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AppletEntity]), AppletConfigModule],
+  imports: [TypeOrmModule.forFeature([AppletEntity])],
   providers: [AppletService],
   exports: [AppletService],
 })

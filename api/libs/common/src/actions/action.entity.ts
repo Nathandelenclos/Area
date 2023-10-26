@@ -36,5 +36,5 @@ export class ActionEntity {
   config: AppletRequiredConfigEntity[];
 
   @OneToMany(() => ActionAppletEntity, (action) => action.action)
-  applets: ActionEntity[];
+  applets: ActionAppletEntity[];
 }
