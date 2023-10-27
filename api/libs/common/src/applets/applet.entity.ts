@@ -28,8 +28,8 @@ export class AppletEntity {
   user: UserEntity;
 
   @OneToMany(() => ActionAppletEntity, (action) => action.applet)
-  actions: ActionEntity[];
+  actions: ActionAppletEntity[];
 
   @OneToMany(() => ReactionAppletEntity, (reaction) => reaction.applet)
-  reactions: ActionEntity[];
+  reactions: ReactionAppletEntity[];
 }

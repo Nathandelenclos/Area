@@ -46,6 +46,18 @@ export class AppletConfigService {
 
   /**
    * Delete an applet configuration
+   * @param id Applet configuration id
+   */
+  delete(id: number): Promise<any> {
+    return this.appletConfigRepository.delete(id);
+  }
+
+  deleteMany(ids: number[]): Promise<any> {
+    return this.appletConfigRepository.delete(ids);
+  }
+
+  /**
+   * Delete an applet configuration
    * @param applet_id
    */
   // async delete(applet_id: number): Promise<any> {

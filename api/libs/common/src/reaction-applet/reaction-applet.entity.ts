@@ -12,6 +12,6 @@ export class ReactionAppletEntity {
   @ManyToOne(() => AppletEntity, (applet) => applet.reactions)
   applet: AppletEntity;
 
-  @OneToMany(() => AppletConfigEntity, (config) => config.actionApplet)
+  @OneToMany(() => AppletConfigEntity, (config) => config.reactionApplet)
   configs: AppletConfigEntity[];
 }

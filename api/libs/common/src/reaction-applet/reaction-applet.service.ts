@@ -108,7 +108,7 @@ export class ReactionAppletService {
    * @param id ReactionAppletEntity id
    * @returns Promise<DeleteResult>
    */
-  remove(id: number): Promise<DeleteResult> {
+  delete(id: number): Promise<DeleteResult> {
     return this.reactionAppletRepository.delete(id);
   }
 

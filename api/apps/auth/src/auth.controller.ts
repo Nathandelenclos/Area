@@ -95,6 +95,11 @@ export class AuthController extends MicroServiceController {
           code: HttpCode.UNAUTHORIZED,
           message: error.message,
         };
+      } else if (error instanceof AlreadyExistError) {
+        props = {
+          code: HttpCode.CONFLICT,
+          message: error.message,
+        };
       } else {
         props = {
           code: HttpCode.INTERNAL_SERVER_ERROR,

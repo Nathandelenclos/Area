@@ -4,7 +4,6 @@ import {
   ActionRelations,
   ActionService,
   AppletConfigService,
-  AppletRelations,
   AppletService,
   ReactionService,
   ServiceService,

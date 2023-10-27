@@ -14,8 +14,8 @@ import {
   ReactionRelations,
   ReactionService,
   ValidationError,
+  ForbiddenError,
 } from '@app/common';
-import { ForbiddenError } from '@app/common/errors/forbidden.error';
 
 interface NewAppletRequest {
   name: string;
@@ -179,5 +179,66 @@ export class AppletService {
       AppletRelations.REACTIONS,
       AppletRelations.USER,
     ]);
+  }
+
+  /**
+   * Delete an applet
+   * @param id Applet id
+   * @param userId User id
+   */
+  async deleteApplet(id: number, userId: number) {
+    const applet = await this.appletCommonService.findOne({ id: id }, [
+      AppletRelations.USER,
+      AppletRelations.ACTIONS,
+      AppletRelations.REACTIONS,
+      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.REACTION_CONFIG,
+    ]);
+
+    if (applet.user.id !== userId) {
+      throw new ForbiddenError('You are not allowed to access this applet');
+    }
+
+    await Promise.all([
+      ...applet.actions.map(async (action) => {
+        if (action.configs.length === 0)
+          return this.actionAppletService.delete(action.id);
+        await this.configService.deleteMany(action.configs.map((c) => c.id));
+        return this.actionAppletService.delete(action.id);
+      }),
+      ...applet.reactions.map(async (reaction) => {
+        if (reaction.configs.length === 0)
+          return this.reactionAppletService.delete(reaction.id);
+        await this.configService.deleteMany(reaction.configs.map((c) => c.id));
+        return this.reactionAppletService.delete(reaction.id);
+      }),
+    ]);
+    return this.appletCommonService.delete(id);
+  }
+
+  /**
+   * Update an applet
+   * @param id Applet id
+   * @param data Applet data
+   * @param userId User id
+   */
+  async updateApplet(id: number, data: NewAppletRequest, userId: number) {
+    const applet = await this.appletCommonService.findOne({ id: id }, [
+      AppletRelations.USER,
+      AppletRelations.ACTIONS,
+      AppletRelations.REACTIONS,
+      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.REACTION_CONFIG,
+    ]);
+
+    if (applet.user.id !== userId) {
+      throw new ForbiddenError('You are not allowed to access this applet');
+    }
+
+    return this.appletCommonService.update(id, {
+      name: data.name,
+      description: data.description,
+      is_active: data.is_active,
+    });
   }
 }

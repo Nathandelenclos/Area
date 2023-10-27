@@ -6,6 +6,7 @@ import {
   Inject,
   Param,
   Post,
+  Put,
   Req,
   Res,
 } from '@nestjs/common';
@@ -71,6 +72,25 @@ export class AppletController {
       'delete',
       {
         id,
+        user: req.user,
+      },
+      res,
+    );
+  }
+
+  @Put(':id')
+  update(
+    @Param('id') id: number,
+    @Body() data: any,
+    @Res() res: Response,
+    @Req() req: Request & { user: { id: number } },
+  ) {
+    MicroServiceProxy.callMicroService(
+      this.appletService,
+      'update',
+      {
+        id,
+        ...data,
         user: req.user,
       },
       res,

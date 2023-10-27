@@ -15,7 +15,7 @@ export class OauthEntity {
   @Column({ nullable: true })
   accessToken: string;
 
-  @Column()
+  @Column({ length: 500 })
   refreshToken: string;
 
   @Column()

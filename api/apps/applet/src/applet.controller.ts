@@ -1,18 +1,15 @@
 import { Controller } from '@nestjs/common';
 import {
   ActionAppletService,
-  AppletRelations,
   AppletService as AppletCommonService,
   HttpCode,
   MicroServiceController,
   MicroServiceHttpCodeProps,
   MicroServiceResponse,
   ReactionAppletService,
-  UserEntity,
   ValidationError,
 } from '@app/common';
 import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
-import { DeepPartial } from 'typeorm';
 import { AppletService } from './applet.service';
 import { ForbiddenError } from '@app/common/errors/forbidden.error';
 
@@ -110,10 +107,26 @@ export class AppletController extends MicroServiceController {
       message: 'OK',
     };
     try {
-      props.data = await this.appletCommonService.delete(data.id, data.user.id);
+      props.data = await this.appletService.deleteApplet(data.id, data.user.id);
     } catch (e) {
       props.code = HttpCode.INTERNAL_SERVER_ERROR;
-      props.message = 'Internal server error';
+      props.message = e.message || 'Internal server error';
+    }
+    return new MicroServiceResponse(props);
+  }
+
+  @MessagePattern({ cmd: 'update' })
+  async update(@Ctx() context: RmqContext) {
+    const { id, user, ...data } = this.ack(context);
+    const props: MicroServiceHttpCodeProps = {
+      code: HttpCode.OK,
+      message: 'OK',
+    };
+    try {
+      props.data = await this.appletService.updateApplet(id, data, user.id);
+    } catch (e) {
+      props.code = HttpCode.INTERNAL_SERVER_ERROR;
+      props.message = e.message || 'Internal server error';
     }
     return new MicroServiceResponse(props);
   }

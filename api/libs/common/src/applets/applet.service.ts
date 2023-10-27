@@ -87,15 +87,22 @@ export class AppletService {
   /**
    * Delete an applet by its id
    * @param id Applet id
-   * @param userId User id
    */
-  async delete(id: number, userId: number): Promise<any> {
+  async delete(id: number): Promise<any> {
     const applet = await this.appletRepository.findOne({
-      where: { id, user: { id: userId } },
+      where: { id },
     });
     if (!applet) throw new Error('Applet not found');
 
-    // await this.appletConfigService.delete(id);
     return this.appletRepository.delete(id);
+  }
+
+  async update(id: number, data: Partial<AppletDto>): Promise<any> {
+    const applet = await this.appletRepository.findOne({
+      where: { id },
+    });
+    if (!applet) throw new Error('Applet not found');
+
+    return this.appletRepository.update(id, data);
   }
 }

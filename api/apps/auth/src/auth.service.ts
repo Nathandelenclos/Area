@@ -105,13 +105,7 @@ export class AuthService {
       [OAuthRelations.USER],
     );
 
-    if (
-      oauth &&
-      AES.decrypt(
-        oauth.refreshToken,
-        this.configService.get('AES_SECRET'),
-      ).toString(enc.Utf8) != data.refreshToken
-    ) {
+    if (oauth && oauth.email !== data.email) {
       throw new UnauthorizeError();
     }
 
@@ -128,7 +122,7 @@ export class AuthService {
       });
       user = null;
     } else {
-      user = await this.userService.findOne({ id: oauth.user?.id });
+      user = oauth.user;
     }
 
     if (oauth && !user) {
@@ -164,12 +158,7 @@ export class AuthService {
         id: data.id,
         email: data.email,
       },
-      [
-        UserRelations.APPLETS,
-        UserRelations.APPLETS_ACTION,
-        UserRelations.APPLETS_REACTION,
-        UserRelations.OAUTH,
-      ],
+      [UserRelations.OAUTH],
     );
     delete user.password;
     return user;

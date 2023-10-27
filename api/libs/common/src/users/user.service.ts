@@ -8,8 +8,8 @@ import { UserNativeCredentialsDto } from '@app/common/users/user.dto';
 
 export enum UserRelations {
   APPLETS = 'applets',
-  APPLETS_ACTION = 'applets.action',
-  APPLETS_REACTION = 'applets.reaction',
+  APPLETS_ACTION = 'applets.actions',
+  APPLETS_REACTION = 'applets.reactions',
   APPLETS_CONFIG = 'applets.config',
   OAUTH = 'oauth',
 }

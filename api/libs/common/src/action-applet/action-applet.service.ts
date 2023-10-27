@@ -111,4 +111,12 @@ export class ActionAppletService {
   update(id: number, data: Partial<ActionAppletEntity>) {
     return this.actionAppletRepository.update(id, data);
   }
+
+  /**
+   * Remove an action applet
+   * @param id ActionAppletEntity id
+   */
+  delete(id: number) {
+    return this.actionAppletRepository.delete(id);
+  }
 }
