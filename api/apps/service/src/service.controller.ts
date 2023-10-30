@@ -28,7 +28,7 @@ export class ServiceController extends MicroServiceController {
     } catch (error) {
       props = {
         code: 500,
-        message: 'Internal server error',
+        message: 'Internal server error' || error.message,
       };
     }
     return new MicroServiceResponse(props);

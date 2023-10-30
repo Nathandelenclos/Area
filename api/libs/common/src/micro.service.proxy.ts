@@ -25,7 +25,7 @@ class MicroServiceProxy {
     cmd: string,
     data: any,
     res?: Response,
-  ): Promise<void> {
+  ): Promise<MicroServiceResponse> {
     const response = await new Promise<MicroServiceResponse>((resolve) => {
       client.send({ cmd: cmd }, data).subscribe(
         (response) => {
@@ -42,8 +42,8 @@ class MicroServiceProxy {
         },
       );
     });
-    if (!res) return;
-    res.status(response.getStatus()).send(response.getJSON());
+    if (res) res.status(response.getStatus()).send(response.getJSON());
+    return response;
   }
 }
 
