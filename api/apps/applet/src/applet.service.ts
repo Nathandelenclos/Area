@@ -255,6 +255,11 @@ export class AppletService {
       throw new ForbiddenError('You are not allowed to access this applet');
     }
 
+    await this.appletCommonService.update(id, {
+      name: data.name,
+      description: data.description,
+      is_active: data.is_active,
+    });
     await this.requiredConfig(data.reactions, data.actions);
     await this.deleteConfig(applet);
     await this.createConfig(data.actions, applet, 'actionApplet');
