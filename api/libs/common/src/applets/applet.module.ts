@@ -2,10 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppletService } from './applet.service';
 import { AppletEntity } from './applet.entity';
-import { AppletConfigModule } from './configuration/applet.config.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AppletEntity]), AppletConfigModule],
+  imports: [TypeOrmModule.forFeature([AppletEntity])],
   providers: [AppletService],
   exports: [AppletService],
 })

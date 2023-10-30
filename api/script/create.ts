@@ -3,7 +3,7 @@ import * as process from 'process';
 
 const needParams = {
   action: ['name', 'description', 'serviceId', 'is_available'],
-  reaction: ['name', 'description', 'serviceId', 'is_available'],
+  reaction: ['name', 'description', 'serviceId', 'is_available', 'cmd'],
   service: ['name', 'url', 'is_available'],
 };
 

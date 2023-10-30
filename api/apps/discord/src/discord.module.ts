@@ -3,15 +3,12 @@ import { DiscordController } from './discord.controller';
 import { DiscordService } from './discord.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServiceModule } from '@app/common/services/service.module';
-import { ActionModule } from '@app/common/actions/action.module';
-import { ServiceEntity } from '@app/common/services/service.entity';
-import { ActionEntity } from '@app/common/actions/action.entity';
-import { ReactionModule } from '@app/common/reactions/reaction.module';
-import { ReactionEntity } from '@app/common/reactions/reaction.entity';
-import { AppletEntity } from '@app/common/applets/applet.entity';
-import { UserEntity } from '@app/common/users/user.entity';
-import { AppletConfigEntity } from '@app/common/applets/configuration/applet.config.entity';
+import {
+  ActionModule,
+  ReactionModule,
+  ServiceModule,
+  Entities,
+} from '@app/common';
 
 @Module({
   imports: [
@@ -29,14 +26,7 @@ import { AppletConfigEntity } from '@app/common/applets/configuration/applet.con
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [
-          ServiceEntity,
-          ActionEntity,
-          ReactionEntity,
-          AppletEntity,
-          UserEntity,
-          AppletConfigEntity,
-        ],
+        entities: Entities,
         synchronize: true,
       }),
     }),

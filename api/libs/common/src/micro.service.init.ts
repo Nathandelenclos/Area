@@ -4,6 +4,25 @@ import { INestApplication, Provider } from '@nestjs/common';
 
 class MicroServiceInit {
   /**
+   * Get a microservice
+   * @param configService
+   * @param queue
+   */
+  public static getMicroservice(configService: ConfigService, queue: string) {
+    const USER = configService.get('RABBITMQ_USER');
+    const PASSWORD = configService.get('RABBITMQ_PASS');
+    const HOST = configService.get('RABBITMQ_HOST');
+
+    return ClientProxyFactory.create({
+      transport: Transport.RMQ,
+      options: {
+        urls: [`amqp://${USER}:${PASSWORD}@${HOST}`],
+        queue: queue,
+      },
+    });
+  }
+
+  /**
    * Initialize a microservice
    * @param provideName The name of the provider
    * @param queue The queue to connect to

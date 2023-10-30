@@ -3,10 +3,14 @@ import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewReaction } from '@app/common/reactions/reaction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AppletRequiredConfigService } from '@app/common/applets/required_configuration/applet.required.config.service';
 
 export enum ReactionRelations {
   SERVICE = 'service',
-  APPLETS = 'applets',
+  REQUIRE_CONFIGS = 'config.reaction',
+  REACTION_APPLET = 'reactionApplets',
+  CONFIGS = 'reactionApplets.configs',
+  APPLET = 'reactionApplets.applet',
 }
 
 @Injectable()
@@ -14,16 +18,8 @@ export class ReactionService {
   constructor(
     @InjectRepository(ReactionEntity)
     private readonly reactionRepository: Repository<ReactionEntity>,
+    private readonly appletRequiredConfigService: AppletRequiredConfigService,
   ) {}
-
-  /**
-   * Create a new reaction
-   * @param data NewReaction object
-   * @returns Promise<ReactionEntity>
-   */
-  create(data: NewReaction): Promise<ReactionEntity> {
-    return this.reactionRepository.save(data);
-  }
 
   /**
    * Find all reactions
@@ -32,7 +28,7 @@ export class ReactionService {
    */
   findAll(relations: ReactionRelations[] = []): Promise<ReactionEntity[]> {
     return this.reactionRepository.find({
-      relations,
+      relations: [...relations],
     });
   }
 
@@ -58,10 +54,7 @@ export class ReactionService {
    * @param data Data to update
    * @returns Promise<UpdateResult>
    */
-  update(
-    query: number | ReactionEntity | Partial<NewReaction>,
-    data: Partial<ReactionEntity>,
-  ) {
+  update(query: number | ReactionEntity, data: Partial<ReactionEntity>) {
     return this.reactionRepository.update(query, data);
   }
 
@@ -70,9 +63,7 @@ export class ReactionService {
    * @param query Query object
    * @returns Promise<DeleteResult>
    */
-  remove(
-    query: number | ReactionEntity | Partial<NewReaction>,
-  ): Promise<DeleteResult> {
+  remove(query: number | ReactionEntity): Promise<DeleteResult> {
     return this.reactionRepository.delete(query);
   }
 }

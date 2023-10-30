@@ -3,9 +3,14 @@ import { ActionEntity } from '@app/common/actions/action.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { NewAction } from '@app/common/actions/action.dto';
+import { AppletRequiredConfigService } from '@app/common/applets/required_configuration/applet.required.config.service';
 
 export enum ActionRelations {
   SERVICE = 'service',
+  REQUIRE_CONFIG = 'config.action',
+  APPLETS = 'applets',
+  APPLET = 'applets.applet',
+  CONFIGS = 'applets.configs',
 }
 
 @Injectable()
@@ -13,16 +18,8 @@ export class ActionService {
   constructor(
     @InjectRepository(ActionEntity)
     private readonly actionRepository: Repository<ActionEntity>,
+    private readonly appletRequiredConfigService: AppletRequiredConfigService,
   ) {}
-
-  /**
-   * Create a new action
-   * @param data NewAction object
-   * @returns Promise<ActionEntity>
-   */
-  create(data: NewAction): Promise<ActionEntity> {
-    return this.actionRepository.save(data);
-  }
 
   /**
    * Find all actions
@@ -57,10 +54,7 @@ export class ActionService {
    * @param data Data to update
    * @returns Promise<UpdateResult>
    */
-  update(
-    query: number | ActionEntity | Partial<NewAction>,
-    data: Partial<ActionEntity>,
-  ) {
+  update(query: number | ActionEntity, data: Partial<ActionEntity>) {
     return this.actionRepository.update(query, data);
   }
 
@@ -69,9 +63,7 @@ export class ActionService {
    * @param query Query object
    * @returns Promise<DeleteResult>
    */
-  remove(
-    query: number | ActionEntity | Partial<NewAction>,
-  ): Promise<DeleteResult> {
+  remove(query: number | ActionEntity): Promise<DeleteResult> {
     return this.actionRepository.delete(query);
   }
 }
