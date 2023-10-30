@@ -3,7 +3,6 @@ import Welcome from "@pages/Auth/Welcome";
 import SignIn from "@pages/Auth/SignIn";
 import SignUp from "@pages/Auth/SignUp";
 import CreateAppletAction from "@pages/CreateAppletAction";
-import CreateAppletReaction from "@pages/CreateAppletReaction";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
 import MyApplet from "@pages/MyApplet";
 import GoogleOAuth from "./pages/GoogleOAuth";
@@ -45,12 +44,6 @@ export const Routes: Route[] = [
     path: "/create-applet",
     middleware: [],
     element: <CreateAppletAction />,
-  },
-  {
-    name: "create-applet-reaction",
-    path: "/create-applet-reaction",
-    middleware: [],
-    element: <CreateAppletReaction />,
   },
   {
     name: "home-page",
@@ -100,6 +93,5 @@ export type RouteNames =
   | "create-applet"
   | "my-applets"
   | "create-applet"
-  | "create-applet-reaction"
   | "profile"
   | "configure-applet";

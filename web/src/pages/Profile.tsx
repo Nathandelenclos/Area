@@ -34,6 +34,7 @@ const otherServicesList: listType[] = [
 
 export default function Profile() {
   const { translate } = AppContext();
+
   return (
     <div className="h-full w-full">
       <NavBar />

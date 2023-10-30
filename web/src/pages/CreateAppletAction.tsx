@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AreaService from "@services/AreaService";
 import { ServiceObject, ServiceObjectDto } from "@src/objects/ServiceObject";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function CreateAppletAction() {
   const { translate, user } = AppContext();
