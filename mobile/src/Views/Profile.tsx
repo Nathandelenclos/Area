@@ -87,7 +87,6 @@ type servicesProps = {
 
 function RenderRows(data: servicesProps[], itemsPerRow: number, pressInfoService: any) {
   const rows = [];
-  const totalRows = Math.ceil(data.length / itemsPerRow);
 
   for (let i = 0; i < data.length; i += itemsPerRow) {
     const rowItems = data.slice(i, i + itemsPerRow);
@@ -355,6 +354,17 @@ export default function Profile(): JSX.Element {
             width: '100%',
           }}
         >
+          <TouchableOpacity
+            style={{position: 'absolute', left: 0, marginLeft: 24}}
+            onPress={logoutUserPressed}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          >
+            <FontAwesomeIcon
+              icon={'cog'}
+              size={25}
+              style={{ color: color.textOverMainColor }}
+            />
+          </TouchableOpacity>
           <Title
             title={translate('pofile_title')}
             style={{ color: color.textOverMainColor }}
