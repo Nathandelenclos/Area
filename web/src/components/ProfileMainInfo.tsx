@@ -11,8 +11,9 @@ export default function ProfileMainInfo() {
     setNewPassword(str);
   };
 
-  const handleCheckClick = () => {
-    console.log("New password:", newPassword);
+  const handleCheckClick = (str: string) => {
+    console.log("New password:", str);
+    setNewPassword("");
   };
 
   return (
@@ -27,7 +28,7 @@ export default function ProfileMainInfo() {
         }
       >
         <div className="flex flex-1 bg-[#7A73E7] justify-center md:mr-10 mr-0 rounded-[20px] py-10 px-10">
-          <FontAwesomeIcon icon={"circle-user"} size={"10x"} color="white" />
+          <FontAwesomeIcon icon={"circle-user"} size="10x" color="white" />
         </div>
         <div className="flex flex-1 text-center flex-col h-auto space-y-5 md:text-left">
           <p className="text-[30px] font-semibold">Simon Riembault</p>
@@ -53,14 +54,13 @@ export default function ProfileMainInfo() {
                 value={newPassword}
                 onChange={(e) => {
                   handleInputChange(e.target.value);
-                  setPassword(!password);
                 }}
               />
               <div className="flex flex-row items-center justify-center my-5 sm:my-0">
                 <div
                   className="bg-[#7A73E7] hover:bg-[#7A73E7CC] flex justify-center items-center ml-2 p-4 rounded-[10px] cursor-pointer"
                   onClick={() => {
-                    handleCheckClick();
+                    handleCheckClick(newPassword);
                     setPassword(!password);
                   }}
                 >
@@ -69,6 +69,7 @@ export default function ProfileMainInfo() {
                 <div
                   className="bg-black hover:bg-[#000000CC] flex justify-center items-center ml-2 p-4 rounded-[10px] cursor-pointer"
                   onClick={() => {
+                    setNewPassword("");
                     setPassword(!password);
                   }}
                 >
