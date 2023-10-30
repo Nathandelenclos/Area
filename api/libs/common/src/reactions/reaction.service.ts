@@ -54,10 +54,7 @@ export class ReactionService {
    * @param data Data to update
    * @returns Promise<UpdateResult>
    */
-  update(
-    query: number | ReactionEntity | Partial<NewReaction>,
-    data: Partial<ReactionEntity>,
-  ) {
+  update(query: number | ReactionEntity, data: Partial<ReactionEntity>) {
     return this.reactionRepository.update(query, data);
   }
 
@@ -66,9 +63,7 @@ export class ReactionService {
    * @param query Query object
    * @returns Promise<DeleteResult>
    */
-  remove(
-    query: number | ReactionEntity | Partial<NewReaction>,
-  ): Promise<DeleteResult> {
+  remove(query: number | ReactionEntity): Promise<DeleteResult> {
     return this.reactionRepository.delete(query);
   }
 }

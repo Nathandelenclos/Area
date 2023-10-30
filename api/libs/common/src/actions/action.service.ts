@@ -28,7 +28,7 @@ export class ActionService {
    */
   findAll(relations: ActionRelations[] = []): Promise<ActionEntity[]> {
     return this.actionRepository.find({
-      relations: [...relations],
+      relations,
     });
   }
 
@@ -44,7 +44,7 @@ export class ActionService {
   ): Promise<ActionEntity | undefined> {
     return this.actionRepository.findOne({
       where: query,
-      relations: relations,
+      relations,
     });
   }
 
@@ -54,10 +54,7 @@ export class ActionService {
    * @param data Data to update
    * @returns Promise<UpdateResult>
    */
-  update(
-    query: number | ActionEntity | Partial<NewAction>,
-    data: Partial<ActionEntity>,
-  ) {
+  update(query: number | ActionEntity, data: Partial<ActionEntity>) {
     return this.actionRepository.update(query, data);
   }
 
@@ -66,9 +63,7 @@ export class ActionService {
    * @param query Query object
    * @returns Promise<DeleteResult>
    */
-  remove(
-    query: number | ActionEntity | Partial<NewAction>,
-  ): Promise<DeleteResult> {
+  remove(query: number | ActionEntity): Promise<DeleteResult> {
     return this.actionRepository.delete(query);
   }
 }

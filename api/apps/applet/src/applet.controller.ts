@@ -8,10 +8,10 @@ import {
   MicroServiceResponse,
   ReactionAppletService,
   ValidationError,
+  ForbiddenError,
 } from '@app/common';
 import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';
 import { AppletService } from './applet.service';
-import { ForbiddenError } from '@app/common/errors/forbidden.error';
 
 @Controller()
 export class AppletController extends MicroServiceController {
@@ -71,6 +71,7 @@ export class AppletController extends MicroServiceController {
     try {
       props.data = await this.appletService.createApplet(data, data.user);
     } catch (e) {
+      console.log(e);
       if (e instanceof ValidationError) {
         props.code = HttpCode.BAD_REQUEST;
         props.message = e.message;

@@ -9,14 +9,18 @@ export enum AppletRelations {
   ACTIONS = 'actions.action',
   REACTIONS = 'reactions.reaction',
   ACTIONS_CONFIG = 'actions.configs',
-  REACTION_CONFIG = 'reactions.configs',
+  REACTIONS_CONFIG = 'reactions.configs',
+  REACTION_SERVICE = 'reactions.reaction.service',
+  ACTION_SERVICE = 'actions.action.service',
+  ACTION_CONFIG = 'actions.action.config',
+  REACTION_CONFIG = 'reactions.reaction.config',
 }
 
 @Injectable()
 export class AppletService {
   constructor(
     @InjectRepository(AppletEntity)
-    private readonly appletRepository: Repository<AppletEntity>,
+    private readonly appletRepository: Repository<AppletEntity>, // private readonly actionAppletService: ActionAppletService,
   ) {}
 
   /**
@@ -97,6 +101,11 @@ export class AppletService {
     return this.appletRepository.delete(id);
   }
 
+  /**
+   * Update an applet by its id
+   * @param id
+   * @param data
+   */
   async update(id: number, data: Partial<AppletDto>): Promise<any> {
     const applet = await this.appletRepository.findOne({
       where: { id },
