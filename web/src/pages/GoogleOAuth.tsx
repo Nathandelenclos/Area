@@ -1,3 +1,4 @@
+import LoadingElement from "@src/components/LoadingElement";
 import React, { useEffect } from "react";
 
 async function test(
@@ -56,10 +57,13 @@ export default function GoogleOAuth() {
       "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",
       "http://localhost:3000/api/sessions/oauth/google",
     );
+    //todo: send code to backend
+    //todo: login if suceccess and redirect home else redirect to login page
   }, []);
+
   return (
-    <div>
-      <p>Test</p>
+    <div className="w-full h-full flex justify-center items-center">
+      <LoadingElement />
     </div>
   );
 }

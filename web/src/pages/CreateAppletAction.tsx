@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AreaService from "@services/AreaService";
 import { ServiceObject, ServiceObjectDto } from "@src/objects/ServiceObject";
+import Footer from "@src/components/Footer";
 
 export default function CreateAppletAction() {
   const { translate, user } = AppContext();
@@ -88,7 +89,7 @@ export default function CreateAppletAction() {
         value={appletName}
         onChange={(value) => setAppletName(value)}
       />
-      <div className="flex w-full sm:w-5/6 lg:flex-row flex-col justify-between my-10">
+      <div className="flex w-full h-full sm:w-5/6 lg:flex-row flex-col justify-between my-10">
         <OptionListContainer
           ContainerTitle={translate(
             "create-applets",
@@ -167,6 +168,7 @@ export default function CreateAppletAction() {
           {translate("create-applets", "next-button")}
         </p>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import AppContext from "@src/context/AppContextProvider";
 import { AppletObject } from "../objects/AppletObject";
 import { useNavigate } from "react-router-dom";
 import AppletService from "@services/AppletService";
+import Footer from "@src/components/Footer";
 
 export default function MyApplet() {
   const { translate, user } = AppContext();
@@ -61,7 +62,7 @@ export default function MyApplet() {
                     {selectedApplet?.action && (
                       <div className="bg-[#7A73E7] rounded-2xl p-4">
                         <p className="text-white text-3xl font-bold p-3">
-                          Action
+                          Actionmb-10
                         </p>
                         <p className="text-white text-xl">
                           {selectedApplet?.action.name}
@@ -99,6 +100,7 @@ export default function MyApplet() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

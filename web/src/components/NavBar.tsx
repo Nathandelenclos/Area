@@ -1,22 +1,24 @@
-import React, { useState } from "react";
 import AppContext from "context/AppContextProvider";
 import { useNavigate } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
+import { useState } from "react";
+import { Language, lang } from "@src/lang";
 
 export type listType = {
   lang: string;
+  value: string;
 };
 
 const choices: listType[] = [
-  { lang: "Francais" },
-  { lang: "English" },
-  { lang: "Espanol" },
+  { lang: "Français", value: "fr" },
+  { lang: "English", value: "en" },
+  { lang: "Espanol", value: "es" },
 ];
 
 function NavBar() {
-  const { translate, appName } = AppContext();
+  const { translate, appName, setLanguage, language } = AppContext();
   const navigate = useNavigate();
-  const [selectedValue, setSelectedValue] = useState("Francais");
+  const [selectedValue, setSelectedValue] = useState(language.toString());
 
   return (
     <div className="w-full">
@@ -56,8 +58,11 @@ function NavBar() {
           </p>
           <select
             value={selectedValue}
-            className="border py-2 px-5 ml-2 rounded-[10px] text-black"
-            onChange={(e) => setSelectedValue(e.target.value)}
+            onChange={(e) => {
+              setSelectedValue(e.target.value);
+              setLanguage(selectedValue as Language);
+            }}
+            className="border text-[12px] py-2 px-3 ml-2 rounded-[10px] text-black"
           >
             {choices.map((choice, index: number) => (
               <option key={index} value={choice.lang}>
@@ -69,7 +74,7 @@ function NavBar() {
       </div>
       <div className="w-full h-fit drop-shadow bg-white flex justify-between px-10 py-5 align-center">
         <p
-          className="text-[40px] font-extrabold cursor-pointer text-white md:text-black"
+          className="text-[35px] font-extrabold cursor-pointer text-white sm:text-black hover:text-[#000000CC]"
           onClick={() => {
             navigate("/home-page");
           }}
@@ -78,7 +83,7 @@ function NavBar() {
         </p>
         <div className="h-100 hidden items-center flex-row px-10 md:flex">
           <p
-            className="font-semibold px-5 text-[32px] cursor-pointer"
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
             onClick={() => {
               navigate("/home-page");
             }}
@@ -86,7 +91,7 @@ function NavBar() {
             {translate("nav", "home")}
           </p>
           <p
-            className="font-semibold px-5 text-[32px] cursor-pointer"
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
             onClick={() => {
               navigate("/create-applet");
             }}
@@ -94,7 +99,7 @@ function NavBar() {
             {translate("nav", "create")}
           </p>
           <p
-            className="font-semibold px-5 text-[32px] cursor-pointer"
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
             onClick={() => {
               navigate("/my-applets");
             }}
@@ -102,7 +107,7 @@ function NavBar() {
             {translate("nav", "applets")}
           </p>
           <p
-            className="font-semibold px-5 text-[32px] cursor-pointer"
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
             onClick={() => {
               navigate("/profile");
             }}
@@ -111,11 +116,14 @@ function NavBar() {
           </p>
           <select
             value={selectedValue}
-            onChange={(e) => setSelectedValue(e.target.value)}
-            className="border py-2 px-5 ml-2 rounded-[10px] text-black"
+            onChange={(e) => {
+              setSelectedValue(e.target.value);
+              setLanguage(e.target.value as Language);
+            }}
+            className="border text-[12px] py-2 px-3 ml-2 rounded-[10px] text-black"
           >
             {choices.map((choice, index: number) => (
-              <option key={index} value={choice.lang}>
+              <option key={index} value={choice.value}>
                 {choice.lang}
               </option>
             ))}

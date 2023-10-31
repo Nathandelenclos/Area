@@ -29,7 +29,7 @@ function OAuthList() {
 
   return (
     <div className="w-full justify-evenly items-center flex flex-row mt-5">
-      <a href={getGoogleUrl("/my-applets")}>
+      <a href={getGoogleUrl("/profile")}>
         <img
           className="pr-2"
           src={

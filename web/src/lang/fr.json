@@ -15,12 +15,13 @@
     "home": "Accueil",
     "create": "Créer",
     "applets": "Mes applets",
-    "profile": "Profil"
+    "profile": "Profile"
   },
   "homepage": {
     "title": "Accueil",
     "description": "Bienvenue sur la page d'accueil",
-    "page-title": "Suggestions du jour"
+    "page-title": "Suggestions du jour",
+    "download-apk": "Android"
   },
   "applets": {
     "title": "Mes applets",

@@ -2,11 +2,12 @@ import React from "react";
 import NavBar from "@components/NavBar";
 import AppContext from "@src/context/AppContextProvider";
 import HomePageButton from "@src/components/HomePageButtons";
+import Footer from "@src/components/Footer";
 
 export default function HomePage() {
   const { translate } = AppContext();
   return (
-    <div className="h-full w-full">
+    <div className="flex w-full h-full flex-col">
       <NavBar />
       <div className="w-full flex justify-center mt-20 mb-8">
         <div className="flex flex-row items-center justify-center md:justify-between w-10/12 px-5">
@@ -28,6 +29,7 @@ export default function HomePage() {
           <HomePageButton Content={"Suggestion #8"} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

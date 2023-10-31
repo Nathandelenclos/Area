@@ -6,6 +6,7 @@ import ProfileMainInfo from "@src/components/ProfileMainInfo";
 import ServiceList from "@src/components/ServiceList";
 import { IconName } from "@fortawesome/free-solid-svg-icons";
 import TopBarTitleSmaller from "@src/components/TopBarTitleSmaller";
+import Footer from "@src/components/Footer";
 
 type listType = {
   logo: IconName;
@@ -36,7 +37,7 @@ export default function Profile() {
   const { translate } = AppContext();
 
   return (
-    <div className="h-full w-full">
+    <div className="flex w-full h-full flex-col">
       <NavBar />
       <div className="w-full justify-center mt-20 mb-10 hidden md:flex">
         <TopBarTitle />
@@ -55,6 +56,7 @@ export default function Profile() {
           list={otherServicesList}
         />
       </div>
+      <Footer />
     </div>
   );
 }
