@@ -19,14 +19,11 @@ export class AppController {
     @Res() res: Response,
     @Ip() ip,
   ) {
-    console.log('ip', ip);
     const services = await MicroServiceProxy.callMicroService(
       this.serviceService,
       'getServices',
       {},
     );
-    console.log('services.data', services.data);
-
     res.status(500).send({
       client: {
         host: ip,

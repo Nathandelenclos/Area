@@ -5,15 +5,12 @@ import { ReactionService } from '@app/common/reactions/reaction.service';
 
 @Injectable()
 export class DiscordService {
-  constructor(
-    private readonly actionService: ActionService,
-    private readonly serviceService: ServiceService,
-    private readonly reactionService: ReactionService,
-  ) {}
+  constructor() {}
 
   async cron(): Promise<void> {}
 
   async message(webhook: string, message: string) {
+    if (!webhook || !message) return;
     await fetch(webhook, {
       method: 'POST',
       headers: {

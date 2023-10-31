@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
+  ActionAppletService,
   ActionRelations,
   ActionService,
   AppletConfigService,
   AppletService,
+  MicroServiceInit,
+  ReactionAppletEntity,
+  ReactionAppletService,
   ReactionService,
   ServiceService,
 } from '@app/common';
@@ -18,11 +22,28 @@ export class TimerService {
     private readonly serviceService: ServiceService,
     private readonly actionService: ActionService,
     private readonly reactionService: ReactionService,
+    private readonly actionAppletService: ActionAppletService,
+    private readonly reactionAppletService: ReactionAppletService,
   ) {}
 
   cron(): void {
     this.atDate();
     this.atCron();
+  }
+
+  callReactions(reactions: ReactionAppletEntity[]) {
+    for (const reaction of reactions) {
+      MicroServiceInit.getMicroservice(
+        this.configService,
+        reaction.reaction.service.rmq_queue,
+      ).emit(
+        reaction.reaction.cmd,
+        reaction.configs.reduce((acc, cur) => {
+          acc[cur.key] = cur.value;
+          return acc;
+        }, {}),
+      );
+    }
   }
 
   /**
@@ -38,83 +59,67 @@ export class TimerService {
         ActionRelations.APPLET,
         ActionRelations.APPLETS,
         ActionRelations.CONFIGS,
+        ActionRelations.USER,
+        ActionRelations.ACTION_SERVICE,
+        ActionRelations.REACTION_SERVICE,
+        ActionRelations.REACTIONS_CONFIG,
+        ActionRelations.ACTION_CONFIG,
       ],
     );
-    if (!action) return;
+    if (!action || !action.is_available) return;
 
     const now = new Date();
-
-    for (const applet of action.applets) {
-      const dateConfig = applet.configs.find((e) => e.key === 'date');
-      console.log(dateConfig);
+    for (const actionApplet of action.applets) {
+      if (!actionApplet.applet.is_active) continue;
+      const dateConfig = actionApplet.configs.find((e) => e.key === 'date');
+      const isActive = actionApplet.configs.find((e) => e.key === 'is_active');
+      if (!dateConfig || !!isActive) continue;
+      const date = new Date(dateConfig.value);
+      if (date.getTime() > now.getTime()) continue;
+      await this.appletConfigService.create(actionApplet.id, 'actionApplet', {
+        value: '1',
+        key: 'is_active',
+      });
+      this.callReactions(actionApplet.applet.reactions);
     }
-
-    // const dateValue: string | null = applet.config.find(
-    //   (e) => e.key === 'date',
-    //   )?.value;
-    //   if (!dateValue) continue;
-    //
-    //   const date = new Date(
-    //     applet.applet_configs.find((e) => e.key === 'date')?.value,
-    //   );
-    //
-    //   if (date.getTime() > now.getTime()) continue;
-    //
-    //   this.appletService.delete(applet.id, applet.user.id).then(async () => {
-    //     MicroServiceInit.getMicroservice(
-    //       this.configService,
-    //       applet.reaction.service.rmq_queue,
-    //     ).emit(
-    //       applet.reaction.cmd,
-    //       applet.applet_configs.reduce((acc, cur) => {
-    //         acc[cur.key] = cur.value;
-    //         return acc;
-    //       }, {}),
-    //     );
-    //   });
-    //   console.log('[TIMER SERVICE]: Applet deleted [id: ' + applet.id + ']');
-    // }
   }
 
+  /**
+   * Check if the cron of the applet is passed and execute it
+   */
   async atCron(): Promise<void> {
-    // const service = await this.serviceService.findOne({ key: 'timer' });
-    // if (!service) return;
-    // const action = await this.actionService.findOne({ key: 'at_cron' });
-    // if (!action) return;
-    // const applets = await this.appletService.findAll(
-    //   {
-    //     service,
-    //     action,
-    //   },
-    //   [AppletRelations.REACTIONS, AppletRelations.USER],
-    // );
-    //
-    // if (!applets) return;
-    // const now = new Date();
-    //
-    // for (const applet of applets) {
-    //   const lastExecConfig = applet.applet_configs.find(
-    //     (e) => e.key === 'lastExec',
-    //   );
-    //   if (!lastExecConfig) continue;
-    //   const lastExec = new Date(lastExecConfig.value);
-    //   const delta = +applet.applet_configs.find((e) => e.key === 'delta').value;
-    //
-    //   lastExec.setSeconds(lastExec.getSeconds() + delta);
-    //   if (lastExec.getTime() > now.getTime()) continue;
-    //   await this.appletConfigService.update(lastExecConfig.id, {
-    //     value: new Date().toISOString(),
-    //   });
-    //   MicroServiceInit.getMicroservice(
-    //     this.configService,
-    //     applet.reaction.service.rmq_queue,
-    //   ).emit(
-    //     applet.reaction.cmd,
-    //     applet.applet_configs.reduce((acc, cur) => {
-    //       acc[cur.key] = cur.value;
-    //       return acc;
-    //     }, {}),
-    //   );
-    // }
+    const action = await this.actionService.findOne(
+      {
+        key: 'at_cron',
+      },
+      [
+        ActionRelations.APPLET,
+        ActionRelations.APPLETS,
+        ActionRelations.CONFIGS,
+        ActionRelations.USER,
+        ActionRelations.ACTION_SERVICE,
+        ActionRelations.REACTION_SERVICE,
+        ActionRelations.REACTIONS_CONFIG,
+        ActionRelations.ACTION_CONFIG,
+      ],
+    );
+    if (!action || !action.is_available) return;
+
+    const now = new Date();
+    for (const actionApplet of action.applets) {
+      if (!actionApplet.applet.is_active) continue;
+      const lastExecConfig = actionApplet.configs.find(
+        (e) => e.key === 'last_exec',
+      );
+      if (!lastExecConfig) continue;
+      const dateExec = new Date(lastExecConfig.value);
+      const delta = +actionApplet.configs.find((e) => e.key === 'delta').value;
+      dateExec.setSeconds(dateExec.getSeconds() + delta);
+      if (dateExec.getTime() > now.getTime()) continue;
+      await this.appletConfigService.update(lastExecConfig.id, {
+        value: new Date().toISOString(),
+      });
+      this.callReactions(actionApplet.applet.reactions);
+    }
   }
 }
