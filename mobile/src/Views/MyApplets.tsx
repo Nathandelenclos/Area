@@ -9,8 +9,6 @@ import {
   View,
 } from 'react-native';
 import AppContext from '@contexts/app.context';
-import Header from '@components/Header';
-import ViewContainer from '@components/ViewContainer';
 import {
   HorizontalFilterList,
   FilterProps,

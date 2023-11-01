@@ -3,7 +3,6 @@
 #import <React/RCTBundleURLProvider.h>
 
 #import <UIKit/UIKit.h>
-#import <Firebase/Firebase.h>
 
 #import <AuthenticationServices/AuthenticationServices.h>
 #import <SafariServices/SafariServices.h>
@@ -21,7 +20,6 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   
-  [FIRApp configure];
   [[FBSDKApplicationDelegate sharedInstance] application:application
                         didFinishLaunchingWithOptions:launchOptions];
   [FBSDKApplicationDelegate.sharedInstance initializeSDK];
