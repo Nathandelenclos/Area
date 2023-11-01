@@ -7,9 +7,8 @@ import { Settings } from 'react-native-fbsdk-next';
 import { FACEBOOK_APP_ID } from '@env';
 import { ApplicationProvider } from '@contexts/app.context';
 import { UserProvider } from '@contexts/user.context';
-import DefineNavigator from '@navigators/define.navigator';
 import Toast from 'react-native-toast-message';
-import SettingsPage from '@views/Settings';
+import DefineNavigator from '@navigators/define.navigator';
 
 library.add(fas);
 library.add(fab);
@@ -21,8 +20,7 @@ function App(): JSX.Element {
     <>
       <ApplicationProvider>
         <UserProvider>
-          {/* <DefineNavigator /> */}
-          <SettingsPage />
+          <DefineNavigator />
         </UserProvider>
       </ApplicationProvider>
       <Toast />
