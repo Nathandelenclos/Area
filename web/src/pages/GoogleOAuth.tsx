@@ -1,5 +1,6 @@
 import LoadingElement from "@src/components/LoadingElement";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 async function test(
   authorizationCode: string,
@@ -43,6 +44,8 @@ export default function GoogleOAuth() {
     return Object.fromEntries(parameters.entries());
   };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const payload = queryToObject(window.location.search.split("?")[1]);
     const state = payload && payload.state;
@@ -57,6 +60,10 @@ export default function GoogleOAuth() {
       "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",
       "http://localhost:3000/api/sessions/oauth/google",
     );
+
+    setTimeout(() => {
+      navigate("/home-page");
+    }, 5000);
     //todo: send code to backend
     //todo: login if suceccess and redirect home else redirect to login page
   }, []);

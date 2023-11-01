@@ -2,7 +2,7 @@ import AppContext from "context/AppContextProvider";
 import { useNavigate } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
 import { useState } from "react";
-import { Language, lang } from "@src/lang";
+import { Language } from "@src/lang";
 
 export type listType = {
   lang: string;

@@ -1,12 +1,14 @@
 import React from "react";
 import AppContext from "@src/context/AppContextProvider";
 import { getGoogleUrl } from "@src/utils/getGoogleUrl";
+import { getSpotifyUrl } from "@src/utils/getSpotifyUrl";
 
 function OAuthList() {
   type OAuth = {
     name: string;
     shortName: string;
     color: string;
+    redirect: string;
   };
 
   const oAuths: OAuth[] = [
@@ -14,40 +16,39 @@ function OAuthList() {
       name: "Facebook",
       shortName: "F",
       color: "#3B5998",
+      redirect: "/",
     },
     {
       name: "Google",
       shortName: "G",
       color: "#DB4437",
+      redirect: getGoogleUrl("/home-page"),
     },
     {
       name: "Twitter",
       shortName: "T",
       color: "#00ACEE",
+      redirect: "/",
+    },
+    {
+      name: "Spotify",
+      shortName: "S",
+      color: "#1ED760",
+      redirect: getSpotifyUrl(),
     },
   ];
 
   return (
     <div className="w-full justify-evenly items-center flex flex-row mt-5">
-      <a href={getGoogleUrl("/profile")}>
-        <img
-          className="pr-2"
-          src={
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png"
-          }
-          alt=""
-          style={{ height: "2rem" }}
-        />
-        Continue with Google
-      </a>
       {oAuths.map((oauth) => (
-        <button
+        <a
           key={oauth.name}
-          className="justify-center items-center flex hover:bg-[#4e6aa3] text-white text-base font-bold w-1/6 px-6 py-2 rounded mt-5 mb-10"
+          className="justify-center items-center flex hover:opacity-70 text-white text-base font-bold w-1/6 px-6 py-2 rounded mt-5 mb-10"
           style={{ backgroundColor: oauth.color }}
+          href={oauth.redirect}
         >
           {oauth.shortName}
-        </button>
+        </a>
       ))}
     </div>
   );

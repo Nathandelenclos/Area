@@ -9,6 +9,7 @@ import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
 import ConfigureApplet from "./pages/ConfigureApplet";
+import { LoginUserSpotify } from "./pages/SpotifyOauth";
 
 export const Routes: Route[] = [
   {
@@ -56,6 +57,12 @@ export const Routes: Route[] = [
     path: "/api/sessions/oauth/google",
     middleware: [],
     element: <GoogleOAuth />,
+  },
+  {
+    name: "spotify-auth",
+    path: "/api/sessions/oauth/spotify",
+    middleware: [],
+    element: <LoginUserSpotify />,
   },
   {
     name: "my-applets",
