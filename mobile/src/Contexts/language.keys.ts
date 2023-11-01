@@ -29,6 +29,8 @@ const fr: LanguageKeys = {
   modify_app_url: "Modifier l'url de l'api",
   modify: 'Modifier',
   invalid_url: 'Url invalide',
+  moddify_app_language: "Modifier l'App Langage",
+  save_settings: 'Sauvegarder',
 };
 
 const en: LanguageKeys = {
@@ -60,6 +62,8 @@ const en: LanguageKeys = {
   modify_app_url: 'Modify api url',
   modify: 'Modify',
   invalid_url: 'Invalid url',
+  moddify_app_language: 'Modify App Language',
+  save_settings: 'Save changes',
 };
 
 export type LanguageList = {
