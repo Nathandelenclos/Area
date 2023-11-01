@@ -26,6 +26,9 @@ const fr: LanguageKeys = {
   select_action: 'Selectionnez une action',
   select_reaction: 'Selectionnez une réaction',
   save: 'Sauvegarder',
+  moddify_app_url: 'Modifier l\'APP URL',
+  moddify_app_language: 'Modifier l\'App Langage',
+  save_settings: 'Sauvegarder',
 };
 
 const en: LanguageKeys = {
@@ -54,6 +57,9 @@ const en: LanguageKeys = {
   select_action: 'Select an action',
   select_reaction: 'Select a reaction',
   save: 'Save',
+  moddify_app_url: 'Modify App URL',
+  moddify_app_language: 'Modify App Language',
+  save_settings: 'Save changes',
 };
 
 type LanguageList = {

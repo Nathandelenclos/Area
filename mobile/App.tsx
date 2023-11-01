@@ -9,6 +9,7 @@ import { ApplicationProvider } from '@contexts/app.context';
 import { UserProvider } from '@contexts/user.context';
 import DefineNavigator from '@navigators/define.navigator';
 import Toast from 'react-native-toast-message';
+import SettingsPage from '@views/Settings';
 
 console.log('FACEBOOK_APP_ID', FACEBOOK_APP_ID);
 
@@ -22,7 +23,8 @@ function App(): JSX.Element {
     <>
       <ApplicationProvider>
         <UserProvider>
-          <DefineNavigator />
+          {/* <DefineNavigator /> */}
+          <SettingsPage />
         </UserProvider>
       </ApplicationProvider>
       <Toast />
