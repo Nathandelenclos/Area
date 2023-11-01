@@ -56,7 +56,7 @@ function AuthList(): JSX.Element {
   const { setUser } = UserCtx();
   async function handleOAuth(onPress: () => Promise<IApiInvokeResponse>) {
     const resp = await onPress();
-    await Storage.saveToken(resp.data?.access_token);
+    await Storage.saveToken(resp.data?.token);
     if (resp.data) {
       setUser(resp.data);
     }

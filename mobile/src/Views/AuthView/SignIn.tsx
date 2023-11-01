@@ -21,7 +21,7 @@ export default function SignIn({
   const [password, setPassword] = React.useState<string>('');
   async function tryLogin() {
     const resp = await authService.login({ email: email.trim(), password });
-    await Storage.saveToken(resp.data?.access_token);
+    await Storage.saveToken(resp.data?.token);
     if (resp.data) {
       setUser(resp.data);
     }

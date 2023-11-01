@@ -4,7 +4,6 @@ import {
   AuthConfiguration,
   authorize,
   AuthorizeResult,
-  prefetchConfiguration,
 } from 'react-native-app-auth';
 import AuthService from '@services/auth.service';
 import {
@@ -43,9 +42,9 @@ class OAuthService {
     const email = await response.json();
     return AuthService.OAuthLogin({
       email: email.email,
-      id: email.sub,
-      token: authState.refreshToken,
       provider: 'google',
+      refreshToken: authState.refreshToken,
+      providerId: email.sub,
     });
   }
 
@@ -71,11 +70,12 @@ class OAuthService {
       `https://graph.facebook.com/me?access_token=${facebookCredential}&fields=email`,
     );
     const email = await response.json();
+    console.log(facebookCredential);
     return AuthService.OAuthLogin({
       email: email.email,
-      id: email.id,
-      token: facebookCredential,
       provider: 'facebook',
+      refreshToken: facebookCredential,
+      providerId: email.id,
     });
   }
 
@@ -113,9 +113,9 @@ class OAuthService {
     const email = await response.json();
     return AuthService.OAuthLogin({
       email: email.email,
-      id: email.id,
-      token: authState.refreshToken,
       provider: 'spotify',
+      refreshToken: authState.refreshToken,
+      providerId: email.id,
     });
   }
 
@@ -150,11 +150,12 @@ class OAuthService {
       },
     );
     const email = await response.json();
+    console.log(result, email);
     return AuthService.OAuthLogin({
-      email: result.accessToken,
-      id: email[0]?.email,
-      token: email[1]?.email,
+      email: email[0].email,
       provider: 'github',
+      refreshToken: result.accessToken,
+      providerId: email[1].email,
     });
   }
 }

@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { IAction } from '@interfaces/action.interface';
-import { IReaction } from '@interfaces/reaction.interface';
+import { DEFAULT_ACTION, IAction } from '@interfaces/action.interface';
+import { DEFAULT_REACTION, IReaction } from '@interfaces/reaction.interface';
 import { MyAppletHeader } from '@views/MyApplets';
 import StyledButton from '@components/MyButton';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -73,6 +73,7 @@ export default function ListActions({
   const { color, translate } = AppContext();
   const { user } = UserCtx();
   const [actions, setActions] = React.useState<IAction[] | IReaction[]>([]);
+  const viewType = route.params.types;
 
   if (!user) {
     return <></>;
@@ -80,15 +81,15 @@ export default function ListActions({
 
   const getActions = async () => {
     let data;
-    if (route.params.type === 'action') {
+    if (route.params.types === 'action') {
       const tmp = await servicesService.getActions(
-        user.access_token,
+        user.token,
         route.params.serviceId,
       );
       data = tmp.data;
     } else {
       const tmp = await servicesService.getReactions(
-        user.access_token,
+        user.token,
         route.params.serviceId,
       );
       data = tmp.data;
@@ -97,55 +98,23 @@ export default function ListActions({
     setActions(data);
   };
 
-  function saveReaction(action) {
-    if (route.params.id !== undefined) {
-      route.params.setReactions((prev: IReaction[]) => {
-        const newReactions = prev.filter(
-          (reaction: IReaction) => reaction.id !== route.params.id,
-        );
-        action.reactionId = action.id;
-        action.id = route.params.id == 0 ? 1 : route.params.id;
-        return [action, ...newReactions];
-      });
-    } else {
-      route.params.setReactions((prev: IReaction[]) => {
-        if (prev[0].id) {
-          return [
-            ...route.params.reactions,
-            {
-              ...action,
-              id: prev.length + 1,
-              reactionId: action.id,
-            },
-          ];
-        } else {
-          return [{ ...action, id: 1, reactionId: action.id }];
-        }
-      });
-    }
-  }
-
-  function saveAction(action) {
-    route.params.setAction({
-      ...action,
-      serviceId: route.params.serviceId,
-    });
-  }
-
   function selectAction(action) {
+    const obj: IAction | IReaction =
+      viewType === 'action' ? { ...DEFAULT_ACTION } : { ...DEFAULT_REACTION };
+    obj[viewType] = action;
     if (action.config?.length > 0) {
       navigation.navigate('ConfigAction', {
         ...route.params,
-        action,
+        [viewType]: { [viewType]: action },
       });
       return;
     }
-    if (route.params.type === 'reaction') {
-      saveReaction(action);
-    } else {
-      saveAction(action);
-    }
-    navigation.navigate('CreateApplet');
+    const type = route.params.type;
+    navigation.navigate({
+      name: 'CreateApplet',
+      params: { type, result: obj },
+      merge: true,
+    });
   }
 
   useEffect(() => {
@@ -161,7 +130,7 @@ export default function ListActions({
     >
       <MyAppletHeader
         title={translate(
-          route.params.type === 'action' ? 'select_action' : 'select_reaction',
+          route.params.types === 'action' ? 'select_action' : 'select_reaction',
         )}
         leftIcon={'angle-left'}
         onPressLeft={() => navigation.pop()}

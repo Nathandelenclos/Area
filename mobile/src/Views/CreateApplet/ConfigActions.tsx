@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { IReaction } from '@interfaces/reaction.interface';
 import DatePicker from 'react-native-date-picker';
+import { IAction } from '@interfaces/action.interface';
 
 function StringInput({
   name,
@@ -22,9 +23,20 @@ function StringInput({
   setValue: (value: string) => void;
 }) {
   return (
-    <View>
-      <Text>String Input</Text>
-    </View>
+    <TextInput
+      value={value.toString()}
+      onChangeText={setValue}
+      keyboardType={'default'}
+      placeholder={name}
+      placeholderTextColor={'#CBCBCB'}
+      style={{
+        backgroundColor: '#F0F0F0',
+        marginVertical: 20,
+        padding: 20,
+        borderRadius: 5,
+        fontWeight: 'bold',
+      }}
+    />
   );
 }
 
@@ -35,6 +47,11 @@ function DateInput({
   value: Date;
   setValue: (value: Date) => void;
 }) {
+  let val = value ?? new Date();
+  if (typeof val === 'string') {
+    val = new Date(val);
+  }
+
   function onChange(value: Date) {
     if (value < new Date()) {
       setValue(new Date());
@@ -43,7 +60,7 @@ function DateInput({
     setValue(value);
   }
 
-  return <DatePicker date={value} onDateChange={onChange} mode={'datetime'} />;
+  return <DatePicker date={val} onDateChange={onChange} mode={'datetime'} />;
 }
 
 function NumberInput({
@@ -96,82 +113,86 @@ export default function ConfigActions({
 }): React.JSX.Element {
   const { color, translate } = AppContext();
   const { user } = UserCtx();
-  const [config, setConfig] = React.useState<any>(route.params.action.config);
-  const [resConfig, setResConfig] = React.useState<any>({});
+  const viewType = route.params.types;
+  const [config, setConfig] = React.useState<any>(
+    route.params[viewType][viewType].config ?? [],
+  );
+  const [resConfig, setResConfig] = React.useState<any>(
+    route.params[viewType].configs ?? [],
+  );
   const [canPressValidate, setCanValidate] = React.useState<boolean>(false);
 
   if (!user) {
     return <></>;
   }
 
-  function saveReaction(action) {
-    if (route.params.id !== undefined) {
-      route.params.setReactions((prev: IReaction[]) => {
-        const newReactions = prev.filter(
-          (reaction: IReaction) => reaction.id !== route.params.id,
-        );
-        action.reactionId = action.id;
-        action.id = route.params.id == 0 ? 1 : route.params.id;
-        return [action, ...newReactions];
-      });
-    } else {
-      route.params.setReactions((prev: IReaction[]) => {
-        if (prev[0].id) {
-          return [
-            ...route.params.reactions,
-            {
-              ...action,
-              id: prev.length + 1,
-              reactionId: action.id,
-            },
-          ];
-        } else {
-          return [{ ...action, id: 1, reactionId: action.id }];
-        }
-      });
-    }
-  }
-
-  function saveAction(action) {
-    route.params.setAction({
-      ...action,
-      serviceId: route.params.serviceId,
+  function save() {
+    route.params[viewType].configs = resConfig;
+    const type = route.params.type;
+    navigation.navigate({
+      name: 'CreateApplet',
+      params: {
+        type,
+        result: JSON.stringify(route.params[viewType]),
+        resId: route.params.id,
+      },
+      merge: true,
     });
   }
 
-  function save() {
-    route.params.action.config = resConfig;
-    if (route.params.type === 'reaction') {
-      saveReaction(route.params.action);
+  function setValue(key: string, value: any) {
+    const index = resConfig.findIndex((e) => e.key === key);
+    if (index !== -1) {
+      const newConf = [...resConfig];
+      newConf[index] = { ...newConf[index], value: value };
+      setResConfig(newConf);
     } else {
-      saveAction(route.params.action);
+      const newConf = { key: key, type: typeof value, value: value };
+      setResConfig((prev) => [...prev, newConf]);
     }
-    navigation.navigate('CreateApplet');
-  }
-
-  function setValue(index: number, key: string, value: any) {
-    setResConfig((prev: any) => ({ ...prev, [key]: value }));
   }
 
   function initConfig() {
     const test = config.filter((e) => e.type === 'date');
     if (test.length > 0) {
-      const newConf = { ...resConfig };
+      const newConf = [...resConfig];
       test.forEach((e) => {
-        newConf[e.key] = new Date();
+        const elem = newConf.find((el) => el.key === e.key);
+        if (!elem) {
+          newConf.push({ key: e.key, type: 'date', value: new Date() });
+          return;
+        }
       });
       setResConfig(newConf);
     }
   }
 
+  function getValueById(val) {
+    const resp = resConfig.find((e) => e.key === val.key);
+    if (!resp) return null;
+    const isNumber = Number(resp.type);
+    const isDate = new Date(resp.type);
+    if (!isNaN(isNumber)) {
+      return resp.value;
+    }
+    if (!isNaN(isDate.getTime())) {
+      return resp.value;
+    }
+    return resp.value;
+  }
+
   function canValidate() {
     const tmp = config.map((e) => e.key);
-    const tmp2 = Object.keys(resConfig);
+    const tmp2: any[] = [];
 
-    if (tmp.length === tmp2.length) {
-      if (!canPressValidate) setCanValidate(true);
+    resConfig.forEach((e) => {
+      if (e.value) tmp2.push(e.key);
+    });
+
+    if (JSON.stringify(tmp) === JSON.stringify(tmp2)) {
+      setCanValidate(true);
     } else {
-      if (canPressValidate) setCanValidate(false);
+      setCanValidate(false);
     }
   }
 
@@ -224,39 +245,42 @@ export default function ConfigActions({
             padding: 20,
           }}
         >
-          {config.map((e, index) => (
-            <View key={index}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 18,
-                  textAlign: 'center',
-                }}
-              >
-                {e.description}
-              </Text>
-              {e.type === 'string' && (
-                <StringInput
-                  name={e.name}
-                  value={resConfig[e.key] ?? ''}
-                  setValue={(value: string) => setValue(index, e.key, value)}
-                />
-              )}
-              {e.type === 'date' && (
-                <DateInput
-                  value={resConfig[e.key] ?? new Date()}
-                  setValue={(value: Date) => setValue(index, e.key, value)}
-                />
-              )}
-              {e.type === 'number' && (
-                <NumberInput
-                  name={e.name}
-                  value={resConfig[e.key] ?? ''}
-                  setValue={(value: number) => setValue(index, e.key, value)}
-                />
-              )}
-            </View>
-          ))}
+          {config.map((e, index) => {
+            const conf = getValueById(e);
+            return (
+              <View key={index}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 18,
+                    textAlign: 'center',
+                  }}
+                >
+                  {e.description}
+                </Text>
+                {e.type === 'string' && (
+                  <StringInput
+                    name={e.name}
+                    value={conf ?? ''}
+                    setValue={(value: string) => setValue(e.key, value)}
+                  />
+                )}
+                {e.type === 'date' && (
+                  <DateInput
+                    value={conf ?? new Date()}
+                    setValue={(value: Date) => setValue(e.key, value)}
+                  />
+                )}
+                {e.type === 'number' && (
+                  <NumberInput
+                    name={e.name}
+                    value={conf ?? ''}
+                    setValue={(value: number) => setValue(e.key, value)}
+                  />
+                )}
+              </View>
+            );
+          })}
         </View>
       </ScrollView>
       {canPressValidate && (
@@ -277,7 +301,6 @@ export default function ConfigActions({
               fontSize: 18,
               fontWeight: 'bold',
             }}
-            onPress={() => save(resConfig)}
           >
             {translate('validate')}
           </Text>

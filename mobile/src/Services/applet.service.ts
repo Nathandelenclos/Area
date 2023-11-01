@@ -1,5 +1,6 @@
 import { ApiInvoke } from '@services/API/api.invoke';
 import { IApplet } from '@interfaces/applet.interface';
+import { defaultApiHandler } from '@services/API/api.handlers';
 
 class AppletService {
   /**
@@ -8,7 +9,7 @@ class AppletService {
    */
   getMyApplets(token: string) {
     return ApiInvoke({
-      endpoint: '/auth/me',
+      endpoint: '/applets',
       method: 'GET',
       expectedStatus: 200,
       authToken: token,
@@ -24,9 +25,10 @@ class AppletService {
     return ApiInvoke({
       endpoint: '/applets',
       method: 'POST',
-      expectedStatus: 201,
+      expectedStatus: 200,
       authToken: token,
       body: JSON.stringify(data),
+      handlers: defaultApiHandler,
     });
   }
 
@@ -50,13 +52,12 @@ class AppletService {
    * @param appletId - Applet id
    */
   async deleteApplet(token: string, appletId: number) {
-    const data = ApiInvoke({
+    return ApiInvoke({
       endpoint: `/applets/${appletId}`,
       method: 'DELETE',
       expectedStatus: 200,
       authToken: token,
     });
-    return data;
   }
 }
 

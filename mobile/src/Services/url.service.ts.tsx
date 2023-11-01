@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class UrlServiceTs {
-  url = 'http://34.79.228.10/api';
+  url = 'http://34.38.103.92:8081/api';
 
   constructor() {
     this.reloadUrl();

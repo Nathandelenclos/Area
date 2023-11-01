@@ -47,6 +47,7 @@ export function MyAppletHeader({
     >
       <View
         style={{
+          marginVertical: 20,
           width: '90%',
           flexDirection: 'row',
           alignItems: 'center',
@@ -84,7 +85,6 @@ export function MyAppletHeader({
           height: 1,
           backgroundColor: color.text,
           width: '90%',
-          marginTop: 20,
         }}
       />
     </View>
@@ -137,7 +137,7 @@ export default function MyAppletsView({
   }
 
   const getMyApplets = async () => {
-    const data = await appletService.getMyApplets(user.access_token);
+    const data = await appletService.getMyApplets(user.token);
     const list: DropDownItemProps[] = data.data.map(
       (e: {
         id: string;
@@ -154,27 +154,11 @@ export default function MyAppletsView({
         selected: false,
       }),
     );
-    const obj = {
-      id: '1',
-      title: 'TEST',
-      backgroundColor: colors[0],
-      description: 'desccc',
-      titleColor: 'white',
-      active: false,
-      selected: false,
-    };
-    const listTest = [];
-    for (let i = 1; i < 11; i++) {
-      listTest.push({ ...obj });
-      obj.id = (parseInt(obj.id) + 1).toString();
-      obj.backgroundColor = colors[i % colors.length];
-      console.log(obj);
-    }
-    setItemList(listTest);
+    setItemList(list);
   };
 
   const handleTrashPress = async (item: DropDownItemProps) => {
-    appletService.deleteApplet(user.access_token, item.id);
+    appletService.deleteApplet(user.token, item.id);
     const newList = itemList.filter((i) => i.id !== item.id);
     setItemList(newList);
   };
@@ -184,7 +168,7 @@ export default function MyAppletsView({
   };
 
   const handleEmptyAppletPressed = () => {
-    navigation.navigate('CreateApplet');
+    navigation.navigate('CreateApplet', { type: 'creation' });
   };
 
   useEffect(() => {
@@ -214,7 +198,7 @@ export default function MyAppletsView({
       setEditing(false);
       unSelectAll();
     } else {
-      navigation.navigate('CreateApplet');
+      navigation.navigate('CreateApplet', { type: 'creation' });
     }
   }
 
@@ -225,6 +209,10 @@ export default function MyAppletsView({
       return 'plus';
     }
   }
+
+  const listToShow = itemList
+    .filter((item) => item.active || !filterList[0].active)
+    .filter((item) => !item.active || !filterList[1].active);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
@@ -245,7 +233,7 @@ export default function MyAppletsView({
           paddingHorizontal: 20,
         }}
       >
-        {itemList.length === 0 && (
+        {listToShow.length === 0 && (
           <TouchableOpacity
             style={{
               borderWidth: 1,
@@ -268,36 +256,43 @@ export default function MyAppletsView({
             </Text>
           </TouchableOpacity>
         )}
-        {itemList
-          .filter((item) => item.active || !filterList[0].active)
-          .filter((item) => !item.active || !filterList[1].active)
-          .map((item, i) => (
-            <DropDownItem
-              key={i}
-              {...item}
-              toggleSelected={toggleSelected}
-              editing={editing}
-              onPressElipsis={() => console.log('test')}
-            >
-              <Title
-                title={translate('description')}
-                style={{
-                  alignSelf: 'flex-start',
-                  fontSize: 17,
-                  color: 'black',
-                }}
-              />
-              <Text style={{ fontSize: 15, paddingTop: 10, color: 'gray' }}>
-                {item.description}
-              </Text>
-              <View
-                style={{
-                  justifyContent: 'space-around',
-                  flexDirection: 'row',
-                }}
-              ></View>
-            </DropDownItem>
-          ))}
+        {listToShow.map((item, i) => (
+          <DropDownItem
+            key={i}
+            {...item}
+            toggleSelected={toggleSelected}
+            editing={editing}
+            onPressElipsis={() => console.log('test')}
+            onPressItem={() => {
+              if (editing) {
+                toggleSelected(item.id);
+                return;
+              }
+              navigation.navigate('CreateApplet', {
+                type: 'information',
+                id: item.id,
+              });
+            }}
+          >
+            <Title
+              title={translate('description')}
+              style={{
+                alignSelf: 'flex-start',
+                fontSize: 17,
+                color: 'black',
+              }}
+            />
+            <Text style={{ fontSize: 15, paddingTop: 10, color: 'gray' }}>
+              {item.description}
+            </Text>
+            <View
+              style={{
+                justifyContent: 'space-around',
+                flexDirection: 'row',
+              }}
+            ></View>
+          </DropDownItem>
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

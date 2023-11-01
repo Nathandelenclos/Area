@@ -41,6 +41,7 @@ export type DropDownItemProps = {
   children?: React.ReactNode;
   editing: boolean;
   onPressElipsis: () => void;
+  onPressItem: () => void;
 };
 
 function useDropDownAnimations(): DropDownAnimationsValues {
@@ -116,6 +117,7 @@ export default function DropDownItem({
   editing,
   onPressElipsis,
   children,
+  onPressItem,
 }: DropDownItemProps): React.JSX.Element {
   const { color, translate } = AppContext();
   const {
@@ -129,7 +131,7 @@ export default function DropDownItem({
 
   return (
     <View style={{ marginBottom: 20 }}>
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor,
           borderRadius: 20,
@@ -140,6 +142,7 @@ export default function DropDownItem({
           justifyContent: 'space-between',
           zIndex: 1,
         }}
+        onPress={onPressItem}
       >
         <Title
           title={title}
@@ -181,7 +184,7 @@ export default function DropDownItem({
             </TouchableOpacity>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
       <View>
         <Animated.View
           style={[

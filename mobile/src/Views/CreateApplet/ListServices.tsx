@@ -30,7 +30,7 @@ export default function ListServices({
   }
 
   const getServices = async () => {
-    const data = await servicesService.getServices(user.access_token);
+    const data = await servicesService.getServices(user.token);
     if (!data.data) {
       setServices([]);
       return;

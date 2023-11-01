@@ -118,7 +118,7 @@ function AppletBubble({
 
 function SettingsApplet({ modalVisible, setModalVisible, applet, navigation }) {
   const handleDuplicatePress = async () => {
-    const data = await appletService.createApplet(user.access_token, {
+    const data = await appletService.createApplet(user.token, {
       name: applet.name,
       action: applet.action,
       reaction: applet.reaction,
@@ -145,7 +145,7 @@ function SettingsApplet({ modalVisible, setModalVisible, applet, navigation }) {
     if (id === 0) {
       return;
     }
-    appletService.deleteApplet(user.access_token, id);
+    appletService.deleteApplet(user.token, id);
     navigation.navigate('Mes Applets', { screen: 'MyApplets' });
   };
 
@@ -317,7 +317,7 @@ export default function InfoApplet({
   });
 
   const getInfoApplet = async (id: number) => {
-    const data = await appletService.getApplet(user.access_token, id);
+    const data = await appletService.getApplet(user.token, id);
     setApplet({
       name: data.data.name,
       description: data.data.description,

@@ -10,9 +10,9 @@ interface Credentials {
 
 interface OAuthCredentials {
   email: string;
-  id: string;
-  token: string;
   provider: string;
+  refreshToken: string;
+  providerId: string;
 }
 
 class AuthService {

@@ -23,6 +23,7 @@ const methods: any = {
 };
 
 const fetchWithTimeout = (method: any, options: any, timeout: number) => {
+  console.log(timeout, typeof timeout);
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(() => {
       reject(new Error('Request timed out'));
@@ -128,8 +129,6 @@ function ApiDelete(props: ApiPostProps): Promise<Response> {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
     },
   });
 }

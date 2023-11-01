@@ -18,10 +18,10 @@ export default function Header({
   hideInput?: boolean;
   title: string;
   navigation?: any;
-  onBackPress?: () => void;
-  onTrashPress?: () => void;
-  onEditPress?: () => void;
-  openPopUp?: () => void;
+  onBackPress?: (() => void) | null;
+  onTrashPress?: (() => void) | null;
+  onEditPress?: (() => void) | null;
+  openPopUp?: (() => void) | null;
   string?: string;
   setString?: React.Dispatch<React.SetStateAction<string>>;
 }): React.JSX.Element {

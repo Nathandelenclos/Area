@@ -10,7 +10,7 @@ export const UserContext = createContext<UserContextType>({
     id: '',
     name: '',
     email: '',
-    access_token: '',
+    token: '',
   },
   setUser: () => {
     return;
@@ -34,7 +34,7 @@ export const UserProvider = (props: { children: any }) => {
       if (!resp.data) {
         await Storage.removeToken();
         setUser(null);
-      } else setUser({ ...resp.data, access_token: token });
+      } else setUser({ ...resp.data, token: token });
     }
     setLoading(false);
   };
@@ -48,6 +48,7 @@ export const UserProvider = (props: { children: any }) => {
 
   useEffect(() => {
     getUser();
+    // setLoading(false);
   }, []);
 
   if (loading) {
