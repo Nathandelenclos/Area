@@ -4,11 +4,13 @@ import { getGoogleUrl } from "@src/utils/getGoogleUrl";
 import { getSpotifyUrl } from "@src/utils/getSpotifyUrl";
 import { getGithubUrl } from "@src/utils/getGithubUrl";
 import { getFacebookUrl } from "@src/utils/getFacebookUrl";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconName } from "@fortawesome/free-brands-svg-icons";
 
 function OAuthList() {
   type OAuth = {
     name: string;
-    shortName: string;
+    logo: IconName;
     color: string;
     redirect: string;
   };
@@ -16,25 +18,25 @@ function OAuthList() {
   const oAuths: OAuth[] = [
     {
       name: "Facebook",
-      shortName: "F",
+      logo: "facebook",
       color: "#3B5998",
       redirect: getFacebookUrl(),
     },
     {
       name: "Google",
-      shortName: "G",
+      logo: "google",
       color: "#DB4437",
       redirect: getGoogleUrl("/home-page"),
     },
     {
       name: "Spotify",
-      shortName: "S",
+      logo: "spotify",
       color: "#1ED760",
       redirect: getSpotifyUrl(),
     },
     {
       name: "Github",
-      shortName: "GH",
+      logo: "github",
       color: "#000000",
       redirect: getGithubUrl("/home-page"),
     },
@@ -49,7 +51,7 @@ function OAuthList() {
           style={{ backgroundColor: oauth.color }}
           href={oauth.redirect}
         >
-          {oauth.shortName}
+          <FontAwesomeIcon icon={["fab", oauth.logo]} size="2x" />
         </a>
       ))}
     </div>
