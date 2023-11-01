@@ -10,6 +10,7 @@ import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
 import ConfigureApplet from "./pages/ConfigureApplet";
 import { LoginUserSpotify } from "./pages/SpotifyOauth";
+import { LoginUserGithub } from "./pages/GithubOauth";
 
 export const Routes: Route[] = [
   {
@@ -57,6 +58,12 @@ export const Routes: Route[] = [
     path: "/api/sessions/oauth/google",
     middleware: [],
     element: <GoogleOAuth />,
+  },
+  {
+    name: "github-auth",
+    path: "/api/sessions/oauth/github",
+    middleware: [],
+    element: <LoginUserGithub />,
   },
   {
     name: "spotify-auth",

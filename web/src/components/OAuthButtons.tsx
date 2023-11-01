@@ -2,6 +2,7 @@ import React from "react";
 import AppContext from "@src/context/AppContextProvider";
 import { getGoogleUrl } from "@src/utils/getGoogleUrl";
 import { getSpotifyUrl } from "@src/utils/getSpotifyUrl";
+import { getGithubUrl } from "@src/utils/getGithubUrl";
 
 function OAuthList() {
   type OAuth = {
@@ -35,6 +36,12 @@ function OAuthList() {
       shortName: "S",
       color: "#1ED760",
       redirect: getSpotifyUrl(),
+    },
+    {
+      name: "Github",
+      shortName: "GH",
+      color: "#000000",
+      redirect: getGithubUrl("/home-page"),
     },
   ];
 

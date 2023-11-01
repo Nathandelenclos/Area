@@ -3,7 +3,7 @@ export const getSpotifyUrl = () => {
 
   const redirectUrl = "http://localhost:3000/api/sessions/oauth/spotify";
 
-  const clientId = encodeURIComponent("<MY_CLIENT_ID>");
+  const clientId = encodeURIComponent("50aa0bf1af60431a806873db0442b6a9");
 
   const scopes = [
     "user-read-currently-playing",

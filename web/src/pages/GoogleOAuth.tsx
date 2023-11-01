@@ -27,14 +27,14 @@ async function test(
   });
 
   const respBody = await resp.json();
-  console.log(respBody);
+  // console.log(respBody);
 
   if (respBody.access_token) {
     const response = await fetch(
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${respBody.access_token}`,
     );
     const email = await response.json();
-    console.log("email: ", email);
+    // console.log("email: ", email);
   }
 }
 
@@ -51,9 +51,9 @@ export default function GoogleOAuth() {
     const state = payload && payload.state;
     const error = payload && payload.error;
 
-    console.log(payload);
-    console.log(state);
-    console.log(error);
+    // console.log(payload);
+    // console.log(state);
+    // console.log(error);
     test(
       payload.code,
       "485338230618-jg4n220ki98qa1c5psndcbea1vqpqrsi.apps.googleusercontent.com",
