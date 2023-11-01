@@ -4,7 +4,7 @@ export const getGithubUrl = (from: string) => {
   const options = {
     client_id: "be1c3a7f6cea4a6f733e",
     redirect_uri: "http://localhost:3000/api/sessions/oauth/github",
-    scope: "user:email",
+    scope: ["identity", "user:email", "read:user"].join(" "),
     state: from,
   };
 

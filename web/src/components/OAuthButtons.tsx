@@ -3,6 +3,7 @@ import AppContext from "@src/context/AppContextProvider";
 import { getGoogleUrl } from "@src/utils/getGoogleUrl";
 import { getSpotifyUrl } from "@src/utils/getSpotifyUrl";
 import { getGithubUrl } from "@src/utils/getGithubUrl";
+import { getFacebookUrl } from "@src/utils/getFacebookUrl";
 
 function OAuthList() {
   type OAuth = {
@@ -17,19 +18,13 @@ function OAuthList() {
       name: "Facebook",
       shortName: "F",
       color: "#3B5998",
-      redirect: "/",
+      redirect: getFacebookUrl(),
     },
     {
       name: "Google",
       shortName: "G",
       color: "#DB4437",
       redirect: getGoogleUrl("/home-page"),
-    },
-    {
-      name: "Twitter",
-      shortName: "T",
-      color: "#00ACEE",
-      redirect: "/",
     },
     {
       name: "Spotify",

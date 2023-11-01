@@ -6,11 +6,11 @@ export const getSpotifyUrl = () => {
   const clientId = encodeURIComponent("50aa0bf1af60431a806873db0442b6a9");
 
   const scopes = [
-    "user-read-currently-playing",
-    "user-read-recently-played",
-    "user-read-playback-state",
-    "user-top-read",
     "user-modify-playback-state",
+    "user-read-playback-state",
+    "user-read-currently-playing",
+    "user-read-email",
+    "user-read-private",
   ];
 
   const loginUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUrl}&scopes=${scopes.join(
