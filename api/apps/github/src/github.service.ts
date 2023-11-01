@@ -356,6 +356,7 @@ export class GithubService {
         await this.appletConfigService.update(issues.id, {
           value: response.length.toString(),
         });
+        console.log(response.length, +issues.value);
         this.callReactions(actionApplet.applet.reactions);
       }
     }
@@ -392,24 +393,18 @@ export class GithubService {
         `${this.BASE_URL}/repos/${owner.value}/${repos.value}/commits`,
         accessToken,
       );
-      const commit = actionApplet.configs.find(
-        (e) => e.key === 'commit_length',
-      );
+      const commit = actionApplet.configs.find((e) => e.key === 'commit_sha');
       if (!commit) {
         await this.appletConfigService.create(actionApplet.id, 'actionApplet', {
-          value: response.length.toString(),
-          key: 'commit_length',
+          value: response[0]['sha'],
+          key: 'commit_sha',
         });
         continue;
       }
-      if (response.length < +commit.value) {
+
+      if (response[0]['sha'] !== commit.value) {
         await this.appletConfigService.update(commit.id, {
-          value: response.length.toString(),
-        });
-      }
-      if (response.length > +commit.value) {
-        await this.appletConfigService.update(commit.id, {
-          value: response.length.toString(),
+          value: response[0]['sha'],
         });
         this.callReactions(actionApplet.applet.reactions);
       }
