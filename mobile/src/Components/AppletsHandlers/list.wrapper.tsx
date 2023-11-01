@@ -1,7 +1,7 @@
-import { MyAppletHeader } from '@views/MyApplets';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import AppContext from '@contexts/app.context';
+import Header from '@components/Header';
 
 export default function ListWrapper({
   navigation,
@@ -20,7 +20,7 @@ export default function ListWrapper({
         backgroundColor: color.mode,
       }}
     >
-      <MyAppletHeader
+      <Header
         title={translate(title_key)}
         leftIcon={'angle-left'}
         onPressLeft={() => navigation.pop()}

@@ -12,6 +12,10 @@ import ListServices from '@views/CreateApplet/ListServices';
 import ListActions from '@views/CreateApplet/ListActions';
 import ConfigActions from '@views/CreateApplet/ConfigActions';
 import ChangeURL from '@views/ChangeURL';
+import Profile from '@views/Profile';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,8 +61,9 @@ function SettingsNavigator(): JSX.Element {
         headerShown: false,
         animation: 'slide_from_right',
       }}
-      initialRouteName={'Setting'}
+      initialRouteName={'Profile'}
     >
+      <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Setting" component={Settings} />
       <Stack.Screen name="ChangeURL" component={ChangeURL} />
     </Stack.Navigator>
@@ -71,19 +76,41 @@ export default function AppNavigator(): JSX.Element {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={{
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconType: IconPrefix = focused ? 'fas' : 'far';
+            let iconName: IconName;
+
+            if (route.name === 'Recommandation') {
+              iconName = 'thumbs-up';
+            } else if (route.name === 'Mes Applets') {
+              iconType = 'fas';
+              iconName = 'link';
+            } else {
+              iconName = 'user';
+            }
+
+            // You can return any component that you like here!
+            return (
+              <FontAwesomeIcon
+                size={size}
+                color={color}
+                icon={[iconType, iconName]}
+              />
+            );
+          },
           headerShown: false,
           tabBarStyle: {
             backgroundColor: color.mode,
           },
           tabBarActiveTintColor: color.mainColor,
           tabBarInactiveTintColor: color.inactive,
-        }}
+        })}
         initialRouteName={'Mes Applets'}
       >
         <Tab.Screen name="Recommandation" component={RecommandationNavigator} />
         <Tab.Screen name="Mes Applets" component={MyAppletNavigator} />
-        <Tab.Screen name="Settings" component={SettingsNavigator} />
+        <Tab.Screen name="Profil" component={SettingsNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
   );

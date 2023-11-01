@@ -6,14 +6,15 @@ import { LanguageList, languageList } from './language.keys';
 
 export const ApplicationContext = createContext<IApplicationContext>({
   color: { ...white, ...common },
-  language: [],
+  language: '',
   translate: (key: string) => key,
+  setLanguage: (lang: LanguageKeys) => {},
   appName: '',
 });
 
 export const ApplicationProvider = (props: { children: any }) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const [language, setLanguage] = React.useState<LanguageKeys>(languageList.fr);
+  const [language, setLanguage] = React.useState<string>('fr');
 
   const getLanguage = () => {
     let deviceLanguage;
@@ -27,12 +28,12 @@ export const ApplicationProvider = (props: { children: any }) => {
     const lang: string = deviceLanguage.substring(0, 2);
     if (lang in languageList) {
       const tmp = lang as keyof LanguageList;
-      setLanguage(languageList[tmp]);
+      setLanguage(tmp);
     }
   };
 
   const translate = (key: string) => {
-    return language[key] || key;
+    return languageList[language][key] || key;
   };
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export const ApplicationProvider = (props: { children: any }) => {
     color: { ...(isDarkMode ? black : white), ...common },
     language: language,
     translate: translate,
+    setLanguage: setLanguage,
     appName: 'React Native Template',
   };
 

@@ -1,23 +1,15 @@
 import React, { Dispatch, JSX, SetStateAction, useEffect } from 'react';
-import {
-  ActivityIndicator,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { DEFAULT_ACTION, IAction } from '@interfaces/action.interface';
 import appletService from '@services/applet.service';
 import UserCtx from '@contexts/user.context';
 import ViewContainer from '@components/ViewContainer';
-import Header from '@components/Header';
 import { DEFAULT_REACTION, IReaction } from '@interfaces/reaction.interface';
-import { useFocusEffect } from '@react-navigation/native';
 import AppletBox from '@components/AppletsHandlers/draw.appplets.card';
 import NewActionOrReaction from '@components/AppletsHandlers/applet.plus';
 import LoadingScreen from '@components/loading.screen';
+import AppletHandlerHeader from '@components/AppletsHandlers/applets.header';
 
 export default function CreateApplet({
   navigation,
@@ -198,7 +190,7 @@ export default function CreateApplet({
   if (!isLoaded) {
     return (
       <ViewContainer>
-        <Header
+        <AppletHandlerHeader
           title={translate('create_applet_title')}
           navigation={navigation}
           hideInput={true}
@@ -211,7 +203,7 @@ export default function CreateApplet({
 
   return (
     <ViewContainer>
-      <Header
+      <AppletHandlerHeader
         hideInput={edition === 'information'}
         title={translate('create_applet_title')}
         navigation={navigation}

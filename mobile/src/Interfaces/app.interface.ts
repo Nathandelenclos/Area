@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface IColor extends IColorScheme, ICommon {}
 
 export type ICommon = {
@@ -20,8 +22,9 @@ export type IColorScheme = {
 
 export type IApplicationContext = {
   color: IColor;
-  language: any;
+  language: string;
   translate: (key: string) => string;
+  setLanguage: React.Dispatch<React.SetStateAction<string>>;
   appName: string;
 };
 

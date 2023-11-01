@@ -3,7 +3,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import AppContext from '@contexts/app.context';
 
-export function Header({
+export default function Header({
   leftIcon,
   onPressLeft,
   rightIcon,

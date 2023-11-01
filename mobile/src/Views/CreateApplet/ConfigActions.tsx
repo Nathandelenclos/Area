@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MyAppletHeader } from '@views/MyApplets';
 import ShowEditableConfig from '@components/ConfigOptions/show.editable.config';
+import Header from '@components/Header';
 
 export default function ConfigActions({
   route,
@@ -105,11 +105,11 @@ export default function ConfigActions({
       }}
     >
       <View style={{ backgroundColor: color.mode }}>
-        <MyAppletHeader
+        <Header
           title={translate(title_key)}
           leftIcon={'angle-left'}
           onPressLeft={() => navigation.pop()}
-          hideBottomLine={true}
+          bar={false}
         />
       </View>
       <ScrollView

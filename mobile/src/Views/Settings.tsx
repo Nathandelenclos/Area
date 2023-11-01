@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
-import { Header } from '@components/Header';
+import Header from '@components/Header';
 import ViewContainer from '@components/ViewContainer';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
 import DropDownPicker, { ItemType } from 'react-native-dropdown-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import urlServiceTs from '@services/url.service.ts';
+import UserCtx from '@contexts/user.context';
+import { AVAILABLE_LANGUAGE } from '@contexts/language.keys';
 
 type LanguageDropdownProps = {
   elements: ItemType<string>[];
+  currentValue: string;
+  setCurrentValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 function LanguageDropdown({
   elements,
+  currentValue,
+  setCurrentValue,
 }: LanguageDropdownProps): React.JSX.Element {
   const { color } = AppContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentValue, setCurrentValue] = useState<string>('Français'); //mettre la langue de la bdd
 
   return (
     <DropDownPicker
@@ -25,23 +31,29 @@ function LanguageDropdown({
       value={currentValue}
       setValue={(val) => setCurrentValue(val)}
       textStyle={{
-        color:color.text,
+        color: color.text,
         fontWeight: 'bold',
         fontSize: 18,
       }}
       style={{
-        backgroundColor:color.background,
+        backgroundColor: color.background,
         borderRadius: 5,
       }}
       dropDownContainerStyle={{
         backgroundColor: color.background,
       }}
-      ArrowUpIconComponent={({style}) => <FontAwesomeIcon icon={'chevron-up'} size={25} color={color.text} />}
-      ArrowDownIconComponent={({style}) => <FontAwesomeIcon icon={'chevron-down'} size={25} color={color.text} />}
-      TickIconComponent={({style}) => <FontAwesomeIcon icon={'check'} size={25} color={color.text} />}
+      ArrowUpIconComponent={({ style }) => (
+        <FontAwesomeIcon icon={'chevron-up'} size={25} color={color.text} />
+      )}
+      ArrowDownIconComponent={({ style }) => (
+        <FontAwesomeIcon icon={'chevron-down'} size={25} color={color.text} />
+      )}
+      TickIconComponent={({ style }) => (
+        <FontAwesomeIcon icon={'check'} size={25} color={color.text} />
+      )}
     />
   );
-};
+}
 
 type SettingsModdifierProps = {
   title: string;
@@ -75,44 +87,57 @@ function SettingsModdifier({
           {title}
         </Text>
       </View>
-      <View style={{ width: '100%' }}>
-        {element}
-      </View>
+      <View style={{ width: '100%' }}>{element}</View>
     </View>
   );
-};
+}
 
-export default function Settings(): React.JSX.Element {
-  const { color, translate } = AppContext();
-  const [text, onChangeText] = React.useState<string>('URL.ACTUELLE/');
+export default function Settings({
+  navigation,
+}: {
+  navigation: any;
+}): React.JSX.Element {
+  const { color, translate, language, setLanguage } = AppContext();
+  const { setUser } = UserCtx();
+  const [text, onChangeText] = React.useState<string>(
+    urlServiceTs.getBaseUrl(),
+  );
+  const [currentValue, setCurrentValue] = useState<string>(language); //mettre la langue de la bdd
 
   const handleBackNavigation = () => {
-    console.log('handleBackNavigation');
+    navigation.pop();
   };
 
   const saveSettings = () => {
-    console.log('saveSettings');
-  }
-
-  const languages: ItemType<string>[] = [
-    {
-      label: 'EN - English',
-      value: 'English',
-    }, {
-      label: 'FR - Français',
-      value: 'Français',
-    }, {
-      label: 'DE - Deutsch',
-      value: 'Deutsch',
+    const currentUrl = urlServiceTs.getBaseUrl();
+    const noChange = currentUrl === text && currentValue === language;
+    if (noChange) {
+      navigation.pop();
+      return;
     }
-  ];
+    if (currentValue !== language) {
+      setLanguage(currentValue);
+    }
+    if (currentUrl === text) {
+      navigation.pop();
+      return;
+    }
+    const res = urlServiceTs.tryEditUrl(
+      text,
+      translate(translate('invalid_url')),
+    );
+    if (res) {
+      setUser(null);
+      return;
+    }
+  };
 
   return (
-    <ViewContainer>
+    <ViewContainer background={color.mode}>
       <Header
         title={'Settings'}
         leftIcon={'chevron-left'}
-        onPressLeft= {() => handleBackNavigation()}
+        onPressLeft={() => handleBackNavigation()}
         bar={false}
       />
       <View
@@ -129,7 +154,7 @@ export default function Settings(): React.JSX.Element {
           }}
         >
           <SettingsModdifier
-            title={translate('moddify_app_url')}
+            title={translate('modify_app_url')}
             element={
               <TextInput
                 onChangeText={onChangeText}
@@ -142,14 +167,18 @@ export default function Settings(): React.JSX.Element {
                   padding: 12,
                   width: '100%',
                 }}
-                autoCapitalize='none'
+                autoCapitalize="none"
               />
             }
           />
           <SettingsModdifier
-            title={translate('moddify_app_url')}
+            title={translate('modify_app_language')}
             element={
-              <LanguageDropdown elements={languages}/>
+              <LanguageDropdown
+                elements={AVAILABLE_LANGUAGE}
+                currentValue={currentValue}
+                setCurrentValue={setCurrentValue}
+              />
             }
           />
         </View>

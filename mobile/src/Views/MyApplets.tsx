@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-  Button,
-  LogBox,
   SafeAreaView,
   ScrollView,
   Text,
@@ -15,84 +13,12 @@ import {
   DropDownItem,
   DropDownItemProps,
 } from '@components/Applets';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import appletService from '@services/applet.service';
 import UserCtx from '@contexts/user.context';
 import { Title } from '@components/Title';
-import UrlServiceTs from '@services/url.service.ts';
-import AuthService from '@services/auth.service';
-import { Icon, IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import LoadingScreen from '@components/loading.screen';
-
-export function MyAppletHeader({
-  leftIcon,
-  onPressLeft,
-  rightIcon,
-  onPressRight,
-  title,
-  hideBottomLine,
-}: {
-  leftIcon?: IconProp;
-  onPressLeft?: () => void;
-  rightIcon?: IconProp;
-  onPressRight?: () => void;
-  title: string;
-  hideBottomLine?: boolean;
-}) {
-  const { color } = AppContext();
-  return (
-    <View
-      style={{
-        alignItems: 'center',
-      }}
-    >
-      <View
-        style={{
-          marginVertical: 20,
-          width: '90%',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {onPressLeft && leftIcon && (
-          <TouchableOpacity
-            onPress={onPressLeft}
-            style={{ position: 'absolute', left: 0 }}
-          >
-            <FontAwesomeIcon icon={leftIcon} size={25} color={color.text} />
-          </TouchableOpacity>
-        )}
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: 'bold',
-            color: color.text,
-          }}
-        >
-          {title}
-        </Text>
-        {onPressRight && rightIcon && (
-          <TouchableOpacity
-            onPress={onPressRight}
-            style={{ position: 'absolute', right: 0 }}
-          >
-            <FontAwesomeIcon icon={rightIcon} size={25} color={color.text} />
-          </TouchableOpacity>
-        )}
-      </View>
-      {!hideBottomLine && (
-        <View
-          style={{
-            height: 1,
-            backgroundColor: color.text,
-            width: '90%',
-          }}
-        />
-      )}
-    </View>
-  );
-}
+import Header from '@components/Header';
 
 export default function MyAppletsView({
   navigation,
@@ -218,7 +144,7 @@ export default function MyAppletsView({
   if (isLoading) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
-        <MyAppletHeader
+        <Header
           title={'My Applets'}
           leftIcon={getIconLeft()}
           onPressLeft={functionIconLeft}
@@ -232,7 +158,7 @@ export default function MyAppletsView({
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
-      <MyAppletHeader
+      <Header
         title={'My Applets'}
         leftIcon={getIconLeft()}
         onPressLeft={functionIconLeft}

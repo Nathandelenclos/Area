@@ -1,4 +1,5 @@
 import { LanguageKeys } from '@interfaces/app.interface';
+import { ItemType } from 'react-native-dropdown-picker';
 
 const fr: LanguageKeys = {
   fr: 'Français',
@@ -30,7 +31,7 @@ const fr: LanguageKeys = {
   modify_app_url: "Modifier l'url de l'api",
   modify: 'Modifier',
   invalid_url: 'Url invalide',
-  moddify_app_language: "Modifier l'App Langage",
+  modify_app_language: "Modifier l'App Langage",
   save_settings: 'Sauvegarder',
   pofile_title: 'Ton Profil',
   connected_services: 'Services connectés',
@@ -70,7 +71,7 @@ const en: LanguageKeys = {
   modify_app_url: 'Modify api url',
   modify: 'Modify',
   invalid_url: 'Invalid url',
-  moddify_app_language: 'Modify App Language',
+  modify_app_language: 'Modify App Language',
   save_settings: 'Save changes',
   pofile_title: 'Your Profile',
   connected_services: 'Connected services',
@@ -84,5 +85,16 @@ export type LanguageList = {
   fr: LanguageKeys;
   en: LanguageKeys;
 };
+
+export const AVAILABLE_LANGUAGE: ItemType<string>[] = [
+  {
+    label: 'EN - English',
+    value: 'en',
+  },
+  {
+    label: 'FR - Français',
+    value: 'fr',
+  },
+];
 
 export const languageList: LanguageList = { fr, en };
