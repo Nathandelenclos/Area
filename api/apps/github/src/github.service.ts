@@ -85,7 +85,7 @@ export class GithubService {
     for (const key of keys) {
       const config = actionApplet.configs.find((e) => e.key === key);
       if (!config) continue;
-      configs[key] = config.value;
+      configs[key] = config;
     }
     return configs;
   }
@@ -118,7 +118,7 @@ export class GithubService {
     if (!action || !action.is_available) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
-      const username = actionApplet.configs.find((e) => e.key === 'username');
+      const { username } = this.getConfigs(actionApplet, ['username']);
       if (!username) continue;
       const accessToken = this.getAccessToken(actionApplet);
       if (!accessToken) continue;
@@ -133,6 +133,11 @@ export class GithubService {
           key: 'repos_length',
         });
         continue;
+      }
+      if (response.length < +repos.value) {
+        await this.appletConfigService.update(repos.id, {
+          value: response.length.toString(),
+        });
       }
       if (response.length > +repos.value) {
         await this.appletConfigService.update(repos.id, {
@@ -163,7 +168,7 @@ export class GithubService {
     if (!action || !action.is_available) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
-      const username = actionApplet.configs.find((e) => e.key === 'username');
+      const { username } = this.getConfigs(actionApplet, ['username']);
       if (!username) continue;
       const accessToken = this.getAccessToken(actionApplet);
       if (!accessToken) continue;
@@ -178,6 +183,11 @@ export class GithubService {
           key: 'keys_length',
         });
         continue;
+      }
+      if (response.length < +keys.value) {
+        await this.appletConfigService.update(keys.id, {
+          value: response.length.toString(),
+        });
       }
       if (response.length > +keys.value) {
         await this.appletConfigService.update(keys.id, {
@@ -208,10 +218,11 @@ export class GithubService {
     if (!action || !action.is_available) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
-      const owner = actionApplet.configs.find((e) => e.key === 'owner');
-      if (!owner) continue;
-      const repos = actionApplet.configs.find((e) => e.key === 'repos');
-      if (!repos) continue;
+      const { owner, repos } = this.getConfigs(actionApplet, [
+        'repos',
+        'owner',
+      ]);
+      if (!owner || !repos) continue;
       const accessToken = this.getAccessToken(actionApplet);
       if (!accessToken) continue;
       const response = await this.fetchGithubApi(
@@ -227,6 +238,11 @@ export class GithubService {
           key: 'branch_length',
         });
         continue;
+      }
+      if (response.length < +branches.value) {
+        await this.appletConfigService.update(branches.id, {
+          value: response.length.toString(),
+        });
       }
       if (response.length > +branches.value) {
         await this.appletConfigService.update(branches.id, {
@@ -257,10 +273,11 @@ export class GithubService {
     if (!action || !action.is_available) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
-      const owner = actionApplet.configs.find((e) => e.key === 'owner');
-      if (!owner) continue;
-      const repos = actionApplet.configs.find((e) => e.key === 'repos');
-      if (!repos) continue;
+      const { owner, repos } = this.getConfigs(actionApplet, [
+        'repos',
+        'owner',
+      ]);
+      if (!owner || !repos) continue;
       const accessToken = this.getAccessToken(actionApplet);
       if (!accessToken) continue;
       const response = await this.fetchGithubApi(
@@ -274,6 +291,11 @@ export class GithubService {
           key: 'pulls_length',
         });
         continue;
+      }
+      if (response.length < +pulls.value) {
+        await this.appletConfigService.update(pulls.id, {
+          value: response.length.toString(),
+        });
       }
       if (response.length > +pulls.value) {
         await this.appletConfigService.update(pulls.id, {
@@ -304,10 +326,11 @@ export class GithubService {
     if (!action || !action.is_available) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
-      const owner = actionApplet.configs.find((e) => e.key === 'owner');
-      if (!owner) continue;
-      const repos = actionApplet.configs.find((e) => e.key === 'repos');
-      if (!repos) continue;
+      const { owner, repos } = this.getConfigs(actionApplet, [
+        'repos',
+        'owner',
+      ]);
+      if (!owner || !repos) continue;
       const accessToken = this.getAccessToken(actionApplet);
       if (!accessToken) continue;
       const response = await this.fetchGithubApi(
@@ -323,6 +346,11 @@ export class GithubService {
           key: 'issues_length',
         });
         continue;
+      }
+      if (response.length < +issues.value) {
+        await this.appletConfigService.update(issues.id, {
+          value: response.length.toString(),
+        });
       }
       if (response.length > +issues.value) {
         await this.appletConfigService.update(issues.id, {
@@ -353,10 +381,11 @@ export class GithubService {
     if (!action || !action.is_available) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
-      const owner = actionApplet.configs.find((e) => e.key === 'owner');
-      if (!owner) continue;
-      const repos = actionApplet.configs.find((e) => e.key === 'repos');
-      if (!repos) continue;
+      const { owner, repos } = this.getConfigs(actionApplet, [
+        'repos',
+        'owner',
+      ]);
+      if (!owner || !repos) continue;
       const accessToken = this.getAccessToken(actionApplet);
       if (!accessToken) continue;
       const response = await this.fetchGithubApi(
@@ -372,6 +401,11 @@ export class GithubService {
           key: 'commit_length',
         });
         continue;
+      }
+      if (response.length < +commit.value) {
+        await this.appletConfigService.update(commit.id, {
+          value: response.length.toString(),
+        });
       }
       if (response.length > +commit.value) {
         await this.appletConfigService.update(commit.id, {
