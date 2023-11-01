@@ -4,6 +4,7 @@ import { Storage } from '@src/Storage/user.storage';
 import AuthService from '@services/auth.service';
 import { View } from 'react-native';
 import AppContext from '@contexts/app.context';
+import LoadingScreen from '@components/loading.screen';
 
 export const UserContext = createContext<UserContextType>({
   user: {
@@ -52,7 +53,7 @@ export const UserProvider = (props: { children: any }) => {
   }, []);
 
   if (loading) {
-    return <View style={{ flex: 1, backgroundColor: color.mode }} />;
+    return <LoadingScreen />;
   }
 
   return (

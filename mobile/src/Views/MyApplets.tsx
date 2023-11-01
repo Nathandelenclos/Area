@@ -24,6 +24,7 @@ import { Title } from '@components/Title';
 import UrlServiceTs from '@services/url.service.ts';
 import AuthService from '@services/auth.service';
 import { Icon, IconProp } from '@fortawesome/fontawesome-svg-core';
+import LoadingScreen from '@components/loading.screen';
 
 export function MyAppletHeader({
   leftIcon,
@@ -31,12 +32,14 @@ export function MyAppletHeader({
   rightIcon,
   onPressRight,
   title,
+  hideBottomLine,
 }: {
   leftIcon?: IconProp;
   onPressLeft?: () => void;
   rightIcon?: IconProp;
   onPressRight?: () => void;
   title: string;
+  hideBottomLine?: boolean;
 }) {
   const { color } = AppContext();
   return (
@@ -80,13 +83,15 @@ export function MyAppletHeader({
           </TouchableOpacity>
         )}
       </View>
-      <View
-        style={{
-          height: 1,
-          backgroundColor: color.text,
-          width: '90%',
-        }}
-      />
+      {!hideBottomLine && (
+        <View
+          style={{
+            height: 1,
+            backgroundColor: color.text,
+            width: '90%',
+          }}
+        />
+      )}
     </View>
   );
 }
@@ -105,6 +110,7 @@ export default function MyAppletsView({
   ]);
   const [itemList, setItemList] = React.useState<DropDownItemProps[]>([]);
   const [editing, setEditing] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const colors = ['#7a73e7', '#73E77B', '#E77B73', '#73e7d6', '#7e1eb0'];
 
@@ -117,6 +123,12 @@ export default function MyAppletsView({
     });
     setItemList(newItemList);
   }
+
+  const handleTrashPress = (item: DropDownItemProps) => {
+    appletService.deleteApplet(user.token, item.id);
+    const newList = itemList.filter((i) => i.id !== item.id);
+    setItemList(newList);
+  };
 
   function removeSelected() {
     const newItemList = itemList.filter((item: DropDownItemProps) => {
@@ -155,16 +167,7 @@ export default function MyAppletsView({
       }),
     );
     setItemList(list);
-  };
-
-  const handleTrashPress = async (item: DropDownItemProps) => {
-    appletService.deleteApplet(user.token, item.id);
-    const newList = itemList.filter((i) => i.id !== item.id);
-    setItemList(newList);
-  };
-
-  const handleEyePress = async (item: DropDownItemProps) => {
-    navigation.navigate('InfoApplet', { id: item.id });
+    setIsLoading(false);
   };
 
   const handleEmptyAppletPressed = () => {
@@ -214,6 +217,21 @@ export default function MyAppletsView({
     .filter((item) => item.active || !filterList[0].active)
     .filter((item) => !item.active || !filterList[1].active);
 
+  if (isLoading) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
+        <MyAppletHeader
+          title={'My Applets'}
+          leftIcon={getIconLeft()}
+          onPressLeft={functionIconLeft}
+          rightIcon={getIconRight()}
+          onPressRight={functionIconRight}
+        />
+        <LoadingScreen style={{ backgroundColor: color.mode }} />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
       <MyAppletHeader
@@ -262,7 +280,9 @@ export default function MyAppletsView({
             {...item}
             toggleSelected={toggleSelected}
             editing={editing}
-            onPressElipsis={() => console.log('test')}
+            onPressElipsis={() => {
+              console.log('test');
+            }}
             onPressItem={() => {
               if (editing) {
                 toggleSelected(item.id);

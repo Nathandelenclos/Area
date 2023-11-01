@@ -13,6 +13,9 @@ import { IService } from '@interfaces/service.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { MyAppletHeader } from '@views/MyApplets';
 import { AppletButtonSelector } from '@views/CreateApplet/ListActions';
+import LoadingScreen from '@components/loading.screen';
+import StyledButton from '@components/MyButton';
+import ListWrapper from '@components/AppletsHandlers/list.wrapper';
 
 export default function ListServices({
   route,
@@ -23,7 +26,8 @@ export default function ListServices({
 }): JSX.Element {
   const { color, translate } = AppContext();
   const { user } = UserCtx();
-  const [services, setServices] = React.useState<IService[] | null>(null);
+  const [services, setServices] = React.useState<IService[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   if (!user) {
     return <></>;
@@ -33,44 +37,55 @@ export default function ListServices({
     const data = await servicesService.getServices(user.token);
     if (!data.data) {
       setServices([]);
-      return;
+    } else {
+      const type: 'actions' | 'reactions' = (route.params.types + 's') as
+        | 'actions'
+        | 'reactions';
+      const filteredServices = data.data.filter((service: any) => {
+        return service[type]?.length > 0;
+      });
+      setServices(filteredServices);
     }
-    setServices(data.data);
+    setIsLoading(false);
   };
+
+  function retry() {
+    setIsLoading(true);
+    getServices();
+  }
 
   useEffect(() => {
     getServices();
   }, []);
 
-  if (!services) {
-    return <></>;
+  if (isLoading) {
+    return (
+      <ListWrapper navigation={navigation} title_key={'select_service'}>
+        <LoadingScreen style={{ backgroundColor: color.mode }} />
+      </ListWrapper>
+    );
   }
 
   if (services.length === 0) {
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: color.mode,
-        }}
-      >
-        <Text>Empty Service List</Text>
-      </SafeAreaView>
+      <ListWrapper navigation={navigation} title_key={'select_service'}>
+        <Text
+          style={{
+            alignSelf: 'center',
+            marginTop: 10,
+            fontSize: 20,
+            fontWeight: 'bold',
+          }}
+        >
+          An error occured
+        </Text>
+        <StyledButton title={'Retry'} onPress={retry} />
+      </ListWrapper>
     );
   }
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: color.mode,
-      }}
-    >
-      <MyAppletHeader
-        title={translate('select_service')}
-        leftIcon={'angle-left'}
-        onPressLeft={() => navigation.pop()}
-      />
+    <ListWrapper navigation={navigation} title_key={'select_service'}>
       <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         {services.map((service, i) => (
           <AppletButtonSelector
@@ -85,6 +100,6 @@ export default function ListServices({
           />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </ListWrapper>
   );
 }

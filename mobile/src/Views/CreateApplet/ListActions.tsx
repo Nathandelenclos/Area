@@ -16,6 +16,8 @@ import StyledButton from '@components/MyButton';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IconName } from '@fortawesome/fontawesome-common-types';
+import LoadingScreen from '@components/loading.screen';
+import ListWrapper from '@components/AppletsHandlers/list.wrapper';
 
 export function AppletButtonSelector({
   icon,
@@ -73,6 +75,7 @@ export default function ListActions({
   const { color, translate } = AppContext();
   const { user } = UserCtx();
   const [actions, setActions] = React.useState<IAction[] | IReaction[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const viewType = route.params.types;
 
   if (!user) {
@@ -96,7 +99,13 @@ export default function ListActions({
     }
     data = data || [];
     setActions(data);
+    setIsLoading(false);
   };
+
+  function retry() {
+    setIsLoading(true);
+    getActions();
+  }
 
   function selectAction(action) {
     const obj: IAction | IReaction =
@@ -121,20 +130,37 @@ export default function ListActions({
     getActions();
   }, []);
 
+  const title_key = viewType === 'action' ? 'select_action' : 'select_reaction';
+
+  if (isLoading) {
+    return (
+      <ListWrapper navigation={navigation} title_key={title_key}>
+        <LoadingScreen style={{ backgroundColor: color.mode }} />
+      </ListWrapper>
+    );
+  }
+
+  if (actions.length === 0) {
+    return (
+      <ListWrapper navigation={navigation} title_key={title_key}>
+        <LoadingScreen style={{ backgroundColor: color.mode }} />
+        <Text
+          style={{
+            alignSelf: 'center',
+            marginTop: 10,
+            fontSize: 20,
+            fontWeight: 'bold',
+          }}
+        >
+          An error occured
+        </Text>
+        <StyledButton title={'Retry'} onPress={retry} />
+      </ListWrapper>
+    );
+  }
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: color.mode,
-      }}
-    >
-      <MyAppletHeader
-        title={translate(
-          route.params.types === 'action' ? 'select_action' : 'select_reaction',
-        )}
-        leftIcon={'angle-left'}
-        onPressLeft={() => navigation.pop()}
-      />
+    <ListWrapper navigation={navigation} title_key={title_key}>
       <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         {actions.map((action, i) => (
           <AppletButtonSelector
@@ -144,6 +170,6 @@ export default function ListActions({
           />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </ListWrapper>
   );
 }

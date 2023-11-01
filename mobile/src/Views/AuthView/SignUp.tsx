@@ -37,7 +37,11 @@ function TermsAndConditions(): JSX.Element {
         }}
       >
         <Text
-          style={{ color: color.mainColor, fontSize: 12 }}
+          style={{
+            color: color.mainColor,
+            fontSize: 12,
+            textDecorationLine: 'underline',
+          }}
           onPress={TermsOfService}
         >
           {translate('to') + ' '}
@@ -54,6 +58,7 @@ function TermsAndConditions(): JSX.Element {
           style={{
             color: color.mainColor,
             fontSize: 12,
+            textDecorationLine: 'underline',
           }}
           onPress={PrivacyPolicy}
         >

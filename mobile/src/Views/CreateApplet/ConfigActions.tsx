@@ -12,6 +12,7 @@ import {
 import { IReaction } from '@interfaces/reaction.interface';
 import DatePicker from 'react-native-date-picker';
 import { IAction } from '@interfaces/action.interface';
+import { MyAppletHeader } from '@views/MyApplets';
 
 function StringInput({
   name,
@@ -204,39 +205,27 @@ export default function ConfigActions({
     initConfig();
   }, []);
 
+  const title_key =
+    viewType === 'action' ? 'config_select_action' : 'config_select_reaction';
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: color.background,
+        backgroundColor: color.mode,
       }}
     >
-      <View
-        style={{
-          borderBottomColor: color.text,
-          borderBottomWidth: 2,
-          marginLeft: '6%',
-          marginRight: '6%',
-          marginTop: '8%',
-        }}
-      >
-        <Text
-          style={{
-            color: color.text,
-            fontSize: 32,
-            fontWeight: 'bold',
-            marginBottom: '6%',
-            textAlign: 'center',
-          }}
-        >
-          {translate(
-            route.params.type === 'action'
-              ? 'config_select_action'
-              : 'config_select_reaction',
-          )}
-        </Text>
+      <View style={{ backgroundColor: color.mode }}>
+        <MyAppletHeader
+          title={translate(title_key)}
+          leftIcon={'angle-left'}
+          onPressLeft={() => navigation.pop()}
+          hideBottomLine={true}
+        />
       </View>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{ flex: 1, backgroundColor: color.background }}
+      >
         <View
           style={{
             backgroundColor: color.mode,
@@ -254,6 +243,7 @@ export default function ConfigActions({
                     fontWeight: 'bold',
                     fontSize: 18,
                     textAlign: 'center',
+                    color: color.text,
                   }}
                 >
                   {e.description}
@@ -283,29 +273,31 @@ export default function ConfigActions({
           })}
         </View>
       </ScrollView>
-      {canPressValidate && (
-        <TouchableOpacity
-          style={{
-            backgroundColor: color.mainColor,
-            borderRadius: 10,
-            margin: 20,
-            padding: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={save}
-        >
-          <Text
+      <View style={{ backgroundColor: color.background }}>
+        {canPressValidate && (
+          <TouchableOpacity
             style={{
-              color: color.background,
-              fontSize: 18,
-              fontWeight: 'bold',
+              backgroundColor: color.mainColor,
+              borderRadius: 10,
+              margin: 20,
+              padding: 20,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
+            onPress={save}
           >
-            {translate('validate')}
-          </Text>
-        </TouchableOpacity>
-      )}
+            <Text
+              style={{
+                color: color.background,
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}
+            >
+              {translate('validate')}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
