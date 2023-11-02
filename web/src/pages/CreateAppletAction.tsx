@@ -38,32 +38,31 @@ export default function CreateAppletAction() {
   };
 
   const onAppletCreation = async () => {
-    if (
-      appletName.length === 0 ||
-      !selectedServiceAction ||
-      !selectedAction ||
-      !selectedServiceReaction ||
-      !selectedReaction
-    )
-      return toast("Veuillez selectionner un objet dans chaque colonne", {
-        type: "error",
-      });
-
-    const response = await AppletService.create(
-      {
-        name: appletName,
-        description: "",
-        is_active: true,
-        action: selectedAction,
-        reaction: selectedReaction,
-        config: undefined,
-      },
-      user.getAccessToken(),
-    );
-    if (!response.data)
-      return toast("Error while creating applet", { type: "error" });
-    navigate("/applets");
-    toast("Applet created", { type: "success" });
+    // if (
+    //   appletName.length === 0 ||
+    //   !selectedServiceAction ||
+    //   !selectedAction ||
+    //   !selectedServiceReaction ||
+    //   !selectedReaction
+    // )
+    //   return toast("Veuillez selectionner un objet dans chaque colonne", {
+    //     type: "error",
+    //   });
+    // const response = await AppletService.create(
+    //   {
+    //     name: appletName,
+    //     description: "",
+    //     is_active: true,
+    //     action: selectedAction,
+    //     reaction: selectedReaction,
+    //     config: undefined,
+    //   },
+    //   user.getAccessToken(),
+    // );
+    // if (!response.data)
+    //   return toast("Error while creating applet", { type: "error" });
+    // navigate("/applets");
+    // toast("Applet created", { type: "success" });
   };
 
   const onServiceActionClick = (id: number) => {

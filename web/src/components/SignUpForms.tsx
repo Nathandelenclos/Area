@@ -4,7 +4,7 @@ import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
 
 type SignUpFormsProps = {
-  onSignUp?: (fullName: string, email: string, password: string) => void;
+  onSignUp?: (name: string, email: string, password: string) => void;
 };
 
 function SignUpForms({ onSignUp = Function }: SignUpFormsProps) {

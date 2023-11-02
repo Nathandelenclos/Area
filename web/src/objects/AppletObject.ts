@@ -1,13 +1,17 @@
 import { ActionObject, ActionObjectDto } from "@src/objects/ActionObject";
 import { ReactionObject, ReactionObjectDto } from "@src/objects/ReactionObject";
 
-export interface NewAppletDto {
+interface NewEventConfig {
+  [key: string]: any;
+  id: number;
+}
+
+export interface NewAppletRequest {
   name: string;
   description: string;
   is_active: boolean;
-  action: number;
-  reaction: number;
-  config: any;
+  reactions: NewEventConfig[];
+  actions: NewEventConfig[];
 }
 
 /*
@@ -27,20 +31,15 @@ export interface AppletObjectDto {
   name: string;
   description: string;
   is_active: boolean;
-  action: ActionObjectDto;
-  reaction: ReactionObjectDto;
+  actions: ActionObjectDto[];
+  reactions: ReactionObjectDto[];
 }
 
 export class AppletObject {
   applet: AppletObjectDto;
-  applet_action: ActionObject;
-  applet_reaction: ReactionObject;
 
   constructor(object: AppletObjectDto) {
     this.applet = object;
-    console.log(object);
-    this.applet_action = new ActionObject(object.action);
-    this.applet_reaction = new ReactionObject(object.reaction);
   }
 
   get id() {
@@ -51,11 +50,11 @@ export class AppletObject {
     return this.applet.name;
   }
 
-  get action() {
-    return this.applet_action;
+  get actions() {
+    return this.applet.actions;
   }
 
-  get reaction() {
-    return this.applet_reaction;
+  get reactions() {
+    return this.applet.reactions;
   }
 }

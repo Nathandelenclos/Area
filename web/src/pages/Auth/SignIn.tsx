@@ -14,7 +14,7 @@ export default function SignIn() {
     const data = await AuthServices.login(email, password);
     if (data.status === 200) {
       setUser(new UserObject(data.data));
-      navigate("/applets");
+      navigate("/home-page");
     }
   };
 

@@ -13,9 +13,9 @@ export default function SignUp() {
 
   const register = async (name: string, email: string, password: string) => {
     const data = await AuthServices.register(name, email, password);
-    if (data) {
+    if (data.status == 200) {
       setUser(new UserObject(data.data));
-      navigate("/create-applet");
+      navigate("/home-page");
     }
   };
 
