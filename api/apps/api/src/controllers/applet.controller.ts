@@ -90,7 +90,7 @@ export class AppletController {
       'update',
       {
         id,
-        ...data,
+        data,
         user: req.user,
       },
       res,
