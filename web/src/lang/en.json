@@ -1,6 +1,53 @@
 {
   "test": "test",
-  "sign-in": "Sign In",
-  "sign-up": "Sign Up",
-  "create": "Sign Out"
+  "welcome": "Welcome to the AREA",
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "sign-in": "Sign in",
+    "sign-up": "Sign up",
+    "orConnectWith": "Or connect using",
+    "recoverPassword": "Forgot password ?",
+    "fullName": "Full name",
+    "recover": "Recover"
+  },
+  "nav": {
+    "home": "Home",
+    "create": "Create",
+    "applets": "My applets",
+    "profile": "Profil"
+  },
+  "homepage": {
+    "title": "Home page",
+    "description": "Welcome to the home page",
+    "page-title": "Daily suggestions",
+    "download-apk": "Android"
+  },
+  "applets": {
+    "title": "My Applets",
+    "create": "Create an applet",
+    "select": "Choose an applet"
+  },
+  "profile": {
+    "title": "Your profil",
+    "logout-button": "Logout",
+    "modify-password": "Modify password",
+    "connected-services": "Connected services",
+    "connect-other-services": "Connect other services"
+  },
+  "create-applets": {
+    "applet-name-trigger": "Name of your applet",
+    "supported-services-trigger": "Supported services",
+    "triggers-for-service": "Supported triggers",
+    "reactions-number": "Number of reactions",
+    "supported-services-reaction": "Supported services",
+    "reactions-for-service": "Supported reactions",
+    "input-applet-placeholder": "Name of your applet...*",
+    "next-button": "Edit applet",
+    "done": "Done"
+  },
+  "configure-applet": {
+    "trigger": "Edit the trigger",
+    "reaction": "Edit the reaction"
+  }
 }

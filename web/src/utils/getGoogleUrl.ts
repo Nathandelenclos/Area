@@ -20,6 +20,6 @@ export const getGoogleUrl = (from: string) => {
   };
 
   const qs = new URLSearchParams(options);
-  console.log(qs);
+  // console.log(qs);
   return `${rootUrl}?${qs.toString()}`;
 };

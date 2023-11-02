@@ -3,12 +3,15 @@ import Welcome from "@pages/Auth/Welcome";
 import SignIn from "@pages/Auth/SignIn";
 import SignUp from "@pages/Auth/SignUp";
 import CreateAppletAction from "@pages/CreateAppletAction";
-import CreateAppletReaction from "@pages/CreateAppletReaction";
 import RecoverPassword from "@pages/Auth/RecoverPassword";
 import MyApplet from "@pages/MyApplet";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
+import ConfigureApplet from "./pages/ConfigureApplet";
+import { LoginUserSpotify } from "./pages/SpotifyOauth";
+import { LoginUserGithub } from "./pages/GithubOauth";
+import { LoginUserFacebook } from "./pages/FacebookOauth";
 
 export const Routes: Route[] = [
   {
@@ -46,12 +49,6 @@ export const Routes: Route[] = [
     element: <CreateAppletAction />,
   },
   {
-    name: "create-applet-reaction",
-    path: "/create-applet-reaction",
-    middleware: [],
-    element: <CreateAppletReaction />,
-  },
-  {
     name: "home-page",
     path: "/home-page",
     middleware: [],
@@ -64,8 +61,26 @@ export const Routes: Route[] = [
     element: <GoogleOAuth />,
   },
   {
+    name: "facebook-auth",
+    path: "/api/sessions/oauth/facebook",
+    middleware: [],
+    element: <LoginUserFacebook />,
+  },
+  {
+    name: "github-auth",
+    path: "/api/sessions/oauth/github",
+    middleware: [],
+    element: <LoginUserGithub />,
+  },
+  {
+    name: "spotify-auth",
+    path: "/api/sessions/oauth/spotify",
+    middleware: [],
+    element: <LoginUserSpotify />,
+  },
+  {
     name: "my-applets",
-    path: "/applets",
+    path: "/my-applets",
     middleware: [],
     element: <MyApplet />,
   },
@@ -74,6 +89,12 @@ export const Routes: Route[] = [
     path: "/profile",
     middleware: [],
     element: <Profile />,
+  },
+  {
+    name: "configure-applet",
+    path: "/configure-applet",
+    middleware: [],
+    element: <ConfigureApplet />,
   },
   {
     name: "404",
@@ -93,4 +114,5 @@ export type RouteNames =
   | "create-applet"
   | "my-applets"
   | "create-applet"
-  | "create-applet-reaction";
+  | "profile"
+  | "configure-applet";

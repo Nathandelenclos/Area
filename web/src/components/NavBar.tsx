@@ -1,48 +1,33 @@
-import React from "react";
 import AppContext from "context/AppContextProvider";
-import { RouteNames } from "@src/routes";
+import { useNavigate } from "react-router-dom";
+import { slide as Menu } from "react-burger-menu";
+import { useState } from "react";
+import { Language } from "@src/lang";
 
-export type NavBarElement = {
-  name: string;
-  RouteName: RouteNames;
+export type listType = {
+  lang: string;
+  value: string;
 };
 
-export type NavBarProps = {
-  elements?: NavBarElement[];
-};
+const choices: listType[] = [
+  { lang: "Français", value: "fr" },
+  { lang: "English", value: "en" },
+  { lang: "Espanol", value: "es" },
+];
 
-function NavBar({ elements }: NavBarProps) {
-  const { translate, appName } = AppContext();
-  const defaultRoutes: NavBarElement[] = [
-    {
-      name: translate("nav", "home"),
-      RouteName: "home",
-    },
-    {
-      name: translate("nav", "create"),
-      RouteName: "create-applet",
-    },
-    {
-      name: translate("nav", "applets"),
-      RouteName: "my-applets",
-    },
-  ];
+function NavBar() {
+  const { translate, appName, setLanguage, language } = AppContext();
+  const navigate = useNavigate();
+  const [selectedValue, setSelectedValue] = useState(language.toString());
+
   return (
-    <div className="w-full h-fit drop-shadow bg-white flex justify-between px-10 py-5 align-center">
-      <p
-        className="text-[40px] font-extrabold cursor-pointer"
-        onClick={() => {
-          window.location.href = "/home-page";
-        }}
-      >
-        {appName}
-      </p>
-      <div className="h-100 flex items-center flex-row">
-        <div className="h-100 flex items-center flex-row px-10">
+    <div className="w-full">
+      <div className="block md:hidden">
+        <Menu right>
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/home-page";
+              navigate("/home-page");
             }}
           >
             {translate("nav", "home")}
@@ -50,7 +35,7 @@ function NavBar({ elements }: NavBarProps) {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/create-applet";
+              navigate("/create-applet");
             }}
           >
             {translate("nav", "create")}
@@ -58,7 +43,7 @@ function NavBar({ elements }: NavBarProps) {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/my-applets";
+              navigate("/my-applets");
             }}
           >
             {translate("nav", "applets")}
@@ -66,11 +51,83 @@ function NavBar({ elements }: NavBarProps) {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              window.location.href = "/profile";
+              navigate("/profile");
             }}
           >
             {translate("nav", "profile")}
           </p>
+          <select
+            value={selectedValue}
+            onChange={(e) => {
+              setSelectedValue(e.target.value);
+              setLanguage(selectedValue as Language);
+            }}
+            className="border text-[12px] py-2 px-3 ml-2 rounded-[10px] text-black"
+          >
+            {choices.map((choice, index: number) => (
+              <option key={index} value={choice.lang}>
+                {choice.lang}
+              </option>
+            ))}
+          </select>
+        </Menu>
+      </div>
+      <div className="w-full h-fit drop-shadow bg-white flex justify-between px-10 py-5 align-center">
+        <p
+          className="text-[35px] font-extrabold cursor-pointer text-white sm:text-black hover:text-[#000000CC]"
+          onClick={() => {
+            navigate("/home-page");
+          }}
+        >
+          {appName}
+        </p>
+        <div className="h-100 hidden items-center flex-row px-10 md:flex">
+          <p
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
+            onClick={() => {
+              navigate("/home-page");
+            }}
+          >
+            {translate("nav", "home")}
+          </p>
+          <p
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
+            onClick={() => {
+              navigate("/create-applet");
+            }}
+          >
+            {translate("nav", "create")}
+          </p>
+          <p
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
+            onClick={() => {
+              navigate("/my-applets");
+            }}
+          >
+            {translate("nav", "applets")}
+          </p>
+          <p
+            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
+            onClick={() => {
+              navigate("/profile");
+            }}
+          >
+            {translate("nav", "profile")}
+          </p>
+          <select
+            value={selectedValue}
+            onChange={(e) => {
+              setSelectedValue(e.target.value);
+              setLanguage(e.target.value as Language);
+            }}
+            className="border text-[12px] py-2 px-3 ml-2 rounded-[10px] text-black"
+          >
+            {choices.map((choice, index: number) => (
+              <option key={index} value={choice.value}>
+                {choice.lang}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>
