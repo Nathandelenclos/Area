@@ -17,10 +17,12 @@ jobs:
           node-version: '18'
       - name: Move to web folder
         run: cd web
+      - name: ls
+        run: ls
       - name: Install dependencies
         run: yarn
       - name: Run eslint
-        run: npx eslint --ext .js,.jsx,.ts,.tsx ./src
+        run: yarn run lint
 
   api_linter:
     runs-on: ubuntu-latest
@@ -35,10 +37,12 @@ jobs:
           node-version: '18'
       - name: Move to api folder
         run: cd api
+      - name: ls
+        run: ls
       - name: Install dependencies
         run: yarn
       - name: Run tests
-        run: npx eslint --ext .js,.jsx,.ts,.tsx ./apps ./libs
+        run: yarn run lint
 
   mobile_linter:
     runs-on: ubuntu-latest
@@ -53,7 +57,9 @@ jobs:
           node-version: '18'
       - name: Move to mobile folder
         run: cd mobile
+      - name: ls
+        run: ls
       - name: Install dependencies
         run: yarn
       - name: Run tests
-        run: npx eslint --ext .js,.jsx,.ts,.tsx ./src
+        run: yarn run lint
