@@ -1,25 +1,27 @@
-type reactionConfig = {
-  id: number;
-  description: string;
-  key: string;
-  name: string;
-  type: string;
-};
+import { ConfigObjectDto } from "@src/objects/ConfigObject";
+import { RequireConfigObjectDto } from "@src/objects/RequireConfigObjectDto";
 
 export interface ReactionObjectDto {
   id: number;
+  key: string;
   name: string;
   description: string;
   is_available: boolean;
-  config: reactionConfig[];
-  configs?: { key: string; value: string }[];
+  config: RequireConfigObjectDto[];
   reaction?: ReactionObjectDto;
+  configs?: ConfigObjectDto[];
+  cmd: string;
+}
+
+export interface ReactionAppletObjectDto {
+  id: number;
+  reaction: ReactionObjectDto;
 }
 
 export class ReactionObject {
-  data: ReactionObjectDto;
+  data: ReactionAppletObjectDto;
 
-  constructor(object: ReactionObjectDto) {
+  constructor(object: ReactionAppletObjectDto) {
     this.data = object;
   }
 
@@ -28,23 +30,14 @@ export class ReactionObject {
   }
 
   get name(): string {
-    return this.data.name;
+    return this.data.reaction.name;
   }
 
-  get description(): string {
-    return this.data.description;
-  }
-
-  get config(): reactionConfig[] {
-    console.log("JE GET ICI");
-    return this.data.config || [];
-  }
-
-  get reaction(): ReactionObjectDto | undefined {
+  get reaction(): ReactionObjectDto {
     return this.data.reaction;
   }
 
-  get configs(): { key: string; value: string }[] {
-    return this.data.configs || [];
+  get config(): RequireConfigObjectDto[] {
+    return this.data.reaction.config;
   }
 }

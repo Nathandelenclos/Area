@@ -1,5 +1,5 @@
-import { ActionObject, ActionObjectDto } from "@src/objects/ActionObject";
-import { ReactionObject, ReactionObjectDto } from "@src/objects/ReactionObject";
+import { ActionObjectDto } from "@src/objects/ActionObject";
+import { ReactionObjectDto } from "@src/objects/ReactionObject";
 
 interface NewEventConfig {
   [key: string]: any;
@@ -13,18 +13,6 @@ export interface NewAppletRequest {
   reactions: NewEventConfig[];
   actions: NewEventConfig[];
 }
-
-/*
-*     "name": "My Applet #1",
-    "description": "My applet's description",
-    "is_active": true,
-    "reaction": 1,
-    "action": 1,
-    "config": {
-        "private_key": "laprivatekeyyyy",
-        "config2": "configggg"
-    }
-* */
 
 export interface AppletObjectDto {
   id: number;

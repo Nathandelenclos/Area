@@ -52,5 +52,9 @@
   "configure-applet": {
     "trigger": "Configurer le déclencheur",
     "reaction": "Configurer la réaction"
+  },
+  "footer": {
+    "copyright": "Copyright © 2023",
+    "created-by": "Développé par Simon Riembault, David Plouvier, Noa Trachez, Clément Vandeville, Nathant Delenclos"
   }
 }

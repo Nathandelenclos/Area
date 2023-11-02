@@ -1,27 +1,26 @@
-import { ReactionObjectDto } from "@src/objects/ReactionObject";
-
-type actionConfig = {
-  id: number;
-  description: string;
-  key: string;
-  name: string;
-  type: string;
-};
+import { ConfigObjectDto } from "@src/objects/ConfigObject";
+import { RequireConfigObjectDto } from "@src/objects/RequireConfigObjectDto";
 
 export interface ActionObjectDto {
   id: number;
   name: string;
+  key: string;
   description: string;
   is_available: boolean;
-  config: actionConfig[];
-  configs?: { key: string; value: string }[];
+  config: RequireConfigObjectDto[];
   action?: ActionObjectDto;
+  configs?: ConfigObjectDto[];
+}
+
+export interface ActionAppletObjectDto {
+  id: number;
+  action: ActionObjectDto;
 }
 
 export class ActionObject {
-  data: ActionObjectDto;
+  data: ActionAppletObjectDto;
 
-  constructor(object: ActionObjectDto) {
+  constructor(object: ActionAppletObjectDto) {
     this.data = object;
   }
 
@@ -30,22 +29,14 @@ export class ActionObject {
   }
 
   get name(): string {
-    return this.data.name;
+    return this.data.action.name;
   }
 
-  get description(): string {
-    return this.data.description;
-  }
-
-  get config(): actionConfig[] {
-    return this.data.config || [];
-  }
-
-  get reaction(): ReactionObjectDto | undefined {
+  get action(): ActionObjectDto {
     return this.data.action;
   }
 
-  get configs(): { key: string; value: string }[] {
-    return this.data.configs || [];
+  get config(): RequireConfigObjectDto[] {
+    return this.data.action.config;
   }
 }
