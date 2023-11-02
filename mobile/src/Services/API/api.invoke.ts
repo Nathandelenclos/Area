@@ -19,6 +19,7 @@ export type IApiInvokeResponse = {
 const methods: any = {
   GET: ApiGet,
   POST: ApiPost,
+  PUT: ApiPut,
   DELETE: ApiDelete,
 };
 
@@ -109,6 +110,25 @@ function ApiPost(props: ApiPostProps): Promise<Response> {
   console.log(`${url}${props.endpoint}`);
   return fetch(`${url}${props.endpoint}`, {
     method: 'POST',
+    headers: {
+      Authorization: `Bearer ${props.authToken}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: props.body,
+  });
+}
+
+/**
+ * Sends a PUT request to the API.
+ * @param {ApiPutProps} props
+ * @returns {Promise} with the response object
+ */
+function ApiPut(props: ApiPostProps): Promise<Response> {
+  const url = UrlServiceTs.getBaseUrl();
+  console.log(`${url}${props.endpoint}`);
+  return fetch(`${url}${props.endpoint}`, {
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
       Accept: 'application/json',

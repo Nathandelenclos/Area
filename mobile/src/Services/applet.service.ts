@@ -32,6 +32,17 @@ class AppletService {
     });
   }
 
+  updateApplet(token: string, data: IApplet, id: number) {
+    return ApiInvoke({
+      endpoint: `/applets/${id}`,
+      method: 'PUT',
+      expectedStatus: 200,
+      authToken: token,
+      body: JSON.stringify(data),
+      handlers: defaultApiHandler,
+    });
+  }
+
   /**
    * Update applet
    * @param token - User token

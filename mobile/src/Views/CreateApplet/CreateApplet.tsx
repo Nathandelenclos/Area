@@ -47,6 +47,7 @@ export default function CreateApplet({
   async function loadInformations() {
     const resp = await appletService.getApplet(user.token, route.params.id);
     if (!resp.data) return;
+    console.log(JSON.stringify(resp.data, null, 2));
     setActions(resp.data.actions);
     setReactions(resp.data.reactions);
     setAppletName(resp.data.name);
@@ -100,12 +101,13 @@ export default function CreateApplet({
   }, [route.params?.result]);
 
   useEffect(() => {
-    if (route.params.type === 'information') {
+    if (edition === 'information') {
+      setIsLoaded(false);
       loadInformations();
-    } else if (route.params.type === 'creation') {
+    } else if (edition === 'creation') {
       setIsLoaded(true);
     }
-  }, []);
+  }, [edition]);
 
   const handleAppletPress = (
     area: IAction | IReaction | null,
@@ -148,42 +150,46 @@ export default function CreateApplet({
     );
   };
 
+  const createSaveObject = () => {
+    const finalReactions = reactions.map((reaction) => ({
+      id: reaction.reactionId ?? reaction.reaction.id,
+      config: Object.fromEntries(
+        reaction.configs.map((config) => [config.key, config.value]),
+      ),
+    }));
+    const finalActions = actions.map((action) => ({
+      id: action.actionId ?? action.action.id,
+      config: Object.fromEntries(
+        action.configs.map((config) => [config.key, config.value]),
+      ),
+    }));
+    return {
+      name: appletName.trim(),
+      description: "My applet's description",
+      is_active: true,
+      actions: finalActions,
+      reactions: finalReactions,
+    };
+  };
+
   const handleSave = async () => {
     if (edition === 'creation') {
-      const finalReactions = reactions.map((reaction) => ({
-        id: reaction.reactionId,
-        config: Object.fromEntries(
-          reaction.configs.map((config) => [config.key, config.value]),
-        ),
-      }));
-      const finalActions = actions.map((action) => ({
-        id: action.actionId,
-        config: Object.fromEntries(
-          action.configs.map((config) => [config.key, config.value]),
-        ),
-      }));
-      const obj = {
-        name: appletName.trim(),
-        description: "My applet's description",
-        is_active: true,
-        actions: finalActions,
-        reactions: finalReactions,
-      };
+      const obj = createSaveObject();
       const resp = await appletService.createApplet(user.token, obj);
       if (!resp.data) return;
     } else if (edition === 'edition') {
-      await appletService.updateApplet(user.token, {
-        id: route.params.applet.id,
-        name: appletName,
-        action: actions as IAction,
-        reaction: reactions[0],
-        config: '',
-        is_active: true,
-      });
+      const obj = createSaveObject();
+      const resp = await appletService.updateApplet(
+        user.token,
+        obj,
+        route.params.id,
+      );
+      if (!resp.data) return;
+      setEdition('information');
+      return;
     } else {
       return;
     }
-    console.log('here');
     navigation.pop();
   };
 
