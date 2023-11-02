@@ -8,9 +8,9 @@ function Footer() {
 
   return (
     <div className="w-full mt-10 border-t-2 border-[##E9E9E9]">
-      <div className="w-full h-fit drop-shadow bg-white flex justify-center px-10 py-5 items-center">
+      <div className="w-full flex-col h-fit drop-shadow bg-white flex justify-center px-10 py-5 items-center">
         <div className="cursor-pointer flex flex-row justify-center items-center hover:opacity-80 my-5">
-          <div className="bg-black p-3 rounded-[10px]">
+          <div className="bg-black px-3 py-2 rounded-[10px]">
             <FontAwesomeIcon icon={"download"} size="lg" color="white" />
           </div>
           <p
@@ -22,6 +22,8 @@ function Footer() {
             {translate("homepage", "download-apk")}
           </p>
         </div>
+        <p className="text-xs">{translate("footer", "copyright")}</p>
+        <p className="text-xs">{translate("footer", "created-by")}</p>
       </div>
     </div>
   );
