@@ -146,6 +146,23 @@ services:
       - rabbitmq
     restart: always
 
+  github:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: github
+    hostname: github
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=github
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
   queue:
     image: node:18
     container_name: queue
