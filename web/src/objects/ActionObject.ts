@@ -1,14 +1,25 @@
+import { ConfigObjectDto } from "@src/objects/ConfigObject";
+import { RequireConfigObjectDto } from "@src/objects/RequireConfigObjectDto";
+
 export interface ActionObjectDto {
   id: number;
   name: string;
+  key: string;
   description: string;
   is_available: boolean;
+  config: RequireConfigObjectDto[];
+}
+
+export interface ActionAppletObjectDto {
+  id: number;
+  action: ActionObjectDto;
+  configs?: ConfigObjectDto[];
 }
 
 export class ActionObject {
-  data: ActionObjectDto;
+  data: ActionAppletObjectDto;
 
-  constructor(object: ActionObjectDto) {
+  constructor(object: ActionAppletObjectDto) {
     this.data = object;
   }
 
@@ -16,11 +27,11 @@ export class ActionObject {
     return this.data.id;
   }
 
-  get name(): string {
-    return this.data.name;
+  get action(): ActionObjectDto {
+    return this.data.action;
   }
 
-  get description(): string {
-    return this.data.description;
+  get configs(): ConfigObjectDto[] | undefined {
+    return this.data.configs;
   }
 }
