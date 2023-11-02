@@ -15,12 +15,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'
-      - name: Move to web folder
-        run: cd web
       - name: Install dependencies
-        run: yarn
+        run: cd web && yarn
       - name: Run tests
-        run: npx jest
+        run: cd web && yarn run test
 
   api_test:
     runs-on: ubuntu-latest
@@ -33,12 +31,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'
-      - name: Move to api folder
-        run: cd api
       - name: Install dependencies
-        run: yarn
+        run: cd api && yarn
       - name: Run tests
-        run: npx jest
+        run: cd api && yarn run test
 
   mobile_test:
     runs-on: ubuntu-latest
@@ -51,9 +47,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'
-      - name: Move to mobile folder
-        run: cd mobile
       - name: Install dependencies
-        run: yarn
+        run: cd mobile && yarn
       - name: Run tests
-        run: npx jest
+        run: cd mobile && yarn run test
