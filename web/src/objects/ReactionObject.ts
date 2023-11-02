@@ -1,8 +1,19 @@
+type reactionConfig = {
+  id: number;
+  description: string;
+  key: string;
+  name: string;
+  type: string;
+};
+
 export interface ReactionObjectDto {
   id: number;
   name: string;
   description: string;
   is_available: boolean;
+  config: reactionConfig[];
+  configs?: { key: string; value: string }[];
+  reaction?: ReactionObjectDto;
 }
 
 export class ReactionObject {
@@ -22,5 +33,18 @@ export class ReactionObject {
 
   get description(): string {
     return this.data.description;
+  }
+
+  get config(): reactionConfig[] {
+    console.log("JE GET ICI");
+    return this.data.config || [];
+  }
+
+  get reaction(): ReactionObjectDto | undefined {
+    return this.data.reaction;
+  }
+
+  get configs(): { key: string; value: string }[] {
+    return this.data.configs || [];
   }
 }

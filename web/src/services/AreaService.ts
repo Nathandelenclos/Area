@@ -9,4 +9,17 @@ export default class AreaService {
       authToken,
     });
   }
+
+  static getAreaOfServiceById(
+    authToken: string,
+    id: number,
+    type: "actions" | "reactions",
+  ) {
+    return ApiInvoke({
+      endpoint: `/services/${id}/${type}`,
+      method: "GET",
+      expectedStatus: 200,
+      authToken,
+    });
+  }
 }

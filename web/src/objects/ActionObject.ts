@@ -1,8 +1,21 @@
+import { ReactionObjectDto } from "@src/objects/ReactionObject";
+
+type actionConfig = {
+  id: number;
+  description: string;
+  key: string;
+  name: string;
+  type: string;
+};
+
 export interface ActionObjectDto {
   id: number;
   name: string;
   description: string;
   is_available: boolean;
+  config: actionConfig[];
+  configs?: { key: string; value: string }[];
+  action?: ActionObjectDto;
 }
 
 export class ActionObject {
@@ -22,5 +35,17 @@ export class ActionObject {
 
   get description(): string {
     return this.data.description;
+  }
+
+  get config(): actionConfig[] {
+    return this.data.config || [];
+  }
+
+  get reaction(): ReactionObjectDto | undefined {
+    return this.data.action;
+  }
+
+  get configs(): { key: string; value: string }[] {
+    return this.data.configs || [];
   }
 }

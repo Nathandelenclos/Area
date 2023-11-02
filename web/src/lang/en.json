@@ -43,7 +43,8 @@
     "supported-services-reaction": "Supported services",
     "reactions-for-service": "Supported reactions",
     "input-applet-placeholder": "Name of your applet...*",
-    "next-button": "Edit applet",
+    "create-button": "Create applet",
+    "config-button": "Configure applet",
     "done": "Done"
   },
   "configure-applet": {

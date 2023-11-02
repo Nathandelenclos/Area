@@ -24,13 +24,14 @@ export default function MyApplet() {
 
   const getMyApplets = async () => {
     const applets = await AppletService.getApplets(user.getAccessToken());
-    console.log(applets);
-    // setApplets(applets);
+    setApplets(applets);
   };
 
   function onAppletClick(applet: AppletObject) {
     setSelectedApplet(applet.id === selectedApplet?.id ? null : applet);
   }
+
+  console.log(selectedApplet);
 
   return (
     <div className="flex w-full h-full flex-col">
@@ -47,7 +48,9 @@ export default function MyApplet() {
                   <AppletButton
                     key={applet.id}
                     title={applet.name}
-                    color={"#7A73E7"}
+                    color={
+                      applet.id === selectedApplet?.id ? "#38356C" : "#7A73E7"
+                    }
                     onClick={() => onAppletClick(applet)}
                   />
                 ))}
@@ -60,32 +63,60 @@ export default function MyApplet() {
                 >
                   <HeaderEditApplet applet={selectedApplet} />
                   <div className="ml-12 mr-12 space-y-5">
-                    {selectedApplet?.actions && (
-                      <div className="bg-[#7A73E7] rounded-2xl p-4">
-                        <p className="text-white text-3xl font-bold p-3">
-                          Actionmb-10
-                        </p>
-                        <p className="text-white text-xl">
-                          {selectedApplet?.actions[0].name}
-                        </p>
-                        <p className="text-white text-xl">
-                          {selectedApplet?.actions[0].description}
-                        </p>
-                      </div>
-                    )}
-                    {selectedApplet?.reactions[0] && (
-                      <div className="bg-[#7A73E7] rounded-2xl p-4">
-                        <p className="text-white text-3xl font-bold p-3">
-                          Reaction
-                        </p>
-                        <p className="text-white text-xl">
-                          {selectedApplet?.reactions[0].name}
-                        </p>
-                        <p className="text-white text-xl">
-                          {selectedApplet?.reactions[0].description}
-                        </p>
-                      </div>
-                    )}
+                    <p>Action: </p>
+                    {selectedApplet.actions &&
+                      selectedApplet.actions.map((e, index) => {
+                        const reaction = e.action;
+                        const config = e.configs;
+                        return (
+                          <div
+                            className="bg-[#7A73E7] rounded-2xl p-4"
+                            key={index}
+                          >
+                            <div className="flex flex-row flex-wrap items-center">
+                              <p className="text-white text-3xl font-bold p-3">
+                                {reaction?.name}
+                              </p>
+                              <p className="text-white text-2xl">
+                                - {reaction?.description}
+                              </p>
+                            </div>
+                            {config &&
+                              config.map((e) => (
+                                <p className="text-white text-xl pl-3">
+                                  {e.key}: {e.value}
+                                </p>
+                              ))}
+                          </div>
+                        );
+                      })}
+                    <p>Reaction: </p>
+                    {selectedApplet.reactions &&
+                      selectedApplet.reactions.map((e, index) => {
+                        const reaction = e.reaction;
+                        const config = e.configs;
+                        return (
+                          <div
+                            className="bg-[#7A73E7] rounded-2xl p-4"
+                            key={index}
+                          >
+                            <div className="flex flex-row flex-wrap items-center">
+                              <p className="text-white text-3xl font-bold p-3">
+                                {reaction?.name}
+                              </p>
+                              <p className="text-white text-2xl">
+                                - {reaction?.description}
+                              </p>
+                            </div>
+                            {config &&
+                              config.map((e) => (
+                                <p className="text-white text-xl pl-3">
+                                  {e.key}: {e.value}
+                                </p>
+                              ))}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

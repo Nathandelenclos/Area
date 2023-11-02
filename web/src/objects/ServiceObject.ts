@@ -29,7 +29,15 @@ export class ServiceObject {
     return this.data.actions;
   }
 
+  set actions(actions: ActionObject[]) {
+    this.data.actions = actions;
+  }
+
   get reactions(): ReactionObject[] {
     return this.data.reactions;
+  }
+
+  set reactions(reactions: ReactionObject[]) {
+    this.data.reactions = reactions;
   }
 }
