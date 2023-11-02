@@ -112,7 +112,7 @@ export default function CreateAppletAction() {
               )
               ?.actions.map((action) => ({
                 id: action.id,
-                title: action.name,
+                title: action.action.name,
                 logo: "apple",
                 isClicked: action.id === selectedAction,
               })) ?? []
