@@ -1,7 +1,7 @@
 import React from 'react';
+import { it, describe, expect, jest } from '@jest/globals';
 import { render } from '@testing-library/react-native';
 import { Title } from '@components/Title';
-import AppContext from '@contexts/app.context';
 
 jest.mock('@contexts/app.context', () => ({
   __esModule: true,
