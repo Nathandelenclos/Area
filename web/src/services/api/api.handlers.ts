@@ -22,7 +22,7 @@ const defaultApiHandler = {
 
   409: (data: any) => {
     console.log("[API INVOKE]: 409: ", data?.detail);
-    toast("Conflict", { type: "error", autoClose: 4000 });
+    toast("User already exists", { type: "error", autoClose: 4000 });
   },
 
   422: (data: any) => {
