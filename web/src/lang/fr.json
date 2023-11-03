@@ -49,5 +49,16 @@
   "configure-applet": {
     "trigger": "Configurer le déclencheur",
     "reaction": "Configurer la réaction"
+  },
+  "footer": {
+    "copyright": "Copyright © 2023",
+    "created-by": "Développé par Simon Riembault, David Plouvier, Noa Trachez, Clément Vandeville, Nathan Delenclos"
+  },
+  "errors": {
+    "400": "Requête invalide",
+    "401": "Non autorisé",
+    "403": "Interdit",
+    "409": "Conflit",
+    "500": "Erreur interne du serveur"
   }
 }

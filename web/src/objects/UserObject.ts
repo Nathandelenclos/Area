@@ -1,7 +1,7 @@
 export interface UserObjectDto {
   email: string;
   name: string;
-  access_token: string;
+  token: string;
 }
 
 export class UserObject {
@@ -12,6 +12,6 @@ export class UserObject {
   }
 
   getAccessToken(): string {
-    return this.data?.access_token ?? "";
+    return this.data?.token ?? "";
   }
 }

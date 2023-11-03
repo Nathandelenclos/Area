@@ -47,4 +47,8 @@ export class AuthServices {
       expectedStatus: 200,
     });
   }
+
+  static storeToken(token: string) {
+    localStorage.setItem("accessToken", token);
+  }
 }

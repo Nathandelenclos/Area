@@ -24,7 +24,8 @@ export default function MyApplet() {
 
   const getMyApplets = async () => {
     const applets = await AppletService.getApplets(user.getAccessToken());
-    setApplets(applets);
+    console.log(applets);
+    // setApplets(applets);
   };
 
   function onAppletClick(applet: AppletObject) {
@@ -59,29 +60,29 @@ export default function MyApplet() {
                 >
                   <HeaderEditApplet applet={selectedApplet} />
                   <div className="ml-12 mr-12 space-y-5">
-                    {selectedApplet?.action && (
+                    {selectedApplet?.actions && (
                       <div className="bg-[#7A73E7] rounded-2xl p-4">
                         <p className="text-white text-3xl font-bold p-3">
                           Actionmb-10
                         </p>
                         <p className="text-white text-xl">
-                          {selectedApplet?.action.name}
+                          {selectedApplet?.actions[0].name}
                         </p>
                         <p className="text-white text-xl">
-                          {selectedApplet?.action.description}
+                          {selectedApplet?.actions[0].description}
                         </p>
                       </div>
                     )}
-                    {selectedApplet?.reaction && (
+                    {selectedApplet?.reactions[0] && (
                       <div className="bg-[#7A73E7] rounded-2xl p-4">
                         <p className="text-white text-3xl font-bold p-3">
                           Reaction
                         </p>
                         <p className="text-white text-xl">
-                          {selectedApplet?.reaction.name}
+                          {selectedApplet?.reactions[0].name}
                         </p>
                         <p className="text-white text-xl">
-                          {selectedApplet?.reaction.description}
+                          {selectedApplet?.reactions[0].description}
                         </p>
                       </div>
                     )}

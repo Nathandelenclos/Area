@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <div className="flex w-full h-full flex-col">
       <NavBar />
-      <div className="w-full flex justify-center mt-20 mb-8">
+      <div className="w-full h-full flex justify-center mt-20 mb-8">
         <div className="flex flex-row items-center justify-center md:justify-between w-10/12 px-5">
           <h1 className="text-4xl font-bold min-w-fit md:mr-10 text-center md:text-left">
             {translate("homepage", "page-title")}
@@ -17,7 +17,7 @@ export default function HomePage() {
           <div className="h-1 w-full bg-black hidden md:block" />
         </div>
       </div>
-      <div className={"flex flex-col w-full h-full items-center mb-10"}>
+      <div className={"flex flex-col w-full items-center mb-10"}>
         <div className="flex flex-wrap flex-row w-full md:w-10/12 items-center justify-center lg:justify-start">
           <HomePageButton Content={"Suggestion #1"} />
           <HomePageButton Content={"Suggestion #2"} />

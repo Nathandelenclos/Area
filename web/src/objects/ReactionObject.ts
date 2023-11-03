@@ -1,14 +1,21 @@
 export interface ReactionObjectDto {
   id: number;
+  key: string;
   name: string;
   description: string;
   is_available: boolean;
+  cmd: string;
 }
 
-export class ReactionObject {
-  data: ReactionObjectDto;
+export interface ReactionAppletObjectDto {
+  id: number;
+  reaction: ReactionObjectDto;
+}
 
-  constructor(object: ReactionObjectDto) {
+export class ReactionAppletObject {
+  data: ReactionAppletObjectDto;
+
+  constructor(object: ReactionAppletObjectDto) {
     this.data = object;
   }
 
@@ -16,11 +23,7 @@ export class ReactionObject {
     return this.data.id;
   }
 
-  get name(): string {
-    return this.data.name;
-  }
-
-  get description(): string {
-    return this.data.description;
+  get reaction(): ReactionObjectDto {
+    return this.data.reaction;
   }
 }

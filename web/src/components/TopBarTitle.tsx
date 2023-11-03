@@ -1,9 +1,10 @@
 import AppContext from "@src/context/AppContextProvider";
+import { UserObject, UserObjectDto } from "@src/objects/UserObject";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function TopBarTitle() {
-  const { translate } = AppContext();
+  const { translate, setUser } = AppContext();
   const navigate = useNavigate();
   return (
     <div className="flex flex-row items-center justify-between w-10/12 px-5">
@@ -15,6 +16,8 @@ export default function TopBarTitle() {
         <p
           className="text-white font-bold mr-1 text-3xl"
           onClick={() => {
+            localStorage.removeItem("accessToken");
+            setUser(new UserObject({} as UserObjectDto));
             navigate("/");
           }}
         >
