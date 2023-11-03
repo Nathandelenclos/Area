@@ -4,6 +4,7 @@ import ConnectionButtons from "@components/ConnectionButtons";
 import OAuthButtons from "@components/OAuthButtons";
 import AppContext from "@src/context/AppContextProvider";
 import { useNavigate } from "react-router-dom";
+import LoadingElementPopUp from "@src/components/LoadingElementPopUp";
 
 export default function Welcome() {
   const { translate } = AppContext();

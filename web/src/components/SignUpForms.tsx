@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
+import LoadingElementPopUp from "./LoadingElementPopUp";
 
 type SignUpFormsProps = {
   onSignUp?: (name: string, email: string, password: string) => void;
@@ -12,6 +13,7 @@ function SignUpForms({ onSignUp = Function }: SignUpFormsProps) {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isClicked, setIsClicked] = useState<boolean>(false);
 
   useEffect(() => {
     addEventListener("keydown", onEnterPressed);
@@ -45,10 +47,20 @@ function SignUpForms({ onSignUp = Function }: SignUpFormsProps) {
         setValue={setPassword}
         type={"password"}
       />
-      <MainButton
-        title={translate("login", "sign-up")}
-        onPress={() => onSignUp(name, email, password)}
-      />
+      {!isClicked ? (
+        <MainButton
+          title={translate("login", "sign-up")}
+          onPress={() => {
+            setIsClicked(true);
+            onSignUp(name, email, password);
+            setTimeout(() => {
+              setIsClicked(false);
+            }, 5000);
+          }}
+        />
+      ) : (
+        <LoadingElementPopUp />
+      )}
     </div>
   );
 }
