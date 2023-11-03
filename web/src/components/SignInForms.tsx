@@ -5,14 +5,11 @@ import AppContext from "@src/context/AppContextProvider";
 import LoadingElementPopUp from "./LoadingElementPopUp";
 
 type SignInFormsProps = {
-  onSignIn?: (email: string, password: string) => void;
+  onSignIn: (email: string, password: string) => Promise<void>;
   onRecoverPassword?: () => void;
 };
 
-function SignInForms({
-  onSignIn = Function,
-  onRecoverPassword = Function,
-}: SignInFormsProps) {
+function SignInForms({ onSignIn, onRecoverPassword }: SignInFormsProps) {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [isClicked, setIsClicked] = React.useState<boolean>(false);
@@ -27,7 +24,7 @@ function SignInForms({
 
   const onEnterPressed = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
-      onSignIn(email, password);
+      onSignIn(email, password).then(() => setIsClicked(false));
     }
   };
 
@@ -50,10 +47,7 @@ function SignInForms({
           title={translate("login", "sign-in")}
           onPress={() => {
             setIsClicked(true);
-            onSignIn(email, password);
-            setTimeout(() => {
-              setIsClicked(false);
-            }, 5000);
+            onSignIn(email, password).then(() => setIsClicked(false));
           }}
         />
       ) : (
