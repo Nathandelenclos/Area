@@ -139,6 +139,22 @@ services:
       - api
     restart: always
 
+  slack:
+    image: area_app:latest
+    container_name: slack
+    hostname: slack
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=slack
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
   timer:
     image: area_app:latest
     container_name: timer

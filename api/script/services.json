@@ -311,6 +311,37 @@
         }
       ],
       "reactions": []
+    },
+    {
+      "name": "Slack",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "slack_queue",
+      "key": "slack",
+      "actions": [],
+      "reactions": [
+        {
+          "name": "Slack Message",
+          "description": "Send a message to a channel",
+          "key": "slack_message",
+          "is_available": 1,
+          "cmd": "send_message",
+          "config": [
+            {
+              "name": "Webhook URL",
+              "description": "Webhook URL",
+              "key": "webhook",
+              "type": "string"
+            },
+            {
+              "name": "Message",
+              "description": "Message to send",
+              "key": "message",
+              "type": "string"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

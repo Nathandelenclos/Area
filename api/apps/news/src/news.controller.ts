@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { NewsService } from './news.service';
 import MicroServiceController from '@app/common/micro.service.controller';
 import { Ctx, MessagePattern, RmqContext } from '@nestjs/microservices';

@@ -13,6 +13,8 @@ class MicroServiceProxy {
     APPLET_SERVICE: 'applet_queue',
     NEWS_SERVICE: 'news_queue',
     GITHUB_SERVICE: 'github_queue',
+    SLACK_SERVICE: 'slack_queue',
+    WEATHER_SERVICE: 'weather_queue',
   };
 
   /**
