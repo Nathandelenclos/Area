@@ -14,6 +14,8 @@ export enum AppletRelations {
   ACTION_SERVICE = 'actions.action.service',
   ACTION_CONFIG = 'actions.action.config',
   REACTION_CONFIG = 'reactions.reaction.config',
+  REACTION_CONFIGS = 'reactions.configs',
+  ACTION_CONFIGS = 'actions.configs',
 }
 
 @Injectable()

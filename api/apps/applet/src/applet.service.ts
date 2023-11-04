@@ -55,7 +55,8 @@ export class AppletService {
       AppletRelations.ACTIONS_CONFIG,
       AppletRelations.ACTION_CONFIG,
       AppletRelations.REACTION_CONFIG,
-      AppletRelations.REACTIONS_CONFIG,
+      AppletRelations.REACTION_CONFIGS,
+      AppletRelations.ACTION_CONFIGS,
     ]);
   }
 

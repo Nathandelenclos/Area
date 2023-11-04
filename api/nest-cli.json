@@ -81,6 +81,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/applet/tsconfig.app.json"
       }
+    },
+    "github": {
+      "type": "application",
+      "root": "apps/github",
+      "entryFile": "main",
+      "sourceRoot": "apps/github/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/github/tsconfig.app.json"
+      }
     }
   }
 }

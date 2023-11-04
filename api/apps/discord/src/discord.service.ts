@@ -1,7 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ActionService } from '@app/common/actions/action.service';
-import { ServiceService } from '@app/common/services/service.service';
-import { ReactionService } from '@app/common/reactions/reaction.service';
 
 @Injectable()
 export class DiscordService {
