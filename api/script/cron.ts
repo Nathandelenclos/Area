@@ -17,7 +17,8 @@ type Queue =
   | 'instagram_queue'
   | 'gmail_queue'
   | 'youtube_queue'
-  | 'google_drive_queue';
+  | 'google_drive_queue'
+  | 'timer_queue';
 type QueueDefinition = {
   name: Queue;
   channel?: Channel;
@@ -33,6 +34,7 @@ const QUEUES: QueueDefinition[] = [
   { name: 'gmail_queue', cmd: 'cron' },
   { name: 'youtube_queue', cmd: 'cron' },
   { name: 'google_drive_queue', cmd: 'cron' },
+  { name: 'timer_queue', cmd: 'cron' },
 ];
 
 /**

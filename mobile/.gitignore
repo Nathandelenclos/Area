@@ -70,3 +70,5 @@ key
 google-services.json
 yarn.lock
 .env
+.yarn
+.yarnrc.yml

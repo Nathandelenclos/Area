@@ -6,11 +6,11 @@ const defaultApiHandler = {
       type: "error",
       autoClose: 4000,
     });
-    console.log("[API INVOKE]: 401: ", data?.detail);
+    console.log("[API INVOKE]: 401: ", data?.message);
   },
 
   422: (data: any) => {
-    console.log("[API INVOKE]: 422: ", data?.detail);
+    console.log("[API INVOKE]: 422: ", data?.message);
   },
 
   defaultHandlers: (data: any) => {

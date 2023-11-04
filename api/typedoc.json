@@ -9,6 +9,5 @@
     "**/dist/**/*.*",
     "**/test/**/*.*"
   ],
-  "tsconfig": "./tsconfig.json",
-  "readme": "./README.md"
+  "tsconfig": "./tsconfig.json"
 }

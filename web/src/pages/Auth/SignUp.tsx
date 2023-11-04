@@ -12,9 +12,9 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const register = async (name: string, email: string, password: string) => {
-    const data = await AuthServices.register(name, email, password);
-    if (data) {
-      setUser(new UserObject(data.data));
+    const response = await AuthServices.register(name, email, password);
+    if (response.data) {
+      setUser(new UserObject(response.data));
       navigate("/create-applet");
     }
   };
