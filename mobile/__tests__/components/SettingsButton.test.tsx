@@ -9,6 +9,15 @@ jest.mock("@fortawesome/react-native-fontawesome", () => ({
 }));
 
 describe('SettingsButton component', () => {
+    it('renders correctly with given onPress', () => {
+      const onPressMock = jest.fn();
+      const { getByTestId } = render(
+        <SettingsButton onPress={onPressMock} />
+      );
+      const button = getByTestId('settings-button');
+      expect(getByTestId('settings-button')).toBeTruthy();
+    });
+
     it('renders correctly with given buttonColor and onPress', () => {
       const onPressMock = jest.fn();
       const { getByTestId } = render(
