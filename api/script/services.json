@@ -1,0 +1,316 @@
+{
+  "services": [
+    {
+      "name": "Discord",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "discord_queue",
+      "key": "discord",
+      "actions": [],
+      "reactions": [
+        {
+          "name": "Discord Message",
+          "description": "Send a message to a channel",
+          "key": "discord_message",
+          "is_available": 1,
+          "cmd": "send_message",
+          "config": [
+            {
+              "name": "Webhook URL",
+              "description": "Webhook URL",
+              "key": "webhook",
+              "type": "string"
+            },
+            {
+              "name": "Message",
+              "description": "Message to send",
+              "key": "message",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Timer",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "timer_queue",
+      "key": "timer",
+      "actions": [
+        {
+          "name": "At Date",
+          "description": "Trigger at a specific date",
+          "key": "at_date",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Date",
+              "description": "Date to trigger",
+              "key": "date",
+              "type": "date"
+            }
+          ]
+        },
+        {
+          "name": "At Cron",
+          "description": "Execute something from a specific date every delta time",
+          "key": "at_cron",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Date",
+              "description": "Time to start the cron",
+              "key": "last_exec",
+              "type": "date"
+            },
+            {
+              "name": "Delta",
+              "description": "Delta time between each execution",
+              "key": "delta",
+              "type": "number"
+            }
+          ]
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "name": "Github",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "github_queue",
+      "key": "github",
+      "actions": [
+        {
+          "name": "On New Repos",
+          "description": "Trigger when a new repository is created",
+          "key": "on_new_repos",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Username",
+              "description": "Username to get repos from",
+              "key": "username",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "On New SSH Key",
+          "description": "Trigger when a new SSH key is created",
+          "key": "on_new_ssh",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Username",
+              "description": "Username to get repos from",
+              "key": "username",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "On new branch",
+          "description": "Trigger when a new branch is created",
+          "key": "on_new_branch",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Owner",
+              "description": "Owner from the repo",
+              "key": "owner",
+              "type": "string"
+            },
+            {
+              "name": "Repos",
+              "description": "Repos name",
+              "key": "repos",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "On new pull request",
+          "description": "Trigger when a new pull request is created",
+          "key": "on_new_pull_request",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Owner",
+              "description": "Owner from the repo",
+              "key": "owner",
+              "type": "string"
+            },
+            {
+              "name": "Repos",
+              "description": "Repos name",
+              "key": "repos",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "On new Issue",
+          "description": "Trigger when a new issue is created",
+          "key": "on_new_issue",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Owner",
+              "description": "Owner from the repo",
+              "key": "owner",
+              "type": "string"
+            },
+            {
+              "name": "Repos",
+              "description": "Repos name",
+              "key": "repos",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "On new commit",
+          "description": "Trigger when a new commit is created",
+          "key": "on_new_commit",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Owner",
+              "description": "Owner from the repo",
+              "key": "owner",
+              "type": "string"
+            },
+            {
+              "name": "Repos",
+              "description": "Repos name",
+              "key": "repos",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Run Workflow",
+          "description": "Run a workflow",
+          "key": "re_run_workflow",
+          "is_available": 1,
+          "cmd": "re_run_workflow",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Owner",
+              "description": "The account owner of the repository. The name is not case sensitive.",
+              "key": "owner",
+              "type": "string"
+            },
+            {
+              "name": "Repos",
+              "description": "The name of the repository without the .git extension. The name is not case sensitive.",
+              "key": "repo",
+              "type": "string"
+            },
+            {
+              "name": "Run ID",
+              "description": "The unique identifier of the workflow run.",
+              "key": "run_id",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "Run failed Workflow",
+          "description": "Run a failed workflow",
+          "key": "re_run_failed_workflow",
+          "is_available": 1,
+          "cmd": "re_run_failed_workflow",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "github_oauth"
+            },
+            {
+              "name": "Owner",
+              "description": "The account owner of the repository. The name is not case sensitive.",
+              "key": "owner",
+              "type": "string"
+            },
+            {
+              "name": "Repos",
+              "description": "The name of the repository without the .git extension. The name is not case sensitive.",
+              "key": "repo",
+              "type": "string"
+            },
+            {
+              "name": "Run ID",
+              "description": "The unique identifier of the workflow run.",
+              "key": "run_id",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "News",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "news_queue",
+      "key": "news",
+      "actions": [
+        {
+          "name": "On new NYT article",
+          "description": "Trigger when a new article is published on NYT",
+          "key": "nyt_article",
+          "is_available": 1
+        }
+      ],
+      "reactions": []
+    }
+  ]
+}

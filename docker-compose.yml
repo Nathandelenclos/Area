@@ -11,7 +11,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     env_file:
-      - .env.docker
+      - .env
 
   mysql:
     image: mysql:latest
@@ -22,13 +22,12 @@ services:
     ports:
       - "3306:3306"
     env_file:
-      - .env.docker
+      - .env
     restart: always
 
   api:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
+    build: api
     container_name: api
     hostname: api
     volumes:
@@ -38,16 +37,14 @@ services:
     ports:
       - "${API_PORT}:${API_PORT}"
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
     restart: always
 
   auth:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: auth
     hostname: auth
     volumes:
@@ -55,16 +52,15 @@ services:
     environment:
       - MICROSERVICE=auth
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
     restart: always
 
   service:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: service
     hostname: service
     volumes:
@@ -72,16 +68,15 @@ services:
     environment:
       - MICROSERVICE=service
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
     restart: always
 
   applet:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: applet
     hostname: applet
     volumes:
@@ -89,16 +84,15 @@ services:
     environment:
       - MICROSERVICE=applet
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
     restart: always
 
   discord:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: discord
     hostname: discord
     volumes:
@@ -106,16 +100,15 @@ services:
     environment:
       - MICROSERVICE=discord
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
     restart: always
 
   spotify:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: spotify
     hostname: spotify
     volumes:
@@ -123,16 +116,15 @@ services:
     environment:
       - MICROSERVICE=spotify
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
     restart: always
 
   news:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: news
     hostname: news
     volumes:
@@ -140,16 +132,15 @@ services:
     environment:
       - MICROSERVICE=news
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
     restart: always
 
   timer:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: timer
     hostname: timer
     volumes:
@@ -157,14 +148,31 @@ services:
     environment:
       - MICROSERVICE=timer
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
+    restart: always
+
+  github:
+    image: area_app:latest
+    container_name: github
+    hostname: github
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=github
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
     restart: always
 
   queue:
-    image: node:18
+    image: node:lts-alpine
     container_name: queue
     hostname: queue
     user: "node"
@@ -174,24 +182,22 @@ services:
     volumes:
       - ./api/:/home/node/app
     env_file:
-      - .env.docker
+      - .env
     command: "npx ts-node --project tsconfig.json ./script/cron.ts"
     depends_on:
       - mysql
       - rabbitmq
     restart: always
 
-  front:
-    build:
-      context: web
-      dockerfile: Dockerfile
-    container_name: front
-    hostname: front
-    env_file:
-      - .env.docker
+  web:
+    build: web
+    container_name: web
+    hostname: web
+    volumes:
+      - shared-folder:/usr/share/nginx/html/build
     ports:
-      - "${FRONT_PORT}:${FRONT_PORT}"
-    depends_on:
-      - mysql
-      - rabbitmq
-      - api
+      - "${FRONT_PORT}:80"
+    restart: always
+
+volumes:
+  shared-folder:

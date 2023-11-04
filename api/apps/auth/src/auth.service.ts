@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AES, MD5, enc } from 'crypto-js';
+import { AES, MD5 } from 'crypto-js';
 import {
   OauthEntity,
   OAuthRelations,

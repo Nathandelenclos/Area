@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { ActionEntity } from '@app/common/actions/action.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { NewAction } from '@app/common/actions/action.dto';
 import { AppletRequiredConfigService } from '@app/common/applets/required_configuration/applet.required.config.service';
 
 export enum ActionRelations {
@@ -12,6 +11,7 @@ export enum ActionRelations {
   APPLET = 'applets.applet',
   CONFIGS = 'applets.configs',
   USER = 'applets.applet.user',
+  USER_OAUTH = 'applets.applet.user.oauth',
   REACTION_SERVICE = 'applets.applet.reactions.reaction.service',
   ACTION_SERVICE = 'applets.applet.actions.action.service',
   ACTION_CONFIG = 'config',

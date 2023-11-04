@@ -1,5 +1,6 @@
 import { createConnection, ResultSetHeader } from 'mysql2';
 import * as process from 'process';
+import servicesJson from './services.json';
 
 const connection = createConnection({
   host: 'localhost',
@@ -48,100 +49,7 @@ interface Service {
   reactions: Reaction[];
 }
 
-const services: Service[] = [
-  {
-    name: 'Discord',
-    url: '',
-    is_available: 1,
-    rmq_queue: 'discord_queue',
-    key: 'discord',
-    actions: [],
-    reactions: [
-      {
-        name: 'Discord Message',
-        description: 'Send a message to a channel',
-        key: 'discord_message',
-        is_available: 1,
-        cmd: 'send_message',
-        config: [
-          {
-            name: 'Webhook URL',
-            description: 'Webhook URL',
-            key: 'webhook',
-            type: 'string',
-          },
-          {
-            name: 'Message',
-            description: 'Message to send',
-            key: 'message',
-            type: 'string',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: 'Timer',
-    url: '',
-    is_available: 1,
-    rmq_queue: 'timer_queue',
-    key: 'timer',
-    actions: [
-      {
-        name: 'At Date',
-        description: 'Trigger at a specific date',
-        key: 'at_date',
-        is_available: 1,
-        config: [
-          {
-            name: 'Date',
-            description: 'Date to trigger',
-            key: 'date',
-            type: 'date',
-          },
-        ],
-      },
-      {
-        name: 'At Cron',
-        description: 'Execute something from a specific date every delta time',
-        key: 'at_cron',
-        is_available: 1,
-        config: [
-          {
-            name: 'Date',
-            description: 'Time to start the cron',
-            key: 'last_exec',
-            type: 'date',
-          },
-          {
-            name: 'Delta',
-            description: 'Delta time between each execution',
-            key: 'delta',
-            type: 'number',
-          },
-        ],
-      },
-    ],
-    reactions: [],
-  },
-  {
-    name: 'News',
-    url: '',
-    is_available: 1,
-    rmq_queue: 'news_queue',
-    key: 'news',
-    actions: [
-      {
-        name: 'On new NYT article',
-        description: 'Trigger when a new article is published on NYT',
-        key: 'nyt_article',
-        is_available: 1,
-      },
-    ],
-    reactions: [],
-  },
-];
-
+const services = servicesJson.services as unknown as Service[];
 function execute(table: string, data: any): Promise<ResultSetHeader> {
   return new Promise((resolve, reject) => {
     const request = `INSERT INTO ${table} (\`${Object.keys(data).join(

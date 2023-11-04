@@ -12,6 +12,7 @@ class MicroServiceProxy {
     TIMER_SERVICE: 'timer_queue',
     APPLET_SERVICE: 'applet_queue',
     NEWS_SERVICE: 'news_queue',
+    GITHUB_SERVICE: 'github_queue',
   };
 
   /**

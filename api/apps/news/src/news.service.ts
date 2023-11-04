@@ -3,9 +3,11 @@ import {
   ActionAppletEntity,
   ActionRelations,
   ActionService,
+  AppletConfigService,
 } from '@app/common';
+import { ConfigService } from '@nestjs/config';
+import MicroServiceUtils from '@app/common/micro.service.utils';
 
-const i = 0;
 const data = {
   status: 'OK',
   copyright:
@@ -542,30 +544,40 @@ const data = {
   ],
 };
 
+// TODO: Je fou ca ou ?
 const NYT_URL =
   'https://api.nytimes.com/svc/news/v3/content/all/all.json?api-key=4fV2CtujvTrqTg6FibLdJDLcmzJt8dT0';
 
-const lastArticleUpdatedDate: string | null = null;
-
 @Injectable()
 export class NewsService {
-  constructor(private readonly actionService: ActionService) {}
-
-  getConfigs(actionApplet: ActionAppletEntity, keys: string[]): any {
-    const configs = {};
-    for (const key of keys) {
-      const config = actionApplet.configs.find((e) => e.key === key);
-      if (!config) continue;
-      configs[key] = config;
-    }
-    return configs;
-  }
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly actionService: ActionService,
+    private readonly appletConfigService: AppletConfigService,
+  ) {}
 
   async cron(): Promise<void> {
     this.onNewNYTArticle();
   }
 
+  /**
+   * Triggered when a new article is published on the New York Times
+   */
   async onNewNYTArticle(): Promise<void> {
+    // TODO: UNCOMMENT
+    /*
+    const response = await fetch(NYT_URL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+     */
+    const articleUpdatedDate: string | null =
+      data.results[0]?.updated_date || null;
+    if (!articleUpdatedDate) return;
+
     const action = await this.actionService.findOne(
       {
         key: 'nyt_article',
@@ -584,23 +596,35 @@ export class NewsService {
     if (!action || !action.is_available) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
+
+      const { lastArticleUpdatedDate } = MicroServiceUtils.getConfigs(
+        actionApplet,
+        ['lastArticleUpdatedDate'],
+      );
+
+      if (!lastArticleUpdatedDate) {
+        await this.appletConfigService.create(actionApplet.id, 'actionApplet', {
+          value: articleUpdatedDate,
+          key: 'lastArticleUpdatedDate',
+        });
+        continue;
+      }
+
+      const articleUpdatedDateValue = new Date(articleUpdatedDate);
+      const lastArticleUpdatedDateValue = new Date(
+        lastArticleUpdatedDate.value,
+      );
+      if (!articleUpdatedDateValue || !lastArticleUpdatedDateValue) continue;
+
+      if (articleUpdatedDateValue > lastArticleUpdatedDateValue) {
+        await this.appletConfigService.update(lastArticleUpdatedDate.id, {
+          value: articleUpdatedDate,
+        });
+        MicroServiceUtils.callReactions(
+          this.configService,
+          actionApplet.applet.reactions,
+        );
+      }
     }
-    console.log(action);
-
-    /*
-    const response = await fetch(NYT_URL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await response.json();
-    i++;
-
-    console.log(
-      'New NYT article',
-      data.results.map((r) => r.updated_date),
-    );
-     */
   }
 }

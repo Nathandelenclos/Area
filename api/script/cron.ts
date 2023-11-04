@@ -24,7 +24,8 @@ type Queue =
   | 'youtube_queue'
   | 'google_drive_queue'
   | 'timer_queue'
-  | 'news_queue';
+  | 'news_queue'
+  | 'github_queue';
 type QueueDefinition = {
   name: Queue;
   channel?: Channel;
@@ -42,6 +43,7 @@ const QUEUES: QueueDefinition[] = [
   { name: 'google_drive_queue', cmd: 'cron' },
   { name: 'timer_queue', cmd: 'cron' },
   { name: 'news_queue', cmd: 'cron' }, // interval: EVERY_HOUR / 4
+  { name: 'github_queue', cmd: 'cron' },
 ];
 
 /**

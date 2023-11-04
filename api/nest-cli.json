@@ -90,6 +90,24 @@
       "compilerOptions": {
         "tsConfigPath": "apps/news/tsconfig.app.json"
       }
+    },
+    "github": {
+      "type": "application",
+      "root": "apps/github",
+      "entryFile": "main",
+      "sourceRoot": "apps/github/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/github/tsconfig.app.json"
+      }
+    },
+    "slack": {
+      "type": "application",
+      "root": "apps/slack",
+      "entryFile": "main",
+      "sourceRoot": "apps/slack/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/slack/tsconfig.app.json"
+      }
     }
   }
 }

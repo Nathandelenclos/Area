@@ -14,6 +14,8 @@ export enum AppletRelations {
   ACTION_SERVICE = 'actions.action.service',
   ACTION_CONFIG = 'actions.action.config',
   REACTION_CONFIG = 'reactions.reaction.config',
+  REACTION_CONFIGS = 'reactions.configs',
+  ACTION_CONFIGS = 'actions.configs',
 }
 
 @Injectable()
@@ -111,7 +113,6 @@ export class AppletService {
       where: { id },
     });
     if (!applet) throw new Error('Applet not found');
-
-    return this.appletRepository.update(id, data);
+    return this.appletRepository.update({ id }, data);
   }
 }
