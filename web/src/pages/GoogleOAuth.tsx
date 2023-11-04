@@ -27,14 +27,14 @@ async function test(
   });
 
   const respBody = await resp.json();
-  // console.log(respBody);
+  console.log(respBody);
 
   if (respBody.access_token) {
     const response = await fetch(
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${respBody.access_token}`,
     );
     const email = await response.json();
-    // console.log("email: ", email);
+    console.log("email: ", email);
   }
 }
 

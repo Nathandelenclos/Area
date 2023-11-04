@@ -77,8 +77,8 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({
             }),
           );
         }
-        setLoading(false);
       }
+      setLoading(false);
     })();
   }, []);
 
