@@ -10,6 +10,7 @@ import AppletBox from '@components/AppletsHandlers/draw.appplets.card';
 import NewActionOrReaction from '@components/AppletsHandlers/applet.plus';
 import LoadingScreen from '@components/loading.screen';
 import AppletHandlerHeader from '@components/AppletsHandlers/applets.header';
+import ColorModale from '@components/ColorModalPicker';
 
 export default function CreateApplet({
   navigation,
@@ -30,6 +31,12 @@ export default function CreateApplet({
   >(route.params.type);
   const [canSave, setCanSave] = React.useState<boolean>(false);
   const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
+  const [currentColor, setCurrentColor] = React.useState<string>(
+    color.mainColor,
+  );
+  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
+
+  console.log('modalVisible', modalVisible);
 
   useEffect(() => {
     if (
@@ -47,7 +54,6 @@ export default function CreateApplet({
   async function loadInformations() {
     const resp = await appletService.getApplet(user.token, route.params.id);
     if (!resp.data) return;
-    console.log(JSON.stringify(resp.data, null, 2));
     setActions(resp.data.actions);
     setReactions(resp.data.reactions);
     setAppletName(resp.data.name);
@@ -72,7 +78,6 @@ export default function CreateApplet({
     }
     const list = area?.action ? actions : reactions;
     if (!area) {
-      console.error('area is null');
       return;
     }
     func((prev: IAction[] | IReaction[]) => {
@@ -193,10 +198,16 @@ export default function CreateApplet({
     navigation.pop();
   };
 
+  const handleTrashPress = () => {
+    appletService.deleteApplet(user.token, route.params.id);
+    navigation.pop();
+  };
+
   if (!isLoaded) {
     return (
-      <ViewContainer>
+      <ViewContainer background={currentColor}>
         <AppletHandlerHeader
+          backgroundColor={currentColor}
           title={translate('create_applet_title')}
           navigation={navigation}
           hideInput={true}
@@ -208,17 +219,27 @@ export default function CreateApplet({
   }
 
   return (
-    <ViewContainer>
+    <ViewContainer background={currentColor}>
+      <ColorModale
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        currentColor={currentColor}
+        setCurrentColor={setCurrentColor}
+      />
       <AppletHandlerHeader
+        backgroundColor={currentColor}
         hideInput={edition === 'information'}
         title={translate('create_applet_title')}
         navigation={navigation}
         string={appletName}
         setString={setAppletName}
+        pipetPress={
+          edition !== 'information' ? () => setModalVisible(true) : null
+        }
         onBackPress={
           edition === 'edition' ? () => setEdition('information') : null
         }
-        onTrashPress={edition === 'edition' ? () => console.log('trash') : null}
+        onTrashPress={edition === 'edition' ? () => handleTrashPress() : null}
         onEditPress={
           edition === 'information' ? () => setEdition('edition') : null
         }

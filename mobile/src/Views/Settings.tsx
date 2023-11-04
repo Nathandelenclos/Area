@@ -8,52 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import urlServiceTs from '@services/url.service.ts';
 import UserCtx from '@contexts/user.context';
 import { AVAILABLE_LANGUAGE } from '@contexts/language.keys';
-
-type LanguageDropdownProps = {
-  elements: ItemType<string>[];
-  currentValue: string;
-  setCurrentValue: React.Dispatch<React.SetStateAction<string>>;
-};
-
-function LanguageDropdown({
-  elements,
-  currentValue,
-  setCurrentValue,
-}: LanguageDropdownProps): React.JSX.Element {
-  const { color } = AppContext();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  return (
-    <DropDownPicker
-      items={elements}
-      open={isOpen}
-      setOpen={() => setIsOpen(!isOpen)}
-      value={currentValue}
-      setValue={(val) => setCurrentValue(val)}
-      textStyle={{
-        color: color.text,
-        fontWeight: 'bold',
-        fontSize: 18,
-      }}
-      style={{
-        backgroundColor: color.background,
-        borderRadius: 5,
-      }}
-      dropDownContainerStyle={{
-        backgroundColor: color.background,
-      }}
-      ArrowUpIconComponent={({ style }) => (
-        <FontAwesomeIcon icon={'chevron-up'} size={25} color={color.text} />
-      )}
-      ArrowDownIconComponent={({ style }) => (
-        <FontAwesomeIcon icon={'chevron-down'} size={25} color={color.text} />
-      )}
-      TickIconComponent={({ style }) => (
-        <FontAwesomeIcon icon={'check'} size={25} color={color.text} />
-      )}
-    />
-  );
-}
+import Dropdown from '@components/DropDown';
 
 type SettingsModdifierProps = {
   title: string;
@@ -174,7 +129,7 @@ export default function Settings({
           <SettingsModdifier
             title={translate('modify_app_language')}
             element={
-              <LanguageDropdown
+              <Dropdown
                 elements={AVAILABLE_LANGUAGE}
                 currentValue={currentValue}
                 setCurrentValue={setCurrentValue}
