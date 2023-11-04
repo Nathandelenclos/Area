@@ -18,7 +18,6 @@ export default function ConfigureApplet() {
 
   async function getActionConfig() {
     const response = await AreaService.getAreaOfServiceById(
-      user.getAccessToken(),
       applet.selectedServiceAction,
       "actions",
     );
@@ -32,7 +31,6 @@ export default function ConfigureApplet() {
 
   async function getReactionConfig() {
     const response = await AreaService.getAreaOfServiceById(
-      user.getAccessToken(),
       applet.selectedServiceReaction,
       "reactions",
     );
