@@ -16,6 +16,7 @@ export default function SettingsButton({
     <TouchableOpacity
       style={{ position: 'absolute', top: 5, right: 20 }}
       onPress={onPress}
+      testID="settings-button"
     >
       <FontAwesomeIcon
         icon={'gear'}

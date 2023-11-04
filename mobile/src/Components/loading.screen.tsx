@@ -20,7 +20,7 @@ export default function LoadingScreen({
         ...(style || {}),
       }}
     >
-      <ActivityIndicator size="large" color={color.mainColor} />
+      <ActivityIndicator size="large" color={color.mainColor} testID="activity-indicator" />
     </View>
   );
 }
