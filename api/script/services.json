@@ -313,6 +313,44 @@
       "reactions": []
     },
     {
+      "name": "Weather",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "weather_queue",
+      "key": "weather",
+      "actions": [
+        {
+          "name": "On Rain",
+          "description": "Trigger when it's raining",
+          "key": "on_rain",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "City name",
+              "description": "City to check",
+              "key": "city",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "On Sun",
+          "description": "Trigger when it's sunny",
+          "key": "on_sun",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "City name",
+              "description": "City to check",
+              "key": "city",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "reactions": []
+    },
+    {
       "name": "Slack",
       "url": "",
       "is_available": 1,

@@ -18,7 +18,7 @@ export class NewsService {
   NYT_API_KEY = this.configService.get('NYT_API_KEY');
   NYT_URL = `https://api.nytimes.com/svc/news/v3/content/all/all.json?api-key=${this.NYT_API_KEY}`;
 
-  async cron(): Promise<void> {
+  cron(): void {
     this.onNewNYTArticle();
   }
 
