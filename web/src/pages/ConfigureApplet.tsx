@@ -6,6 +6,16 @@ import ConfigureAppletField from "@src/components/ConfigureInputField";
 import ConfigureAppletDate from "@src/components/ConfigureInputDate";
 import ConfigureAppletNumber from "@src/components/ConfigureInputNumber";
 
+/**
+ * ConfigureApplet page displays the configure applet page.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <ConfigureApplet />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function ConfigureApplet() {
   const { translate } = AppContext();
   return (

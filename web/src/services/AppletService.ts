@@ -5,6 +5,10 @@ import {
   NewAppletRequest,
 } from "@src/objects/AppletObject";
 
+/**
+ * AppletService
+ * @description AppletService is the service that is used to call the API
+ */
 export default class AppletService {
   static create(applet: NewAppletRequest, authToken: string) {
     console.log("authToken", authToken);
@@ -17,6 +21,11 @@ export default class AppletService {
     });
   }
 
+  /**
+   * Get all applets
+   * @param authToken - The auth token to use
+   * @returns - The applets
+   */
   static async getApplets(authToken: string) {
     const applets: any = (
       await ApiInvoke({
@@ -31,6 +40,12 @@ export default class AppletService {
     );
   }
 
+  /**
+   * Delete an applet
+   * @param id - The applet id
+   * @param authToken - The auth token to use
+   * @returns - The applet
+   */
   static delete(id: number, authToken: string) {
     return ApiInvoke({
       endpoint: `/applets/${id}`,
@@ -40,6 +55,12 @@ export default class AppletService {
     });
   }
 
+  /**
+   * Get an applet by id
+   * @param id - The applet id
+   * @param authToken - The auth token to use
+   * @returns - The applet
+   */
   static getAppletById(id: number, authToken: string) {
     return ApiInvoke({
       endpoint: `/applets/${id}`,

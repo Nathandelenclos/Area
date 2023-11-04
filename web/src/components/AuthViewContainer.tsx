@@ -1,11 +1,41 @@
 import background from "@assets/vectorBackground.jpg";
 import React from "react";
 
+/**
+ * Props for the AuthViewContainer component.
+ * @interface AuthViewContainerProps
+ */
 type AuthViewContainerProps = {
+  /**
+   * The title of the container.
+   */
   ContainerTitle: string;
+  /**
+   * The children of the container.
+   */
   children: React.ReactNode;
 };
 
+/**
+ * AuthViewContainer component displays the container for the login and register pages.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <AuthViewContainer
+ *   ContainerTitle="Login"
+ * >
+ *   <AuthInput
+ *     type="password"
+ *     placeholder="Password"
+ *     value={password}
+ *     setValue={setPassword}
+ *   />
+ * </AuthViewContainer>
+ *
+ * @param {AuthViewContainerProps} props - The properties of the component.
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function AuthViewContainer({
   ContainerTitle,
   children,

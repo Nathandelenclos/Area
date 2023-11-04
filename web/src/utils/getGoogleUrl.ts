@@ -1,3 +1,8 @@
+/**
+ * Get the Google OAuth URL
+ * @param from - The url to redirect the user to after the login
+ * @returns - The google url
+ */
 export const getGoogleUrl = (from: string) => {
   const rootUrl = `https://accounts.google.com/o/oauth2/v2/auth`;
 

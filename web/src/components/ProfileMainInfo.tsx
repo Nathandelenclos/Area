@@ -2,15 +2,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AppContext from "@src/context/AppContextProvider";
 import { useState } from "react";
 
+/**
+ * ProfileMainInfo component displays the main information of the user.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <ProfileMainInfo />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function ProfileMainInfo() {
   const { translate } = AppContext();
   const [password, setPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
 
+  /**
+   * Set a new password when the user enters one.
+   * @param str The new password to set.
+   */
   const handleInputChange = (str: string) => {
     setNewPassword(str);
   };
 
+  /**
+   * Handles when the user clicks on the done button.
+   * @param str The new password to set.
+   */
   const handleCheckClick = (str: string) => {
     console.log("New password:", str);
     setNewPassword("");

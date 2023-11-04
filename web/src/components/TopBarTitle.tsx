@@ -3,9 +3,20 @@ import { UserObject, UserObjectDto } from "@src/objects/UserObject";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * TopBarTitle component displays the title of the top bar.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <TopBarTitle />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function TopBarTitle() {
   const { translate, setUser } = AppContext();
   const navigate = useNavigate();
+
   return (
     <div className="flex flex-row items-center justify-between w-10/12 px-5">
       <h1 className="text-4xl font-bold min-w-fit mr-10">

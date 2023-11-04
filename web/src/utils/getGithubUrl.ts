@@ -1,3 +1,8 @@
+/**
+ * Get the github url to redirect the user to
+ * @param from - The url to redirect the user to after the login
+ * @returns - The github url
+ */
 export const getGithubUrl = (from: string) => {
   const rootURl = "https://github.com/login/oauth/authorize";
 

@@ -16,6 +16,13 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Register a new user
+   * @param name
+   * @param email
+   * @param provider
+   * @param token
+   */
   static registerOAuth(
     name: string,
     email: string,
@@ -30,6 +37,11 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Login a user
+   * @param email
+   * @param password
+   */
   static login(email: string, password: string) {
     return ApiInvoke({
       endpoint: `/auth/signin`,
@@ -39,6 +51,12 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Login a user
+   * @param email
+   * @param provider
+   * @param token
+   */
   static loginOAuth(email: string, provider: string, token: string) {
     return ApiInvoke({
       endpoint: `/auth/signin-oauth`,
@@ -48,6 +66,9 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Store the token in the local storage
+   */
   static storeToken(token: string) {
     localStorage.setItem("accessToken", token);
   }

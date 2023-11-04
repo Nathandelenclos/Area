@@ -8,7 +8,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
@@ -53,6 +53,20 @@
     "@types/react-burger-menu": "^2.8.5",
     "eslint": "^8.49.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.7.0",
     "prettier": "3.0.3"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "@src/(.*)": "<rootDir>/src/$1",
+      "@pages/(.*)": "<rootDir>/src/pages/$1",
+      "@components/(.*)": "<rootDir>/src/components/$1",
+      "@styles/(.*)": "<rootDir>/src/styles/$1",
+      "@utils/(.*)": "<rootDir>/src/utils/$1",
+      "@interfaces/(.*)": "<rootDir>/src/hooks/$1",
+      "@services/(.*)": "<rootDir>/src/services/$1",
+      "@assets/(.*)": "<rootDir>/src/assets/$1",
+      "@lang/(.*)": "<rootDir>/src/lang/$1"
+    }
   }
 }

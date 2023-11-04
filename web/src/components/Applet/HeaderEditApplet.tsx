@@ -10,16 +10,41 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { AppletObject } from "@src/objects/AppletObject";
 
+/**
+ * Props for the HeaderEditApplet component.
+ * @interface HeaderEditAppletProps
+ */
 export type HeaderEditAppletProps = {
+  /**
+   * The applet object containing information to be displayed in the header.
+   */
   applet: AppletObject;
 };
 
+/**
+ * Represents an action icon with its associated ID, FontAwesome icon, and onPress function.
+ * @interface ActionIcon
+ */
 type ActionIcon = {
+  /**
+   * Unique identifier for the action icon.
+   */
   id: number;
+  /**
+   * FontAwesome icon definition.
+   */
   icon: IconDefinition;
+  /**
+   * Function to be executed when the action icon is clicked.
+   */
   onPress: () => void;
 };
 
+/**
+ * Array of action icons to be displayed in the header.
+ * @constant
+ * @type {ActionIcon[]}
+ */
 const actionIcons: ActionIcon[] = [
   {
     id: 1,
@@ -48,6 +73,17 @@ const actionIcons: ActionIcon[] = [
   },
 ];
 
+/**
+ * HeaderEditApplet is a component that displays the header of an editable applet.
+ *
+ * @component
+ * @example
+ * // Example usage of HeaderEditApplet component
+ * <HeaderEditApplet applet={appletData} />
+ *
+ * @param {HeaderEditAppletProps} props - The props for the HeaderEditApplet component.
+ * @returns {JSX.Element} - Returns the rendered HeaderEditApplet component.
+ */
 export default function HeaderEditApplet({ applet }: HeaderEditAppletProps) {
   return (
     <div

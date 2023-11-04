@@ -9,6 +9,16 @@ import { useNavigate } from "react-router-dom";
 import AppletService from "@services/AppletService";
 import Footer from "@src/components/Footer";
 
+/**
+ * MyApplet page displays the my applet view.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <MyApplet />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function MyApplet() {
   const { translate, user } = AppContext();
   const navigate = useNavigate();
@@ -17,17 +27,26 @@ export default function MyApplet() {
   );
   const [applets, setApplets] = useState<AppletObject[]>([]);
 
+  /**
+   * Check if the user is already logged in.
+   */
   useEffect(() => {
     if (!user.getAccessToken()) return;
     getMyApplets();
   }, [user]);
 
+  /**
+   * Get the applets from the API.
+   */
   const getMyApplets = async () => {
     const applets = await AppletService.getApplets(user.getAccessToken());
     console.log(applets);
     // setApplets(applets);
   };
 
+  /**
+   * Execute the function when an applet is clicked.
+   */
   function onAppletClick(applet: AppletObject) {
     setSelectedApplet(applet.id === selectedApplet?.id ? null : applet);
   }

@@ -1,21 +1,55 @@
 import { API_URL } from "@src/Constants";
 import defaultApiHandler from "@services/api/api.handlers";
 
+/**
+ * IApiInvokeProps
+ * @description IApiInvokeProps is the interface for the ApiInvoke function
+ */
 type IApiInvokeProps = {
+  /**
+   * The endpoint to call
+   */
   endpoint: string;
+  /**
+   * The HTTP method to use
+   */
   method: string;
+  /**
+   * The expected status code
+   */
   expectedStatus: number;
-
+  /**
+   * The body of the request
+   */
   body?: any;
+  /**
+   * The auth token to use
+   */
   authToken?: string;
+  /**
+   * Custom handlers for non-successful responses
+   */
   handlers?: any;
 };
 
+/**
+ * IApiInvokeResponse
+ * @description IApiInvokeResponse is the interface for the ApiInvoke response
+ */
 export type IApiInvokeResponse = {
+  /**
+   * The status code of the response
+   */
   status: number;
+  /**
+   * The data of the response
+   */
   data: any;
 };
 
+/**
+ * Methods to call the API
+ */
 const methods: any = {
   GET: ApiGet,
   POST: ApiPost,
@@ -68,8 +102,18 @@ export async function ApiInvoke({
   return handledResponse;
 }
 
+/**
+ * ApiGetProps
+ * @description ApiGetProps is the interface for the ApiGet function
+ */
 type ApiGetProps = {
+  /**
+   * The endpoint to call
+   */
   endpoint: string;
+  /**
+   * The auth token to use
+   */
   authToken?: string;
 };
 
@@ -89,9 +133,22 @@ function ApiGet(props: ApiGetProps): Promise<Response> {
   });
 }
 
+/**
+ * ApiPostProps
+ * @description ApiPostProps is the interface for the ApiPost function
+ */
 type ApiPostProps = {
+  /**
+   * The endpoint to call
+   */
   endpoint: string;
+  /**
+   * The body of the request
+   */
   body: any;
+  /**
+   * The auth token to use
+   */
   authToken?: string;
 };
 

@@ -14,6 +14,9 @@ config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatic
 
 library.add(fab, far, fas);
 
+/**
+ * Root of the app.
+ */
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );

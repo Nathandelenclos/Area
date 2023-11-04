@@ -2,10 +2,32 @@ import React from "react";
 import MainButton from "@components/MainButton";
 import AppContext from "@src/context/AppContextProvider";
 
+/**
+ * Props for the RecoverPasswordMainComponent component.
+ * @interface RecoverPasswordMainComponentProps
+ */
 type RecoverPasswordMainComponentProps = {
+  /**
+   * Function that is executed when user wants to recover his password
+   * @returns void
+   */
   recover?: () => void;
 };
 
+/**
+ * RecoverPasswordMainComponent component displays the recover password main component.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <RecoverPasswordMainComponent
+ *  recover={
+ *    console.log("Recover password");
+ *  }
+ * />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function RecoverPasswordMainComponent({
   recover = () => {
     console.log("Recover");

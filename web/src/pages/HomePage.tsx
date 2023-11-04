@@ -4,6 +4,16 @@ import AppContext from "@src/context/AppContextProvider";
 import HomePageButton from "@src/components/HomePageButtons";
 import Footer from "@src/components/Footer";
 
+/**
+ * HomePage page displays the home page.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <HomePage />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function HomePage() {
   const { translate } = AppContext();
   return (

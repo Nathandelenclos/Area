@@ -1,3 +1,7 @@
+/**
+ * Returns the Spotify login URL
+ * @returns {string} The Spotify login URL
+ */
 export const getSpotifyUrl = () => {
   const authEndpoint = "https://accounts.spotify.com/authorize";
 

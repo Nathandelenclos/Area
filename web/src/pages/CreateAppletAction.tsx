@@ -10,6 +10,16 @@ import AreaService from "@services/AreaService";
 import { ServiceObject, ServiceObjectDto } from "@src/objects/ServiceObject";
 import Footer from "@src/components/Footer";
 
+/**
+ * CreateAppletAction page displays the create applet action view.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <CreateAppletAction />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function CreateAppletAction() {
   const { translate, user } = AppContext();
   const navigate = useNavigate();
@@ -21,11 +31,17 @@ export default function CreateAppletAction() {
     useState<number>(0);
   const [selectedReaction, setSelectedReaction] = useState<number>(0);
 
+  /**
+   * Check if the user is already logged in.
+   */
   useEffect(() => {
     if (!user.getAccessToken()) return;
     getServices();
   }, [user]);
 
+  /**
+   * Get the services from the API.
+   */
   const getServices = async () => {
     const response = await AreaService.getServices(user.getAccessToken());
     if (!response.data) return;
@@ -37,6 +53,9 @@ export default function CreateAppletAction() {
     setServices(serviceObjects);
   };
 
+  /**
+   * Execute the function when an applet is created.
+   */
   const onAppletCreation = async () => {
     // if (
     //   appletName.length === 0 ||
@@ -65,18 +84,34 @@ export default function CreateAppletAction() {
     // toast("Applet created", { type: "success" });
   };
 
+  /**
+   * Execute the function when a service is clicked on.
+   * @param id - Id of the service clicked on.
+   */
   const onServiceActionClick = (id: number) => {
     setSelectedServiceAction(id);
   };
 
+  /**
+   * Execute the function when an action is clicked on.
+   * @param id - Id of the action clicked on.
+   */
   const onActionClick = (id: number) => {
     setSelectedAction(id);
   };
 
+  /**
+   * Execute the function when a service is clicked on.
+   * @param id - Id of the service clicked on.
+   */
   const onServiceReactionClick = (id: number) => {
     setSelectedServiceReaction(id);
   };
 
+  /**
+   * Execute the function when a reaction is clicked on.
+   * @param id - Id of the reaction clicked on.
+   */
   const onReactionClick = (id: number) => {
     setSelectedReaction(id);
   };

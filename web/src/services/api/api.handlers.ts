@@ -1,5 +1,9 @@
 import { toast } from "react-toastify";
 
+/**
+ * Default API handlers
+ * @description Default API handlers
+ */
 const defaultApiHandler = {
   400: (data: any) => {
     console.log("[API INVOKE]: 400: ", data?.detail);

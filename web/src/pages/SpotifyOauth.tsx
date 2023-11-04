@@ -2,6 +2,11 @@ import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Get the authorization code from the URL.
+ *
+ * @returns {string} Authorization code.
+ */
 export const getTokenFromUrl = () => {
   return window.location.hash
     .substring(1)
@@ -13,9 +18,24 @@ export const getTokenFromUrl = () => {
     }, {});
 };
 
+/**
+ * LoginUserSpotify page takes care of sending the user on the right page when logging in with spotify.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <LoginUserSpotify />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export const LoginUserSpotify = () => {
   const navigate = useNavigate();
 
+  /**
+   * Get the authorization code from the url.
+   * Send the authorization code to the backend.
+   * If the authorization code is valid, redirect the user to the home page.
+   */
   useEffect(() => {
     console.log(getTokenFromUrl());
 

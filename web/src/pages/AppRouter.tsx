@@ -4,11 +4,25 @@ import React, { useEffect } from "react";
 import AppContext from "@src/context/AppContextProvider";
 import { toast } from "react-toastify";
 
+/**
+ * AppRouter that manages the routes of the application.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <AppRouter />
+ *
+ * @returns {JSX.Element} Component.
+ */
 export default function AppRouter() {
   const { user } = AppContext();
   const location = useLocation();
   const navigate = useNavigate();
 
+  /**
+   * Check if the user is already logged in.
+   * If the user is already logged in, redirect him to the welcome page.
+   */
   useEffect(() => {
     const currentRoute = routes.find(
       (route) => route.path === location.pathname,

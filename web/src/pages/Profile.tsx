@@ -8,8 +8,18 @@ import { IconName } from "@fortawesome/free-solid-svg-icons";
 import TopBarTitleSmaller from "@src/components/TopBarTitleSmaller";
 import Footer from "@src/components/Footer";
 
+/**
+ * Type for the list of services.
+ * @interface listType
+ */
 type listType = {
+  /**
+   * Logo of the service.
+   */
   logo: IconName;
+  /**
+   * Color of the button.
+   */
   color: string;
 };
 
@@ -33,6 +43,16 @@ const otherServicesList: listType[] = [
   { logo: "spotify", color: "#000000" },
 ];
 
+/**
+ * Profile page displays the profile view.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <Profile />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function Profile() {
   const { translate } = AppContext();
 

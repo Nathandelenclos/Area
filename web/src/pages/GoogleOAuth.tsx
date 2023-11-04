@@ -2,6 +2,14 @@ import LoadingElement from "@src/components/LoadingElement";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Takes care of the OAuth2 flow.
+ * @param {string} authorizationCode - Authorization code.
+ * @param {string} yourClientId - Client id.
+ * @param {string} yourClientSecret - Client secret.
+ * @param {string} yourRedirectUri - Redirect uri.
+ * @returns {Promise<void>} Nothing.
+*/
 async function test(
   authorizationCode: string,
   yourClientId: string,
@@ -38,6 +46,16 @@ async function test(
   }
 }
 
+/**
+ * GoogleOAuth page takes care of sending the user on the right page when logging in with google.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <GoogleOAuth />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function GoogleOAuth() {
   const queryToObject = (query: any) => {
     const parameters = new URLSearchParams(query);
@@ -46,6 +64,11 @@ export default function GoogleOAuth() {
 
   const navigate = useNavigate();
 
+  /**
+   * Get the authorization code from the url.
+   * Send the authorization code to the backend.
+   * If the authorization code is valid, redirect the user to the home page.
+   */
   useEffect(() => {
     const payload = queryToObject(window.location.search.split("?")[1]);
     const state = payload && payload.state;

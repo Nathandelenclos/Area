@@ -2,6 +2,11 @@ import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Get the access token from the URL.
+ *
+ * @returns {string} Access token.
+ */
 function getAccessTokenFromURL() {
   const urlParams = new URLSearchParams(window.location.href.substring(1));
   console.log(urlParams);
@@ -9,13 +14,24 @@ function getAccessTokenFromURL() {
   return accessToken;
 }
 
-// Example usage:
-const accessToken = getAccessTokenFromURL();
-console.log("Access Token:", accessToken);
-
+/**
+ * LoginUserFacebook page takes care of sending the user on the right page when logging in with facebook.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <LoginUserFacebook />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export const LoginUserFacebook = () => {
   const navigate = useNavigate();
 
+  /**
+   * Get the token from the url.
+   * Send the access token to the backend.
+   * If the access token is valid, redirect the user to the home page.
+   */
   useEffect(() => {
     console.log(getAccessTokenFromURL());
     setTimeout(() => {
