@@ -35,7 +35,6 @@ import {
     ActionModule,
     ReactionModule,
     AppletConfigModule,
-    ``,
   ],
   controllers: [GithubController],
   providers: [GithubService],
