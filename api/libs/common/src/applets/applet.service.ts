@@ -113,7 +113,6 @@ export class AppletService {
       where: { id },
     });
     if (!applet) throw new Error('Applet not found');
-
-    return this.appletRepository.update(id, data);
+    return this.appletRepository.update({ id }, data);
   }
 }
