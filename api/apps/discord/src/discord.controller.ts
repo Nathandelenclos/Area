@@ -15,7 +15,7 @@ export class DiscordController extends MicroServiceController {
   }
 
   @MessagePattern({ cmd: 'cron' })
-  get(@Ctx() context: RmqContext) {
+  cron(@Ctx() context: RmqContext) {
     this.ack(context);
     this.discordService.cron();
   }

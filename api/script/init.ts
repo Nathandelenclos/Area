@@ -124,6 +124,22 @@ const services: Service[] = [
     ],
     reactions: [],
   },
+  {
+    name: 'News',
+    url: '',
+    is_available: 1,
+    rmq_queue: 'news_queue',
+    key: 'news',
+    actions: [
+      {
+        name: 'On new NYT article',
+        description: 'Trigger when a new article is published on NYT',
+        key: 'nyt_article',
+        is_available: 1,
+      },
+    ],
+    reactions: [],
+  },
 ];
 
 function execute(table: string, data: any): Promise<ResultSetHeader> {

@@ -81,6 +81,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/applet/tsconfig.app.json"
       }
+    },
+    "news": {
+      "type": "application",
+      "root": "apps/news",
+      "entryFile": "main",
+      "sourceRoot": "apps/news/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/news/tsconfig.app.json"
+      }
     }
   }
 }

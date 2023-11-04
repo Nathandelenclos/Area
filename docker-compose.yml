@@ -129,6 +129,23 @@ services:
       - rabbitmq
     restart: always
 
+  news:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: news
+    hostname: news
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=news
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+
   timer:
     build:
       context: .
