@@ -53,7 +53,10 @@ export default function CreateApplet({
 
   async function loadInformations() {
     const resp = await appletService.getApplet(user.token, route.params.id);
-    if (!resp.data) return;
+    if (!resp.data) {
+      navigation.pop();
+      return;
+    }
     setActions(resp.data.actions);
     setReactions(resp.data.reactions);
     setAppletName(resp.data.name);
@@ -198,7 +201,7 @@ export default function CreateApplet({
     navigation.pop();
   };
 
-  const handleTrashPress = () => {
+  const handleTrashPress = async () => {
     appletService.deleteApplet(user.token, route.params.id);
     navigation.pop();
   };
