@@ -4,14 +4,19 @@ import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
 
 type SignUpFormsProps = {
-  onSignUp?: (fullName: string, email: string, password: string) => void;
+  onSignUp: (
+    fullName: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
 };
 
-function SignUpForms({ onSignUp = Function }: SignUpFormsProps) {
+function SignUpForms({ onSignUp }: SignUpFormsProps) {
   const { translate } = AppContext();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isAwaiting, setIsAwaiting] = useState<boolean>(false);
 
   useEffect(() => {
     addEventListener("keydown", onEnterPressed);
@@ -22,7 +27,8 @@ function SignUpForms({ onSignUp = Function }: SignUpFormsProps) {
 
   const onEnterPressed = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
-      onSignUp(name, email, password);
+      setIsAwaiting(true);
+      onSignUp(name, email, password).then(() => setIsAwaiting(false));
     }
   };
 
@@ -47,7 +53,10 @@ function SignUpForms({ onSignUp = Function }: SignUpFormsProps) {
       />
       <MainButton
         title={translate("login", "sign-up")}
-        onPress={() => onSignUp(name, email, password)}
+        onPress={() => {
+          setIsAwaiting(true);
+          onSignUp(name, email, password).then(() => setIsAwaiting(false));
+        }}
       />
     </div>
   );

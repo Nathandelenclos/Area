@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ReactionEntity } from '@app/common/reactions/reaction.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { NewReaction } from '@app/common/reactions/reaction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppletRequiredConfigService } from '@app/common/applets/required_configuration/applet.required.config.service';
 

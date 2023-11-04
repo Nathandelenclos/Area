@@ -5,10 +5,8 @@ import {
   Entities,
   AppletModule as AppletCommonModule,
   ActionAppletModule,
-  ReactionAppletService,
   ReactionAppletModule,
   AppletConfigModule,
-  AppletRequiredConfigModule,
   ActionModule,
   ReactionModule,
 } from '@app/common';

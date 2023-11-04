@@ -8,13 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  ColorValue,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { ColorValue, TouchableOpacity, View, ViewStyle } from 'react-native';
 import React from 'react';
 import AppContext from '@contexts/app.context';
 import { Title } from '@components/Title';

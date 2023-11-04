@@ -4,6 +4,7 @@ import MyButton from '@components/MyButton';
 import { Title } from '@components/Title';
 import { AuthViewContainer, AuthFooter } from '@components/Auth';
 import AppContext from '@contexts/app.context';
+import IMAGE from '../../Assets/Logo.png';
 
 export default function LoginScreen({
   navigation,
@@ -11,7 +12,6 @@ export default function LoginScreen({
   navigation: any;
 }): JSX.Element {
   const { color, translate, appName } = AppContext();
-  const IMAGE = require('../../Assets/Logo.png');
 
   return (
     <AuthViewContainer>
