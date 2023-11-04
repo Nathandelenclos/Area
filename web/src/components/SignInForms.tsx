@@ -2,18 +2,17 @@ import React, { useEffect } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
 import AppContext from "@src/context/AppContextProvider";
+import LoadingElementPopUp from "./LoadingElementPopUp";
 
 type SignInFormsProps = {
-  onSignIn?: (email: string, password: string) => void;
+  onSignIn: (email: string, password: string) => Promise<void>;
   onRecoverPassword?: () => void;
 };
 
-function SignInForms({
-  onSignIn = Function,
-  onRecoverPassword = Function,
-}: SignInFormsProps) {
+function SignInForms({ onSignIn, onRecoverPassword }: SignInFormsProps) {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const [isClicked, setIsClicked] = React.useState<boolean>(false);
   const { translate } = AppContext();
 
   useEffect(() => {
@@ -25,7 +24,7 @@ function SignInForms({
 
   const onEnterPressed = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
-      onSignIn(email, password);
+      onSignIn(email, password).then(() => setIsClicked(false));
     }
   };
 
@@ -43,10 +42,17 @@ function SignInForms({
         setValue={setPassword}
         type={"password"}
       />
-      <MainButton
-        title={translate("login", "sign-in")}
-        onPress={() => onSignIn(email, password)}
-      />
+      {!isClicked ? (
+        <MainButton
+          title={translate("login", "sign-in")}
+          onPress={() => {
+            setIsClicked(true);
+            onSignIn(email, password).then(() => setIsClicked(false));
+          }}
+        />
+      ) : (
+        <LoadingElementPopUp />
+      )}
       <p onClick={onRecoverPassword} className="text-[#7A73E7] cursor-pointer">
         {translate("login", "recoverPassword")}
       </p>

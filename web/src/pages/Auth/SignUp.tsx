@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
 import SignUpForms from "@components/SignUpForms";
 import OAuthButtons from "@components/OAuthButtons";
@@ -11,10 +11,18 @@ export default function SignUp() {
   const { translate, setUser } = AppContext();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      navigate("/home-page");
+    }
+  }, []);
+
   const register = async (name: string, email: string, password: string) => {
     const data = await AuthServices.register(name, email, password);
+    console.log(data);
     if (data.status == 200) {
       setUser(new UserObject(data.data));
+      AuthServices.storeToken(data.data.token);
       navigate("/home-page");
     }
   };

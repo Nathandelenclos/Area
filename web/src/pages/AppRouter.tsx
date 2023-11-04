@@ -9,21 +9,23 @@ export default function AppRouter() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!user || !user.getAccessToken()) navigate("/sign-in");
+  useEffect(() => {
+    const currentRoute = routes.find(
+      (route) => route.path === location.pathname,
+    );
 
-  //   const currentRoute = routes.find(
-  //     (route) => route.path === location.pathname,
-  //   );
-
-  //   if (!user && !currentRoute?.public) {
-  //     toast("You must be logged in to access this page", {
-  //       type: "error",
-  //       autoClose: 5000,
-  //     });
-  //     navigate("/sign-in");
-  //   }
-  // }, [user, location.pathname, navigate]);
+    if (
+      Object.keys(user.data).length === 0 &&
+      !localStorage.getItem("accessToken") &&
+      !currentRoute?.public
+    ) {
+      toast("You must be logged in to access this page", {
+        type: "error",
+        autoClose: 5000,
+      });
+      navigate("/");
+    }
+  }, [user, location.pathname, navigate]);
 
   return (
     <Routes>

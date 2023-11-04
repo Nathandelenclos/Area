@@ -1,0 +1,162 @@
+on:
+  push:
+    branches-ignore:
+      - 'ga-ignore-*'
+
+jobs:
+  web_linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd web && yarn
+      - name: Run linter
+        run: cd web && yarn run lint
+
+  web_typecheck:
+    runs-on: ubuntu-latest
+    needs:
+      - web_linter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd web && yarn
+      - name: type-check
+        run: cd web && npx tsc --noEmit
+
+  web_test:
+    runs-on: ubuntu-latest
+    needs:
+      - web_typecheck
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd web && yarn
+      - name: Run tests
+        run: cd web && yarn run test
+
+  api_linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd api && yarn
+      - name: Run linter
+        run: cd api && yarn run lint
+
+  api_typecheck:
+    runs-on: ubuntu-latest
+    needs:
+      - api_linter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd api && yarn
+      - name: type-check
+        run: cd api && npx tsc --noEmit
+
+  api_test:
+    runs-on: ubuntu-latest
+    needs:
+      - api_typecheck
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd api && yarn
+      - name: Run tests
+        run: cd api && yarn run test
+
+  mobile_linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd mobile && yarn
+      - name: Run linter
+        run: cd mobile && yarn run lint
+
+  mobile_typecheck:
+    runs-on: ubuntu-latest
+    needs:
+      - mobile_linter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd mobile && yarn
+      - name: type-check
+        run: cd mobile && npx tsc --noEmit
+
+  mobile_test:
+    runs-on: ubuntu-latest
+    needs:
+      - mobile_typecheck
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: cd mobile && yarn
+      - name: Run tests
+        run: cd mobile && yarn run test
+

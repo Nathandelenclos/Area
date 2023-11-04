@@ -50,5 +50,12 @@
   "configure-applet": {
     "trigger": "Edit the trigger",
     "reaction": "Edit the reaction"
+  },
+  "errors": {
+    "400": "Bad request",
+    "401": "Unauthorized",
+    "403": "Forbidden",
+    "409": "Conflict",
+    "500": "Internal server error"
   }
 }
