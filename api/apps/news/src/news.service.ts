@@ -28,7 +28,7 @@ export class NewsService {
   async onNewNYTArticle(): Promise<void> {
     // TODO: UNCOMMENT
     /*
-    const response = await fetch(NYT_URL, {
+    const response = await fetch(this.NYT_URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
