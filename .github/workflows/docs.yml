@@ -19,10 +19,10 @@ jobs:
       - name: Install graphviz
         run: sudo apt-get install graphviz
       - name: Build 🏗
-        run: npx typedoc --options typedoc.json
+        run: cd api && npx typedoc --options typedoc.json && cd ../web && npx typedoc --options typedoc.json && cd ../mobile && npx typedoc --options typedoc.json
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          folder: ./docs
+          folder: ./
