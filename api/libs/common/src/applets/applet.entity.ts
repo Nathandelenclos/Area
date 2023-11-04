@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '@app/common/users/user.entity';
-import { ActionEntity } from '@app/common/actions/action.entity';
 import { ActionAppletEntity } from '@app/common/action-applet/action-applet.entity';
 import { ReactionAppletEntity } from '@app/common/reaction-applet/reaction-applet.entity';
 

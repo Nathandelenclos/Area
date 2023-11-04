@@ -2,12 +2,12 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 export type TitleProps = {
-  text: string,
-  textColor: string,
-}
+  text: string;
+  textColor: string;
+};
 
-export default ( {text, textColor}: TitleProps ) => {
-  const parts = text.split(" ");
+export default ({ text, textColor }: TitleProps) => {
+  const parts = text.split(' ');
 
   return (
     <View>

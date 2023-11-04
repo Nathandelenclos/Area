@@ -6,7 +6,7 @@
         "build": "cd android && ./gradlew assembleRelease",
         "android": "react-native run-android",
         "ios": "react-native run-ios",
-        "lint": "eslint .",
+        "lint": "eslint \"{src,__test__}/**/*.{ts,tsx}\" --fix",
         "prettier:write": "npx prettier --write **/*.{js,jsx,ts,tsx,json} && npx prettier --write *.{js,jsx,ts,tsx,json}",
         "start": "react-native start",
         "test": "jest"

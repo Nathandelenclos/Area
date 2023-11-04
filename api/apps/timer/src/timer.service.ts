@@ -42,8 +42,6 @@ export class TimerService {
     );
     if (!action) return;
 
-    const now = new Date();
-
     for (const applet of action.applets) {
       const dateConfig = applet.configs.find((e) => e.key === 'date');
       console.log(dateConfig);

@@ -32,7 +32,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx src"
+    "lint": "eslint \"{src,__test__}/**/*.{ts,tsx}\" --fix"
   },
   "browserslist": {
     "production": [
