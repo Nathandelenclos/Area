@@ -1,4 +1,4 @@
-type MicroServiceHttpCodeProps = {
+export type MicroServiceHttpCodeProps = {
   code?: number;
   message?: string;
   data?: any;

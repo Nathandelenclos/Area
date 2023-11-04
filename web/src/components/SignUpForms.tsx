@@ -5,7 +5,11 @@ import AppContext from "@src/context/AppContextProvider";
 import LoadingElementPopUp from "./LoadingElementPopUp";
 
 type SignUpFormsProps = {
-  onSignUp: (name: string, email: string, password: string) => Promise<void>;
+  onSignUp: (
+    fullName: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
 };
 
 function SignUpForms({ onSignUp }: SignUpFormsProps) {

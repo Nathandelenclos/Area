@@ -7,10 +7,6 @@ const defaultApiHandler = {
   },
 
   401: (data: any) => {
-    toast(data?.message, {
-      type: "error",
-      autoClose: 4000,
-    });
     console.log("[API INVOKE]: 401: ", data?.detail);
     toast("Unauthorized", { type: "error", autoClose: 4000 });
   },
@@ -26,7 +22,7 @@ const defaultApiHandler = {
   },
 
   422: (data: any) => {
-    console.log("[API INVOKE]: 422: ", data?.detail);
+    console.log("[API INVOKE]: 422: ", data?.message);
   },
 
   500: (data: any) => {

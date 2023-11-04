@@ -1,0 +1,12 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules/**/*.*",
+    "**/dist/**/*.*",
+    "**/test/**/*.*"
+  ],
+  "tsconfig": "./tsconfig.json"
+}

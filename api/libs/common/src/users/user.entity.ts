@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AppletEntity } from '@app/common/applets/applet.entity';
+import { OauthEntity } from '@app/common/OAuth/oauth.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -12,17 +13,11 @@ export class UserEntity {
   @Column({ nullable: true })
   password: string;
 
+  @OneToMany(() => OauthEntity, (oauth) => oauth.user)
+  oauth: OauthEntity[];
+
   @Column()
   name: string;
-
-  @Column({ nullable: true })
-  google_token: string;
-
-  @Column({ nullable: true })
-  facebook_token: string;
-
-  @Column({ nullable: true })
-  github_token: string;
 
   @OneToMany(() => AppletEntity, (applet) => applet.user)
   applets: AppletEntity[];

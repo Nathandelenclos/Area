@@ -1,55 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AppletEntity } from './applet.entity';
-import { AppletConfigService } from './configuration/applet.config.service';
-import { AppletCreateDto, AppletDto } from './applet.dto';
-import { UserEntity } from '@app/common/users/user.entity';
-import { ReactionEntity } from '@app/common/reactions/reaction.entity';
-import { ActionEntity } from '@app/common/actions/action.entity';
+import { AppletDto } from './applet.dto';
 
 export enum AppletRelations {
-  CONFIG = 'applet_configs',
   USER = 'user',
-  REACTIONS = 'reaction',
-  ACTION = 'action',
+  ACTIONS = 'actions.action',
+  REACTIONS = 'reactions.reaction',
+  ACTIONS_CONFIG = 'actions.configs',
+  REACTIONS_CONFIG = 'reactions.configs',
+  REACTION_SERVICE = 'reactions.reaction.service',
+  ACTION_SERVICE = 'actions.action.service',
+  ACTION_CONFIG = 'actions.action.config',
+  REACTION_CONFIG = 'reactions.reaction.config',
 }
 
 @Injectable()
 export class AppletService {
   constructor(
     @InjectRepository(AppletEntity)
-    private readonly appletRepository: Repository<AppletEntity>,
-    private readonly appletConfigService: AppletConfigService,
+    private readonly appletRepository: Repository<AppletEntity>, // private readonly actionAppletService: ActionAppletService,
   ) {}
 
   /**
    * Create a new applet and its configuration
    * @param data Applet data
-   * @param user
-   * @param reaction
-   * @param action
    * @returns Applet
    */
-  async create(
-    data: AppletDto,
-    user: DeepPartial<UserEntity>,
-    reaction: DeepPartial<ReactionEntity>,
-    action: DeepPartial<ActionEntity>,
-  ): Promise<AppletEntity> {
-    const { config, ...appletData } = data;
-    const applet = await this.appletRepository.save({
-      ...appletData,
-      user,
-      reaction,
-      action,
-    });
-
-    if (config) {
-      this.appletConfigService.createMany(applet.id, config);
-    }
-
-    return applet;
+  async create(data: AppletDto): Promise<AppletEntity> {
+    return this.appletRepository.save(data);
   }
 
   /**
@@ -58,7 +38,7 @@ export class AppletService {
    * @param relations Include relations
    */
   findOne(
-    options: Partial<AppletDto>,
+    options: Partial<AppletEntity>,
     relations: AppletRelations[] = [],
   ): Promise<AppletEntity> {
     return this.appletRepository.findOne({
@@ -68,12 +48,23 @@ export class AppletService {
   }
 
   /**
-   * Find all applets matching the options
+   * Find all applets
    * @param options
    * @param relations Include relations
    */
-  findAll(
-    options: Partial<AppletCreateDto>,
+  findAll(relations?: AppletRelations[]): Promise<AppletEntity[]> {
+    return this.appletRepository.find({
+      relations: relations,
+    });
+  }
+
+  /**
+   * Find all applets by options
+   * @param options Options
+   * @param relations Include relations
+   */
+  find(
+    options: Partial<AppletEntity>,
     relations: AppletRelations[] = [],
   ): Promise<AppletEntity[]> {
     return this.appletRepository.find({
@@ -83,17 +74,44 @@ export class AppletService {
   }
 
   /**
+   * Find all applets by user id
+   * @param userId User id
+   * @param relations Include relations
+   */
+  findAllByUserId(
+    userId: number,
+    relations?: AppletRelations[],
+  ): Promise<AppletEntity[]> {
+    return this.appletRepository.find({
+      where: { user: { id: userId } },
+      relations: relations,
+    });
+  }
+
+  /**
    * Delete an applet by its id
    * @param id Applet id
-   * @param userId User id
    */
-  async delete(id: number, userId: number): Promise<any> {
+  async delete(id: number): Promise<any> {
     const applet = await this.appletRepository.findOne({
-      where: { id, user: { id: userId } },
+      where: { id },
     });
     if (!applet) throw new Error('Applet not found');
 
-    await this.appletConfigService.delete(id);
     return this.appletRepository.delete(id);
+  }
+
+  /**
+   * Update an applet by its id
+   * @param id
+   * @param data
+   */
+  async update(id: number, data: Partial<AppletDto>): Promise<any> {
+    const applet = await this.appletRepository.findOne({
+      where: { id },
+    });
+    if (!applet) throw new Error('Applet not found');
+
+    return this.appletRepository.update(id, data);
   }
 }

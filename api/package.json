@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "create": "npx ts-node --project tsconfig.json script/create.ts",
+    "init": "npx ts-node --project tsconfig.json script/init.ts",
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
+    "@nestjs/platform-fastify": "^10.2.7",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
     "@types/amqplib": "^0.10.2",

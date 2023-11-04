@@ -8,6 +8,9 @@ export class ServiceEntity {
   id: number;
 
   @Column()
+  key: string;
+
+  @Column()
   name: string;
 
   @Column()
@@ -15,6 +18,9 @@ export class ServiceEntity {
 
   @Column()
   is_available: boolean;
+
+  @Column()
+  rmq_queue: string;
 
   @OneToMany(() => ActionEntity, (action) => action.service)
   actions: ActionEntity[];
