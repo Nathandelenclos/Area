@@ -66,7 +66,9 @@ export default function ConfigActions({
       test.forEach((e) => {
         const elem = newConf.find((el) => el.key === e.key);
         if (!elem) {
-          newConf.push({ key: e.key, type: 'date', value: new Date() });
+          const date = new Date();
+          date.setSeconds(0);
+          newConf.push({ key: e.key, type: 'date', value: date });
           return;
         }
       });

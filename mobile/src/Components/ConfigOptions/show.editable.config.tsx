@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
 import { DateInput, NumberInput, StringInput } from '@components/ConfigOptions';
 import React from 'react';
+import GithubOauth from '@components/ConfigOptions/github.oauth';
 
 export default function ShowEditableConfig({
   resConfig,
@@ -59,6 +60,13 @@ export default function ShowEditableConfig({
           name={e.name}
           value={conf ?? ''}
           setValue={(value: number) => setValue(e.key, value)}
+        />
+      )}
+      {e.type === 'github_oauth' && (
+        <GithubOauth
+          value={conf}
+          setValue={(value: string) => setValue(e.key, value)}
+          provider={e.type.split('_')[0]}
         />
       )}
     </View>

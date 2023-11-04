@@ -42,9 +42,23 @@ class AuthService {
     return ApiInvoke({
       endpoint: '/auth/signoauth',
       method: 'POST',
-      expectedStatus: 201,
+      expectedStatus: 200,
       body: JSON.stringify(credentials),
       handlers: defaultApiHandler,
+    });
+  }
+
+  OAuthConnect(
+    token: string,
+    credentials: OAuthCredentials,
+  ): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/connect-oauth',
+      method: 'POST',
+      expectedStatus: 200,
+      body: JSON.stringify(credentials),
+      handlers: defaultApiHandler,
+      authToken: token,
     });
   }
 
@@ -83,10 +97,30 @@ class AuthService {
    */
   forgotPassword(): Promise<IApiInvokeResponse> {
     return ApiInvoke({
-      endpoint: '/auth/recover-password/',
+      endpoint: '/auth/recover-password',
       method: 'GET',
       expectedStatus: 200,
       handlers: defaultApiHandler,
+    });
+  }
+
+  /**
+   * Change password
+   * @param token {string}
+   * @param password {password}
+   * @returns {Promise} {ApiInvokeResponse}
+   */
+  changePassword(
+    token: string,
+    password: { password: string },
+  ): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/reset-password',
+      method: 'POST',
+      expectedStatus: 200,
+      body: JSON.stringify(password),
+      handlers: defaultApiHandler,
+      authToken: token,
     });
   }
 
