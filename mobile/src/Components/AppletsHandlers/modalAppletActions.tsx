@@ -50,6 +50,7 @@ export default function ModalAppletAction({
       type: 'edition',
       id: modalVisible.appletToEdit,
     });
+    setModalVisible(resetedModalVisible);
   }
 
   const createSaveObject = (newApplet) => {
@@ -91,6 +92,7 @@ export default function ModalAppletAction({
     const resp2 = await AppletService.createApplet(user?.token, obj);
     if (!resp2.data) return;
     forceRefresh(true);
+    setModalVisible(resetedModalVisible);
   }
 
   async function ToggleApplet(active: boolean) {
@@ -103,6 +105,7 @@ export default function ModalAppletAction({
     );
     if (!resp.data) return;
     forceRefresh(true);
+    setModalVisible(resetedModalVisible);
   }
 
   async function DeleteApplet() {
@@ -112,6 +115,7 @@ export default function ModalAppletAction({
     );
     if (!resp.data) return;
     forceRefresh(true);
+    setModalVisible(resetedModalVisible);
   }
 
   const SettingsList = [
@@ -125,7 +129,7 @@ export default function ModalAppletAction({
     {
       title: appletIsEnabled ? 'Enable' : 'Disable',
       icon: appletIsEnabled ? 'toggle-on' : 'toggle-off',
-      color: appletIsEnabled ? 'green' : '#6F6F6F',
+      color: appletIsEnabled ? 'green' : '#FF000075',
       function: appletIsEnabled
         ? () => ToggleApplet(false)
         : () => ToggleApplet(true),
@@ -177,7 +181,6 @@ export default function ModalAppletAction({
             <TouchableOpacity
               onPress={() => {
                 e.function();
-                setModalVisible(resetedModalVisible);
               }}
               key={index}
               style={{

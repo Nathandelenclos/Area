@@ -436,13 +436,10 @@ export default function Profile({
   const [oauthToDelete, setOauthToDelete] = useState(-1);
 
   const changePassword = () => {
-    console.log('change password pressed');
     setModalPasswordVisible(true);
   };
 
-  const changePic = () => {
-    console.log('change pic pressed');
-  };
+  const changePic = () => {};
 
   const pressInfoService = async (result: Promise<IApiInvokeResponse>) => {
     const resp = await result;

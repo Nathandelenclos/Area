@@ -48,6 +48,8 @@ const fr: LanguageKeys = {
   active_filter: 'Actif',
   inactive_filter: 'Inactif',
   empty_oauth: 'Aucun service connecté',
+  config_select_action: 'Configurer une action',
+  config_select_reaction: 'Configurer une réaction',
 };
 
 const en: LanguageKeys = {
@@ -97,6 +99,8 @@ const en: LanguageKeys = {
   active_filter: 'Active',
   inactive_filter: 'Inactive',
   empty_oauth: 'No connected services',
+  config_select_action: 'Configure an action',
+  config_select_reaction: 'Configure a reaction',
 };
 
 export type LanguageList = {

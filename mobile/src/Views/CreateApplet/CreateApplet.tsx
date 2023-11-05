@@ -52,7 +52,10 @@ export default function CreateApplet({
 
   async function loadInformations() {
     const resp = await appletService.getApplet(user.token, route.params.id);
-    if (!resp.data) return;
+    if (!resp.data) {
+      navigation.pop();
+      return;
+    }
     setCurrentColor(resp.data.color ?? '#7a73e7');
     setIsAppletActive(resp.data.is_active);
     setActions(resp.data.actions);
@@ -188,7 +191,6 @@ export default function CreateApplet({
       if (!resp.data) return;
     } else if (edition === 'edition') {
       const obj = createSaveObject();
-      console.log(obj);
       const resp = await appletService.updateApplet(
         user.token,
         obj,

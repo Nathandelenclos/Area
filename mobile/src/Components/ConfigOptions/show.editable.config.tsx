@@ -2,6 +2,7 @@ import { Text, View } from 'react-native';
 import { DateInput, NumberInput, StringInput } from '@components/ConfigOptions';
 import React from 'react';
 import GithubOauth from '@components/ConfigOptions/github.oauth';
+import { AUTH_LIST } from '@interfaces/handle.auth';
 
 export default function ShowEditableConfig({
   resConfig,
@@ -26,6 +27,12 @@ export default function ShowEditableConfig({
       return resp.value;
     }
     return resp.value;
+  }
+
+  function checkAvailableOauth(type: string) {
+    const handled = AUTH_LIST.map((e) => e.provider);
+    const oauth = type.split('_')[0];
+    return handled.includes(oauth);
   }
 
   const conf = getValueById(e);
@@ -62,7 +69,7 @@ export default function ShowEditableConfig({
           setValue={(value: number) => setValue(e.key, value)}
         />
       )}
-      {e.type === 'github_oauth' && (
+      {checkAvailableOauth(e.type ?? '') && (
         <GithubOauth
           value={conf}
           setValue={(value: string) => setValue(e.key, value)}

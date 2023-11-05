@@ -137,12 +137,7 @@ export default function AppletHandlerHeader({
             placeholderTextColor={color.textInputPlaceholder}
           />
           {pipetPress && (
-            <TouchableOpacity
-              onPress={() => {
-                console.log('pipetPress');
-                pipetPress();
-              }}
-            >
+            <TouchableOpacity onPress={pipetPress}>
               <FontAwesomeIcon
                 icon={'paint-brush'}
                 size={20}

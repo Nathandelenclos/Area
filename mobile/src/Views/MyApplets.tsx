@@ -78,7 +78,6 @@ export default function MyAppletsView({
 
   const getMyApplets = async () => {
     const data = await appletService.getMyApplets(user.token);
-    console.log(data.data);
     if (!data.data) {
       setItemList([]);
       setIsLoading(false);
@@ -260,7 +259,7 @@ export default function MyAppletsView({
                 justifyContent: 'space-around',
                 flexDirection: 'row',
               }}
-            ></View>
+            />
           </DropDownItem>
         ))}
       </ScrollView>

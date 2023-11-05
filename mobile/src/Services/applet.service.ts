@@ -32,7 +32,7 @@ class AppletService {
     });
   }
 
-  updateApplet(token: string, data: IApplet, id: number) {
+  updateApplet(token: string, data: any, id: number) {
     return ApiInvoke({
       endpoint: `/applets/${id}`,
       method: 'PUT',
@@ -54,6 +54,7 @@ class AppletService {
       method: 'GET',
       expectedStatus: 200,
       authToken: token,
+      handlers: defaultApiHandler,
     });
   }
 
