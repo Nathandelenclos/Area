@@ -1,5 +1,6 @@
 import LoadingElement from "@src/components/LoadingElement";
-import React, { useEffect } from "react";
+import { ApiInvoke } from "@src/services/api/api.invoke";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 async function test(
@@ -8,7 +9,7 @@ async function test(
   yourClientSecret: string,
   yourRedirectUri: string,
 ) {
-  const tokenEndpoint = "https://accounts.google.com/o/oauth2/token";
+  const tokenEndpoint = process.env.REACT_APP_GOOGLE_OAUTH_TOKEN_ENDPOINT || "";
 
   const requestBody = new URLSearchParams({
     code: authorizationCode,
@@ -27,15 +28,22 @@ async function test(
   });
 
   const respBody = await resp.json();
-  console.log(respBody);
 
+  let email;
   if (respBody.access_token) {
     const response = await fetch(
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${respBody.access_token}`,
     );
-    const email = await response.json();
-    console.log("email: ", email);
+    email = await response.json();
   }
+
+  console.log(respBody);
+
+  return {
+    email: email.email,
+    providerId: email.sub,
+    refreshToken: respBody.refresh_token,
+  };
 }
 
 export default function GoogleOAuth() {
@@ -46,26 +54,41 @@ export default function GoogleOAuth() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  async function getData() {
     const payload = queryToObject(window.location.search.split("?")[1]);
-    const state = payload && payload.state;
-    const error = payload && payload.error;
 
-    // console.log(payload);
-    // console.log(state);
-    // console.log(error);
-    test(
+    const data = await test(
       payload.code,
-      "485338230618-jg4n220ki98qa1c5psndcbea1vqpqrsi.apps.googleusercontent.com",
-      "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",
-      "http://localhost:3000/api/sessions/oauth/google",
+      process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID || "",
+      process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET || "",
+      process.env.REACT_APP_GOOGLE_OAUTH_REDIRECT_URI || "",
     );
 
-    setTimeout(() => {
+    console.log(data);
+
+    if (!data) {
+      navigate("/");
+      return;
+    }
+    const resp = await ApiInvoke({
+      endpoint: "/auth/signoauth",
+      method: "POST",
+      expectedStatus: 200,
+      body: JSON.stringify({
+        ...data,
+        provider: "google",
+      }),
+    });
+    if (resp.status === 200) {
+      localStorage.setItem("accessToken", data.refreshToken);
       navigate("/home-page");
-    }, 5000);
-    //todo: send code to backend
-    //todo: login if suceccess and redirect home else redirect to login page
+    } else {
+      navigate("/");
+    }
+  }
+
+  useEffect(() => {
+    getData();
   }, []);
 
   return (

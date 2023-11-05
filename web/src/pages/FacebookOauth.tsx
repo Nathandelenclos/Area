@@ -58,7 +58,6 @@ export const LoginUserFacebook = () => {
         provider: "facebook",
       }),
     });
-    console.log(resp.status);
     //todo: LINK AUTH WITH BACK-END
     if (resp.status === 200) {
       localStorage.setItem("accessToken", data.refreshToken);

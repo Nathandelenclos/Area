@@ -1,6 +1,7 @@
 import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ApiInvoke } from "@services/api/api.invoke";
 
 async function getAuthorizationCodeFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -11,7 +12,21 @@ async function getAuthorizationCodeFromURL() {
 
   console.log(clientId, clientSecret, redirectUri, authorizationCode);
   const response: Response = await fetch(
-    `https://github.com/login/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&code=${authorizationCode}&redirect_uri=${redirectUri}`,
+    `https://github.com/login/oauth/access_token`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        client_id: clientId,
+        client_secret: clientSecret,
+        code: authorizationCode,
+        redirect_uri: redirectUri,
+      }),
+    },
   );
 
   console.log(response);
@@ -33,20 +48,20 @@ export const LoginUserGithub = () => {
       navigate("/");
       return;
     }
-    /*const resp = await ApiInvoke({
-                                                      endpoint: "/auth/signoauth",
-                                                      method: "POST",
-                                                      expectedStatus: 200,
-                                                      body: JSON.stringify({
-                                                        ...data,
-                                                        provider: "github",
-                                                      }),
-                                                    });
-                                                    if (resp.status === 200) {
-                                                      navigate("/");
-                                                    } else {
-                                                      navigate("/login");
-                                                    }*/
+    const resp = await ApiInvoke({
+      endpoint: "/auth/signoauth",
+      method: "POST",
+      expectedStatus: 200,
+      body: JSON.stringify({
+        ...data,
+        provider: "github",
+      }),
+    });
+    if (resp.status === 200) {
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
   }
 
   useEffect(() => {
