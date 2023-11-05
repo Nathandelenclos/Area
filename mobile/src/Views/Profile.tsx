@@ -1,4 +1,10 @@
-import React, { Dispatch, JSX, SetStateAction, useState } from 'react';
+import React, {
+  Dispatch,
+  JSX,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import {
   Modal,
   Pressable,
@@ -129,9 +135,10 @@ function RenderConnectedServices({
         <View
           key={index}
           style={{
+            width: '70%',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             marginBottom: 10,
           }}
         >
@@ -466,6 +473,10 @@ export default function Profile({
         },
       };
     }) ?? [];
+
+  useEffect(() => {
+    if (!modalLogoutVisible) setOauthToDelete(-1);
+  }, [modalLogoutVisible]);
 
   const coServicesList = userOauthList.filter((item) => item !== null) ?? [];
 
