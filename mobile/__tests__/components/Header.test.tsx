@@ -24,4 +24,3 @@ describe('Header component', () => {
       expect(getByText('Header Title')).toBeTruthy();
     });
   });
-
