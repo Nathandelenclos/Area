@@ -35,6 +35,7 @@ export default function CreateApplet({
     color.mainColor,
   );
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
+  const [isAppletActive, setIsAppletActive] = React.useState<boolean>(false);
 
   console.log('modalVisible', modalVisible);
 
@@ -54,6 +55,8 @@ export default function CreateApplet({
   async function loadInformations() {
     const resp = await appletService.getApplet(user.token, route.params.id);
     if (!resp.data) return;
+    setCurrentColor(resp.data.color ?? '#7a73e7');
+    setIsAppletActive(resp.data.is_active);
     setActions(resp.data.actions);
     setReactions(resp.data.reactions);
     setAppletName(resp.data.name);
@@ -106,7 +109,9 @@ export default function CreateApplet({
   }, [route.params?.result]);
 
   useEffect(() => {
-    if (edition === 'information') {
+    if (edition === 'edition' && !appletName) {
+      loadInformations();
+    } else if (edition === 'information') {
       setIsLoaded(false);
       loadInformations();
     } else if (edition === 'creation') {
@@ -169,6 +174,7 @@ export default function CreateApplet({
       ),
     }));
     return {
+      color: currentColor,
       name: appletName.trim(),
       description: "My applet's description",
       is_active: true,
@@ -196,6 +202,18 @@ export default function CreateApplet({
       return;
     }
     navigation.pop();
+  };
+
+  const toggleActiveApplet = async () => {
+    const resp = await appletService.updateApplet(
+      user.token,
+      {
+        is_active: !isAppletActive,
+      },
+      route.params.id,
+    );
+    if (!resp.data) return;
+    setIsAppletActive((prev) => !prev);
   };
 
   const handleTrashPress = () => {
@@ -243,9 +261,10 @@ export default function CreateApplet({
         onEditPress={
           edition === 'information' ? () => setEdition('edition') : null
         }
-        openPopUp={
-          edition === 'information' ? () => console.log('popup') : null
+        playPause={
+          edition === 'information' ? () => toggleActiveApplet() : null
         }
+        appletActive={isAppletActive}
       />
       <ScrollView contentContainerStyle={{ paddingTop: 40 }}>
         {actions?.map((action, index) => (

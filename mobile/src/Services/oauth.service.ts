@@ -43,7 +43,6 @@ class OAuthService {
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${authState.accessToken}`,
     );
     const email = await response.json();
-    console.log(connect, token);
     if (connect) {
       return AuthService.OAuthConnect(token, {
         email: email.email,

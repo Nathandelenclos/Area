@@ -11,7 +11,8 @@ export default function AppletHandlerHeader({
   onBackPress,
   onTrashPress,
   onEditPress,
-  openPopUp,
+  playPause,
+  appletActive,
   string,
   setString,
   backgroundColor,
@@ -23,7 +24,8 @@ export default function AppletHandlerHeader({
   onBackPress?: (() => void) | null;
   onTrashPress?: (() => void) | null;
   onEditPress?: (() => void) | null;
-  openPopUp?: (() => void) | null;
+  playPause?: (() => void) | null;
+  appletActive?: boolean;
   string?: string;
   setString?: React.Dispatch<React.SetStateAction<string>>;
   backgroundColor: string;
@@ -88,10 +90,10 @@ export default function AppletHandlerHeader({
               />
             </TouchableOpacity>
           )}
-          {openPopUp && (
-            <TouchableOpacity onPress={openPopUp}>
+          {playPause && (
+            <TouchableOpacity onPress={playPause}>
               <FontAwesomeIcon
-                icon={'ellipsis-vertical'}
+                icon={appletActive ? 'pause' : 'play'}
                 size={20}
                 color={color.textOverMainColor}
               />

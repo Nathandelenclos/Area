@@ -140,7 +140,7 @@ export default function DropDownItem({
       >
         <Title
           title={title}
-          style={{ alignSelf: 'flex-start', color: titleColor }}
+          style={{ alignSelf: 'flex-start', color: titleColor, width: '80%' }}
         />
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
