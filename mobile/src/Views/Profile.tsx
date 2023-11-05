@@ -81,6 +81,7 @@ function InputField({
             height: '100%',
             color: 'black',
             fontWeight: 'bold',
+            padding: 0,
           }}
           onChangeText={onChangeText}
           value={text}
@@ -110,13 +111,14 @@ function RenderConnectedServices({
 }: {
   coServicesList: any[];
 }): React.JSX.Element {
+  const { translate } = AppContext();
   const { color } = AppContext();
 
   if (coServicesList.length === 0) {
     return (
       <Title
         style={{ marginBottom: 30, fontSize: 12 }}
-        title={'Aucun service connecté'}
+        title={translate('empty_oauth')}
       />
     );
   }
@@ -186,13 +188,14 @@ function RenderNoConnectedServices({
   forcedColor?: string;
 }): React.JSX.Element {
   const rows = [];
+  const { translate } = AppContext();
   const { user } = UserCtx();
 
   if (data.length === 0)
     return (
       <Title
         style={{ marginBottom: 30, fontSize: 12 }}
-        title={'Aucun service connecté'}
+        title={translate('empty_oauth')}
       />
     );
 

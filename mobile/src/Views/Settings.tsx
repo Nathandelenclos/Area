@@ -90,7 +90,7 @@ export default function Settings({
   return (
     <ViewContainer background={color.mode}>
       <Header
-        title={'Settings'}
+        title={translate('settings')}
         leftIcon={'chevron-left'}
         onPressLeft={() => handleBackNavigation()}
         bar={false}

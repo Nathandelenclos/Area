@@ -33,12 +33,21 @@ const fr: LanguageKeys = {
   invalid_url: 'Url invalide',
   modify_app_language: "Modifier l'App Langage",
   save_settings: 'Sauvegarder',
+  settings: 'Paramètres',
   pofile_title: 'Ton Profil',
   connected_services: 'Services connectés',
   to_connect_services: "Connecter d'autres services",
   cancel: 'Annuler',
   decolog: 'Se Déconnecter',
   decolog_message: 'Êtes-vous sûr de vouloir vous déconnecter ?',
+  mes_applet: 'Mes applets',
+  profile: 'Profil',
+  save_applet: "Sauvegarder l'applet",
+  create_applet: "Créer l'applet",
+  choose_color: 'Choisissez votre couleur',
+  active_filter: 'Actif',
+  inactive_filter: 'Inactif',
+  empty_oauth: 'Aucun service connecté',
 };
 
 const en: LanguageKeys = {
@@ -73,12 +82,21 @@ const en: LanguageKeys = {
   invalid_url: 'Invalid url',
   modify_app_language: 'Modify App Language',
   save_settings: 'Save changes',
+  settings: 'Settings',
   pofile_title: 'Your Profile',
   connected_services: 'Connected services',
   to_connect_services: 'Connect other services',
   cancel: 'Cancel',
   decolog: 'Sign out',
   decolog_message: 'Are you sure you want to sign out ?',
+  mes_applet: 'My applets',
+  profile: 'Profile',
+  save_applet: 'Save applet',
+  create_applet: 'Create applet',
+  choose_color: 'Choose your color',
+  active_filter: 'Active',
+  inactive_filter: 'Inactive',
+  empty_oauth: 'No connected services',
 };
 
 export type LanguageList = {

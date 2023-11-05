@@ -119,9 +119,14 @@ export default function ListActions({
       return;
     }
     const type = route.params.type;
+    const id = Math.floor(Math.random() * 1000000);
     navigation.navigate({
       name: 'CreateApplet',
-      params: { type, result: obj },
+      params: {
+        type,
+        result: JSON.stringify({ ...obj, val: id }),
+        resId: route.params.id,
+      },
       merge: true,
     });
   }

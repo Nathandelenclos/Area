@@ -30,8 +30,8 @@ export default function MyAppletsView({
   const { user } = UserCtx();
   if (!user) return <></>;
   const [filterList, setFilterList] = React.useState<FilterProps[]>([
-    { name: 'Active Filter', active: false },
-    { name: 'Inactive Filter', active: false },
+    { name: translate('active_filter'), active: false },
+    { name: translate('inactive_filter'), active: false },
   ]);
   const [itemList, setItemList] = React.useState<DropDownItemProps[]>([]);
   const [editing, setEditing] = React.useState<boolean>(false);
@@ -41,8 +41,6 @@ export default function MyAppletsView({
     appletToEdit: number;
   }>({ isVisible: false, appletToEdit: -1 });
   const [forceRefresh, setForceRefresh] = React.useState<boolean>(false);
-
-  const colors = ['#7a73e7', '#73E77B', '#E77B73', '#73e7d6', '#7e1eb0'];
 
   function toggleSelected(id: number) {
     const newItemList = itemList.map((item: DropDownItemProps) => {
@@ -165,7 +163,7 @@ export default function MyAppletsView({
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
         <Header
-          title={'My Applets'}
+          title={translate('mes_applet')}
           leftIcon={getIconLeft()}
           onPressLeft={functionIconLeft}
           rightIcon={getIconRight()}
@@ -186,7 +184,7 @@ export default function MyAppletsView({
         forceRefresh={setForceRefresh}
       />
       <Header
-        title={'My Applets'}
+        title={translate('mes_applet')}
         leftIcon={getIconLeft()}
         onPressLeft={functionIconLeft}
         rightIcon={getIconRight()}
@@ -242,6 +240,7 @@ export default function MyAppletsView({
               navigation.navigate('CreateApplet', {
                 type: 'information',
                 id: item.id,
+                tmpColor: item.backgroundColor,
               });
             }}
           >
