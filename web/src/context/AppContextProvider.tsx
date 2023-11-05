@@ -74,6 +74,7 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({
               email: data.data.email,
               name: data.data.name,
               token,
+              oauth: data.data.oauth,
             }),
           );
         }

@@ -57,6 +57,16 @@ export class AuthServices {
     });
   }
 
+  static changePassword(token: string, newPassword: string) {
+    return ApiInvoke({
+      endpoint: `/auth/reset-password`,
+      method: "POST",
+      expectedStatus: 200,
+      body: JSON.stringify({ password: newPassword }),
+      authToken: token,
+    });
+  }
+
   static storeToken(token: string) {
     localStorage.setItem("accessToken", token);
   }
