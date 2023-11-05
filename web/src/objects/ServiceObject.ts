@@ -1,13 +1,16 @@
-import { ActionObject } from "@src/objects/ActionObject";
-import { ReactionObject, ReactionObjectDto } from "@src/objects/ReactionObject";
+import { ActionAppletObject } from "@src/objects/ActionAppletObject";
+import {
+  ReactionAppletObject,
+  ReactionObjectDto,
+} from "@src/objects/ReactionAppletObject";
 
 export interface ServiceObjectDto {
   id: number;
   name: string;
   url: string;
   is_available: boolean;
-  actions: ActionObject[];
-  reactions: ReactionObject[];
+  actions: ActionAppletObject[];
+  reactions: ReactionAppletObject[];
 }
 
 export class ServiceObject {
@@ -25,11 +28,11 @@ export class ServiceObject {
     return this.data.name;
   }
 
-  get actions(): ActionObject[] {
+  get actions(): ActionAppletObject[] {
     return this.data.actions;
   }
 
-  get reactions(): ReactionObject[] {
+  get reactions(): ReactionAppletObject[] {
     return this.data.reactions;
   }
 }

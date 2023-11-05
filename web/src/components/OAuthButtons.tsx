@@ -1,5 +1,5 @@
 import React from "react";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { getGoogleUrl } from "@src/utils/getGoogleUrl";
 import { getSpotifyUrl } from "@src/utils/getSpotifyUrl";
 import { getGithubUrl } from "@src/utils/getGithubUrl";
@@ -59,7 +59,7 @@ function OAuthList() {
 }
 
 function ConnectionsOptionsSeparator() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <div className="w-full justify-center items-center flex">
       <div className="flex flex-row justify-center items-center w-10/12">

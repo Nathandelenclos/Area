@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { AppContextProvider } from "@src/context/AppContextProvider";
+import { GlobalContextProvider } from "@src/context/GlobalContextProvider";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
@@ -19,9 +19,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <div className="h-screen w-screen">
-    <AppContextProvider>
+    <GlobalContextProvider>
       <App />
-    </AppContextProvider>
+    </GlobalContextProvider>
   </div>,
 );
 

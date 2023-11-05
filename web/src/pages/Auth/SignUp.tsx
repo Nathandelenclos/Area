@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
 import SignUpForms from "@components/SignUpForms";
 import OAuthButtons from "@components/OAuthButtons";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { useNavigate } from "react-router-dom";
 import { AuthServices } from "@src/services/AuthServices";
 import { UserObject } from "@src/objects/UserObject";
 
 export default function SignUp() {
-  const { translate, setUser } = AppContext();
+  const { translate, setUser } = GlobalContext();
   const navigate = useNavigate();
 
   useEffect(() => {

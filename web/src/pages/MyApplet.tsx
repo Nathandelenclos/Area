@@ -3,14 +3,14 @@ import NavBar from "@components/NavBar";
 import AppletButton from "@components/Applet/AppletButton";
 import HeaderMyApplet from "@components/Applet/HeaderMyApplet";
 import HeaderEditApplet from "@components/Applet/HeaderEditApplet";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { AppletObject } from "../objects/AppletObject";
 import { useNavigate } from "react-router-dom";
 import AppletService from "@services/AppletService";
 import Footer from "@src/components/Footer";
 
 export default function MyApplet() {
-  const { translate, user } = AppContext();
+  const { translate, user } = GlobalContext();
   const navigate = useNavigate();
   const [selectedApplet, setSelectedApplet] = useState<AppletObject | null>(
     null,

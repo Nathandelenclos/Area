@@ -1,8 +1,10 @@
-import { ActionObjectDto } from "@src/objects/ActionObject";
-import { ReactionObjectDto } from "@src/objects/ReactionObject";
+import { ActionObjectDto } from "@src/objects/ActionAppletObject";
+import { ReactionObjectDto } from "@src/objects/ReactionAppletObject";
 
-interface NewEventConfig {
-  [key: string]: any;
+export interface NewEventConfig {
+  config: {
+    [key: string]: string;
+  };
   id: number;
 }
 

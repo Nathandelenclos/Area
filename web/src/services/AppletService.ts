@@ -7,7 +7,7 @@ import {
 
 export default class AppletService {
   static create(applet: NewAppletRequest, authToken: string) {
-    console.log("authToken", authToken);
+    console.log("applet", applet);
     return ApiInvoke({
       endpoint: "/applets",
       method: "POST",

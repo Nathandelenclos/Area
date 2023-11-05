@@ -1,5 +1,5 @@
 import React from "react";
-import AppContext from "context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 
 interface AppletCreationInputNameProps {
   value: string;
@@ -10,7 +10,7 @@ export default function AppletCreationInputName({
   value,
   onChange,
 }: AppletCreationInputNameProps) {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <div className="bg-[#7A73E7] pl-10 mt-5 lg:px-8 py-10 rounded-[20px] h-max">
       <div className="flex justify-evenly items-center w-full">

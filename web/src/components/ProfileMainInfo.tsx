@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { useState } from "react";
 import { AuthServices } from "@services/AuthServices";
 import { toast } from "react-toastify";
 
 export default function ProfileMainInfo() {
-  const { translate, user } = AppContext();
+  const { translate, user } = GlobalContext();
   const [password, setPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
 

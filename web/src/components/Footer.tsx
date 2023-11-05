@@ -1,9 +1,9 @@
-import AppContext from "context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Footer() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   const navigate = useNavigate();
 
   return (
@@ -13,14 +13,13 @@ function Footer() {
           <div className="bg-black px-3 py-2 rounded-[10px]">
             <FontAwesomeIcon icon={"download"} size="lg" color="white" />
           </div>
-          <p
+          <a
             className="font-semibold px-2 text-[20px]"
-            onClick={() => {
-              // navigate("/client.apk");
-            }}
+            href="/client.apk"
+            download
           >
             {translate("homepage", "download-apk")}
-          </p>
+          </a>
         </div>
         <p className="text-xs">{translate("footer", "copyright")}</p>
         <p className="text-xs">{translate("footer", "created-by")}</p>

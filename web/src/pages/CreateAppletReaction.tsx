@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavBar from "@components/NavBar";
 import OptionListContainer from "@components/OptionListContainer";
-import AppContext from "context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 
 type AppletServiceStruct = {
@@ -12,7 +12,7 @@ type AppletServiceStruct = {
 };
 
 export default function CreateAppletReaction() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
 
   const appletServiceList: AppletServiceStruct[] = [
     { id: 1, title: "Nom du truc", logo: "apple", isClicked: false },

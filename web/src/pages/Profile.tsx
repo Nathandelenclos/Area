@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "@components/NavBar";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import TopBarTitle from "@src/components/TopBarTitle";
 import ProfileMainInfo from "@src/components/ProfileMainInfo";
 import ServiceList from "@src/components/ServiceList";
@@ -10,7 +10,7 @@ import { AUTH_LIST, AuthItem } from "@interfaces/handle.auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Profile() {
-  const { translate, user } = AppContext();
+  const { translate, user } = GlobalContext();
   console.log(user.oauth);
   const otherServicesList: AuthItem[] = AUTH_LIST;
   const userOauthList =

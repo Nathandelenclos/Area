@@ -1,10 +1,10 @@
 import React from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
 import MainButton from "@components/MainButton";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 
 export default function RecoverPassword() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <AuthViewContainer ContainerTitle={translate("login", "recoverPassword")}>
       <div className="flex flex-col justify-center items-center">
