@@ -137,7 +137,6 @@ export class AuthService {
     );
 
     let user;
-    console.log(oauth);
     if (!oauth) {
       user = await this.userService.create({
         email: data.email,
@@ -236,22 +235,22 @@ export class AuthService {
         'providerId',
       ]);
     const user = await this.userService.findOne({ id: data.id });
-
+    const hashed = MD5(data.providerId).toString();
     const oauth = await this.oauthService.findOne(
       {
-        providerId: MD5(data.providerId).toString(),
+        providerId: hashed,
         provider: data.provider,
-        user: user,
       },
       [OAuthRelations.USER],
     );
+
     if (oauth) {
       throw new AlreadyExistError();
     }
 
     return this.oauthService.create({
       accessToken: null,
-      providerId: MD5(data.providerId).toString(),
+      providerId: hashed,
       email: data.email,
       provider: data.provider,
       refreshToken: AES.encrypt(
