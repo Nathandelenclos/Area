@@ -1,11 +1,11 @@
-import SignInForms from "@components/SignInForms";
 import AuthViewContainer from "@components/AuthViewContainer";
 import OAuthButtons from "@components/OAuthButtons";
+import SignInForms from "@components/SignInForms";
 import GlobalContext from "@src/context/GlobalContextProvider";
-import { AuthServices } from "@src/services/AuthServices";
-import { useNavigate } from "react-router-dom";
 import { UserObject } from "@src/objects/UserObject";
+import { AuthServices } from "@src/services/AuthServices";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * SignIn page displays the sign in view.
@@ -40,11 +40,25 @@ export default function SignIn() {
    */
   const login = async (email: string, password: string) => {
     const data = await AuthServices.login(email, password);
-    console.log(data);
     if (data.status === 200) {
       setUser(new UserObject(data.data));
-      AuthServices.storeToken(data.data.token);
+      localStorage.setItem("accessToken", data.data.token);
+      const token = data.data.token;
+      const me = await AuthServices.me(token);
+      console.log(me);
+      if (data.status === 200) {
+        setUser(
+          new UserObject({
+            email: me.data.email,
+            name: me.data.name,
+            token,
+            oauth: me.data.oauth,
+          }),
+        );
+      }
       navigate("/home-page");
+    } else {
+      navigate("/");
     }
   };
 

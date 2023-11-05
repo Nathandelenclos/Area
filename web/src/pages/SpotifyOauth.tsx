@@ -1,5 +1,8 @@
 import { ApiInvoke } from "@services/api/api.invoke";
 import LoadingElement from "@src/components/LoadingElement";
+import GlobalContext from "@src/context/GlobalContextProvider";
+import { UserObject } from "@src/objects/UserObject";
+import { AuthServices } from "@src/services/AuthServices";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -37,6 +40,7 @@ function getUserInfo() {
 }
 
 export const LoginUserSpotify = () => {
+  const { setUser } = GlobalContext();
   const navigate = useNavigate();
 
   async function getAccessTokenFromURL() {
@@ -56,7 +60,21 @@ export const LoginUserSpotify = () => {
       }),
     });
     if (resp.status === 200) {
-      localStorage.setItem("accessToken", data.refreshToken);
+      setUser(new UserObject(resp.data));
+      localStorage.setItem("accessToken", resp.data.token);
+      const token = resp.data.token;
+      const data = await AuthServices.me(token);
+      console.log(data);
+      if (data.status === 200) {
+        setUser(
+          new UserObject({
+            email: data.data.email,
+            name: data.data.name,
+            token,
+            oauth: data.data.oauth,
+          }),
+        );
+      }
       navigate("/home-page");
     } else {
       navigate("/");

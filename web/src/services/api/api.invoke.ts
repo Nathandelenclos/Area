@@ -1,5 +1,5 @@
-import { API_URL } from "@src/Constants";
 import defaultApiHandler from "@services/api/api.handlers";
+import { API_URL } from "@src/Constants";
 
 /**
  * IApiInvokeProps
