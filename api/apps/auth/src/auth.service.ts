@@ -6,6 +6,7 @@ import {
   OauthEntity,
   OAuthRelations,
   OauthService,
+  Providers,
   UnauthorizeError,
   UserEntity,
   UserLoggedInDto,
@@ -79,40 +80,35 @@ export class AuthService {
     };
   }
 
-  async signOAuthGithub(
-    data: UserOAuthCredentialsDto,
-  ): Promise<UserLoggedInDto> {
-    const clientId = this.configService.get('GITHUB_CLIENT_ID');
-    const clientSecret = this.configService.get('GITHUB_CLIENT_SECRET');
-    const authorizationCode = data.refreshToken;
-
-    const params =
-      '?cliend_id=' +
-      clientId +
-      '&client_secret=' +
-      clientSecret +
-      '&code=' +
-      authorizationCode;
-
-    const response = await fetch(
-      'https://github.com/login/oauth/access_token' + params,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-    );
-    const json = await response.json();
-    console.log(json);
-    return null;
-  }
-
   /**
    * Sign in a user with OAuth credentials and return a JWT
    * @param data
    */
   async signOAuth(data: UserOAuthCredentialsDto): Promise<UserLoggedInDto> {
+    if (
+      data.provider === 'spotify' &&
+      data.refreshToken.startsWith('access:') &&
+      data.redirect_uri &&
+      data.code
+    ) {
+      data.refreshToken = await this.spotifyAuth({
+        code: data.code,
+        redirect_uri: data.redirect_uri,
+      });
+    }
+
+    if (
+      data.provider === 'github' &&
+      data.refreshToken.startsWith('access:') &&
+      data.redirect_uri &&
+      data.code
+    ) {
+      data.refreshToken = await this.githubAuth({
+        code: data.code,
+        redirect_uri: data.redirect_uri,
+      });
+    }
+
     if (!data.email || !data.provider || !data.refreshToken || !data.providerId)
       throw new ValidationError<keyof UserOAuthCredentialsDto>([
         'email',
@@ -298,7 +294,7 @@ export class AuthService {
     await this.userService.delete(userEntity.id);
   }
 
-  async spotifyAuth(query) {
+  async spotifyAuth({ code, redirect_uri }) {
     const client_id = this.configService.get('SPOTIFY_CLIENT_ID');
     const client_secret = this.configService.get('SPOTIFY_CLIENT_SECRET');
 
@@ -312,20 +308,22 @@ export class AuthService {
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        code: query.code,
-        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+        code: code,
+        redirect_uri: redirect_uri,
       }),
     });
-    console.log(await response.json());
+
+    return (await response.json()).refresh_token;
   }
 
-  async githubAuth(query) {
+  async githubAuth({ code, redirect_uri }) {
     const client_id = this.configService.get('GITHUB_CLIENT_ID');
     const client_secret = this.configService.get('GITHUB_CLIENT_SECRET');
 
     const response = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization:
           'Basic ' +
@@ -333,10 +331,11 @@ export class AuthService {
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        code: query.code,
-        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+        code: code,
+        redirect_uri: redirect_uri,
       }),
     });
-    console.log(await response.json());
+
+    return (await response.json()).access_token;
   }
 }

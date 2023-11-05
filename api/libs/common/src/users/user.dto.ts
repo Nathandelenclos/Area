@@ -6,7 +6,7 @@ export interface UserDto {
   name?: string;
 }
 
-export type Providers = 'google' | 'facebook' | 'github';
+export type Providers = 'google' | 'facebook' | 'github' | 'spotify';
 
 export interface UserNativeCredentialsDto extends UserDto {
   password: string;
