@@ -1,5 +1,5 @@
 export interface ConfigObjectDto {
-  id: number;
+  id?: number;
   key: string;
   value: string;
 }
@@ -11,7 +11,7 @@ export class ConfigObject {
     this.data = object;
   }
 
-  get id(): number {
+  get id(): number | undefined {
     return this.data.id;
   }
 

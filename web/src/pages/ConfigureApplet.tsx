@@ -1,15 +1,20 @@
 import React from "react";
 import NavBar from "@components/NavBar";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import ConfigureAppletButton from "@src/components/ConfigureAppletButton";
 import ConfigureAppletField from "@src/components/ConfigureInputField";
 import ConfigureAppletDate from "@src/components/ConfigureInputDate";
 import ConfigureAppletNumber from "@src/components/ConfigureInputNumber";
 import { useLocation } from "react-router-dom";
 import AreaService from "@services/AreaService";
+import { ActionObjectDto } from "@src/objects/ActionAppletObject";
+
+export type ConfigureAppletProps = {
+  action: ActionObjectDto;
+};
 
 export default function ConfigureApplet() {
-  const { user, translate } = AppContext();
+  const { user, translate } = GlobalContext();
   //get info from previous page navigate:
   const [action, setAction] = React.useState<any>();
   const [reaction, setReaction] = React.useState<any>();

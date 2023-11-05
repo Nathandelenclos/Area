@@ -7,7 +7,7 @@ import {
 
 export default class AppletService {
   static create(applet: NewAppletRequest, authToken: string) {
-    console.log("authToken", authToken);
+    console.log("applet", applet);
     return ApiInvoke({
       endpoint: "/applets",
       method: "POST",
@@ -44,6 +44,20 @@ export default class AppletService {
     return ApiInvoke({
       endpoint: `/applets/${id}`,
       method: "GET",
+      expectedStatus: 200,
+      authToken,
+    });
+  }
+
+  static updateApplet(
+    id: number,
+    applet: Partial<NewAppletRequest>,
+    authToken: string,
+  ) {
+    return ApiInvoke({
+      endpoint: `/applets/${id}`,
+      method: "PUT",
+      body: JSON.stringify(applet),
       expectedStatus: 200,
       authToken,
     });

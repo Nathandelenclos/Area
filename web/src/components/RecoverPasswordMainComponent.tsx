@@ -1,6 +1,6 @@
 import React from "react";
 import MainButton from "@components/MainButton";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 
 type RecoverPasswordMainComponentProps = {
   recover?: () => void;
@@ -11,7 +11,7 @@ export default function RecoverPasswordMainComponent({
     console.log("Recover");
   },
 }: RecoverPasswordMainComponentProps) {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
 
   return (
     <div className="bg-white rounded-3xl absolute h-auto w-3/12 z-10">

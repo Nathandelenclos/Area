@@ -1,4 +1,4 @@
-import AppContext from "context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { useNavigate } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const choices: listType[] = [
 ];
 
 function NavBar() {
-  const { translate, appName, setLanguage, language } = AppContext();
+  const { translate, appName, setLanguage, language } = GlobalContext();
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState(language.toString());
 

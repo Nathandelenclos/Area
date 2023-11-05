@@ -1,18 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { IconName } from "@fortawesome/free-solid-svg-icons";
-
-type ServiceListType = {
-  logo: IconName;
-  color: string;
-};
+import { AuthItem } from "@interfaces/handle.auth";
 
 type ServiceListProps = {
   title: string;
-  list: ServiceListType[];
+  list: AuthItem[];
+  forceColor?: string;
 };
 
-export default function ServiceList({ title, list }: ServiceListProps) {
+export default function ServiceList({
+  title,
+  list,
+  forceColor,
+}: ServiceListProps) {
   return (
     <div className={"flex flex-col w-full h-auto items-center mt-10"}>
       <p className={"text-[30px] font-semibold text-center"}>{title}</p>
@@ -24,14 +24,10 @@ export default function ServiceList({ title, list }: ServiceListProps) {
         {list.map((service, index) => (
           <div
             key={index}
-            style={{ backgroundColor: service.color }}
+            style={{ backgroundColor: forceColor ?? service.color }}
             className={`w-24 h-24 m-4 flex items-center justify-center rounded-[20px] hover:opacity-50 cursor-pointer`}
           >
-            <FontAwesomeIcon
-              icon={["fab", service.logo]}
-              size="2x"
-              color="white"
-            />
+            <FontAwesomeIcon icon={service.icon} size="2x" color="white" />
           </div>
         ))}
       </div>

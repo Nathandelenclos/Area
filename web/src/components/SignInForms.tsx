@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import LoadingElementPopUp from "./LoadingElementPopUp";
 
 type SignInFormsProps = {
@@ -13,7 +13,7 @@ function SignInForms({ onSignIn, onRecoverPassword }: SignInFormsProps) {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [isClicked, setIsClicked] = React.useState<boolean>(false);
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
 
   useEffect(() => {
     addEventListener("keydown", onEnterPressed);

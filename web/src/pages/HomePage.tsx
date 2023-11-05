@@ -1,11 +1,11 @@
 import React from "react";
 import NavBar from "@components/NavBar";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import HomePageButton from "@src/components/HomePageButtons";
 import Footer from "@src/components/Footer";
 
 export default function HomePage() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <div className="flex w-full h-full flex-col">
       <NavBar />

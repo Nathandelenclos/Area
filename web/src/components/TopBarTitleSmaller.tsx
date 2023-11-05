@@ -1,8 +1,8 @@
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import React from "react";
 
 export default function TopBarTitleSmaller() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <h1 className="text-4xl font-bold my-5">

@@ -1,40 +1,51 @@
 import React from "react";
 import NavBar from "@components/NavBar";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import TopBarTitle from "@src/components/TopBarTitle";
 import ProfileMainInfo from "@src/components/ProfileMainInfo";
 import ServiceList from "@src/components/ServiceList";
-import { IconName } from "@fortawesome/free-solid-svg-icons";
 import TopBarTitleSmaller from "@src/components/TopBarTitleSmaller";
 import Footer from "@src/components/Footer";
-
-type listType = {
-  logo: IconName;
-  color: string;
-};
-
-const connectedServicesList: listType[] = [
-  { logo: "spotify", color: "#00AD30" },
-  { logo: "spotify", color: "#00AD30" },
-  { logo: "spotify", color: "#00AD30" },
-  { logo: "spotify", color: "#00AD30" },
-  { logo: "spotify", color: "#00AD30" },
-  { logo: "spotify", color: "#00AD30" },
-];
-
-const otherServicesList: listType[] = [
-  { logo: "spotify", color: "#000000" },
-  { logo: "spotify", color: "#000000" },
-  { logo: "spotify", color: "#000000" },
-  { logo: "spotify", color: "#000000" },
-  { logo: "spotify", color: "#000000" },
-  { logo: "spotify", color: "#000000" },
-  { logo: "spotify", color: "#000000" },
-  { logo: "spotify", color: "#000000" },
-];
+import { AUTH_LIST, AuthItem } from "@interfaces/handle.auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Profile() {
-  const { translate } = AppContext();
+  const { translate, user } = GlobalContext();
+  console.log(user.oauth);
+  const otherServicesList: AuthItem[] = AUTH_LIST;
+  const userOauthList =
+    user.oauth.map((item): AuthItem => {
+      const service: AuthItem | undefined = AUTH_LIST.find(
+        (auth) => auth.provider === item.provider,
+      );
+      if (!service)
+        return {
+          name: "",
+          provider: "",
+          icon: ["fas", "question"],
+          color: "",
+          OAuth: () => {
+            console.log("pressed");
+          },
+        };
+      return {
+        name: item.email,
+        provider: service.provider,
+        icon: service.icon,
+        color: service.color,
+        OAuth: () => {
+          console.log("pressed");
+        },
+      };
+    }) ?? [];
+
+  const coServicesList: AuthItem[] =
+    userOauthList.filter((item) => item.name) ?? [];
+
+  const logout = () => {
+    //todo: LOGOUT SERVICE;
+    return;
+  };
 
   return (
     <div className="flex w-full h-full flex-col">
@@ -47,13 +58,35 @@ export default function Profile() {
       </div>
       <ProfileMainInfo />
       <div className="flex flex-col md:flex-row w-full">
-        <ServiceList
-          title={translate("profile", "connected-services")}
-          list={connectedServicesList}
-        />
+        <div className="flex flex-col w-full items-center">
+          <p className={"text-[30px] font-semibold text-center"}>
+            {translate("profile", "connected-services")}
+          </p>
+          {coServicesList.map((item, index) => (
+            <div key={index} className="flex flex-row mt-5 items-center">
+              <div
+                style={{
+                  backgroundColor: item.color,
+                  padding: 10,
+                  borderRadius: 10,
+                }}
+              >
+                <FontAwesomeIcon icon={item.icon} size="2x" color="white" />
+              </div>
+              <p className="mx-5">{item.name}</p>
+              <FontAwesomeIcon
+                icon={"xmark"}
+                size="2x"
+                color="red"
+                onClick={logout}
+              />
+            </div>
+          ))}
+        </div>
         <ServiceList
           title={translate("profile", "connect-other-services")}
           list={otherServicesList}
+          forceColor={"#6F6F6F"}
         />
       </div>
       <Footer />
