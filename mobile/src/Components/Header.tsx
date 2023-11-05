@@ -63,6 +63,7 @@ export default function Header({
           <TouchableOpacity
             onPress={onPressLeft}
             style={{ position: 'absolute', left: 0 }}
+            testID='header-left-button'
           >
             <FontAwesomeIcon icon={leftIcon} size={25} color={color.text} />
           </TouchableOpacity>
