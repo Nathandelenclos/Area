@@ -2,7 +2,6 @@ import React from 'react';
 import { it, describe, expect, jest } from '@jest/globals';
 import { render, fireEvent } from '@testing-library/react-native';
 import SettingsButton from '@components/SettingsButton';
-import { View } from 'react-native';
 
 jest.mock("@fortawesome/react-native-fontawesome", () => ({
   FontAwesomeIcon: () => <div>Icon</div>,
@@ -14,7 +13,6 @@ describe('SettingsButton component', () => {
       const { getByTestId } = render(
         <SettingsButton onPress={onPressMock} />
       );
-      const button = getByTestId('settings-button');
       expect(getByTestId('settings-button')).toBeTruthy();
     });
 
