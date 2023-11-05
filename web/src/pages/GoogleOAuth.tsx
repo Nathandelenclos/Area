@@ -114,7 +114,6 @@ export default function GoogleOAuth() {
           }),
         );
       }
-      localStorage.setItem("accessToken", data.refreshToken);
       navigate("/my-applets");
     } else {
       navigate("/");
