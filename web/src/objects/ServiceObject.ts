@@ -1,5 +1,5 @@
 import { ActionObject } from "@src/objects/ActionObject";
-import { ReactionObjectDto } from "@src/objects/ReactionObject";
+import { ReactionObject, ReactionObjectDto } from "@src/objects/ReactionObject";
 
 export interface ServiceObjectDto {
   id: number;
@@ -7,7 +7,7 @@ export interface ServiceObjectDto {
   url: string;
   is_available: boolean;
   actions: ActionObject[];
-  reactions: ReactionObjectDto[];
+  reactions: ReactionObject[];
 }
 
 export class ServiceObject {
@@ -29,7 +29,7 @@ export class ServiceObject {
     return this.data.actions;
   }
 
-  get reactions(): ReactionObjectDto[] {
+  get reactions(): ReactionObject[] {
     return this.data.reactions;
   }
 }

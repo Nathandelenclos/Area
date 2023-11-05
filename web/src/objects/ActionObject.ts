@@ -8,12 +8,13 @@ export interface ActionObjectDto {
   description: string;
   is_available: boolean;
   config: RequireConfigObjectDto[];
+  action?: ActionObjectDto;
+  configs?: ConfigObjectDto[];
 }
 
 export interface ActionAppletObjectDto {
   id: number;
   action: ActionObjectDto;
-  configs?: ConfigObjectDto[];
 }
 
 export class ActionObject {
@@ -27,11 +28,15 @@ export class ActionObject {
     return this.data.id;
   }
 
+  get name(): string {
+    return this.data.action.name;
+  }
+
   get action(): ActionObjectDto {
     return this.data.action;
   }
 
-  get configs(): ConfigObjectDto[] | undefined {
-    return this.data.configs;
+  get config(): RequireConfigObjectDto[] {
+    return this.data.action.config;
   }
 }

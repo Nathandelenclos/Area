@@ -1,5 +1,6 @@
 import AppletCreationButtons from "./AppletCreationButtons";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
+import LoadingElement from "@components/LoadingElement";
 
 type AppletServiceStruct = {
   id: number;
@@ -12,6 +13,7 @@ type OptionListContainerProps = {
   ContainerTitle: string;
   children?: AppletServiceStruct[];
   onListObjectClick: (id: number) => void;
+  loading?: boolean;
 };
 
 type AppleListProps = {
@@ -40,6 +42,7 @@ export default function OptionListContainer({
   ContainerTitle,
   children,
   onListObjectClick,
+  loading,
 }: OptionListContainerProps) {
   return (
     <div className="w-full lg:mx-10 flex flex-col">
@@ -47,10 +50,16 @@ export default function OptionListContainer({
         {ContainerTitle}
       </h1>
       <div className="overflow-y-scroll">
-        <AppletList
-          childs={children ?? []}
-          onListObjectClick={onListObjectClick}
-        />
+        {!loading ? (
+          <AppletList
+            childs={children ?? []}
+            onListObjectClick={onListObjectClick}
+          />
+        ) : (
+          <div className="flex justify-center">
+            <LoadingElement />
+          </div>
+        )}
       </div>
     </div>
   );

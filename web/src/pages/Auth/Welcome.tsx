@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
 import ConnectionButtons from "@components/ConnectionButtons";
 import OAuthButtons from "@components/OAuthButtons";
 import AppContext from "@src/context/AppContextProvider";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import LoadingElementPopUp from "@src/components/LoadingElementPopUp";
 
 export default function Welcome() {
   const { translate } = AppContext();
@@ -15,6 +14,8 @@ export default function Welcome() {
       navigate("/home-page");
     }
   }, []);
+  const onSuccess = (response: any) => console.log(response);
+  const onFailure = (response: any) => console.error(response);
 
   return (
     <AuthViewContainer ContainerTitle={translate("welcome")}>

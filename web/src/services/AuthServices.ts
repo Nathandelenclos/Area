@@ -48,6 +48,15 @@ export class AuthServices {
     });
   }
 
+  static me(token: string) {
+    return ApiInvoke({
+      endpoint: `/auth/me`,
+      method: "GET",
+      expectedStatus: 200,
+      authToken: token,
+    });
+  }
+
   static storeToken(token: string) {
     localStorage.setItem("accessToken", token);
   }
