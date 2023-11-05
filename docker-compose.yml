@@ -237,6 +237,19 @@ services:
       - rabbitmq
     restart: always
 
+  mobile:
+    build: mobile
+    container_name: mobile
+    hostname: mobile
+    volumes:
+      - ./mobile:/app
+      - shared-folder:/app/build
+    env_file:
+      - .env
+    depends_on:
+      - api
+    restart: on-failure
+
   web:
     build: web
     container_name: web
@@ -245,6 +258,8 @@ services:
       - shared-folder:/usr/share/nginx/html/build
     ports:
       - "${FRONT_PORT}:80"
+    depends_on:
+      - mobile
     restart: always
 
 volumes:
