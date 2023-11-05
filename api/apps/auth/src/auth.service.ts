@@ -137,7 +137,7 @@ export class AuthService {
     );
 
     let user;
-
+    console.log(oauth);
     if (!oauth) {
       user = await this.userService.create({
         email: data.email,
@@ -152,6 +152,8 @@ export class AuthService {
         refreshToken: hashedRefreshToken,
         user: user,
       });
+    } else {
+      user = oauth.user;
     }
 
     return {
