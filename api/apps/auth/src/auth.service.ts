@@ -6,6 +6,7 @@ import {
   OauthEntity,
   OAuthRelations,
   OauthService,
+  Providers,
   UnauthorizeError,
   UserEntity,
   UserLoggedInDto,
@@ -79,40 +80,31 @@ export class AuthService {
     };
   }
 
-  async signOAuthGithub(
-    data: UserOAuthCredentialsDto,
-  ): Promise<UserLoggedInDto> {
-    const clientId = this.configService.get('GITHUB_CLIENT_ID');
-    const clientSecret = this.configService.get('GITHUB_CLIENT_SECRET');
-    const authorizationCode = data.refreshToken;
-
-    const params =
-      '?cliend_id=' +
-      clientId +
-      '&client_secret=' +
-      clientSecret +
-      '&code=' +
-      authorizationCode;
-
-    const response = await fetch(
-      'https://github.com/login/oauth/access_token' + params,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-    );
-    const json = await response.json();
-    console.log(json);
-    return null;
-  }
-
   /**
    * Sign in a user with OAuth credentials and return a JWT
    * @param data
    */
   async signOAuth(data: UserOAuthCredentialsDto): Promise<UserLoggedInDto> {
+    if (data.provider === 'spotify' && data.code) {
+      const result = await this.spotifyAuth({
+        code: data.code,
+      });
+      data = {
+        ...data,
+        ...result,
+      };
+    }
+
+    if (data.provider === 'github' && data.code) {
+      const result = await this.githubAuth({
+        code: data.code,
+      });
+      data = {
+        ...data,
+        ...result,
+      };
+    }
+
     if (!data.email || !data.provider || !data.refreshToken || !data.providerId)
       throw new ValidationError<keyof UserOAuthCredentialsDto>([
         'email',
@@ -298,7 +290,7 @@ export class AuthService {
     await this.userService.delete(userEntity.id);
   }
 
-  async spotifyAuth(query) {
+  async spotifyAuth({ code }) {
     const client_id = this.configService.get('SPOTIFY_CLIENT_ID');
     const client_secret = this.configService.get('SPOTIFY_CLIENT_SECRET');
 
@@ -312,20 +304,36 @@ export class AuthService {
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        code: query.code,
-        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+        code: code,
+        redirect_uri: this.configService.get('SPOTIFY_REDIRECT_URI'),
       }),
     });
-    console.log(await response.json());
+
+    const result = await response.json();
+
+    const spotifyMe = await fetch('https://api.spotify.com/v1/me', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${result.accessToken}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.json());
+
+    return {
+      providerId: spotifyMe.id,
+      email: spotifyMe.email,
+    };
   }
 
-  async githubAuth(query) {
+  async githubAuth({ code }) {
     const client_id = this.configService.get('GITHUB_CLIENT_ID');
     const client_secret = this.configService.get('GITHUB_CLIENT_SECRET');
 
-    const response = await fetch('https://accounts.spotify.com/api/token', {
+    const result = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization:
           'Basic ' +
@@ -333,10 +341,22 @@ export class AuthService {
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        code: query.code,
-        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+        code: code,
+        redirect_uri: this.configService.get('GITHUB_REDIRECT_URI'),
       }),
-    });
-    console.log(await response.json());
+    }).then((res) => res.json());
+
+    const response = await fetch('https://api.github.com/user/emails', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${result.accessToken}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.json());
+    return {
+      email: response[0].email,
+      providerId: response[1].email,
+    };
   }
 }

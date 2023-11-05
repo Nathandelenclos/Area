@@ -29,9 +29,6 @@ export class WeatherService {
    * @returns The city code
    */
   async getCityCode(city: string): Promise<string> {
-    // TODO: REMOVE
-    return '';
-
     const response = await fetch(`${this.CITY_CODE_URL}&q=${city}`, {
       method: 'GET',
       headers: {
@@ -43,9 +40,6 @@ export class WeatherService {
   }
 
   async getWeather(cityCode: string): Promise<any> {
-    // TODO: REMOVE
-    return;
-
     const response = await fetch(
       `${this.WEATHER_URL}${cityCode}?apikey=${this.WEATHER_API_KEY}&details=true&metric=true`,
       {

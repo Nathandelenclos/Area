@@ -26,29 +26,6 @@ export class NewsService {
    * Triggered when a new article is published on the New York Times
    */
   async onNewNYTArticle(): Promise<void> {
-    // TODO: UNCOMMENT
-    /*
-    const response = await fetch(this.NYT_URL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await response.json();
-     */
-    // TODO: REMOVE
-    const data = {
-      results: [
-        {
-          updated_date: undefined,
-        },
-      ],
-    };
-
-    const articleUpdatedDate: string | null =
-      data.results[0]?.updated_date || null;
-    if (!articleUpdatedDate) return;
-
     const action = await this.actionService.findOne(
       {
         key: 'nyt_article',
@@ -65,6 +42,20 @@ export class NewsService {
       ],
     );
     if (!action || !action.is_available) return;
+
+    const response = await fetch(this.NYT_URL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+
+    if (!data || !data?.results) return;
+    const articleUpdatedDate: string | null =
+      data.results[0]?.updated_date || null;
+
+    if (!articleUpdatedDate) return;
     for (const actionApplet of action.applets) {
       if (!actionApplet.applet.is_active) continue;
 
