@@ -14,33 +14,9 @@ import { useNavigate } from "react-router-dom";
 async function getAuthorizationCodeFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const authorizationCode = urlParams.get("code");
-  // const clientId = process.env.REACT_APP_GITHUB_OAUTH_CLIENT_ID;
-  // const clientSecret = process.env.REACT_APP_GITHUB_OAUTH_CLIENT_SECRET;
-  // const redirectUri = process.env.REACT_APP_GITHUB_OAUTH_REDIRECT_URI;
-
-  // console.log(authorizationCode);
-
-  // const formdata = new FormData();
-  // formdata.append("client_id", "1f0cf209b216d7cdc81b");
-  // formdata.append("client_secret", "9e8854c50d0d8962f1f5b6cf41210b2089520d7c");
-  // formdata.append("code", "cd29348727e8d98ce246");
-
-  // const requestOptions = {
-  //   method: "POST",
-  //   body: formdata,
-  // };
-
-  // fetch("https://github.com/login/oauth/access_token", requestOptions)
-  //   .then((response) => response.text())
-  //   .then((result) => console.log(result))
-  //   .catch((error) => console.log("error", error));
-
-  // const data = await response.json();
-
+  console.log(authorizationCode);
   return {
-    email: "data.email",
-    providerId: "data.id",
-    refreshToken: " data.refreshToken",
+    code: authorizationCode,
   };
 }
 

@@ -24,18 +24,8 @@ export const getTokenFromUrl = () => {
 
 async function getUserInfo() {
   const access_token = getTokenFromUrl();
-  console.log(access_token);
-  const result = await fetch("https://api.spotify.com/v1/me", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${access_token.access_token}`,
-    },
-  });
-  const data = await result.json();
   return {
-    email: data.email,
-    providerId: data.id,
-    refreshToken: access_token.access_token,
+    code: access_token,
   };
 }
 
@@ -74,7 +64,7 @@ export const LoginUserSpotify = () => {
           }),
         );
       }
-      navigate("/loading-page");
+      navigate("/home-page");
     } else {
       navigate("/");
     }
