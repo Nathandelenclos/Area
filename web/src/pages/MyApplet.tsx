@@ -18,6 +18,7 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import LoadingElement from "@components/LoadingElement";
+import app from "@src/App";
 
 /**
  * MyApplet page displays the my applet view.
@@ -52,6 +53,7 @@ export default function MyApplet() {
    */
   const getMyApplets = async () => {
     const applets = await AppletService.getApplets(user.getAccessToken());
+    console.log("Mesapplet", applets);
     setApplets(applets);
     setAppletsLoading(false);
   };
@@ -126,18 +128,22 @@ export default function MyApplet() {
               )}
               {!appletsLoading &&
                 applets &&
-                applets.map((applet) => (
-                  <AppletButton
-                    key={applet.id}
-                    title={applet.name}
-                    color={
-                      applet.id === selectedApplet?.id
-                        ? "#38356C"
-                        : applet.color ?? "#7A73E7"
-                    }
-                    onClick={() => onAppletClick(applet)}
-                  />
-                ))}
+                applets.map((applet) => {
+                  return (
+                    <AppletButton
+                      key={applet.id}
+                      title={applet.name}
+                      color={
+                        applet.id === selectedApplet?.id
+                          ? "#38356C"
+                          : applet.color?.length > 0
+                          ? applet.color
+                          : "#7A73E7"
+                      }
+                      onClick={() => onAppletClick(applet)}
+                    />
+                  );
+                })}
             </div>
             {selectedApplet && selectedApplet?.id !== 0 ? (
               <div className="w-full md:w-3/5 p-5">
