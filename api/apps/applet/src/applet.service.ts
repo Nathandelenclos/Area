@@ -262,7 +262,12 @@ export class AppletService {
     if (applet.user.id !== userId) {
       throw new ForbiddenError('You are not allowed to access this applet');
     }
-    if (data.name || data.description || data.is_active || data.color) {
+    if (
+      data.name ||
+      data.description ||
+      data.is_active !== undefined ||
+      data.color
+    ) {
       await this.appletCommonService.update(id, {
         name: data.name,
         description: data.description,
