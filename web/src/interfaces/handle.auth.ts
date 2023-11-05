@@ -1,6 +1,7 @@
 import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 
 type AuthItem = {
+  id?: number;
   color: string;
   icon: [IconPrefix, IconName];
   OAuth: (arg0: boolean, token: string) => void;
