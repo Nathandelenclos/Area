@@ -104,6 +104,7 @@ export class AuthService {
         ...result,
       };
     }
+    console.log(data);
 
     if (!data.email || !data.provider || !data.refreshToken || !data.providerId)
       throw new ValidationError<keyof UserOAuthCredentialsDto>([
@@ -310,6 +311,7 @@ export class AuthService {
     });
 
     const result = await response.json();
+    console.log('result', result);
 
     const spotifyMe = await fetch('https://api.spotify.com/v1/me', {
       method: 'GET',
@@ -320,6 +322,7 @@ export class AuthService {
       },
     }).then((res) => res.json());
 
+    console.log('result', spotifyMe);
     return {
       providerId: spotifyMe.id,
       email: spotifyMe.email,
@@ -346,6 +349,7 @@ export class AuthService {
       }),
     }).then((res) => res.json());
 
+    console.log('result', result);
     const response = await fetch('https://api.github.com/user/emails', {
       method: 'GET',
       headers: {
@@ -354,6 +358,7 @@ export class AuthService {
         'Content-Type': 'application/json',
       },
     }).then((res) => res.json());
+    console.log('result', response);
     return {
       email: response[0].email,
       providerId: response[1].email,
