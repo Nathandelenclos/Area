@@ -262,17 +262,21 @@ export class AppletService {
     if (applet.user.id !== userId) {
       throw new ForbiddenError('You are not allowed to access this applet');
     }
-    if (data.name || data.description || data.is_active) {
+    if (data.name || data.description || data.is_active || data.color) {
       await this.appletCommonService.update(id, {
         name: data.name,
         description: data.description,
         is_active: data.is_active,
+        color: data.color,
       });
     }
-    await this.requiredConfig(data.reactions, data.actions);
-    await this.deleteConfig(applet);
-    await this.createConfig(data.actions, applet, 'actionApplet');
-    await this.createConfig(data.reactions, applet, 'reactionApplet');
+
+    if (data.reactions || data.actions) {
+      await this.requiredConfig(data.reactions, data.actions);
+      await this.deleteConfig(applet);
+      await this.createConfig(data.actions, applet, 'actionApplet');
+      await this.createConfig(data.reactions, applet, 'reactionApplet');
+    }
 
     return this.appletCommonService.findOne({ id: applet.id }, [
       AppletRelations.ACTIONS,

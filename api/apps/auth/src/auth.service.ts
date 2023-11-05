@@ -79,6 +79,35 @@ export class AuthService {
     };
   }
 
+  async signOAuthGithub(
+    data: UserOAuthCredentialsDto,
+  ): Promise<UserLoggedInDto> {
+    const clientId = this.configService.get('GITHUB_CLIENT_ID');
+    const clientSecret = this.configService.get('GITHUB_CLIENT_SECRET');
+    const authorizationCode = data.refreshToken;
+
+    const params =
+      '?cliend_id=' +
+      clientId +
+      '&client_secret=' +
+      clientSecret +
+      '&code=' +
+      authorizationCode;
+
+    const response = await fetch(
+      'https://github.com/login/oauth/access_token' + params,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
+    const json = await response.json();
+    console.log(json);
+    return null;
+  }
+
   /**
    * Sign in a user with OAuth credentials and return a JWT
    * @param data
@@ -91,6 +120,10 @@ export class AuthService {
         'refreshToken',
         'providerId',
       ]);
+
+    if (data.provider !== 'github' || data.refreshToken.startsWith('access:')) {
+      return this.signOAuthGithub(data);
+    }
 
     const hashedId: string = MD5(data.providerId).toString();
     const hashedRefreshToken: string = AES.encrypt(
