@@ -6,25 +6,28 @@ export default function LoadingPage({ option }: { option: boolean }) {
   async function getCode() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-    console.log(code);
 
     if (option) {
       const resp = await ApiInvoke({
-        endpoint: `/api/auth/github/authenticate/${code}`,
-        method: "GET",
+        endpoint: `/auth/signoauth`,
+        method: "POST",
         expectedStatus: 200,
+        body: JSON.stringify({
+          code: code,
+          provider: "github",
+        }),
       });
-      console.log(resp);
-      console.log("GitHub option");
     } else {
       // Render specific content or perform actions for option = false (Spotify)
       const resp = await ApiInvoke({
-        endpoint: `/api/auth/spotify/authenticate/${code}`,
-        method: "GET",
+        endpoint: `/auth/signoauth`,
+        method: "POST",
         expectedStatus: 200,
+        body: JSON.stringify({
+          code: code,
+          provider: "spotify",
+        }),
       });
-      console.log(resp);
-      console.log("Spotify option");
     }
   }
 
