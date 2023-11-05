@@ -3,13 +3,45 @@ import { KeyboardTypeOptions } from 'react-native/Libraries/Components/TextInput
 import { TextInput } from 'react-native';
 import AppContext from '@contexts/app.context';
 
+/**
+ * Props for the AuthTextInput component.
+ * @interface AuthTextInputProps
+ */
 type AuthTextInputProps = {
+  /**
+   * placeholder of the service.
+   */
   placeholder: string;
+  /**
+   * secure of the service secureTextEntry.
+   */
   secure?: boolean;
+  /**
+   * text of the service.
+   */
   text?: string;
+  /**
+   * setText of the service.
+   */
   setText?: React.Dispatch<React.SetStateAction<string>>;
 };
 
+/**
+ * AuthTextInput is a reusable component for every AuthTextInput in the app.
+ * It takes a placeholder and could take a secure, text and setText function as props.
+ *
+ * @component
+ * @example
+ * // Example usage of AuthTextInput component
+ * <AuthTextInput
+ *   bgColor={'red'}
+ *   children={<Text>Example</Text>}
+ * />
+ *
+ * @param {JSX.Element[]} props.children - Children to be rendered inside the AuthTextInput component.
+ * @param {string} props.bgColor - Background color of the AuthTextInput component.
+ * @returns {JSX.Element} - Returns the rendered AuthTextInput component.
+ */
 export default function AuthTextInput({
   placeholder,
   secure,

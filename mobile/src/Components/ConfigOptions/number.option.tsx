@@ -1,6 +1,24 @@
 import { TextInput } from 'react-native';
 import React from 'react';
 
+/**
+ * NumberInput is a reusable component for every NumberInput in the app.
+ * It takes a name, value and a setValue function as props.
+ *
+ * @component
+ * @example
+ * // Example usage of NumberInput component
+ * <NumberInput
+ *   name={'NumberInput'}
+ *   value={1}
+ *   setValue={(value: Date) => setValue(key, value)}
+ * />
+ *
+ * @param {string} props.name - The name of the NumberInput.
+ * @param {number} props.value - The value of the NumberInput.
+ * @param {() => void} props.setValue - The setValue function of the NumberInput.
+ * @returns {JSX.Element} - Returns the rendered NumberInput component.
+ */
 export default function NumberInput({
   name,
   value,

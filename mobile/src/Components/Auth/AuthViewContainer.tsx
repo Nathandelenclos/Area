@@ -1,8 +1,23 @@
 import React, { JSX } from 'react';
 import { SafeAreaView, TouchableOpacity, View } from 'react-native';
 import AppContext from '@contexts/app.context';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
+/**
+ * AuthViewContainer is a reusable component for every AuthViewContainer in the app.
+ * It takes children and could take a bgColor as props.
+ *
+ * @component
+ * @example
+ * // Example usage of AuthViewContainer component
+ * <AuthViewContainer
+ *   bgColor={'red'}
+ *   children={<Text>Example</Text>}
+ * />
+ *
+ * @param {JSX.Element[]} props.children - Children to be rendered inside the AuthViewContainer component.
+ * @param {string} props.bgColor - Background color of the AuthViewContainer component.
+ * @returns {JSX.Element} - Returns the rendered AuthViewContainer component.
+ */
 export default function AuthViewContainer({
   children,
   bgColor,

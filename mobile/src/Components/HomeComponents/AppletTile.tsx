@@ -35,7 +35,7 @@ export type AppletProps = {
 
 /**
  * AppletTile is a reusable component for every AppletTile in the app.
- * It takes a AppletTile and a textColor as props.
+ * It takes an appletTitle, id, description, color, size, handleOnPress function as props.
  *
  * @component
  * @example

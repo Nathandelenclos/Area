@@ -18,7 +18,7 @@ export type HomeTitleProps = {
 
 /**
  * HomeTitle is a reusable component for every HomeTitle in the app.
- * It takes a HomeTitle and a textColor as props.
+ * It takes a text and a textColor as props.
  *
  * @component
  * @example

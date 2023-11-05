@@ -1,6 +1,24 @@
 import { TextInput } from 'react-native';
 import React from 'react';
 
+/**
+ * StringInput is a reusable component for every StringInput in the app.
+ * It takes a name, value and a setValue function as props.
+ *
+ * @component
+ * @example
+ * // Example usage of StringInput component
+ * <StringInput
+ *   name={'StringInput'}
+ *   value={'Test'}
+ *   setValue={(value: Date) => setValue(key, value)}
+ * />
+ *
+ * @param {string} props.name - The name of the StringInput.
+ * @param {string} props.value - The value of the StringInput.
+ * @param {() => void} props.setValue - The setValue function of the StringInput.
+ * @returns {JSX.Element} - Returns the rendered StringInput component.
+ */
 export default function StringInput({
   name,
   value,
