@@ -1,4 +1,4 @@
-import { IApiInvokeResponse } from './API/api.invoke';
+import { ApiInvoke, IApiInvokeResponse } from './API/api.invoke';
 import { Platform } from 'react-native';
 import {
   AuthConfiguration,
@@ -20,6 +20,7 @@ import {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
 } from '@env';
+import { defaultApiHandler } from '@services/API/api.handlers';
 
 class OAuthService {
   /**
@@ -199,6 +200,21 @@ class OAuthService {
       provider: 'github',
       refreshToken: result.accessToken,
       providerId: email[1].email,
+    });
+  }
+
+  /**
+   * Disconnect OAuth
+   * @constructor {token: string, id: number}
+   * @returns {Promise<IApiInvokeResponse>}
+   */
+  logout(token: string, id: number): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: `/auth/delete-oauth/${id}`,
+      method: 'DELETE',
+      expectedStatus: 200,
+      handlers: defaultApiHandler,
+      authToken: token,
     });
   }
 }

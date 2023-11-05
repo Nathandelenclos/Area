@@ -15,12 +15,11 @@ import { Title } from '@components/Title';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import UserCtx from '@contexts/user.context';
 import ModalContainer from '@components/ModaleContainer';
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
-import OauthService from '@services/oauth.service';
 import { AUTH_LIST, AuthItem } from '@interfaces/handle.auth';
 import { IApiInvokeResponse } from '@services/API/api.invoke';
 import StyledButton from '@components/MyButton';
 import AuthService from '@services/auth.service';
+import OauthService from '@services/oauth.service';
 
 type InputFieldProps = {
   title: string;
@@ -241,17 +240,25 @@ function RenderNoConnectedServices({
 type LogoutModalProps = {
   modalLogoutVisible: boolean;
   setModalLogoutVisible: Dispatch<SetStateAction<boolean>>;
+  logoutUserOrOauth: number;
 };
 
 function LogoutModal({
   modalLogoutVisible,
   setModalLogoutVisible,
+  logoutUserOrOauth,
 }: LogoutModalProps): React.JSX.Element {
   const { color, translate } = AppContext();
-  const { setUser } = UserCtx();
+  const { setUser, user, reloadUser } = UserCtx();
 
-  const logoutUser = () => {
-    setUser(null);
+  const logoutUser = async () => {
+    if (logoutUserOrOauth !== -1) {
+      const resp = await OauthService.logout(user?.token, logoutUserOrOauth);
+      if (resp.data) await reloadUser();
+      setModalLogoutVisible(false);
+    } else {
+      setUser(null);
+    }
   };
 
   return (
@@ -416,6 +423,7 @@ export default function Profile({
   const { user, reloadUser } = UserCtx();
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const [modalLogoutVisible, setModalLogoutVisible] = useState(false);
+  const [oauthToDelete, setOauthToDelete] = useState(-1);
 
   const changePassword = () => {
     console.log('change password pressed');
@@ -450,7 +458,8 @@ export default function Profile({
         icon: service.icon,
         color: service.color,
         function: () => {
-          console.log('pressed');
+          setOauthToDelete(item.id);
+          setModalLogoutVisible(true);
         },
       };
     }) ?? [];
@@ -609,6 +618,7 @@ export default function Profile({
         <LogoutModal
           modalLogoutVisible={modalLogoutVisible}
           setModalLogoutVisible={setModalLogoutVisible}
+          logoutUserOrOauth={oauthToDelete}
         />
       </SafeAreaView>
     </View>
