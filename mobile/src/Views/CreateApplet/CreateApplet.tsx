@@ -152,7 +152,7 @@ export default function CreateApplet({
       type === 'action' ? setActions : setReactions;
     const default_value: IAction[] | IReaction[] =
       type === 'action' ? [DEFAULT_ACTION] : [DEFAULT_REACTION];
-    if (actions.length === 1) {
+    if (type === 'action' ? actions.length === 1 : reactions.length === 1) {
       func(default_value);
       return;
     }
@@ -289,9 +289,7 @@ export default function CreateApplet({
                 : () => handleAppletRemove(action.id, 'action')
             }
             extendBottom={
-              edition === 'information'
-                ? index === actions.length - 1
-                : index !== actions.length - 1
+              edition === 'information' ? true : index !== actions.length - 1
             }
           />
         ))}
