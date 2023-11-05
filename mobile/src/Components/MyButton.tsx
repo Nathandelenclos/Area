@@ -2,12 +2,41 @@ import React, { JSX } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import AppContext from '@contexts/app.context';
 
+/**
+ * Props for the StyledButton component.
+ * @interface MyButtonProps
+ */
 type MyButtonProps = {
+  /**
+   * inverse backgroundColor of the Button.
+   */
   inverse?: boolean;
+  /**
+   * Title of the Button.
+   */
   title: string;
+  /**
+   * Function done when Button pressed.
+   */
   onPress?: () => void;
 };
 
+/**
+ * StyledButton is a reusable component for every StyledButton in the app.
+ * It takes a title and could have an inverse background color and could have an onPress function as props.
+ *
+ * @component
+ * @example
+ * // Example usage of StyledButton component
+ * <StyledButton
+ *   title={'title'}
+ *   inverse={true}
+ *   onPress={() => {console.log('StyledButton pressed')}}
+ * />
+ *
+ * @param {MyButtonProps} props - The props for the StyledButton component.
+ * @returns {JSX.Element} - Returns the rendered StyledButton component.
+ */
 export default function StyledButton({
   inverse = false,
   title,

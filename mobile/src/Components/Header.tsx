@@ -3,6 +3,30 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import AppContext from '@contexts/app.context';
 
+/**
+ * Header is a reusable component for every Header in the app.
+ * It takes a title and could take a leftIcon, onPressLeft function, rightIcon, onPressRight function and a bar as props.
+ *
+ * @component
+ * @example
+ * // Example usage of Header component
+ * <Header
+ *   leftIcon={check}
+ *   onPressLeft={() => {console.log('LefttIcon pressed')}}
+ *   rightIcon={plus}
+ *   onPressRight={() => {console.log('RightIcon pressed')}}
+ *   title={'title'}
+ *   bar={false}
+ * />
+ *
+ * @param {IconProp} props.leftIcon - Icon to display on the left of the Header component.
+ * @param {() => void} props.onPressLeft - Function to execute when the leftIcon is pressed.
+ * @param {IconProp} props.rightIcon - Icon to display on the right of the Header component.
+ * @param {() => void} props.onPressRight - Function to execute when the rightIcon is pressed.
+ * @param {string} props.title - Title to display in the Header component.
+ * @param {boolean} props.bar - Boolean to display a bar under the Header component.
+ * @returns {JSX.Element} - Returns the rendered Header component.
+ */
 export default function Header({
   leftIcon,
   onPressLeft,
@@ -39,6 +63,7 @@ export default function Header({
           <TouchableOpacity
             onPress={onPressLeft}
             style={{ position: 'absolute', left: 0 }}
+            testID='header-left-button'
           >
             <FontAwesomeIcon icon={leftIcon} size={25} color={color.text} />
           </TouchableOpacity>

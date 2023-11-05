@@ -21,6 +21,7 @@
         "@react-navigation/bottom-tabs": "^6.5.9",
         "@react-navigation/native": "^6.1.8",
         "@react-navigation/native-stack": "^6.9.14",
+        "@testing-library/jest-native": "^5.4.3",
         "react": "18.2.0",
         "react-native": "0.72.4",
         "react-native-app-auth": "^7.0.0",
@@ -41,6 +42,7 @@
         "@babel/runtime": "^7.20.0",
         "@react-native/eslint-config": "^0.72.2",
         "@react-native/metro-config": "^0.72.11",
+        "@testing-library/react-native": "^12.3.2",
         "@tsconfig/react-native": "^3.0.0",
         "@types/react": "^18.0.24",
         "@types/react-test-renderer": "^18.0.0",
@@ -57,5 +59,6 @@
     },
     "engines": {
         "node": ">=16"
-    }
+    },
+    "packageManager": "yarn@4.0.1"
 }

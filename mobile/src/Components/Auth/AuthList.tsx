@@ -9,6 +9,36 @@ import UserCtx from '@contexts/user.context';
 import { Storage } from '@src/Storage/user.storage';
 import { AUTH_LIST } from '@interfaces/handle.auth';
 
+/**
+ * Type for the authList variable.
+ * @interface AuthItem
+ */
+type AuthItem = {
+  /**
+   * color of the service.
+   */
+  color: string;
+  /**
+   * icon of the service.
+   */
+  icon: [IconPrefix, IconName];
+  /**
+   * OAuth function of the service.
+   */
+  OAuth: () => Promise<IApiInvokeResponse>;
+};
+
+/**
+ * TextBetweenBar is a part of the component AuthFooter.
+ * It takes no props.
+ *
+ * @component
+ * @example
+ * // Example usage of TextBetweenBar component
+ * <TextBetweenBar />
+ *
+ * @returns {JSX.Element} - Returns the rendered TextBetweenBar component.
+ */
 function TextBetweenBar(): JSX.Element {
   const { color, translate } = AppContext();
 
@@ -47,6 +77,17 @@ function TextBetweenBar(): JSX.Element {
   );
 }
 
+/**
+ * AuthList is a part of the component AuthFooter.
+ * It takes no props.
+ *
+ * @component
+ * @example
+ * // Example usage of AuthList component
+ * <AuthList />
+ *
+ * @returns {JSX.Element} - Returns the rendered AuthList component.
+ */
 function AuthList(): JSX.Element {
   const { setUser } = UserCtx();
   async function handleOAuth(onPress: Promise<IApiInvokeResponse>) {
@@ -74,6 +115,7 @@ function AuthList(): JSX.Element {
             borderRadius: 5,
           }}
           onPress={() => handleOAuth(item.OAuth(false, ''))}
+          testID={'oauth-button'}
         >
           <FontAwesomeIcon icon={item.icon} size={20} color={'white'} />
         </TouchableOpacity>
@@ -82,6 +124,20 @@ function AuthList(): JSX.Element {
   );
 }
 
+/**
+ * AuthFooter is a reusable component for every AuthFooter in the app.
+ * It takes a width as props.
+ *
+ * @component
+ * @example
+ * // Example usage of AuthFooter component
+ * <AuthFooter
+ *   width={'100%'}
+ * />
+ *
+ * @param {DimensionValue} props.width - Width of the AuthFooter component.
+ * @returns {JSX.Element} - Returns the rendered AuthFooter component.
+ */
 export default function AuthFooter({
   width,
 }: {
