@@ -49,7 +49,7 @@ const QUEUES: QueueDefinition[] = [
   { name: 'news_queue', cmd: 'cron' }, // interval: EVERY_HOUR / 4
   { name: 'weather_queue', cmd: 'cron' }, // interval: EVERY_HOUR / 4
   { name: 'github_queue', cmd: 'cron' },
-  { name: 'facebook_queue', cmd: 'cron' },
+  { name: 'facebook_queue', cmd: 'cron', interval: EVERY_MINUTE },
   { name: 'slack_queue', cmd: 'cron' },
   { name: 'teams_queue', cmd: 'cron' },
 ];
