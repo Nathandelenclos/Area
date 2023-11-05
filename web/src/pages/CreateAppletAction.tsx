@@ -417,10 +417,13 @@ export default function CreateAppletAction() {
                   navigate("/my-applets");
                 });
               else
-                AppletService.create(applet, user.getAccessToken()).then(() => {
-                  setCreateLoading(false);
-                  navigate("/my-applets");
-                });
+                AppletService.create(applet, user.getAccessToken()).then(
+                  (resp) => {
+                    setCreateLoading(false);
+                    if (!resp.data) return;
+                    navigate("/my-applets");
+                  },
+                );
               return;
             }}
           >
