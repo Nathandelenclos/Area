@@ -237,7 +237,6 @@ export class AppletService {
       throw new ForbiddenError('You are not allowed to access this applet');
     }
 
-    await this.deleteConfig(applet);
     return this.appletCommonService.delete(id);
   }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AES, MD5 } from 'crypto-js';
 import {
+  AlreadyExistError,
   OauthEntity,
   OAuthRelations,
   OauthService,
@@ -184,11 +185,13 @@ export class AuthService {
         'email',
       ]);
     }
-
+    if (data.password.length < 8)
+      throw new ValidationError<keyof UserNativeCredentialsDto>(['password']);
     const user = this.userService.findOne({ id: data.id, email: data.email });
     if (!user) {
       throw new UnauthorizeError();
     }
+
     await this.userService.update(data.id, {
       password: MD5(data.password).toString(),
     });
@@ -213,6 +216,20 @@ export class AuthService {
         'refreshToken',
         'providerId',
       ]);
+    const user = await this.userService.findOne({ id: data.id });
+
+    const oauth = await this.oauthService.findOne(
+      {
+        providerId: MD5(data.providerId).toString(),
+        provider: data.provider,
+        user: user,
+      },
+      [OAuthRelations.USER],
+    );
+    if (oauth) {
+      throw new AlreadyExistError();
+    }
+
     return this.oauthService.create({
       accessToken: null,
       providerId: MD5(data.providerId).toString(),
@@ -222,7 +239,35 @@ export class AuthService {
         data.refreshToken,
         this.configService.get('AES_SECRET'),
       ).toString(),
-      user: await this.userService.findOne({ id: data.id }),
+      user: user,
     });
+  }
+
+  /**
+   * Unlink an OAuth account from a user
+   * @param data
+   */
+  async deleteOAuth(id, user) {
+    const oauth = await this.oauthService.findOne({ id: id, user: user });
+    if (!oauth) {
+      throw new UnauthorizeError();
+    }
+    await this.oauthService.delete(id);
+  }
+
+  /**
+   * Delete a user account
+   * @param id
+   * @param user
+   */
+  async deleteAccount(id, email) {
+    const userEntity = await this.userService.findOne({
+      id: id,
+      email: email,
+    });
+    if (!userEntity) {
+      throw new UnauthorizeError();
+    }
+    await this.userService.delete(userEntity.id);
   }
 }

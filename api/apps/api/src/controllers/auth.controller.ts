@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -85,7 +86,17 @@ export class AuthController {
     MicroServiceProxy.callMicroService(
       this.authService,
       'connect-oauth',
-      { ...data, ...req.user },
+      { ...data, user: req.user },
+      res,
+    );
+  }
+
+  @Delete('delete-account')
+  deleteAccount(@Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'delete-account',
+      req.user,
       res,
     );
   }

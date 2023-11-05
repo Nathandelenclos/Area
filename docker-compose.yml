@@ -90,59 +90,57 @@ services:
       - rabbitmq
       - api
     restart: always
-
-  discord:
-    image: area_app:latest
-    container_name: discord
-    hostname: discord
-    volumes:
-      - ./api/:/app
-    environment:
-      - MICROSERVICE=discord
-    env_file:
-      - .env
-    depends_on:
-      - mysql
-      - rabbitmq
-      - api
-    restart: always
-
-  spotify:
-    image: area_app:latest
-    container_name: spotify
-    hostname: spotify
-    volumes:
-      - ./api/:/app
-    environment:
-      - MICROSERVICE=spotify
-    env_file:
-      - .env
-    depends_on:
-      - mysql
-      - rabbitmq
-      - api
-    restart: always
-
-  timer:
-    image: area_app:latest
-    container_name: timer
-    hostname: timer
-    volumes:
-      - ./api/:/app
-    environment:
-      - MICROSERVICE=timer
-    env_file:
-      - .env
-    depends_on:
-      - mysql
-      - rabbitmq
-      - api
-    restart: always
+#
+#  discord:
+#    image: area_app:latest
+#    container_name: discord
+#    hostname: discord
+#    volumes:
+#      - ./api/:/app
+#    environment:
+#      - MICROSERVICE=discord
+#    env_file:
+#      - .env
+#    depends_on:
+#      - mysql
+#      - rabbitmq
+#      - api
+#    restart: always
+##
+##  spotify:
+#    image: area_app:latest
+#    container_name: spotify
+#    hostname: spotify
+#    volumes:
+#      - ./api/:/app
+#    environment:
+#      - MICROSERVICE=spotify
+#    env_file:
+#      - .env
+#    depends_on:
+#      - mysql
+#      - rabbitmq
+#      - api
+#    restart: always
+##
+#  timer:
+#    image: area_app:latest
+#    container_name: timer
+#    hostname: timer
+#    volumes:
+#      - ./api/:/app
+#    environment:
+#      - MICROSERVICE=timer
+#    env_file:
+#      - .env
+#    depends_on:
+#      - mysql
+#      - rabbitmq
+#      - api
+#    restart: always
 
   github:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
+    image: area_app:latest
     container_name: github
     hostname: github
     volumes:
@@ -150,10 +148,11 @@ services:
     environment:
       - MICROSERVICE=github
     env_file:
-      - .env.docker
+      - .env
     depends_on:
       - mysql
       - rabbitmq
+      - api
     restart: always
 
   queue:
@@ -173,31 +172,31 @@ services:
       - mysql
       - rabbitmq
     restart: always
-
-  mobile:
-    build: mobile
-    container_name: mobile
-    hostname: mobile
-    volumes:
-      - ./mobile:/app
-      - shared-folder:/app/build
-    env_file:
-      - .env
-    depends_on:
-      - api
-    restart: on-failure
-
-  web:
-    build: web
-    container_name: web
-    hostname: web
-    volumes:
-      - shared-folder:/usr/share/nginx/html/build
-    ports:
-      - "${FRONT_PORT}:80"
-    depends_on:
-      - mobile
-    restart: always
+#
+#  mobile:
+#    build: mobile
+#    container_name: mobile
+#    hostname: mobile
+#    volumes:
+#      - ./mobile:/app
+#      - shared-folder:/app/build
+#    env_file:
+#      - .env
+#    depends_on:
+#      - api
+#    restart: on-failure
+#
+#  web:
+#    build: web
+#    container_name: web
+#    hostname: web
+#    volumes:
+#      - shared-folder:/usr/share/nginx/html/build
+#    ports:
+#      - "${FRONT_PORT}:80"
+#    depends_on:
+#      - mobile
+#    restart: always
 
 volumes:
   shared-folder:
