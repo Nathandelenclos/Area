@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SpotifyController } from './spotify.controller';
-import { SpotifyService } from './spotify.service';
+import { FacebookController } from './facebook.controller';
+import { FacebookService } from './facebook.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
@@ -38,7 +38,7 @@ import {
     AppletConfigModule,
     OauthModule,
   ],
-  controllers: [SpotifyController],
-  providers: [SpotifyService],
+  controllers: [FacebookController],
+  providers: [FacebookService],
 })
-export class SpotifyModule {}
+export class FacebookModule {}

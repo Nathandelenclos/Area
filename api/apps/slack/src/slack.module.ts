@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-import { SpotifyController } from './spotify.controller';
-import { SpotifyService } from './spotify.service';
+import { SlackController } from './slack.controller';
+import { SlackService } from './slack.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   ActionModule,
   AppletConfigModule,
   Entities,
-  OauthModule,
   ReactionModule,
   ServiceModule,
 } from '@app/common';
@@ -36,9 +35,8 @@ import {
     ActionModule,
     ReactionModule,
     AppletConfigModule,
-    OauthModule,
   ],
-  controllers: [SpotifyController],
-  providers: [SpotifyService],
+  controllers: [SlackController],
+  providers: [SlackService],
 })
-export class SpotifyModule {}
+export class SlackModule {}

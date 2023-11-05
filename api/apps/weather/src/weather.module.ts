@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-import { SpotifyController } from './spotify.controller';
-import { SpotifyService } from './spotify.service';
+import { WeatherController } from './weather.controller';
+import { WeatherService } from './weather.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   ActionModule,
   AppletConfigModule,
   Entities,
-  OauthModule,
   ReactionModule,
   ServiceModule,
 } from '@app/common';
@@ -36,9 +35,8 @@ import {
     ActionModule,
     ReactionModule,
     AppletConfigModule,
-    OauthModule,
   ],
-  controllers: [SpotifyController],
-  providers: [SpotifyService],
+  controllers: [WeatherController],
+  providers: [WeatherService],
 })
-export class SpotifyModule {}
+export class WeatherModule {}

@@ -123,6 +123,70 @@ services:
       - api
     restart: always
 
+  news:
+    image: area_app:latest
+    container_name: news
+    hostname: news
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=news
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
+  slack:
+    image: area_app:latest
+    container_name: slack
+    hostname: slack
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=slack
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
+  teams:
+    image: area_app:latest
+    container_name: teams
+    hostname: teams
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=teams
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
+  weather:
+    image: area_app:latest
+    container_name: weather
+    hostname: weather
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=weather
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
   timer:
     image: area_app:latest
     container_name: timer
@@ -147,6 +211,38 @@ services:
       - ./api/:/app
     environment:
       - MICROSERVICE=github
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
+  facebook:
+    image: area_app:latest
+    container_name: facebook
+    hostname: facebook
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=facebook
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
+  google:
+    image: area_app:latest
+    container_name: google
+    hostname: google
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=google
     env_file:
       - .env
     depends_on:

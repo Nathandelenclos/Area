@@ -82,6 +82,15 @@
         "tsConfigPath": "apps/applet/tsconfig.app.json"
       }
     },
+    "news": {
+      "type": "application",
+      "root": "apps/news",
+      "entryFile": "main",
+      "sourceRoot": "apps/news/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/news/tsconfig.app.json"
+      }
+    },
     "github": {
       "type": "application",
       "root": "apps/github",
@@ -89,6 +98,51 @@
       "sourceRoot": "apps/github/src",
       "compilerOptions": {
         "tsConfigPath": "apps/github/tsconfig.app.json"
+      }
+    },
+    "slack": {
+      "type": "application",
+      "root": "apps/slack",
+      "entryFile": "main",
+      "sourceRoot": "apps/slack/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/slack/tsconfig.app.json"
+      }
+    },
+    "weather": {
+      "type": "application",
+      "root": "apps/weather",
+      "entryFile": "main",
+      "sourceRoot": "apps/weather/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/weather/tsconfig.app.json"
+      }
+    },
+    "teams": {
+      "type": "application",
+      "root": "apps/teams",
+      "entryFile": "main",
+      "sourceRoot": "apps/teams/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/teams/tsconfig.app.json"
+      }
+    },
+    "facebook": {
+      "type": "application",
+      "root": "apps/facebook",
+      "entryFile": "main",
+      "sourceRoot": "apps/facebook/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/facebook/tsconfig.app.json"
+      }
+    },
+    "google": {
+      "type": "application",
+      "root": "apps/google",
+      "entryFile": "main",
+      "sourceRoot": "apps/google/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/google/tsconfig.app.json"
       }
     }
   }

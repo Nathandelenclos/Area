@@ -1,28 +1,28 @@
 import { Controller } from '@nestjs/common';
-import MicroServiceController from '@app/common/micro.service.controller';
+import { TeamsService } from './teams.service';
+import { MicroServiceController } from '@app/common';
 import {
   Ctx,
   EventPattern,
   MessagePattern,
   RmqContext,
 } from '@nestjs/microservices';
-import { DiscordService } from './discord.service';
 
 @Controller()
-export class DiscordController extends MicroServiceController {
-  constructor(private readonly discordService: DiscordService) {
+export class TeamsController extends MicroServiceController {
+  constructor(private readonly teamsService: TeamsService) {
     super();
   }
 
   @MessagePattern({ cmd: 'cron' })
   cron(@Ctx() context: RmqContext) {
     this.ack(context);
-    this.discordService.cron();
+    this.teamsService.cron();
   }
 
   @EventPattern('send_message')
   sendMessage(@Ctx() context: RmqContext) {
     const data = this.ack(context);
-    this.discordService.message(data.webhook, data.message);
+    this.teamsService.message(data.webhook, data.message);
   }
 }

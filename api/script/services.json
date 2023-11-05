@@ -295,6 +295,281 @@
           ]
         }
       ]
+    },
+    {
+      "name": "News",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "news_queue",
+      "key": "news",
+      "actions": [
+        {
+          "name": "On new NYT article",
+          "description": "Trigger when a new article is published on NYT",
+          "key": "nyt_article",
+          "is_available": 1
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "name": "Weather",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "weather_queue",
+      "key": "weather",
+      "actions": [
+        {
+          "name": "On Rain",
+          "description": "Trigger when it's raining",
+          "key": "on_rain",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "City name",
+              "description": "City to check",
+              "key": "city",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "On Sun",
+          "description": "Trigger when it's sunny",
+          "key": "on_sun",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "City name",
+              "description": "City to check",
+              "key": "city",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "name": "Slack",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "slack_queue",
+      "key": "slack",
+      "actions": [],
+      "reactions": [
+        {
+          "name": "Slack Message",
+          "description": "Send a message to a channel",
+          "key": "slack_message",
+          "is_available": 1,
+          "cmd": "send_message",
+          "config": [
+            {
+              "name": "Webhook URL",
+              "description": "Webhook URL",
+              "key": "webhook",
+              "type": "string"
+            },
+            {
+              "name": "Message",
+              "description": "Message to send",
+              "key": "message",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Teams",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "teams_queue",
+      "key": "teams",
+      "actions": [],
+      "reactions": [
+        {
+          "name": "Teams Message",
+          "description": "Send a message to a team",
+          "key": "teams_message",
+          "is_available": 1,
+          "cmd": "send_message",
+          "config": [
+            {
+              "name": "Webhook URL",
+              "description": "Webhook URL",
+              "key": "webhook",
+              "type": "string"
+            },
+            {
+              "name": "Message",
+              "description": "Message to send",
+              "key": "message",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Spotify",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "spotify_queue",
+      "key": "spotify",
+      "actions": [
+        {
+          "name": "On playback change",
+          "description": "Trigger when the playback change",
+          "key": "on_playback_change",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Resume playback",
+          "description": "Resume playback on the user’s active device.",
+          "key": "resume_playback",
+          "is_available": 1,
+          "cmd": "resume_playback",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        },
+        {
+          "name": "Pause playback",
+          "description": "Pause playback on the user’s active device.",
+          "key": "pause_playback",
+          "is_available": 1,
+          "cmd": "pause_playback",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Facebook",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "facebook_queue",
+      "key": "facebook",
+      "actions": [
+        {
+          "name": "On new post",
+          "description": "Trigger when a new post is published",
+          "key": "on_post",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "facebook_oauth"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Resume playback",
+          "description": "Resume playback on the user’s active device.",
+          "key": "resume_playback",
+          "is_available": 1,
+          "cmd": "resume_playback",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        },
+        {
+          "name": "Pause playback",
+          "description": "Pause playback on the user’s active device.",
+          "key": "pause_playback",
+          "is_available": 1,
+          "cmd": "pause_playback",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Google",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "google_queue",
+      "key": "google",
+      "actions": [],
+      "reactions": [
+        {
+          "name": "Send an email",
+          "description": "Send an email",
+          "key": "send_email",
+          "is_available": 1,
+          "cmd": "send_email",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "google_oauth"
+            },
+            {
+              "name": "From Email Address",
+              "description": "Email Address from which the email will be sent",
+              "key": "from_email",
+              "type": "string"
+            },
+            {
+              "name": "To Email Address",
+              "description": "Email Address to which the email will be sent",
+              "key": "to_email",
+              "type": "string"
+            },
+            {
+              "name": "Subject",
+              "description": "Subject of the email",
+              "key": "subject",
+              "type": "string"
+            },
+            {
+              "name": "Message",
+              "description": "Message of the email",
+              "key": "message",
+              "type": "string"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

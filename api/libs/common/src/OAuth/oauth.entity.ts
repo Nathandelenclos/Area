@@ -14,7 +14,7 @@ export class OauthEntity {
   @Column()
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 500 })
   accessToken: string;
 
   @Column({ length: 500 })
