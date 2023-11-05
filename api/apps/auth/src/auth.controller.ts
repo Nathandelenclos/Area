@@ -223,4 +223,23 @@ export class AuthController extends MicroServiceController {
     }
     return new MicroServiceResponse(props);
   }
+
+  @MessagePattern({ cmd: 'delete-oauth' })
+  async deleteOAuth(@Ctx() context: RmqContext) {
+    const data = this.ack(context);
+    let props: MicroServiceHttpCodeProps = {
+      code: HttpCode.OK,
+      message: 'OK',
+    };
+    try {
+      await this.authService.deleteOAuth(data.id, data.user);
+    } catch (error) {
+      console.error(`[ERROR] ${error}`);
+      props = {
+        code: HttpCode.INTERNAL_SERVER_ERROR,
+        message: 'Internal server error',
+      };
+    }
+    return new MicroServiceResponse(props);
+  }
 }

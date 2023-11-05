@@ -100,4 +100,14 @@ export class AuthController {
       res,
     );
   }
+
+  @Delete('delete-oauth/:id')
+  deleteOAuth(@Param('id') id: string, @Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'delete-oauth',
+      { id, user: req.user },
+      res,
+    );
+  }
 }

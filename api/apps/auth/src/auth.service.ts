@@ -245,11 +245,20 @@ export class AuthService {
 
   /**
    * Unlink an OAuth account from a user
-   * @param data
+   * @param id
+   * @param user
    */
-  async deleteOAuth(id, user) {
-    const oauth = await this.oauthService.findOne({ id: id, user: user });
-    if (!oauth) {
+  async deleteOAuth(
+    id: number,
+    user: { id: number; email: string },
+  ): Promise<void> {
+    const oauth = await this.oauthService.findOne(
+      {
+        id: id,
+      },
+      [OAuthRelations.USER],
+    );
+    if (!oauth || oauth.user.id !== user.id) {
       throw new UnauthorizeError();
     }
     await this.oauthService.delete(id);
