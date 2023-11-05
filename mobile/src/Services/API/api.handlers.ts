@@ -1,5 +1,11 @@
 import Toast from 'react-native-toast-message';
 
+const profileApiHandler = {
+  defaultHandlers: (data: any) => {
+    return;
+  },
+};
+
 const defaultApiHandler = {
   defaultHandlers: (data: any) => {
     const message = data?.message || 'Something went wrong';
@@ -11,4 +17,4 @@ const defaultApiHandler = {
   },
 };
 
-export default defaultApiHandler;
+export { defaultApiHandler, profileApiHandler };

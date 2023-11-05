@@ -4,7 +4,7 @@ import MyButton from '@components/MyButton';
 import { Title } from '@components/Title';
 import { AuthViewContainer, AuthFooter } from '@components/Auth';
 import AppContext from '@contexts/app.context';
-import IMAGE from '../../Assets/Logo.png';
+import SettingsButton from '@components/SettingsButton';
 
 export default function LoginScreen({
   navigation,
@@ -12,7 +12,8 @@ export default function LoginScreen({
   navigation: any;
 }): JSX.Element {
   const { color, translate, appName } = AppContext();
-
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const IMAGE: any = require('../../Assets/Logo.png');
   return (
     <AuthViewContainer>
       <View
@@ -22,6 +23,7 @@ export default function LoginScreen({
           alignItems: 'center',
         }}
       >
+        <SettingsButton onPress={() => navigation.navigate('ChangeURL')} />
         <Image
           source={IMAGE}
           style={{

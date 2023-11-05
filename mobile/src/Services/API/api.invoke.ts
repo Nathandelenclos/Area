@@ -1,4 +1,5 @@
-import { API_URL } from '@env';
+import UrlServiceTs from '@services/url.service.ts';
+import { TIMEOUT } from '@env';
 
 type IApiInvokeProps = {
   endpoint: string;
@@ -18,7 +19,21 @@ export type IApiInvokeResponse = {
 const methods: any = {
   GET: ApiGet,
   POST: ApiPost,
+  PUT: ApiPut,
   DELETE: ApiDelete,
+};
+
+const fetchWithTimeout = (method: any, options: any, timeout: number) => {
+  console.log(timeout, typeof timeout);
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error('Request timed out'));
+    }, timeout);
+  });
+
+  const fetchPromise = method(options);
+
+  return Promise.race([fetchPromise, timeoutPromise]);
 };
 
 /**
@@ -42,11 +57,11 @@ export async function ApiInvoke({
   let response;
 
   try {
-    response = await methods[method]({
-      endpoint: endpoint,
-      body: body,
-      authToken: authToken,
-    });
+    response = await fetchWithTimeout(
+      methods[method],
+      { endpoint, body, authToken },
+      +TIMEOUT,
+    );
   } catch (e) {
     response = new Response(null, {
       status: 500,
@@ -67,7 +82,9 @@ type ApiGetProps = {
  */
 
 function ApiGet(props: ApiGetProps): Promise<Response> {
-  return fetch(`${API_URL}${props.endpoint}`, {
+  const url = UrlServiceTs.getBaseUrl();
+  console.log(`${url}${props.endpoint}`);
+  return fetch(`${url}${props.endpoint}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
@@ -89,8 +106,29 @@ type ApiPostProps = {
  * @returns {Promise} with the response object
  */
 function ApiPost(props: ApiPostProps): Promise<Response> {
-  return fetch(`${API_URL}${props.endpoint}`, {
+  const url = UrlServiceTs.getBaseUrl();
+  console.log(`${url}${props.endpoint}`);
+  return fetch(`${url}${props.endpoint}`, {
     method: 'POST',
+    headers: {
+      Authorization: `Bearer ${props.authToken}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: props.body,
+  });
+}
+
+/**
+ * Sends a PUT request to the API.
+ * @param {ApiPutProps} props
+ * @returns {Promise} with the response object
+ */
+function ApiPut(props: ApiPostProps): Promise<Response> {
+  const url = UrlServiceTs.getBaseUrl();
+  console.log(`${url}${props.endpoint}`);
+  return fetch(`${url}${props.endpoint}`, {
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
       Accept: 'application/json',
@@ -106,12 +144,11 @@ function ApiPost(props: ApiPostProps): Promise<Response> {
  * @returns {Promise} with the response object
  */
 function ApiDelete(props: ApiPostProps): Promise<Response> {
-  return fetch(`${API_URL}${props.endpoint}`, {
+  const url = UrlServiceTs.getBaseUrl();
+  return fetch(`${url}${props.endpoint}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${props.authToken}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
     },
   });
 }

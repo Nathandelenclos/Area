@@ -10,6 +10,12 @@ import AppContext from '@contexts/app.context';
 import UserCtx from '@contexts/user.context';
 import servicesService from '@services/services.service';
 import { IService } from '@interfaces/service.interface';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { MyAppletHeader } from '@views/MyApplets';
+import { AppletButtonSelector } from '@views/CreateApplet/ListActions';
+import LoadingScreen from '@components/loading.screen';
+import StyledButton from '@components/MyButton';
+import ListWrapper from '@components/AppletsHandlers/list.wrapper';
 
 export default function ListServices({
   route,
@@ -21,74 +27,79 @@ export default function ListServices({
   const { color, translate } = AppContext();
   const { user } = UserCtx();
   const [services, setServices] = React.useState<IService[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   if (!user) {
     return <></>;
   }
 
   const getServices = async () => {
-    const data = await servicesService.getServices(user.access_token);
-    setServices(data.data);
+    const data = await servicesService.getServices(user.token);
+    if (!data.data) {
+      setServices([]);
+    } else {
+      const type: 'actions' | 'reactions' = (route.params.types + 's') as
+        | 'actions'
+        | 'reactions';
+      const filteredServices = data.data.filter((service: any) => {
+        return service[type]?.length > 0;
+      });
+      setServices(filteredServices);
+    }
+    setIsLoading(false);
   };
+
+  function retry() {
+    setIsLoading(true);
+    getServices();
+  }
 
   useEffect(() => {
     getServices();
   }, []);
 
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: color.mode,
-      }}
-    >
-      <View
-        style={{
-          borderBottomColor: color.text,
-          borderBottomWidth: 2,
-          marginLeft: '6%',
-          marginRight: '6%',
-          marginTop: '8%',
-          marginBottom: '8%',
-        }}
-      >
+  if (isLoading) {
+    return (
+      <ListWrapper navigation={navigation} title_key={'select_service'}>
+        <LoadingScreen style={{ backgroundColor: color.mode }} />
+      </ListWrapper>
+    );
+  }
+
+  if (services.length === 0) {
+    return (
+      <ListWrapper navigation={navigation} title_key={'select_service'}>
         <Text
           style={{
-            color: color.text,
-            fontSize: 32,
+            alignSelf: 'center',
+            marginTop: 10,
+            fontSize: 20,
             fontWeight: 'bold',
-            marginBottom: '6%',
-            textAlign: 'center',
           }}
         >
-          {translate('select_service')}
+          An error occured
         </Text>
-      </View>
-      <ScrollView>
+        <StyledButton title={'Retry'} onPress={retry} />
+      </ListWrapper>
+    );
+  }
+
+  return (
+    <ListWrapper navigation={navigation} title_key={'select_service'}>
+      <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         {services.map((service, i) => (
-          <TouchableOpacity
+          <AppletButtonSelector
             key={i}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: '6%',
-              marginRight: '6%',
-              marginBottom: '6%',
-              backgroundColor: color.mainColor,
-              padding: 20,
-              borderRadius: 20,
-            }}
+            title={service.name}
             onPress={() => {
               navigation.navigate('ListActions', {
                 serviceId: service.id,
                 ...route.params,
               });
             }}
-          >
-            <Text>{service.name}</Text>
-          </TouchableOpacity>
+          />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </ListWrapper>
   );
 }

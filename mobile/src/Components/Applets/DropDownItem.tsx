@@ -30,8 +30,12 @@ export type DropDownItemProps = {
   backgroundColor: ColorValue;
   titleColor: ColorValue;
   active: boolean;
-  toggleActive?: (id: number) => void;
+  selected: boolean;
+  toggleSelected?: (id: number) => void;
   children?: React.ReactNode;
+  editing: boolean;
+  onPressElipsis: () => void;
+  onPressItem: () => void;
 };
 
 function useDropDownAnimations(): DropDownAnimationsValues {
@@ -55,7 +59,7 @@ function useDropDownAnimations(): DropDownAnimationsValues {
 
   const angleAnimationStyle: ViewStyle = useAnimatedStyle(
     (): ViewStyle => ({
-      transform: [{ rotate: withTiming(`${open.value ? 180 : 0}deg`) }],
+      transform: [{ rotate: withTiming(`${open.value ? -180 : 0}deg`) }],
     }),
   );
 
@@ -102,9 +106,12 @@ export default function DropDownItem({
   description = '',
   backgroundColor,
   titleColor,
-  active,
-  toggleActive,
+  selected,
+  toggleSelected,
+  editing,
+  onPressElipsis,
   children,
+  onPressItem,
 }: DropDownItemProps): React.JSX.Element {
   const { color, translate } = AppContext();
   const {
@@ -118,21 +125,22 @@ export default function DropDownItem({
 
   return (
     <View style={{ marginBottom: 20 }}>
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor,
           borderRadius: 20,
-          padding: 10,
-          paddingVertical: 20,
+          padding: 15,
+          paddingVertical: 25,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           zIndex: 1,
         }}
+        onPress={onPressItem}
       >
         <Title
           title={title}
-          style={{ alignSelf: 'flex-start', color: titleColor }}
+          style={{ alignSelf: 'flex-start', color: titleColor, width: '80%' }}
         />
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
@@ -146,20 +154,31 @@ export default function DropDownItem({
             <Animated.View style={angleAnimationStyle}>
               <FontAwesomeIcon
                 icon={'angle-down'}
+                size={25}
                 style={{
                   color: checkBoxColor,
                 }}
               />
             </Animated.View>
           </TouchableOpacity>
-          <AppletsCheckBox
-            value={active}
-            color={titleColor}
-            bgColor={backgroundColor}
-            onPress={() => (toggleActive ? toggleActive(id) : null)}
-          />
+          {editing ? (
+            <AppletsCheckBox
+              value={selected}
+              color={titleColor}
+              bgColor={backgroundColor}
+              onPress={() => (toggleSelected ? toggleSelected(id) : null)}
+            />
+          ) : (
+            <TouchableOpacity onPress={onPressElipsis}>
+              <FontAwesomeIcon
+                icon={'ellipsis-vertical'}
+                size={25}
+                style={{ color: checkBoxColor }}
+              />
+            </TouchableOpacity>
+          )}
         </View>
-      </View>
+      </TouchableOpacity>
       <View>
         <Animated.View
           style={[

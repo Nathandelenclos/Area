@@ -7,6 +7,8 @@ import BackButton from '@components/BackButton';
 import authService from '@services/auth.service';
 import AppContext from '@contexts/app.context';
 import UserCtx from '@contexts/user.context';
+import { Storage } from '@src/Storage/user.storage';
+import SettingsButton from '@components/SettingsButton';
 
 export default function SignIn({
   navigation,
@@ -19,9 +21,11 @@ export default function SignIn({
   const [password, setPassword] = React.useState<string>('');
   async function tryLogin() {
     const resp = await authService.login({ email: email.trim(), password });
-    if (resp.data) {
-      setUser(resp.data);
-    }
+    if (!resp.data) return;
+    const user = await authService.getProfile(resp.data.token);
+    if (!user.data) return;
+    await Storage.saveToken(resp.data?.token);
+    setUser({ ...user.data, token: resp.data?.token });
   }
 
   return (
@@ -33,6 +37,7 @@ export default function SignIn({
           alignItems: 'center',
         }}
       >
+        <SettingsButton onPress={() => navigation.navigate('ChangeURL')} />
         <BackButton navigation={navigation} />
         <Title
           title={translate('sign_in')}

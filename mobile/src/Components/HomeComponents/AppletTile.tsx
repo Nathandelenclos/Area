@@ -1,25 +1,57 @@
-import React, { JSX } from 'react';
-import {
-  DimensionValue,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import AppContext from '@contexts/app.context';
+import React from 'react';
+import { DimensionValue, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Title from '@components/HomeComponents/Title';
 
+/**
+ * Props for the HomeTitle component.
+ * @interface AppletProps
+ */
 export type AppletProps = {
+  /**
+   * Title of the applet.
+   */
   appletTitle: string;
+  /**
+   * Id of the applet.
+   */
   id: number;
+  /**
+   * description of the applet.
+   */
   description: string;
+  /**
+   * color of the applet.
+   */
   color: string;
+  /**
+   * size of the applet.
+   */
   size: string;
+  /**
+   * function launched when the applet is pressed.
+   */
   handleOnPress: () => void;
 };
 
+/**
+ * AppletTile is a reusable component for every AppletTile in the app.
+ * It takes an appletTitle, id, description, color, size, handleOnPress function as props.
+ *
+ * @component
+ * @example
+ * // Example usage of AppletTile component
+ * <AppletTile
+ *   appletTitle={"title"}
+ *   id={1}
+ *   description={"description of the applet"}
+ *   color={"red"}
+ *   size={"big"} //or "small"
+ *   handleOnPress={() => {console.log('applet pressed')}}
+ * />
+ *
+ * @param {AppletProps} props - The props for the AppletTile component.
+ * @returns {JSX.Element} - Returns the rendered AppletTile component.
+ */
 export default ({
   appletTitle,
   id,
@@ -57,6 +89,7 @@ export default ({
         width: appletSize,
         marginLeft: '6%',
       }}
+      testID="applet-button"
     >
       <View>
         <Text

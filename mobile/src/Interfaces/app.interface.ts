@@ -1,12 +1,16 @@
+import React from 'react';
+
 interface IColor extends IColorScheme, ICommon {}
 
 export type ICommon = {
   dropDownColor: string;
   inactive: string;
+  textInputPlaceholder: string;
 };
 
 export type IColorScheme = {
   mode: string;
+  inverseMode: string;
   background: string;
   text: string;
   mainColor: string;
@@ -18,8 +22,9 @@ export type IColorScheme = {
 
 export type IApplicationContext = {
   color: IColor;
-  language: any;
+  language: string;
   translate: (key: string) => string;
+  setLanguage: React.Dispatch<React.SetStateAction<string>>;
   appName: string;
 };
 

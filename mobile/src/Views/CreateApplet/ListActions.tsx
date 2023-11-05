@@ -9,8 +9,61 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { IAction } from '@interfaces/action.interface';
-import { IReaction } from '@interfaces/reaction.interface';
+import { DEFAULT_ACTION, IAction } from '@interfaces/action.interface';
+import { DEFAULT_REACTION, IReaction } from '@interfaces/reaction.interface';
+import { MyAppletHeader } from '@views/MyApplets';
+import StyledButton from '@components/MyButton';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IconName } from '@fortawesome/fontawesome-common-types';
+import LoadingScreen from '@components/loading.screen';
+import ListWrapper from '@components/AppletsHandlers/list.wrapper';
+
+export function AppletButtonSelector({
+  icon,
+  title,
+  onPress,
+}: {
+  icon?: IconName;
+  title: string;
+  onPress: () => void;
+}) {
+  const { color } = AppContext();
+
+  return (
+    <TouchableOpacity
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 20,
+        marginRight: 20,
+        marginBottom: 20,
+        backgroundColor: color.mainColor,
+        padding: 20,
+        borderRadius: 20,
+      }}
+      onPress={onPress}
+    >
+      {icon && (
+        <FontAwesomeIcon
+          icon={['fab', icon]}
+          size={25}
+          color={color.textOverMainColor}
+          style={{ marginRight: 10 }}
+        />
+      )}
+      <Text
+        style={{
+          color: color.textOverMainColor,
+          fontWeight: 'bold',
+          fontSize: 20,
+        }}
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
+}
 
 export default function ListActions({
   route,
@@ -18,95 +71,105 @@ export default function ListActions({
 }: {
   route: any;
   navigation: any;
-}): JSX.Element {
+}): React.JSX.Element {
   const { color, translate } = AppContext();
   const { user } = UserCtx();
   const [actions, setActions] = React.useState<IAction[] | IReaction[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const viewType = route.params.types;
 
   if (!user) {
     return <></>;
   }
 
   const getActions = async () => {
-    if (route.params.type === 'action') {
-      const data = await servicesService.getActions(
-        user.access_token,
+    let data;
+    if (route.params.types === 'action') {
+      const tmp = await servicesService.getActions(
+        user.token,
         route.params.serviceId,
       );
-      setActions(data.data);
+      data = tmp.data;
+    } else {
+      const tmp = await servicesService.getReactions(
+        user.token,
+        route.params.serviceId,
+      );
+      data = tmp.data;
+    }
+    data = data || [];
+    setActions(data);
+    setIsLoading(false);
+  };
+
+  function retry() {
+    setIsLoading(true);
+    getActions();
+  }
+
+  function selectAction(action) {
+    const obj: IAction | IReaction =
+      viewType === 'action' ? { ...DEFAULT_ACTION } : { ...DEFAULT_REACTION };
+    obj[viewType] = action;
+    if (action.config?.length > 0) {
+      navigation.navigate('ConfigAction', {
+        ...route.params,
+        [viewType]: { [viewType]: action },
+      });
       return;
     }
-    const data = await servicesService.getReactions(
-      user.access_token,
-      route.params.serviceId,
-    );
-    setActions(data.data);
-  };
+    const type = route.params.type;
+    navigation.navigate({
+      name: 'CreateApplet',
+      params: { type, result: obj },
+      merge: true,
+    });
+  }
 
   useEffect(() => {
     getActions();
   }, []);
 
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: color.mode,
-      }}
-    >
-      <View
-        style={{
-          borderBottomColor: color.text,
-          borderBottomWidth: 2,
-          marginLeft: '6%',
-          marginRight: '6%',
-          marginTop: '8%',
-          marginBottom: '8%',
-        }}
-      >
+  const title_key = viewType === 'action' ? 'select_action' : 'select_reaction';
+
+  if (isLoading) {
+    return (
+      <ListWrapper navigation={navigation} title_key={title_key}>
+        <LoadingScreen style={{ backgroundColor: color.mode }} />
+      </ListWrapper>
+    );
+  }
+
+  if (actions.length === 0) {
+    return (
+      <ListWrapper navigation={navigation} title_key={title_key}>
+        <LoadingScreen style={{ backgroundColor: color.mode }} />
         <Text
           style={{
-            color: color.text,
-            fontSize: 32,
+            alignSelf: 'center',
+            marginTop: 10,
+            fontSize: 20,
             fontWeight: 'bold',
-            marginBottom: '6%',
-            textAlign: 'center',
           }}
         >
-          {translate(
-            route.params.type === 'action'
-              ? 'select_action'
-              : 'select_reaction',
-          )}
+          An error occured
         </Text>
-      </View>
-      <ScrollView>
+        <StyledButton title={'Retry'} onPress={retry} />
+      </ListWrapper>
+    );
+  }
+
+  return (
+    <ListWrapper navigation={navigation} title_key={title_key}>
+      <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         {actions.map((action, i) => (
-          <TouchableOpacity
+          <AppletButtonSelector
             key={i}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: '6%',
-              marginRight: '6%',
-              marginBottom: '6%',
-              backgroundColor: color.mainColor,
-              padding: 20,
-              borderRadius: 20,
-            }}
-            onPress={() => {
-              if (route.params.type === 'reaction') {
-                route.params.setReactions([...route.params.reactions, action]);
-              } else {
-                route.params.setAction(action);
-              }
-              navigation.navigate('CreateApplet');
-            }}
-          >
-            <Text>{action.name}</Text>
-          </TouchableOpacity>
+            title={action.name}
+            onPress={() => selectAction(action)}
+          />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </ListWrapper>
   );
 }

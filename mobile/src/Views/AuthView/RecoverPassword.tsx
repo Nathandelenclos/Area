@@ -28,7 +28,7 @@ export default function RecoverPassword({
           alignItems: 'center',
         }}
       >
-        <BackButton navigation={navigation} />
+        {/* <BackButton navigation={navigation} /> */}
         <Title
           title={translate('recover_password')}
           style={{ color: color.textOverMainColor }}

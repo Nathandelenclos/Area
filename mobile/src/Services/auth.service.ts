@@ -1,5 +1,6 @@
 import { ApiInvoke, IApiInvokeResponse } from './API/api.invoke';
-import defaultApiHandler from './API/api.handlers';
+import { defaultApiHandler, profileApiHandler } from './API/api.handlers';
+import UrlServiceTs from '@services/url.service.ts';
 
 interface Credentials {
   email: string;
@@ -9,12 +10,14 @@ interface Credentials {
 
 interface OAuthCredentials {
   email: string;
-  id: string;
-  token: string;
   provider: string;
+  refreshToken: string;
+  providerId: string;
 }
 
 class AuthService {
+  url = UrlServiceTs.getBaseUrl();
+
   /**
    * Login
    * @param credentials {email, password}
@@ -39,9 +42,23 @@ class AuthService {
     return ApiInvoke({
       endpoint: '/auth/signoauth',
       method: 'POST',
-      expectedStatus: 201,
+      expectedStatus: 200,
       body: JSON.stringify(credentials),
       handlers: defaultApiHandler,
+    });
+  }
+
+  OAuthConnect(
+    token: string,
+    credentials: OAuthCredentials,
+  ): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/connect-oauth',
+      method: 'POST',
+      expectedStatus: 200,
+      body: JSON.stringify(credentials),
+      handlers: defaultApiHandler,
+      authToken: token,
     });
   }
 
@@ -62,16 +79,58 @@ class AuthService {
 
   /**
    * Forgot password
-   * @param email {string}
+   * @param token {string}
    * @returns {Promise} {ApiInvokeResponse}
    */
-  forgotPassword(email: string): Promise<IApiInvokeResponse> {
+  forgotPasswordToken(token: string): Promise<IApiInvokeResponse> {
     return ApiInvoke({
-      endpoint: '/forgot-password',
+      endpoint: `/auth/recover-password/${token}`,
+      method: 'GET',
+      expectedStatus: 200,
+      handlers: defaultApiHandler,
+    });
+  }
+
+  /**
+   * Forgot password
+   * @returns {Promise} {ApiInvokeResponse}
+   */
+  forgotPassword(): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/recover-password',
+      method: 'GET',
+      expectedStatus: 200,
+      handlers: defaultApiHandler,
+    });
+  }
+
+  /**
+   * Change password
+   * @param token {string}
+   * @param password {password}
+   * @returns {Promise} {ApiInvokeResponse}
+   */
+  changePassword(
+    token: string,
+    password: { password: string },
+  ): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/reset-password',
       method: 'POST',
       expectedStatus: 200,
-      body: JSON.stringify({ email }),
+      body: JSON.stringify(password),
       handlers: defaultApiHandler,
+      authToken: token,
+    });
+  }
+
+  getProfile(token: string): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: '/auth/me',
+      method: 'GET',
+      expectedStatus: 200,
+      handlers: profileApiHandler,
+      authToken: token,
     });
   }
 }

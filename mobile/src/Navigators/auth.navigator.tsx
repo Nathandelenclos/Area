@@ -5,6 +5,7 @@ import LoginScreen from '@views/AuthView/LoginScreen';
 import SignIn from '@views/AuthView/SignIn';
 import SignUp from '@views/AuthView/SignUp';
 import RecoverPassword from '@views/AuthView/RecoverPassword';
+import ChangeURL from '@views/ChangeURL';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function AuthentificationNavigator(): JSX.Element {
         <Stack.Screen name={'SignIn'} component={SignIn} />
         <Stack.Screen name={'SignUp'} component={SignUp} />
         <Stack.Screen name={'RecoverPassword'} component={RecoverPassword} />
+        <Stack.Screen name="ChangeURL" component={ChangeURL} />
       </Stack.Navigator>
     </NavigationContainer>
   );

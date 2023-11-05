@@ -7,5 +7,4 @@ export interface IApplet {
   is_active: boolean;
   reaction: IReaction;
   action: IAction;
-  config: any;
 }

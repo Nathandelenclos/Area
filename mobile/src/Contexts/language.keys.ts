@@ -1,4 +1,5 @@
 import { LanguageKeys } from '@interfaces/app.interface';
+import { ItemType } from 'react-native-dropdown-picker';
 
 const fr: LanguageKeys = {
   fr: 'Français',
@@ -10,6 +11,7 @@ const fr: LanguageKeys = {
   email: 'Email',
   password: 'Mot de passe',
   forgot_password: 'Mot de passe oublié ?',
+  modify_password: 'Modifier le mot de passe',
   full_name: 'Nom complet',
   to_pp: 'En vous inscrivant, vous acceptez nos',
   to: "Conditions d'utilisation",
@@ -26,6 +28,17 @@ const fr: LanguageKeys = {
   select_action: 'Selectionnez une action',
   select_reaction: 'Selectionnez une réaction',
   save: 'Sauvegarder',
+  modify_app_url: "Modifier l'url de l'api",
+  modify: 'Modifier',
+  invalid_url: 'Url invalide',
+  modify_app_language: "Modifier l'App Langage",
+  save_settings: 'Sauvegarder',
+  pofile_title: 'Ton Profil',
+  connected_services: 'Services connectés',
+  to_connect_services: "Connecter d'autres services",
+  cancel: 'Annuler',
+  decolog: 'Se Déconnecter',
+  decolog_message: 'Êtes-vous sûr de vouloir vous déconnecter ?',
 };
 
 const en: LanguageKeys = {
@@ -38,6 +51,7 @@ const en: LanguageKeys = {
   email: 'Email',
   password: 'Password',
   forgot_password: 'Forgot password ?',
+  modify_password: 'Modify Password',
   full_name: 'Full name',
   to_pp: 'By signing up, you agree to our',
   to: 'Terms of service',
@@ -54,11 +68,33 @@ const en: LanguageKeys = {
   select_action: 'Select an action',
   select_reaction: 'Select a reaction',
   save: 'Save',
+  modify_app_url: 'Modify api url',
+  modify: 'Modify',
+  invalid_url: 'Invalid url',
+  modify_app_language: 'Modify App Language',
+  save_settings: 'Save changes',
+  pofile_title: 'Your Profile',
+  connected_services: 'Connected services',
+  to_connect_services: 'Connect other services',
+  cancel: 'Cancel',
+  decolog: 'Sign out',
+  decolog_message: 'Are you sure you want to sign out ?',
 };
 
-type LanguageList = {
+export type LanguageList = {
   fr: LanguageKeys;
   en: LanguageKeys;
 };
+
+export const AVAILABLE_LANGUAGE: ItemType<string>[] = [
+  {
+    label: 'EN - English',
+    value: 'en',
+  },
+  {
+    label: 'FR - Français',
+    value: 'fr',
+  },
+];
 
 export const languageList: LanguageList = { fr, en };

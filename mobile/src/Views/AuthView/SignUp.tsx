@@ -7,12 +7,17 @@ import BackButton from '@components/BackButton';
 import authService from '@services/auth.service';
 import AppContext from '@contexts/app.context';
 import UserCtx from '@contexts/user.context';
+import SettingsButton from '@components/SettingsButton';
 
 function TermsAndConditions(): JSX.Element {
   const { color, translate } = AppContext();
 
-  const RickRoll = () => {
-    return Linking.openURL('https://www.google.com');
+  const TermsOfService = () => {
+    return Linking.openURL('youtube://');
+  };
+
+  const PrivacyPolicy = () => {
+    return Linking.openURL('instagram://');
   };
 
   return (
@@ -32,8 +37,12 @@ function TermsAndConditions(): JSX.Element {
         }}
       >
         <Text
-          style={{ color: color.mainColor, fontSize: 12 }}
-          onPress={RickRoll}
+          style={{
+            color: color.mainColor,
+            fontSize: 12,
+            textDecorationLine: 'underline',
+          }}
+          onPress={TermsOfService}
         >
           {translate('to') + ' '}
         </Text>
@@ -49,7 +58,9 @@ function TermsAndConditions(): JSX.Element {
           style={{
             color: color.mainColor,
             fontSize: 12,
+            textDecorationLine: 'underline',
           }}
+          onPress={PrivacyPolicy}
         >
           {translate('pp')}
         </Text>
@@ -89,6 +100,7 @@ export default function SignUp({
           alignItems: 'center',
         }}
       >
+        <SettingsButton onPress={() => navigation.navigate('ChangeURL')} />
         <BackButton navigation={navigation} />
         <Title
           title={translate('sign_up')}

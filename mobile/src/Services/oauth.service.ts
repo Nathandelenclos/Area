@@ -1,4 +1,4 @@
-import { IApiInvokeResponse } from './API/api.invoke';
+import { ApiInvoke, IApiInvokeResponse } from './API/api.invoke';
 import { Platform } from 'react-native';
 import {
   AuthConfiguration,
@@ -20,14 +20,18 @@ import {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
 } from '@env';
+import { defaultApiHandler } from '@services/API/api.handlers';
 
 class OAuthService {
   /**
    * Google OAuth
-   * @constructor
+   * @constructor {connect: boolean, token}
    * @returns {Promise<IApiInvokeResponse>}
    */
-  async GoogleOAuth(): Promise<IApiInvokeResponse> {
+  async GoogleOAuth(
+    connect: boolean,
+    token: string,
+  ): Promise<IApiInvokeResponse> {
     const config: AuthConfiguration = {
       issuer: 'https://accounts.google.com',
       clientId:
@@ -40,20 +44,31 @@ class OAuthService {
       `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${authState.accessToken}`,
     );
     const email = await response.json();
+    if (connect) {
+      return AuthService.OAuthConnect(token, {
+        email: email.email,
+        provider: 'google',
+        refreshToken: authState.refreshToken,
+        providerId: email.sub,
+      });
+    }
     return AuthService.OAuthLogin({
       email: email.email,
-      id: email.sub,
-      token: authState.refreshToken,
       provider: 'google',
+      refreshToken: authState.refreshToken,
+      providerId: email.sub,
     });
   }
 
   /**
    * Facebook OAuth
-   * @constructor
+   * @constructor {connect: boolean, token: string}
    * @returns {Promise<IApiInvokeResponse>}
    */
-  async FacebookOAuth(): Promise<IApiInvokeResponse> {
+  async FacebookOAuth(
+    connect: boolean,
+    token: string,
+  ): Promise<IApiInvokeResponse> {
     const result: LoginResult = await LoginManager.logInWithPermissions([
       'public_profile',
       'email',
@@ -70,27 +85,40 @@ class OAuthService {
       `https://graph.facebook.com/me?access_token=${facebookCredential}&fields=email`,
     );
     const email = await response.json();
+    if (connect) {
+      return AuthService.OAuthConnect(token, {
+        email: email.email,
+        provider: 'facebook',
+        refreshToken: facebookCredential,
+        providerId: email.id,
+      });
+    }
     return AuthService.OAuthLogin({
       email: email.email,
-      id: email.id,
-      token: facebookCredential,
       provider: 'facebook',
+      refreshToken: facebookCredential,
+      providerId: email.id,
     });
   }
 
   /**
    * Spotify OAuth
-   * @constructor
+   * @constructor {connect: boolean, token: string}
    * @returns {Promise<IApiInvokeResponse>}
    */
-  async SpotifyOAuth(): Promise<IApiInvokeResponse> {
+  async SpotifyOAuth(
+    connect: boolean,
+    token: string,
+  ): Promise<IApiInvokeResponse> {
     const config: AuthConfiguration = {
       clientId: SPOTIFY_CLIENT_ID,
       clientSecret: SPOTIFY_CLIENT_SECRET,
       redirectUrl: REDIRECT_URI,
       scopes: [
+        'user-modify-playback-state',
+        'user-read-playback-state',
+        'user-read-currently-playing',
         'user-read-email',
-        'playlist-modify-public',
         'user-read-private',
       ],
       serviceConfiguration: {
@@ -108,20 +136,32 @@ class OAuthService {
       },
     });
     const email = await response.json();
-    return AuthService.OAuthLogin({
-      email: email.email,
-      id: email.id,
-      token: authState.refreshToken,
-      provider: 'spotify',
-    });
+    if (connect) {
+      return AuthService.OAuthConnect(token, {
+        email: email.email,
+        provider: 'spotify',
+        refreshToken: authState.refreshToken,
+        providerId: email.id,
+      });
+    } else {
+      return AuthService.OAuthLogin({
+        email: email.email,
+        provider: 'spotify',
+        refreshToken: authState.refreshToken,
+        providerId: email.id,
+      });
+    }
   }
 
   /**
    * Github OAuth
-   * @constructor
+   * @constructor {connect: boolean, token: string}
    * @returns {Promise<IApiInvokeResponse>}
    */
-  async GithubOAuth(): Promise<IApiInvokeResponse> {
+  async GithubOAuth(
+    connect: boolean,
+    token: string,
+  ): Promise<IApiInvokeResponse> {
     const config: AuthConfiguration = {
       redirectUrl: 'areadevepitech://',
       clientId: GITHUB_CLIENT_ID,
@@ -147,11 +187,34 @@ class OAuthService {
       },
     );
     const email = await response.json();
+    if (connect) {
+      return AuthService.OAuthConnect(token, {
+        email: email[0].email,
+        provider: 'github',
+        refreshToken: result.accessToken,
+        providerId: email[1].email,
+      });
+    }
     return AuthService.OAuthLogin({
-      email: result.accessToken,
-      id: email[0]?.email,
-      token: email[1]?.email,
+      email: email[0].email,
       provider: 'github',
+      refreshToken: result.accessToken,
+      providerId: email[1].email,
+    });
+  }
+
+  /**
+   * Disconnect OAuth
+   * @constructor {token: string, id: number}
+   * @returns {Promise<IApiInvokeResponse>}
+   */
+  logout(token: string, id: number): Promise<IApiInvokeResponse> {
+    return ApiInvoke({
+      endpoint: `/auth/delete-oauth/${id}`,
+      method: 'DELETE',
+      expectedStatus: 200,
+      handlers: defaultApiHandler,
+      authToken: token,
     });
   }
 }
