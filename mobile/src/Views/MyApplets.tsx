@@ -19,6 +19,7 @@ import { Title } from '@components/Title';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import LoadingScreen from '@components/loading.screen';
 import Header from '@components/Header';
+import ModalAppletAction from '@components/AppletsHandlers/modalAppletActions';
 
 export default function MyAppletsView({
   navigation,
@@ -35,6 +36,11 @@ export default function MyAppletsView({
   const [itemList, setItemList] = React.useState<DropDownItemProps[]>([]);
   const [editing, setEditing] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [modalVisible, setModalVisible] = React.useState<{
+    isVisible: boolean;
+    appletToEdit: number;
+  }>({ isVisible: false, appletToEdit: -1 });
+  const [forceRefresh, setForceRefresh] = React.useState<boolean>(false);
 
   const colors = ['#7a73e7', '#73E77B', '#E77B73', '#73e7d6', '#7e1eb0'];
 
@@ -74,19 +80,26 @@ export default function MyAppletsView({
 
   const getMyApplets = async () => {
     const data = await appletService.getMyApplets(user.token);
+    console.log(data.data);
+    if (!data.data) {
+      setItemList([]);
+      setIsLoading(false);
+      return;
+    }
     const list: DropDownItemProps[] = data.data.map(
       (e: {
         id: string;
         name: string;
         description: string;
         active: boolean;
+        color: string;
       }) => ({
         id: e.id,
         title: e.name,
-        backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+        backgroundColor: e.color ?? '#7a73e7',
         description: e.description,
         titleColor: 'white',
-        active: e.active,
+        active: e.is_active,
         selected: false,
       }),
     );
@@ -103,6 +116,13 @@ export default function MyAppletsView({
       await getMyApplets();
     });
   }, [navigation]);
+
+  useEffect(() => {
+    if (forceRefresh) {
+      getMyApplets();
+      setForceRefresh(false);
+    }
+  }, [forceRefresh]);
 
   function functionIconRight(): void {
     if (editing) {
@@ -158,6 +178,13 @@ export default function MyAppletsView({
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.mode }}>
+      <ModalAppletAction
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        appletList={listToShow}
+        navigation={navigation}
+        forceRefresh={setForceRefresh}
+      />
       <Header
         title={'My Applets'}
         leftIcon={getIconLeft()}
@@ -205,7 +232,7 @@ export default function MyAppletsView({
             toggleSelected={toggleSelected}
             editing={editing}
             onPressElipsis={() => {
-              console.log('test');
+              setModalVisible({ isVisible: true, appletToEdit: item.id });
             }}
             onPressItem={() => {
               if (editing) {

@@ -8,13 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  ColorValue,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { ColorValue, TouchableOpacity, View, ViewStyle } from 'react-native';
 import React from 'react';
 import AppContext from '@contexts/app.context';
 import { Title } from '@components/Title';
@@ -146,7 +140,7 @@ export default function DropDownItem({
       >
         <Title
           title={title}
-          style={{ alignSelf: 'flex-start', color: titleColor }}
+          style={{ alignSelf: 'flex-start', color: titleColor, width: '80%' }}
         />
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity

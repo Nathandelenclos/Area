@@ -11,9 +11,12 @@ export default function AppletHandlerHeader({
   onBackPress,
   onTrashPress,
   onEditPress,
-  openPopUp,
+  playPause,
+  appletActive,
   string,
   setString,
+  backgroundColor,
+  pipetPress,
 }: {
   hideInput?: boolean;
   title: string;
@@ -21,9 +24,12 @@ export default function AppletHandlerHeader({
   onBackPress?: (() => void) | null;
   onTrashPress?: (() => void) | null;
   onEditPress?: (() => void) | null;
-  openPopUp?: (() => void) | null;
+  playPause?: (() => void) | null;
+  appletActive?: boolean;
   string?: string;
   setString?: React.Dispatch<React.SetStateAction<string>>;
+  backgroundColor: string;
+  pipetPress?: (() => void) | null;
 }): React.JSX.Element {
   const { color, translate } = AppContext();
 
@@ -42,7 +48,7 @@ export default function AppletHandlerHeader({
   return (
     <View
       style={{
-        backgroundColor: color.mainColor,
+        backgroundColor: backgroundColor,
         paddingHorizontal: 20,
         paddingBottom: 40,
         borderBottomRightRadius: 70,
@@ -84,10 +90,10 @@ export default function AppletHandlerHeader({
               />
             </TouchableOpacity>
           )}
-          {openPopUp && (
-            <TouchableOpacity onPress={openPopUp}>
+          {playPause && (
+            <TouchableOpacity onPress={playPause}>
               <FontAwesomeIcon
-                icon={'ellipsis-vertical'}
+                icon={appletActive ? 'pause' : 'play'}
                 size={20}
                 color={color.textOverMainColor}
               />
@@ -105,27 +111,47 @@ export default function AppletHandlerHeader({
         )}
       </View>
       {setString && !hideInput && (
-        <TextInput
-          style={{
-            borderWidth: 0.2,
-            borderRadius: 5,
-            margin: 10,
-            marginTop: 30,
-            padding: 10,
-            fontSize: 20,
-            color: color.textOverMainColor,
-            fontWeight: 'bold',
-            fontStyle: 'italic',
-            height: 60,
-          }}
-          maxLength={70}
-          value={string}
-          onChangeText={onChangeText}
-          multiline={true}
-          numberOfLines={2}
-          placeholder={'Applet Name'}
-          placeholderTextColor={color.textInputPlaceholder}
-        />
+        <View
+          style={{ flexDirection: 'row', width: '100%', alignItems: 'center' }}
+        >
+          <TextInput
+            style={{
+              width: pipetPress ? '90%' : '100%',
+              borderWidth: 0.2,
+              borderRadius: 5,
+              margin: 10,
+              marginTop: 30,
+              padding: 10,
+              fontSize: 20,
+              color: color.textOverMainColor,
+              fontWeight: 'bold',
+              fontStyle: 'italic',
+              height: 60,
+            }}
+            maxLength={70}
+            value={string}
+            onChangeText={onChangeText}
+            multiline={true}
+            numberOfLines={2}
+            placeholder={'Applet Name'}
+            placeholderTextColor={color.textInputPlaceholder}
+          />
+          {pipetPress && (
+            <TouchableOpacity
+              onPress={() => {
+                console.log('pipetPress');
+                pipetPress();
+              }}
+            >
+              <FontAwesomeIcon
+                icon={'paint-brush'}
+                size={20}
+                style={{ marginRight: 10, alignSelf: 'flex-end' }}
+                color={color.textOverMainColor}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       )}
       {hideInput && (
         <View

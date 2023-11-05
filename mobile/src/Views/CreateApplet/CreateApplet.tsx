@@ -10,6 +10,7 @@ import AppletBox from '@components/AppletsHandlers/draw.appplets.card';
 import NewActionOrReaction from '@components/AppletsHandlers/applet.plus';
 import LoadingScreen from '@components/loading.screen';
 import AppletHandlerHeader from '@components/AppletsHandlers/applets.header';
+import ColorModale from '@components/ColorModalPicker';
 
 export default function CreateApplet({
   navigation,
@@ -30,6 +31,13 @@ export default function CreateApplet({
   >(route.params.type);
   const [canSave, setCanSave] = React.useState<boolean>(false);
   const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
+  const [currentColor, setCurrentColor] = React.useState<string>(
+    color.mainColor,
+  );
+  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
+  const [isAppletActive, setIsAppletActive] = React.useState<boolean>(false);
+
+  console.log('modalVisible', modalVisible);
 
   useEffect(() => {
     if (
@@ -47,6 +55,8 @@ export default function CreateApplet({
   async function loadInformations() {
     const resp = await appletService.getApplet(user.token, route.params.id);
     if (!resp.data) return;
+    setCurrentColor(resp.data.color ?? '#7a73e7');
+    setIsAppletActive(resp.data.is_active);
     setActions(resp.data.actions);
     setReactions(resp.data.reactions);
     setAppletName(resp.data.name);
@@ -71,7 +81,6 @@ export default function CreateApplet({
     }
     const list = area?.action ? actions : reactions;
     if (!area) {
-      console.error('area is null');
       return;
     }
     func((prev: IAction[] | IReaction[]) => {
@@ -100,12 +109,15 @@ export default function CreateApplet({
   }, [route.params?.result]);
 
   useEffect(() => {
-    if (route.params.type === 'information') {
+    if (edition === 'edition' && !appletName) {
       loadInformations();
-    } else if (route.params.type === 'creation') {
+    } else if (edition === 'information') {
+      setIsLoaded(false);
+      loadInformations();
+    } else if (edition === 'creation') {
       setIsLoaded(true);
     }
-  }, []);
+  }, [edition]);
 
   const handleAppletPress = (
     area: IAction | IReaction | null,
@@ -148,49 +160,72 @@ export default function CreateApplet({
     );
   };
 
+  const createSaveObject = () => {
+    const finalReactions = reactions.map((reaction) => ({
+      id: reaction.reactionId ?? reaction.reaction.id,
+      config: Object.fromEntries(
+        reaction.configs.map((config) => [config.key, config.value]),
+      ),
+    }));
+    const finalActions = actions.map((action) => ({
+      id: action.actionId ?? action.action.id,
+      config: Object.fromEntries(
+        action.configs.map((config) => [config.key, config.value]),
+      ),
+    }));
+    return {
+      color: currentColor,
+      name: appletName.trim(),
+      description: "My applet's description",
+      is_active: true,
+      actions: finalActions,
+      reactions: finalReactions,
+    };
+  };
+
   const handleSave = async () => {
     if (edition === 'creation') {
-      const finalReactions = reactions.map((reaction) => ({
-        id: reaction.reactionId,
-        config: Object.fromEntries(
-          reaction.configs.map((config) => [config.key, config.value]),
-        ),
-      }));
-      const finalActions = actions.map((action) => ({
-        id: action.actionId,
-        config: Object.fromEntries(
-          action.configs.map((config) => [config.key, config.value]),
-        ),
-      }));
-      const obj = {
-        name: appletName.trim(),
-        description: "My applet's description",
-        is_active: true,
-        actions: finalActions,
-        reactions: finalReactions,
-      };
+      const obj = createSaveObject();
       const resp = await appletService.createApplet(user.token, obj);
       if (!resp.data) return;
     } else if (edition === 'edition') {
-      await appletService.updateApplet(user.token, {
-        id: route.params.applet.id,
-        name: appletName,
-        action: actions as IAction,
-        reaction: reactions[0],
-        config: '',
-        is_active: true,
-      });
+      const obj = createSaveObject();
+      const resp = await appletService.updateApplet(
+        user.token,
+        obj,
+        route.params.id,
+      );
+      if (!resp.data) return;
+      setEdition('information');
+      return;
     } else {
       return;
     }
-    console.log('here');
+    navigation.pop();
+  };
+
+  const toggleActiveApplet = async () => {
+    const resp = await appletService.updateApplet(
+      user.token,
+      {
+        is_active: !isAppletActive,
+      },
+      route.params.id,
+    );
+    if (!resp.data) return;
+    setIsAppletActive((prev) => !prev);
+  };
+
+  const handleTrashPress = () => {
+    appletService.deleteApplet(user.token, route.params.id);
     navigation.pop();
   };
 
   if (!isLoaded) {
     return (
-      <ViewContainer>
+      <ViewContainer background={currentColor}>
         <AppletHandlerHeader
+          backgroundColor={currentColor}
           title={translate('create_applet_title')}
           navigation={navigation}
           hideInput={true}
@@ -202,23 +237,34 @@ export default function CreateApplet({
   }
 
   return (
-    <ViewContainer>
+    <ViewContainer background={currentColor}>
+      <ColorModale
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        currentColor={currentColor}
+        setCurrentColor={setCurrentColor}
+      />
       <AppletHandlerHeader
+        backgroundColor={currentColor}
         hideInput={edition === 'information'}
         title={translate('create_applet_title')}
         navigation={navigation}
         string={appletName}
         setString={setAppletName}
+        pipetPress={
+          edition !== 'information' ? () => setModalVisible(true) : null
+        }
         onBackPress={
           edition === 'edition' ? () => setEdition('information') : null
         }
-        onTrashPress={edition === 'edition' ? () => console.log('trash') : null}
+        onTrashPress={edition === 'edition' ? () => handleTrashPress() : null}
         onEditPress={
           edition === 'information' ? () => setEdition('edition') : null
         }
-        openPopUp={
-          edition === 'information' ? () => console.log('popup') : null
+        playPause={
+          edition === 'information' ? () => toggleActiveApplet() : null
         }
+        appletActive={isAppletActive}
       />
       <ScrollView contentContainerStyle={{ paddingTop: 40 }}>
         {actions?.map((action, index) => (

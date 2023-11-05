@@ -1,31 +1,18 @@
 import React, { JSX, useEffect, useState } from 'react';
 import {
   DimensionValue,
-  Modal,
   Pressable,
   SafeAreaView,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import AppContext from '@contexts/app.context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import {
-  faClone,
-  faEdit,
-  faHeart,
-  faToggleOff,
-  faToggleOn,
-  faTrashAlt,
-} from '@fortawesome/free-solid-svg-icons';
 import appletService from '@services/applet.service';
 import UserCtx from '@contexts/user.context';
 import { IApplet } from '@interfaces/applet.interface';
-import { IReaction } from '@interfaces/reaction.interface';
-import { IAction } from '@interfaces/action.interface';
-import BackButton from '@components/BackButton';
 import Header from '@components/Header';
 
 export type AppletBubbleProps = {
@@ -113,174 +100,6 @@ function AppletBubble({
         </Text>
       ))}
     </View>
-  );
-}
-
-function SettingsApplet({ modalVisible, setModalVisible, applet, navigation }) {
-  const handleDuplicatePress = async () => {
-    const data = await appletService.createApplet(user.token, {
-      name: applet.name,
-      action: applet.action,
-      reaction: applet.reaction,
-      description: applet.description,
-      config: applet.config,
-      is_active: applet.is_active,
-    });
-    navigation.pop();
-  };
-
-  const handleFavoritePress = () => {
-    console.log('Favorite button pressed');
-  };
-
-  const handleActivationPress = () => {
-    console.log('Activation button pressed');
-  };
-
-  const handleModifyPress = () => {
-    console.log('Modify button pressed');
-  };
-
-  const handleDeletePress = () => {
-    if (id === 0) {
-      return;
-    }
-    appletService.deleteApplet(user.token, id);
-    navigation.navigate('Mes Applets', { screen: 'MyApplets' });
-  };
-
-  const [settingsList, setSettingsList] = React.useState<SettingsProps[]>([
-    {
-      settingTitle: ['Duplicate'],
-      iconName: [faClone],
-      handleOnPress: handleDuplicatePress,
-      isActive: false,
-    },
-    {
-      settingTitle: ['Favorite'],
-      iconName: [faHeart],
-      handleOnPress: handleFavoritePress,
-      isActive: false,
-      fav: true,
-    },
-    {
-      settingTitle: ['Enable', 'Disable'],
-      iconName: [faToggleOn, faToggleOff],
-      handleOnPress: handleActivationPress,
-      isActive: false,
-    },
-    {
-      settingTitle: ['Modify'],
-      iconName: [faEdit],
-      handleOnPress: handleModifyPress,
-      isActive: false,
-    },
-    {
-      settingTitle: ['Delete'],
-      iconName: [faTrashAlt],
-      handleOnPress: handleDeletePress,
-      isActive: false,
-      end: true,
-    },
-  ]);
-
-  return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
-    >
-      <Pressable
-        style={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: !isdarkmode ? '#00000075' : '#FFFFFF75',
-        }}
-        onPress={() => setModalVisible(!modalVisible)}
-      ></Pressable>
-      <View
-        style={{
-          width: '100%',
-          height: '40.5%',
-          top: '-40.5%',
-          backgroundColor: color.mode,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {settingsList.map((applet, i) => (
-          <View
-            key={i}
-            style={{
-              flexDirection: 'row',
-              borderBottomColor: !applet.end ? '#6F6F6F' : '',
-              borderBottomWidth: !applet.end ? 1 : 0,
-              width: '88%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <TouchableOpacity
-              key={i}
-              onPress={() => {
-                applet.handleOnPress;
-                applet.isActive = !applet.isActive;
-                setSettingsList(settingsList);
-              }}
-              style={{
-                marginLeft: '6%',
-                marginRight: '6%',
-                marginTop: '4%',
-                marginBottom: '4%',
-              }}
-            >
-              <Text
-                key={i}
-                style={{
-                  color: !applet.end ? '#6F6F6F' : '#FF000075',
-                  fontSize: 24,
-                  fontWeight: 'bold',
-                }}
-              >
-                {applet.isActive && applet.settingTitle[1]
-                  ? applet.settingTitle[1]
-                  : applet.settingTitle[0]}
-              </Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                position: 'absolute',
-                left: '0%',
-              }}
-            >
-              <FontAwesomeIcon
-                key={i}
-                icon={
-                  applet.isActive && applet.iconName[1]
-                    ? applet.iconName[1]
-                    : applet.iconName[0]
-                }
-                size={35}
-                style={{
-                  color: applet.end
-                    ? '#FF000075'
-                    : applet.fav && applet.isActive
-                    ? '#FF0000'
-                    : '#6F6F6F',
-                }}
-              />
-            </View>
-          </View>
-        ))}
-      </View>
-    </Modal>
   );
 }
 

@@ -16,17 +16,16 @@ export const UserContext = createContext<UserContextType>({
   setUser: () => {
     return;
   },
+  reloadUser: (): Promise<void> => {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  },
 });
 
 export const UserProvider = (props: { children: any }) => {
   const [user, setUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const { color } = AppContext();
-
-  const value: UserContextType = {
-    user: user,
-    setUser: setUser,
-  };
 
   const getUser = async () => {
     const token = await Storage.getToken();
@@ -38,6 +37,14 @@ export const UserProvider = (props: { children: any }) => {
       } else setUser({ ...resp.data, token: token });
     }
     setLoading(false);
+  };
+
+  const reloadUser = async () => {
+    const token = user?.token;
+    if (token) {
+      const resp = await AuthService.getProfile(token);
+      if (resp.data) setUser({ ...resp.data, token: token });
+    }
   };
 
   useEffect(() => {
@@ -55,6 +62,12 @@ export const UserProvider = (props: { children: any }) => {
   if (loading) {
     return <LoadingScreen />;
   }
+
+  const value: UserContextType = {
+    user: user,
+    setUser: setUser,
+    reloadUser: reloadUser,
+  };
 
   return (
     <UserContext.Provider value={value}>{props.children}</UserContext.Provider>

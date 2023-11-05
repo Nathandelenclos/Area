@@ -1,26 +1,28 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { OAuthServices, UserService } from '@app/common/users/user.service';
-import MicroServiceResponse from '@app/common/micro.service.response';
+import { AES, MD5 } from 'crypto-js';
 import {
-  AppletRelations,
-  AppletService,
-} from '@app/common/applets/applet.service';
-import {
-  NewUserDto,
-  UserCredentialsDto,
+  OauthEntity,
+  OAuthRelations,
+  OauthService,
+  UnauthorizeError,
+  UserEntity,
+  UserLoggedInDto,
+  UserNativeCredentialsDto,
   UserOAuthCredentialsDto,
-} from '@app/common/users/user.dto';
-import { AES, MD5, enc } from 'crypto-js';
+  UserRelations,
+  UserService,
+  ValidationError,
+} from '@app/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly appletService: AppletService,
-    private jwtService: JwtService,
+    private readonly oauthService: OauthService,
     private readonly configService: ConfigService,
+    private jwtService: JwtService,
   ) {}
 
   /**
@@ -28,22 +30,23 @@ export class AuthService {
    * @param data NewUser
    * @returns Promise<MicroServiceResponse> object
    */
-  async register(data: NewUserDto): Promise<MicroServiceResponse> {
-    if (
-      data.name == null ||
-      data.email == null ||
-      data.password == null ||
-      data.password.length == 0 ||
-      data.email.length == 0 ||
-      data.name.length == 0
-    ) {
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
-      });
+  async register(data: UserNativeCredentialsDto): Promise<UserLoggedInDto> {
+    if (data.name == null || data.email == null || data.password == null) {
+      throw new ValidationError<keyof UserNativeCredentialsDto>([
+        'password',
+        'email',
+        'name',
+      ]);
     }
 
-    return await this.userService.create(data);
+    const user = await this.userService.create(data);
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      token: this.jwtService.sign({ id: user.id, email: user.email }),
+    };
   }
 
   /**
@@ -51,92 +54,97 @@ export class AuthService {
    * @param data UserCredentials
    * @returns Promise<MicroServiceResponse> object
    */
-  async signIn(data: UserCredentialsDto): Promise<MicroServiceResponse> {
+  async signIn(data: UserNativeCredentialsDto): Promise<UserLoggedInDto> {
+    if (!data.email || !data.password) {
+      throw new ValidationError<keyof UserNativeCredentialsDto>([
+        'password',
+        'email',
+      ]);
+    }
     const user = await this.userService.findOne({ email: data.email });
     if (!user) {
-      return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
-      });
+      throw new UnauthorizeError();
     }
     const isMatch = MD5(data.password).toString() == user.password;
     if (!isMatch) {
-      return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
-      });
+      throw new UnauthorizeError();
     }
 
-    const payload = { id: user.id, email: user.email };
-    return new MicroServiceResponse({
-      data: {
-        email: user.email,
-        name: user.name,
-        access_token: this.jwtService.sign(payload),
-      },
-    });
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      token: this.jwtService.sign({ id: user.id, email: user.email }),
+    };
   }
 
-  async signOAuth(
-    data: UserOAuthCredentialsDto,
-  ): Promise<MicroServiceResponse> {
-    if (
-      data.email == null ||
-      data.provider == null ||
-      data.token == null ||
-      data.id == null
-    )
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
+  /**
+   * Sign in a user with OAuth credentials and return a JWT
+   * @param data
+   */
+  async signOAuth(data: UserOAuthCredentialsDto): Promise<UserLoggedInDto> {
+    if (!data.email || !data.provider || !data.refreshToken || !data.providerId)
+      throw new ValidationError<keyof UserOAuthCredentialsDto>([
+        'email',
+        'provider',
+        'refreshToken',
+        'providerId',
+      ]);
+
+    const hashedId: string = MD5(data.providerId).toString();
+    const hashedRefreshToken: string = AES.encrypt(
+      data.refreshToken,
+      this.configService.get('AES_SECRET'),
+    ).toString();
+
+    let oauth = await this.oauthService.findOne(
+      {
+        providerId: hashedId,
+        provider: data.provider,
+      },
+      [OAuthRelations.USER],
+    );
+
+    if (oauth && oauth.email !== data.email) {
+      throw new UnauthorizeError();
+    }
+
+    let user;
+
+    if (!oauth) {
+      oauth = await this.oauthService.create({
+        accessToken: null,
+        providerId: hashedId,
+        email: data.email,
+        provider: data.provider,
+        refreshToken: hashedRefreshToken,
+        user: null,
       });
+      user = null;
+    } else {
+      user = oauth.user;
+    }
 
-    const hashedId: string = MD5(data.id).toString();
-    const userByEmail = await this.userService.findOne({
-      email: data.email,
-    });
-    const userById = await this.userService.findOne({
-      provider_id: hashedId,
-    });
-    if (!userByEmail && !userById)
-      return await this.userService.createOAuth(data);
-    if ((userByEmail && !userById) || (!userByEmail && userById))
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Invalid Credentials',
+    if (oauth && !user) {
+      user = await this.userService.create({
+        email: data.email,
+        name: data.name || data.email,
+        password: null,
       });
-
-    const user = userByEmail ? userByEmail : userById;
-
-    if (OAuthServices[data.provider] == undefined)
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Invalid OAuth provider',
-      });
-
-    if (!user[OAuthServices[data.provider]])
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'No OAuth provider linked to this email',
-      });
-
-    const isMatch = user.provider_id == hashedId;
-    if (!isMatch) {
-      return new MicroServiceResponse({
-        code: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
+      await this.oauthService.update(oauth.id, {
+        user: user,
       });
     }
 
-    const payload = { id: user.id, email: data.email };
-    return new MicroServiceResponse({
-      data: {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      token: this.jwtService.sign({
         id: user.id,
         email: user.email,
-        name: user.name,
-        access_token: this.jwtService.sign(payload),
-      },
-    });
+      }),
+    };
   }
 
   /**
@@ -144,14 +152,77 @@ export class AuthService {
    * @param data UserEntity
    * @returns Promise<MicroServiceResponse> object
    */
-  async me(data: any): Promise<MicroServiceResponse> {
-    return new MicroServiceResponse({
-      data: await this.appletService.findAll(
-        {
-          user: { id: data.id },
-        },
-        [AppletRelations.REACTIONS, AppletRelations.ACTION],
-      ),
+  async me(data: any): Promise<Partial<UserEntity>> {
+    const user = await this.userService.findOne(
+      {
+        id: data.id,
+        email: data.email,
+      },
+      [UserRelations.OAUTH],
+    );
+    delete user.password;
+    return user;
+  }
+
+  /**
+   * Recover a password
+   * @param data
+   */
+  async recoverPassword(): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  /**
+   * Reset a password
+   * @param data
+   */
+  async resetPassword(data: UserNativeCredentialsDto): Promise<void> {
+    if (!data.id || !data.email || !data.password) {
+      throw new ValidationError<keyof UserNativeCredentialsDto>([
+        'id',
+        'password',
+        'email',
+      ]);
+    }
+
+    const user = this.userService.findOne({ id: data.id, email: data.email });
+    if (!user) {
+      throw new UnauthorizeError();
+    }
+    await this.userService.update(data.id, {
+      password: MD5(data.password).toString(),
+    });
+  }
+
+  /**
+   * Link an OAuth account to a user
+   * @param data
+   */
+  async connectOAuth(data: UserOAuthCredentialsDto): Promise<OauthEntity> {
+    if (
+      !data.id ||
+      !data.email ||
+      !data.provider ||
+      !data.refreshToken ||
+      !data.providerId
+    )
+      throw new ValidationError<keyof UserOAuthCredentialsDto>([
+        'id',
+        'email',
+        'provider',
+        'refreshToken',
+        'providerId',
+      ]);
+    return this.oauthService.create({
+      accessToken: null,
+      providerId: MD5(data.providerId).toString(),
+      email: data.email,
+      provider: data.provider,
+      refreshToken: AES.encrypt(
+        data.refreshToken,
+        this.configService.get('AES_SECRET'),
+      ).toString(),
+      user: await this.userService.findOne({ id: data.id }),
     });
   }
 }

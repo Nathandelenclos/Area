@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-common-types';
 import UserCtx from '@contexts/user.context';
 import { Storage } from '@src/Storage/user.storage';
+import { AUTH_LIST } from '@interfaces/handle.auth';
 
 /**
  * Type for the authList variable.
@@ -89,36 +90,13 @@ function TextBetweenBar(): JSX.Element {
  */
 function AuthList(): JSX.Element {
   const { setUser } = UserCtx();
-  async function handleOAuth(onPress: () => Promise<IApiInvokeResponse>) {
-    const resp = await onPress();
+  async function handleOAuth(onPress: Promise<IApiInvokeResponse>) {
+    const resp = await onPress;
     await Storage.saveToken(resp.data?.token);
     if (resp.data) {
       setUser(resp.data);
     }
   }
-
-  const authList: AuthItem[] = [
-    {
-      icon: ['fab', 'facebook'],
-      color: '#3b5998',
-      OAuth: () => OauthService.FacebookOAuth(),
-    },
-    {
-      icon: ['fab', 'google'],
-      color: '#db4437',
-      OAuth: () => OauthService.GoogleOAuth(),
-    },
-    {
-      icon: ['fab', 'spotify'],
-      color: '#1db954',
-      OAuth: () => OauthService.SpotifyOAuth(),
-    },
-    {
-      icon: ['fab', 'github'],
-      color: '#24292e',
-      OAuth: () => OauthService.GithubOAuth(),
-    },
-  ];
 
   return (
     <View
@@ -128,7 +106,7 @@ function AuthList(): JSX.Element {
         justifyContent: 'space-around',
       }}
     >
-      {authList.map((item, index) => (
+      {AUTH_LIST.map((item, index) => (
         <TouchableOpacity
           key={index}
           style={{
@@ -136,7 +114,7 @@ function AuthList(): JSX.Element {
             padding: 10,
             borderRadius: 5,
           }}
-          onPress={() => handleOAuth(item.OAuth)}
+          onPress={() => handleOAuth(item.OAuth(false, ''))}
           testID={'oauth-button'}
         >
           <FontAwesomeIcon icon={item.icon} size={20} color={'white'} />

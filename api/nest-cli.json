@@ -55,40 +55,31 @@
         "tsConfigPath": "apps/spotify/tsconfig.app.json"
       }
     },
-    "instagram": {
+    "timer": {
       "type": "application",
-      "root": "apps/instagram",
+      "root": "apps/timer",
       "entryFile": "main",
-      "sourceRoot": "apps/instagram/src",
+      "sourceRoot": "apps/timer/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/instagram/tsconfig.app.json"
+        "tsConfigPath": "apps/timer/tsconfig.app.json"
       }
     },
-    "gmail": {
+    "service": {
       "type": "application",
-      "root": "apps/gmail",
+      "root": "apps/service",
       "entryFile": "main",
-      "sourceRoot": "apps/gmail/src",
+      "sourceRoot": "apps/service/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/gmail/tsconfig.app.json"
+        "tsConfigPath": "apps/service/tsconfig.app.json"
       }
     },
-    "youtube": {
+    "applet": {
       "type": "application",
-      "root": "apps/youtube",
+      "root": "apps/applet",
       "entryFile": "main",
-      "sourceRoot": "apps/youtube/src",
+      "sourceRoot": "apps/applet/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/youtube/tsconfig.app.json"
-      }
-    },
-    "google_drive": {
-      "type": "application",
-      "root": "apps/google_drive",
-      "entryFile": "main",
-      "sourceRoot": "apps/google_drive/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/google_drive/tsconfig.app.json"
+        "tsConfigPath": "apps/applet/tsconfig.app.json"
       }
     }
   }

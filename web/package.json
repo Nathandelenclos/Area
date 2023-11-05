@@ -21,17 +21,18 @@
     "react-dotenv": "^0.1.3",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.3",
     "tailwindcss": "^3.3.3",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
-    "react-toastify": "^9.1.3",
     "zustand": "^4.4.3"
   },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "lint": "eslint \"{src,__test__}/**/*.{ts,tsx}\" --fix"
   },
   "browserslist": {
     "production": [
@@ -50,5 +51,6 @@
     "eslint": "^8.49.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "3.0.3"
-  }
+  },
+  "packageManager": "yarn@4.0.1"
 }
