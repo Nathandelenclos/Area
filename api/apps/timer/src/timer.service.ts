@@ -72,11 +72,19 @@ export class TimerService {
       if (!actionApplet.applet.is_active) continue;
       const dateConfig = actionApplet.configs.find((e) => e.key === 'date');
       const isActive = actionApplet.configs.find((e) => e.key === 'is_active');
-      if (!dateConfig || !!isActive) continue;
+      const isActiveValue: boolean | undefined =
+        isActive === undefined ? undefined : isActive?.value === 'true';
+      if (!dateConfig || isActiveValue === false) continue;
       const date = new Date(dateConfig.value);
+      date.setHours(date.getHours() - 1);
+
+      console.log(
+        date.toLocaleDateString(), " : ", date.toLocaleTimeString(), "\n",
+        now.toLocaleDateString(), " : ", now.toLocaleTimeString()
+    );
       if (date.getTime() > now.getTime()) continue;
       await this.appletConfigService.create(actionApplet.id, 'actionApplet', {
-        value: '1',
+        value: 'false',
         key: 'is_active',
       });
       this.callReactions(actionApplet.applet.reactions);
