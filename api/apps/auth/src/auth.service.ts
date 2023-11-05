@@ -85,12 +85,7 @@ export class AuthService {
    * @param data
    */
   async signOAuth(data: UserOAuthCredentialsDto): Promise<UserLoggedInDto> {
-    if (
-      data.provider === 'spotify' &&
-      data.refreshToken.startsWith('access:') &&
-      data.redirect_uri &&
-      data.code
-    ) {
+    if (data.provider === 'spotify' && data.code) {
       const result = await this.spotifyAuth({
         code: data.code,
       });
@@ -100,12 +95,7 @@ export class AuthService {
       };
     }
 
-    if (
-      data.provider === 'github' &&
-      data.refreshToken.startsWith('access:') &&
-      data.redirect_uri &&
-      data.code
-    ) {
+    if (data.provider === 'github' && data.code) {
       const result = await this.githubAuth({
         code: data.code,
       });
