@@ -12,7 +12,6 @@ import {
   ReactionService,
   ServiceService,
 } from '@app/common';
-
 @Injectable()
 export class TimerService {
   constructor(
