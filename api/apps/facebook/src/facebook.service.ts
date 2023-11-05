@@ -164,6 +164,7 @@ export class FacebookService {
         continue;
       }
 
+      console.log(lastPostCountValue, totalPosts);
       if (lastPostCountValue === totalPosts) continue;
 
       await this.appletConfigService.update(lastPostCount.id, {
