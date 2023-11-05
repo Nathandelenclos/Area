@@ -28,6 +28,7 @@ interface NewAppletRequest {
   name: string;
   description: string;
   is_active: boolean;
+  color: string;
   reactions: NewEventConfig[];
   actions: NewEventConfig[];
 }
@@ -53,10 +54,9 @@ export class AppletService {
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.REACTIONS_CONFIG,
       AppletRelations.ACTION_CONFIG,
       AppletRelations.REACTION_CONFIG,
-      AppletRelations.REACTION_CONFIGS,
-      AppletRelations.ACTION_CONFIGS,
     ]);
   }
 
@@ -67,7 +67,6 @@ export class AppletService {
    */
   async getAppletById(id: number, userId: number) {
     const applet = await this.appletCommonService.findOne({ id: id }, [
-      AppletRelations.USER,
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
@@ -204,16 +203,19 @@ export class AppletService {
       description: data.description,
       is_active: data.is_active,
       user: user,
+      color: data.color,
     });
 
     await this.createConfig(data.actions, applet, 'actionApplet');
     await this.createConfig(data.reactions, applet, 'reactionApplet');
 
     return this.appletCommonService.findOne({ id: applet.id }, [
-      AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
+      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.REACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
   }
 
@@ -228,16 +230,15 @@ export class AppletService {
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.REACTIONS_CONFIG,
-      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
 
     if (applet.user.id !== userId) {
       throw new ForbiddenError('You are not allowed to access this applet');
     }
 
-    await this.deleteConfig(applet);
     return this.appletCommonService.delete(id);
   }
 
@@ -253,33 +254,37 @@ export class AppletService {
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.REACTIONS_CONFIG,
-      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
 
     if (applet.user.id !== userId) {
       throw new ForbiddenError('You are not allowed to access this applet');
     }
-    if (data.name || data.description || data.is_active) {
+    if (data.name || data.description || data.is_active || data.color) {
       await this.appletCommonService.update(id, {
         name: data.name,
         description: data.description,
         is_active: data.is_active,
+        color: data.color,
       });
     }
-    await this.requiredConfig(data.reactions, data.actions);
-    await this.deleteConfig(applet);
-    await this.createConfig(data.actions, applet, 'actionApplet');
-    await this.createConfig(data.reactions, applet, 'reactionApplet');
+
+    if (data.reactions || data.actions) {
+      await this.requiredConfig(data.reactions, data.actions);
+      await this.deleteConfig(applet);
+      await this.createConfig(data.actions, applet, 'actionApplet');
+      await this.createConfig(data.reactions, applet, 'reactionApplet');
+    }
 
     return this.appletCommonService.findOne({ id: applet.id }, [
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.REACTIONS_CONFIG,
-      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AES, MD5 } from 'crypto-js';
 import {
+  AlreadyExistError,
   OauthEntity,
   OAuthRelations,
   OauthService,
@@ -78,6 +79,35 @@ export class AuthService {
     };
   }
 
+  async signOAuthGithub(
+    data: UserOAuthCredentialsDto,
+  ): Promise<UserLoggedInDto> {
+    const clientId = this.configService.get('GITHUB_CLIENT_ID');
+    const clientSecret = this.configService.get('GITHUB_CLIENT_SECRET');
+    const authorizationCode = data.refreshToken;
+
+    const params =
+      '?cliend_id=' +
+      clientId +
+      '&client_secret=' +
+      clientSecret +
+      '&code=' +
+      authorizationCode;
+
+    const response = await fetch(
+      'https://github.com/login/oauth/access_token' + params,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
+    const json = await response.json();
+    console.log(json);
+    return null;
+  }
+
   /**
    * Sign in a user with OAuth credentials and return a JWT
    * @param data
@@ -97,41 +127,29 @@ export class AuthService {
       this.configService.get('AES_SECRET'),
     ).toString();
 
-    let oauth = await this.oauthService.findOne(
+    const oauth = await this.oauthService.findOne(
       {
         providerId: hashedId,
         provider: data.provider,
+        email: data.email,
       },
       [OAuthRelations.USER],
     );
 
-    if (oauth && oauth.email !== data.email) {
-      throw new UnauthorizeError();
-    }
-
     let user;
 
     if (!oauth) {
-      oauth = await this.oauthService.create({
-        accessToken: null,
-        providerId: hashedId,
-        email: data.email,
-        provider: data.provider,
-        refreshToken: hashedRefreshToken,
-        user: null,
-      });
-      user = null;
-    } else {
-      user = oauth.user;
-    }
-
-    if (oauth && !user) {
       user = await this.userService.create({
         email: data.email,
         name: data.name || data.email,
         password: null,
       });
-      await this.oauthService.update(oauth.id, {
+      await this.oauthService.create({
+        accessToken: null,
+        providerId: hashedId,
+        email: data.email,
+        provider: data.provider,
+        refreshToken: hashedRefreshToken,
         user: user,
       });
     }
@@ -184,11 +202,13 @@ export class AuthService {
         'email',
       ]);
     }
-
+    if (data.password.length < 8)
+      throw new ValidationError<keyof UserNativeCredentialsDto>(['password']);
     const user = this.userService.findOne({ id: data.id, email: data.email });
     if (!user) {
       throw new UnauthorizeError();
     }
+
     await this.userService.update(data.id, {
       password: MD5(data.password).toString(),
     });
@@ -213,6 +233,20 @@ export class AuthService {
         'refreshToken',
         'providerId',
       ]);
+    const user = await this.userService.findOne({ id: data.id });
+
+    const oauth = await this.oauthService.findOne(
+      {
+        providerId: MD5(data.providerId).toString(),
+        provider: data.provider,
+        user: user,
+      },
+      [OAuthRelations.USER],
+    );
+    if (oauth) {
+      throw new AlreadyExistError();
+    }
+
     return this.oauthService.create({
       accessToken: null,
       providerId: MD5(data.providerId).toString(),
@@ -222,7 +256,86 @@ export class AuthService {
         data.refreshToken,
         this.configService.get('AES_SECRET'),
       ).toString(),
-      user: await this.userService.findOne({ id: data.id }),
+      user: user,
     });
+  }
+
+  /**
+   * Unlink an OAuth account from a user
+   * @param id
+   * @param user
+   */
+  async deleteOAuth(
+    id: number,
+    user: { id: number; email: string },
+  ): Promise<void> {
+    const oauth = await this.oauthService.findOne(
+      {
+        id: id,
+      },
+      [OAuthRelations.USER],
+    );
+    if (!oauth || oauth.user.id !== user.id) {
+      throw new UnauthorizeError();
+    }
+    await this.oauthService.delete(id);
+  }
+
+  /**
+   * Delete a user account
+   * @param id
+   * @param user
+   */
+  async deleteAccount(id, email) {
+    const userEntity = await this.userService.findOne({
+      id: id,
+      email: email,
+    });
+    if (!userEntity) {
+      throw new UnauthorizeError();
+    }
+    await this.userService.delete(userEntity.id);
+  }
+
+  async spotifyAuth(query) {
+    const client_id = this.configService.get('SPOTIFY_CLIENT_ID');
+    const client_secret = this.configService.get('SPOTIFY_CLIENT_SECRET');
+
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization:
+          'Basic ' +
+          Buffer.from(client_id + ':' + client_secret).toString('base64'),
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: query.code,
+        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+      }),
+    });
+    console.log(await response.json());
+  }
+
+  async githubAuth(query) {
+    const client_id = this.configService.get('GITHUB_CLIENT_ID');
+    const client_secret = this.configService.get('GITHUB_CLIENT_SECRET');
+
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization:
+          'Basic ' +
+          Buffer.from(client_id + ':' + client_secret).toString('base64'),
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: query.code,
+        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+      }),
+    });
+    console.log(await response.json());
   }
 }

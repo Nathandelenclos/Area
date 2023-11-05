@@ -13,12 +13,14 @@ export class UserEntity {
   @Column({ nullable: true })
   password: string;
 
-  @OneToMany(() => OauthEntity, (oauth) => oauth.user)
+  @OneToMany(() => OauthEntity, (oauth) => oauth.user, { cascade: true })
   oauth: OauthEntity[];
 
   @Column()
   name: string;
 
-  @OneToMany(() => AppletEntity, (applet) => applet.user)
+  @OneToMany(() => AppletEntity, (applet) => applet.user, {
+    cascade: true,
+  })
   applets: AppletEntity[];
 }

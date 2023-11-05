@@ -9,9 +9,13 @@ export class ReactionAppletEntity {
   @ManyToOne(() => ReactionEntity, (reaction) => reaction.applets)
   reaction: ReactionEntity;
 
-  @ManyToOne(() => AppletEntity, (applet) => applet.reactions)
+  @ManyToOne(() => AppletEntity, (applet) => applet.reactions, {
+    onDelete: 'CASCADE',
+  })
   applet: AppletEntity;
 
-  @OneToMany(() => AppletConfigEntity, (config) => config.reactionApplet)
+  @OneToMany(() => AppletConfigEntity, (config) => config.reactionApplet, {
+    cascade: true,
+  })
   configs: AppletConfigEntity[];
 }
