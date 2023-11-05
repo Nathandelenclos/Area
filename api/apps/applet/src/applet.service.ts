@@ -54,10 +54,9 @@ export class AppletService {
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.REACTIONS_CONFIG,
       AppletRelations.ACTION_CONFIG,
       AppletRelations.REACTION_CONFIG,
-      AppletRelations.REACTIONS_CONFIG,
-      AppletRelations.ACTIONS_CONFIG,
     ]);
   }
 
@@ -68,7 +67,6 @@ export class AppletService {
    */
   async getAppletById(id: number, userId: number) {
     const applet = await this.appletCommonService.findOne({ id: id }, [
-      AppletRelations.USER,
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
@@ -205,17 +203,19 @@ export class AppletService {
       description: data.description,
       is_active: data.is_active,
       user: user,
-      color: '#000000',
+      color: data.color,
     });
 
     await this.createConfig(data.actions, applet, 'actionApplet');
     await this.createConfig(data.reactions, applet, 'reactionApplet');
 
     return this.appletCommonService.findOne({ id: applet.id }, [
-      AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
+      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.REACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
   }
 
@@ -230,9 +230,9 @@ export class AppletService {
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.REACTIONS_CONFIG,
-      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
 
     if (applet.user.id !== userId) {
@@ -254,9 +254,9 @@ export class AppletService {
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.REACTIONS_CONFIG,
-      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
 
     if (applet.user.id !== userId) {
@@ -282,9 +282,9 @@ export class AppletService {
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
-      AppletRelations.REACTION_CONFIG,
       AppletRelations.REACTIONS_CONFIG,
-      AppletRelations.ACTIONS_CONFIG,
+      AppletRelations.ACTION_CONFIG,
+      AppletRelations.REACTION_CONFIG,
     ]);
   }
 }

@@ -242,4 +242,41 @@ export class AuthController extends MicroServiceController {
     }
     return new MicroServiceResponse(props);
   }
+
+  @MessagePattern({ cmd: 'spotify-authenticate' })
+  spotifyAuthenticate(@Ctx() context: RmqContext) {
+    let props: MicroServiceHttpCodeProps = {
+      code: HttpCode.OK,
+      message: 'OK',
+    };
+    try {
+      this.authService.spotifyAuth(this.ack(context));
+    } catch (error) {
+      console.error(`[ERROR] ${error}`);
+      props = {
+        code: HttpCode.INTERNAL_SERVER_ERROR,
+        message: 'Internal server error',
+      };
+    }
+    return new MicroServiceResponse(props);
+  }
+
+  @MessagePattern({ cmd: 'github-authenticate' })
+  async githubAuthenticate(@Ctx() context: RmqContext) {
+    const data = this.ack(context);
+    let props: MicroServiceHttpCodeProps = {
+      code: HttpCode.OK,
+      message: 'OK',
+    };
+    try {
+      this.authService.githubAuth(data);
+    } catch (error) {
+      console.error(`[ERROR] ${error}`);
+      props = {
+        code: HttpCode.INTERNAL_SERVER_ERROR,
+        message: 'Internal server error',
+      };
+    }
+    return new MicroServiceResponse(props);
+  }
 }

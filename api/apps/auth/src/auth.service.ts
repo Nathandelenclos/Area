@@ -120,10 +120,6 @@ export class AuthService {
         'refreshToken',
         'providerId',
       ]);
-    //
-    // if (data.provider !== 'github' || data.refreshToken.startsWith('access:')) {
-    //   return this.signOAuthGithub(data);
-    // }
 
     const hashedId: string = MD5(data.providerId).toString();
     const hashedRefreshToken: string = AES.encrypt(
@@ -131,41 +127,29 @@ export class AuthService {
       this.configService.get('AES_SECRET'),
     ).toString();
 
-    let oauth = await this.oauthService.findOne(
+    const oauth = await this.oauthService.findOne(
       {
         providerId: hashedId,
         provider: data.provider,
+        email: data.email,
       },
       [OAuthRelations.USER],
     );
 
-    if (oauth && oauth.email !== data.email) {
-      throw new UnauthorizeError();
-    }
-
     let user;
 
     if (!oauth) {
-      oauth = await this.oauthService.create({
-        accessToken: null,
-        providerId: hashedId,
-        email: data.email,
-        provider: data.provider,
-        refreshToken: hashedRefreshToken,
-        user: null,
-      });
-      user = null;
-    } else {
-      user = oauth.user;
-    }
-
-    if (oauth && !user) {
       user = await this.userService.create({
         email: data.email,
         name: data.name || data.email,
         password: null,
       });
-      await this.oauthService.update(oauth.id, {
+      await this.oauthService.create({
+        accessToken: null,
+        providerId: hashedId,
+        email: data.email,
+        provider: data.provider,
+        refreshToken: hashedRefreshToken,
         user: user,
       });
     }
@@ -311,5 +295,47 @@ export class AuthService {
       throw new UnauthorizeError();
     }
     await this.userService.delete(userEntity.id);
+  }
+
+  async spotifyAuth(query) {
+    const client_id = this.configService.get('SPOTIFY_CLIENT_ID');
+    const client_secret = this.configService.get('SPOTIFY_CLIENT_SECRET');
+
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization:
+          'Basic ' +
+          Buffer.from(client_id + ':' + client_secret).toString('base64'),
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: query.code,
+        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+      }),
+    });
+    console.log(await response.json());
+  }
+
+  async githubAuth(query) {
+    const client_id = this.configService.get('GITHUB_CLIENT_ID');
+    const client_secret = this.configService.get('GITHUB_CLIENT_SECRET');
+
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization:
+          'Basic ' +
+          Buffer.from(client_id + ':' + client_secret).toString('base64'),
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: query.code,
+        redirect_uri: 'http://10.17.73.55:8080/api/auth/spotify/authenticate',
+      }),
+    });
+    console.log(await response.json());
   }
 }

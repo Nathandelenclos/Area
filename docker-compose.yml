@@ -106,8 +106,8 @@ services:
       - rabbitmq
       - api
     restart: always
-#
-#  spotify:
+
+  spotify:
     image: area_app:latest
     container_name: spotify
     hostname: spotify
@@ -122,7 +122,7 @@ services:
       - rabbitmq
       - api
     restart: always
-#
+
   timer:
     image: area_app:latest
     container_name: timer

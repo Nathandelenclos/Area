@@ -110,4 +110,26 @@ export class AuthController {
       res,
     );
   }
+
+  @Public()
+  @Get('github/authenticate/:code')
+  githubAuthenticate(@Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'github-authenticate',
+      req,
+      res,
+    );
+  }
+
+  @Public()
+  @Get('spotify/authenticate/:code')
+  spotifyAuthenticate(@Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'spotify-authenticate',
+      req,
+      res,
+    );
+  }
 }
