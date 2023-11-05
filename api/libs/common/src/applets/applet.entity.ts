@@ -23,6 +23,9 @@ export class AppletEntity {
   @Column()
   is_active: boolean;
 
+  @Column()
+  color: string;
+
   @ManyToOne(() => UserEntity, (user) => user.applets, { onDelete: 'CASCADE' })
   user: UserEntity;
 

@@ -7,6 +7,7 @@ export interface AppletDto {
   description: string;
   is_active: boolean;
   user: Partial<UserEntity>;
+  color: string;
   actions?: Partial<ActionEntity>[];
   reactions?: Partial<ReactionEntity>[];
 }

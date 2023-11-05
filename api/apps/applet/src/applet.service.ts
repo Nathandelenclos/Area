@@ -28,6 +28,7 @@ interface NewAppletRequest {
   name: string;
   description: string;
   is_active: boolean;
+  color: string;
   reactions: NewEventConfig[];
   actions: NewEventConfig[];
 }
@@ -55,8 +56,8 @@ export class AppletService {
       AppletRelations.ACTIONS_CONFIG,
       AppletRelations.ACTION_CONFIG,
       AppletRelations.REACTION_CONFIG,
-      AppletRelations.REACTION_CONFIGS,
-      AppletRelations.ACTION_CONFIGS,
+      AppletRelations.REACTIONS_CONFIG,
+      AppletRelations.ACTIONS_CONFIG,
     ]);
   }
 
@@ -204,6 +205,7 @@ export class AppletService {
       description: data.description,
       is_active: data.is_active,
       user: user,
+      color: '#000000',
     });
 
     await this.createConfig(data.actions, applet, 'actionApplet');
