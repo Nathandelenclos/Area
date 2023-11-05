@@ -5,7 +5,7 @@ export const getFacebookUrl = () => {
     "http://localhost:3000/api/sessions/oauth/facebook",
   );
 
-  const clientId = encodeURIComponent("1310756783142754");
+  const clientId = process.env.REACT_APP_FACEBOOK_OAUTH_CLIENT_ID;
 
   const scopes = ["public_profile", "email"];
 

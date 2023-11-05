@@ -1,7 +1,7 @@
+import { ApiInvoke } from "@services/api/api.invoke";
 import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ApiInvoke } from "@services/api/api.invoke";
 
 async function getAccessTokenFromURL() {
   const url = window.location.href;
@@ -11,15 +11,30 @@ async function getAccessTokenFromURL() {
     const tab2 = element.split("=");
     return tab2[1];
   });
-  const accessToken = tab[3];
+  const accessToken = tab[0];
+
+  const clientId = process.env.REACT_APP_FACEBOOK_OAUTH_CLIENT_ID;
+  const clientSecret = process.env.REACT_APP_FACEBOOK_OAUTH_CLIENT_SECRET;
+
+  const refreshTokenQuery: Response = await fetch(
+    `https://graph.facebook.com/v18.0/oauth/access_token?
+  grant_type=fb_exchange_token&
+  client_id=${clientId}&
+  client_secret=${clientSecret}&
+  fb_exchange_token=${accessToken}`,
+  );
+
+  const refreshData = await refreshTokenQuery.json();
+  const refreshToken = refreshData.access_token;
+
   const response: Response = await fetch(
-    `https://graph.facebook.com/me?access_token=${accessToken}&fields=email`,
+    `https://graph.facebook.com/me?access_token=${refreshToken}&fields=email`,
   );
   const data = await response.json();
   return {
     email: data.email,
-    id: data.id,
-    token: accessToken,
+    providerId: data.id,
+    refreshToken: refreshToken,
   };
 }
 
@@ -29,7 +44,7 @@ export const LoginUserFacebook = () => {
   async function tryLogin() {
     const data = await getAccessTokenFromURL();
     if (!data) {
-      navigate("/home");
+      navigate("/");
       return;
     }
     const resp = await ApiInvoke({
@@ -41,15 +56,17 @@ export const LoginUserFacebook = () => {
         provider: "facebook",
       }),
     });
-    console.log(resp);
     //todo: LINK AUTH WITH BACK-END
-    navigate("/home-page");
+    if (resp.status === 200) {
+      localStorage.setItem("accessToken", data.refreshToken);
+      navigate("/home-page");
+    } else {
+      navigate("/");
+    }
   }
 
   useEffect(() => {
     tryLogin();
-    //todo: send code to backend
-    //todo: login if suceccess and redirect home else redirect to login page
   }, []);
 
   return (

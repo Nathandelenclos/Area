@@ -76,7 +76,7 @@ export const Routes: Route[] = [
   },
   {
     name: "spotify-auth",
-    path: "/api/sessions/oauth/spotify",
+    path: "/api/sessions/oauth/spotify/",
     middleware: [],
     element: <LoginUserSpotify />,
     public: true,
