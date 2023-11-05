@@ -1,7 +1,7 @@
+import { ApiInvoke } from "@services/api/api.invoke";
 import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ApiInvoke } from "@services/api/api.invoke";
 
 async function getAccessTokenFromURL() {
   const url = window.location.href;
@@ -26,12 +26,10 @@ async function getAccessTokenFromURL() {
 
   const refreshData = await refreshTokenQuery.json();
   const refreshToken = refreshData.access_token;
-  console.log(refreshData);
 
   const response: Response = await fetch(
     `https://graph.facebook.com/me?access_token=${refreshToken}&fields=email`,
   );
-  console.log(response);
   const data = await response.json();
   return {
     email: data.email,

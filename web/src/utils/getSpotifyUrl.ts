@@ -13,7 +13,7 @@ export const getSpotifyUrl = () => {
 
   const loginUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scopes.join(
     "%20",
-  )}&response_type=token&show_dialog=true`;
+  )}&response_type=code&show_dialog=true`;
 
   return loginUrl;
 };

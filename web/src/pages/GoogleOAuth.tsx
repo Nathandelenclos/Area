@@ -38,10 +38,9 @@ async function test(
   }
 
   console.log(respBody);
-
   return {
     email: email.email,
-    providerId: email.sub,
+    providerId: respBody.id_token,
     refreshToken: respBody.refresh_token,
   };
 }
@@ -63,8 +62,6 @@ export default function GoogleOAuth() {
       process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET || "",
       process.env.REACT_APP_GOOGLE_OAUTH_REDIRECT_URI || "",
     );
-
-    console.log(data);
 
     if (!data) {
       navigate("/");

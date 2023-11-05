@@ -1,7 +1,7 @@
+import { ApiInvoke } from "@services/api/api.invoke";
 import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ApiInvoke } from "@services/api/api.invoke";
 
 async function getAuthorizationCodeFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -10,32 +10,29 @@ async function getAuthorizationCodeFromURL() {
   const clientSecret = process.env.REACT_APP_GITHUB_OAUTH_CLIENT_SECRET;
   const redirectUri = process.env.REACT_APP_GITHUB_OAUTH_REDIRECT_URI;
 
-  console.log(clientId, clientSecret, redirectUri, authorizationCode);
-  const response: Response = await fetch(
-    `https://github.com/login/oauth/access_token`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        client_id: clientId,
-        client_secret: clientSecret,
-        code: authorizationCode,
-        redirect_uri: redirectUri,
-      }),
-    },
-  );
+  console.log(authorizationCode);
 
-  console.log(response);
-  const data = await response.json();
+  // const formdata = new FormData();
+  // formdata.append("client_id", "1f0cf209b216d7cdc81b");
+  // formdata.append("client_secret", "9e8854c50d0d8962f1f5b6cf41210b2089520d7c");
+  // formdata.append("code", "cd29348727e8d98ce246");
+
+  // const requestOptions = {
+  //   method: "POST",
+  //   body: formdata,
+  // };
+
+  // fetch("https://github.com/login/oauth/access_token", requestOptions)
+  //   .then((response) => response.text())
+  //   .then((result) => console.log(result))
+  //   .catch((error) => console.log("error", error));
+
+  // const data = await response.json();
 
   return {
-    email: data.email,
-    providerId: data.id,
-    refreshToken: data.refreshToken,
+    email: "data.email",
+    providerId: "data.id",
+    refreshToken: " data.refreshToken",
   };
 }
 

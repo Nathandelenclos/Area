@@ -8,7 +8,6 @@ export const getGithubUrl = (from: string) => {
     client_id: clientId,
     redirect_uri: redirectUri,
     scope: ["identity", "user:email", "read:user"].join(" "),
-    state: from,
   };
 
   const qs = new URLSearchParams(options);

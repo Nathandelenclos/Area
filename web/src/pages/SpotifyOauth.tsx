@@ -1,7 +1,7 @@
-import LoadingElement from "@src/components/LoadingElement";
-import { useNavigate } from "react-router-dom";
 import { ApiInvoke } from "@services/api/api.invoke";
+import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const getTokenFromUrl = () => {
   return window.location.hash
@@ -14,20 +14,20 @@ export const getTokenFromUrl = () => {
     }, {});
 };
 
-async function getUserInfo() {
+function getUserInfo() {
   const access_token = getTokenFromUrl();
-  const result = await fetch("https://api.spotify.com/v1/me", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${access_token.access_token}`,
-    },
-  });
-  const data = await result.json();
-  console.log(data);
+  console.log(access_token);
+  //   const result = await fetch("https://api.spotify.com/v1/me", {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${access_token.access_token}`,
+  //     },
+  //   });
+  //   const data = await result.json();
   return {
-    email: data.email,
-    providerId: data.id,
-    refreshToken: access_token.access_token,
+    email: "data.email",
+    providerId: "data.id",
+    refreshToken: "access_token.access_token",
   };
 }
 
