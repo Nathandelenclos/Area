@@ -10,8 +10,6 @@ import {
   AppletConfigService,
   OauthEntity,
   OauthService,
-  ReactionRelations,
-  ReactionService,
 } from '@app/common';
 import { AES } from 'crypto-js';
 
@@ -20,7 +18,6 @@ export class SpotifyService {
   constructor(
     private readonly configService: ConfigService,
     private readonly actionService: ActionService,
-    private readonly reactionService: ReactionService,
     private readonly oauthService: OauthService,
     private readonly appletConfigService: AppletConfigService,
   ) {}

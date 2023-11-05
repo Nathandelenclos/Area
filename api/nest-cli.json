@@ -126,6 +126,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/teams/tsconfig.app.json"
       }
+    },
+    "facebook": {
+      "type": "application",
+      "root": "apps/facebook",
+      "entryFile": "main",
+      "sourceRoot": "apps/facebook/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/facebook/tsconfig.app.json"
+      }
     }
   }
 }

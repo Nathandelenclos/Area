@@ -219,6 +219,22 @@ services:
       - api
     restart: always
 
+  facebook:
+    image: area_app:latest
+    container_name: facebook
+    hostname: facebook
+    volumes:
+      - ./api/:/app
+    environment:
+      - MICROSERVICE=facebook
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - rabbitmq
+      - api
+    restart: always
+
   queue:
     image: node:lts-alpine
     container_name: queue

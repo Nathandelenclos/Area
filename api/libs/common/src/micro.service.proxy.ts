@@ -16,6 +16,7 @@ class MicroServiceProxy {
     SLACK_SERVICE: 'slack_queue',
     WEATHER_SERVICE: 'weather_queue',
     TEAMS_SERVICE: 'teams_queue',
+    FACEBOOK_SERVICE: 'facebook_queue',
   };
 
   /**
