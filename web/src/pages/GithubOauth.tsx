@@ -2,23 +2,55 @@ import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function getAuthorizationCodeFromURL() {
+async function getAuthorizationCodeFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const authorizationCode = urlParams.get("code");
-  return authorizationCode;
+  const clientId = process.env.REACT_APP_GITHUB_OAUTH_CLIENT_ID;
+  const clientSecret = process.env.REACT_APP_GITHUB_OAUTH_CLIENT_SECRET;
+  const redirectUri = process.env.REACT_APP_GITHUB_OAUTH_REDIRECT_URI;
+
+  console.log(clientId, clientSecret, redirectUri, authorizationCode);
+  const response: Response = await fetch(
+    `https://github.com/login/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}&code=${authorizationCode}&redirect_uri=${redirectUri}`,
+  );
+
+  console.log(response);
+  const data = await response.json();
+
+  return {
+    email: data.email,
+    providerId: data.id,
+    refreshToken: data.refreshToken,
+  };
 }
 
 export const LoginUserGithub = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(getAuthorizationCodeFromURL());
+  async function tryLogin() {
+    const data = await getAuthorizationCodeFromURL();
+    if (!data) {
+      navigate("/");
+      return;
+    }
+    /*const resp = await ApiInvoke({
+                                                      endpoint: "/auth/signoauth",
+                                                      method: "POST",
+                                                      expectedStatus: 200,
+                                                      body: JSON.stringify({
+                                                        ...data,
+                                                        provider: "github",
+                                                      }),
+                                                    });
+                                                    if (resp.status === 200) {
+                                                      navigate("/");
+                                                    } else {
+                                                      navigate("/login");
+                                                    }*/
+  }
 
-    setTimeout(() => {
-      navigate("/home-page");
-    }, 5000);
-    //todo: send code to backend
-    //todo: login if suceccess and redirect home else redirect to login page
+  useEffect(() => {
+    tryLogin();
   }, []);
 
   return (
