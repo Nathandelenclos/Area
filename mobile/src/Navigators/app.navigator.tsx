@@ -82,6 +82,7 @@ export default function AppNavigator(): JSX.Element {
           },
           tabBarActiveTintColor: color.mainColor,
           tabBarInactiveTintColor: color.inactive,
+          tabBarHideOnKeyboard: true,
         })}
         initialRouteName={'Mes Applets'}
       >

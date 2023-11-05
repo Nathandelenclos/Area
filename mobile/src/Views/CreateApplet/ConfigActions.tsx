@@ -3,6 +3,7 @@ import UserCtx from '@contexts/user.context';
 import React, { useEffect } from 'react';
 import {
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   Text,
@@ -113,7 +114,10 @@ export default function ConfigActions({
         onPressLeft={() => navigation.pop()}
         bar={false}
       />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={'padding'}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+      >
         <View style={{ flex: 1, backgroundColor: color.background }}>
           <ScrollView>
             {config.map((e: any, index: number) => (
