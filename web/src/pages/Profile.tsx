@@ -1,34 +1,131 @@
-import React from "react";
 import NavBar from "@components/NavBar";
-import AppContext from "@src/context/AppContextProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AUTH_LIST, AuthItem } from "@interfaces/handle.auth";
+import Footer from "@src/components/Footer";
+import ProfileMainInfo from "@src/components/ProfileMainInfo";
+import ServiceList from "@src/components/ServiceList";
+import TopBarTitle from "@src/components/TopBarTitle";
+import TopBarTitleSmaller from "@src/components/TopBarTitleSmaller";
+import GlobalContext from "@src/context/GlobalContextProvider";
+import { AuthServices } from "@services/AuthServices";
 
-export default function Profile() {
-  const { translate } = AppContext();
+function ConnectedServiceList({
+  coServicesList,
+  logout,
+}: {
+  coServicesList: AuthItem[];
+  logout: (value: number) => void;
+}) {
+  const { translate } = GlobalContext();
   return (
-    <div className="h-full w-full">
-      <NavBar />
-      <div className="w-full flex justify-center mt-20 mb-10">
-        <div className="flex flex-row items-center justify-between w-10/12 px-5">
-          <h1 className="text-4xl font-bold min-w-fit mr-10">
-            {translate("profile", "title")}
-          </h1>
-          <div className="h-1 w-full bg-black" />
-          <div className="min-w-fit ml-10 bg-black hover:bg-[#000000CC] rounded-lg py-2 px-8 flex flex-row hover:cursor-pointer items-center justify-center">
-            <p className="text-white font-bold mr-1 text-3xl">
-              {translate("profile", "logout-button")}
-            </p>
+    <div className={"flex flex-col w-full h-auto items-center mt-10"}>
+      <p className={"text-[30px] font-semibold text-center"}>
+        {translate("profile", "connected-services")}
+      </p>
+      {coServicesList.map((item, index) => (
+        <div
+          key={index}
+          className="flex flex-row mt-5 items-center w-1/2 justify-between"
+        >
+          <div
+            style={{
+              backgroundColor: item.color,
+              padding: 10,
+              borderRadius: 10,
+            }}
+          >
+            <FontAwesomeIcon icon={item.icon} size="2x" color="white" />
           </div>
+          <p className="mx-5">{item.name}</p>
+          <FontAwesomeIcon
+            className="cursor-pointer"
+            icon={"xmark"}
+            size="2x"
+            color="red"
+            onClick={() => {
+              logout(item.id ?? 0);
+            }}
+          />
         </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Profile page displays the profile view.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <Profile />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
+export default function Profile() {
+  const { translate, user } = GlobalContext();
+  const otherServicesList: AuthItem[] = AUTH_LIST;
+  const userOauthList =
+    user.oauth.map((item): AuthItem => {
+      const service: AuthItem | undefined = AUTH_LIST.find(
+        (auth) => auth.provider === item.provider,
+      );
+      if (!service)
+        return {
+          id: -1,
+          name: "",
+          provider: "",
+          icon: ["fas", "question"],
+          color: "",
+          OAuth: () => {
+            console.log("pressed");
+          },
+        };
+      return {
+        id: +item.id,
+        name: item.email,
+        provider: service.provider,
+        icon: service.icon,
+        color: service.color,
+        OAuth: () => {
+          console.log("pressed");
+        },
+      };
+    }) ?? [];
+
+  const coServicesList: AuthItem[] =
+    userOauthList.filter((item) => item.name) ?? [];
+
+  const logout = async (id: number) => {
+    const resp = await AuthServices.logout(user.getAccessToken(), id);
+    if (resp.data) {
+      window.location.reload();
+    }
+    return;
+  };
+
+  return (
+    <div className="flex w-full h-full flex-col">
+      <NavBar />
+      <div className="w-full justify-center mt-20 mb-10 hidden md:flex">
+        <TopBarTitle />
       </div>
-      <div className={"flex flex-col w-full h-full items-center"}>
-        <div className={"flex flex-col w-5/12 h-full items-center"}>
-          <FontAwesomeIcon icon={"circle-user"} size="10x" color="black" />
-          <p>Simon Riembault</p>
-          <p>simon.riembault@epitech.eu</p>
-          <div className="h-[1px] w-full bg-black" />
-        </div>
+      <div className="w-full justify-center mt-10 mb-10 flex md:hidden">
+        <TopBarTitleSmaller />
       </div>
+      <ProfileMainInfo />
+      <div className="flex flex-col md:flex-row w-full">
+        <ConnectedServiceList
+          coServicesList={coServicesList}
+          logout={(value: number) => logout(value)}
+        />
+        <ServiceList
+          title={translate("profile", "connect-other-services")}
+          list={otherServicesList}
+          forceColor={"#6F6F6F"}
+        />
+      </div>
+      <Footer />
     </div>
   );
 }

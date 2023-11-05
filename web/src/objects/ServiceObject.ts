@@ -1,15 +1,44 @@
-import { ActionObject } from "@src/objects/ActionObject";
-import { ReactionObject } from "@src/objects/ReactionObject";
+import { ActionAppletObject } from "@src/objects/ActionAppletObject";
+import {
+  ReactionAppletObject,
+  ReactionObjectDto,
+} from "@src/objects/ReactionAppletObject";
 
+/**
+ * ServiceObjectDto
+ * @description ServiceObjectDto is the object that is returned from the API
+ */
 export interface ServiceObjectDto {
+  /**
+   * Service id
+   */
   id: number;
+  /**
+   * Service name
+   */
   name: string;
+  /**
+   * Service url
+   */
   url: string;
+  /**
+   * Is service available
+   */
   is_available: boolean;
-  actions: ActionObject[];
-  reactions: ReactionObject[];
+  /**
+   * Service actions
+   */
+  actions: ActionAppletObject[];
+  /**
+   * Service reactions
+   */
+  reactions: ReactionAppletObject[];
 }
 
+/**
+ * ServiceObject
+ * @description ServiceObject is the object that is used in the app
+ */
 export class ServiceObject {
   data: ServiceObjectDto;
 
@@ -25,11 +54,11 @@ export class ServiceObject {
     return this.data.name;
   }
 
-  get actions(): ActionObject[] {
+  get actions(): ActionAppletObject[] {
     return this.data.actions;
   }
 
-  get reactions(): ReactionObject[] {
+  get reactions(): ReactionAppletObject[] {
     return this.data.reactions;
   }
 }

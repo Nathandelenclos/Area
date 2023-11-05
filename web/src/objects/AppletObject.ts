@@ -1,46 +1,94 @@
-import { ActionObject, ActionObjectDto } from "@src/objects/ActionObject";
-import { ReactionObject, ReactionObjectDto } from "@src/objects/ReactionObject";
+import { ActionAppletObjectDto } from "@src/objects/ActionAppletObject";
+import { ReactionAppletObjectDto } from "@src/objects/ReactionAppletObject";
 
-export interface NewAppletDto {
-  name: string;
-  description: string;
-  is_active: boolean;
-  action: number;
-  reaction: number;
-  config: any;
-}
-
-/*
-*     "name": "My Applet #1",
-    "description": "My applet's description",
-    "is_active": true,
-    "reaction": 1,
-    "action": 1,
-    "config": {
-        "private_key": "laprivatekeyyyy",
-        "config2": "configggg"
-    }
-* */
-
-export interface AppletObjectDto {
+export interface NewEventConfig {
+  config: {
+    /**
+     * Action key
+     */
+    [key: string]: string;
+  };
+  /**
+   * Action id
+   */
   id: number;
-  name: string;
-  description: string;
-  is_active: boolean;
-  action: ActionObjectDto;
-  reaction: ReactionObjectDto;
 }
 
+/**
+ * NewAppletRequest
+ * @interface NewAppletRequest
+ */
+export interface NewAppletRequest {
+  /**
+   * Applet name
+   */
+  name: string;
+  /**
+   * Applet description
+   */
+  description: string;
+  /**
+   * Applet is active
+   */
+  is_active: boolean;
+  /**
+   * Applet color
+   */
+  color: string;
+  /**
+   * Applet reactions
+   */
+  reactions: NewEventConfig[];
+  /**
+   * Applet actions
+   */
+  actions: NewEventConfig[];
+}
+
+/**
+ * AppletObjectDto
+ * @description AppletObjectDto is the object that is returned from the API
+ */
+export interface AppletObjectDto {
+  /**
+   * Applet id
+   */
+  id: number;
+  /**
+   * Applet name
+   */
+  name: string;
+  /**
+   * Applet description
+   */
+  description: string;
+  /**
+   * Applet is active
+   */
+  is_active: boolean;
+  /**
+   * Applet color
+   */
+  color: string;
+  /**
+   * Applet actions
+   */
+  actions: ActionAppletObjectDto[];
+  /**
+   * Applet reactions
+   */
+  reactions: ReactionAppletObjectDto[];
+}
+
+/**
+ * AppletObject
+ * @description AppletObject is the object that is used in the app
+ */
 export class AppletObject {
   applet: AppletObjectDto;
-  applet_action: ActionObject;
-  applet_reaction: ReactionObject;
 
   constructor(object: AppletObjectDto) {
     this.applet = object;
-    console.log(object);
-    this.applet_action = new ActionObject(object.action);
-    this.applet_reaction = new ReactionObject(object.reaction);
   }
 
   get id() {
@@ -51,11 +99,68 @@ export class AppletObject {
     return this.applet.name;
   }
 
-  get action() {
-    return this.applet_action;
+  get description() {
+    return this.applet.description;
   }
 
-  get reaction() {
-    return this.applet_reaction;
+  get is_active() {
+    return this.applet.is_active;
+  }
+
+  set is_active(is_active: boolean) {
+    this.applet.is_active = is_active;
+  }
+
+  get actions() {
+    return this.applet.actions;
+  }
+
+  get reactions() {
+    return this.applet.reactions;
+  }
+
+  get color() {
+    return this.applet.color;
+  }
+
+  toNewAppletRequest(): NewAppletRequest {
+    return {
+      name: this.name,
+      description: this.description,
+      is_active: this.is_active,
+      color: this.color,
+      actions: this.actions.map((action) => {
+        if (!action.configs)
+          return {
+            id: action.action.id,
+            config: {},
+          } as NewEventConfig;
+        return {
+          id: action.action.id,
+          config: action.configs?.reduce((acc, config) => {
+            return {
+              ...acc,
+              [config.key]: config.value,
+            };
+          }, {}),
+        } as NewEventConfig;
+      }),
+      reactions: this.reactions.map((reaction) => {
+        if (!reaction.configs)
+          return {
+            id: reaction.reaction.id,
+            config: {},
+          } as NewEventConfig;
+        return {
+          id: reaction.reaction.id,
+          config: reaction.configs?.reduce((acc, config) => {
+            return {
+              ...acc,
+              [config.key]: config.value,
+            };
+          }, {}),
+        } as NewEventConfig;
+      }),
+    };
   }
 }

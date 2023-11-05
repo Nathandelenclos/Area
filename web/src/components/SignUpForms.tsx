@@ -1,23 +1,48 @@
 import { useEffect, useState } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
+import LoadingElementPopUp from "./LoadingElementPopUp";
 
+/**
+ * SignUpFormsProps props for the SignUpForms components.
+ * @interface SignUpFormsProps
+ */
 type SignUpFormsProps = {
-  onSignUp: (
-    fullName: string,
-    email: string,
-    password: string,
-  ) => Promise<void>;
+  /**
+   * Function to execute when user signs up
+   * @param name - Name of the user
+   * @param email - Email of the user
+   * @param password - Password of the user
+   * @returns - void
+   */
+  onSignUp: (name: string, email: string, password: string) => Promise<void>;
 };
 
+/**
+ * SignUpForms component displays the sign up forms.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <SignUpForms
+ *   onSignUp={onSignUp}
+ * />
+ *
+ * @param {SignUpFormsProps} props - list of every services offered.
+ * @returns {JSX.Element} Rendered component.
+ */
 function SignUpForms({ onSignUp }: SignUpFormsProps) {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isAwaiting, setIsAwaiting] = useState<boolean>(false);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
 
+  /**
+   * Add an event listener to the window to detect when the user press the enter key.
+   * If the user press the enter key, the onSignIn function is called.
+   */
   useEffect(() => {
     addEventListener("keydown", onEnterPressed);
     return () => {
@@ -25,10 +50,16 @@ function SignUpForms({ onSignUp }: SignUpFormsProps) {
     };
   });
 
+  /**
+   * onEnterPressed is called when the user press the enter key.
+   * If the user press the enter key, the onSignIn function is called.
+   *
+   * @param {KeyboardEvent}
+   */
   const onEnterPressed = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
-      setIsAwaiting(true);
-      onSignUp(name, email, password).then(() => setIsAwaiting(false));
+      setIsClicked(true);
+      onSignUp(name, email, password).then(() => setIsClicked(false));
     }
   };
 
@@ -51,13 +82,17 @@ function SignUpForms({ onSignUp }: SignUpFormsProps) {
         setValue={setPassword}
         type={"password"}
       />
-      <MainButton
-        title={translate("login", "sign-up")}
-        onPress={() => {
-          setIsAwaiting(true);
-          onSignUp(name, email, password).then(() => setIsAwaiting(false));
-        }}
-      />
+      {!isClicked ? (
+        <MainButton
+          title={translate("login", "sign-up")}
+          onPress={() => {
+            setIsClicked(true);
+            onSignUp(name, email, password).then(() => setIsClicked(false));
+          }}
+        />
+      ) : (
+        <LoadingElementPopUp />
+      )}
     </div>
   );
 }

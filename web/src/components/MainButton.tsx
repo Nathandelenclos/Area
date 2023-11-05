@@ -1,5 +1,19 @@
 import React from "react";
 
+/**
+ * MainButton component displays the main button of the page.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <MainButton
+ *   title="Sign In"
+ *   onPress={() => {console.log("sign-in")}}
+ * />
+ *
+ * @param {MainButtonProps} props - The properties of the component.
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function MainButton({
   title,
   reverse,

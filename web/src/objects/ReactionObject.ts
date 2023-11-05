@@ -1,14 +1,43 @@
+/**
+ * Object for reaction
+ * @description Object for reaction
+ */
 export interface ReactionObjectDto {
+  /**
+   * Reaction id
+   */
   id: number;
+  /**
+   * Reaction key
+   */
+  key: string;
+  /**
+   * Reaction name
+   */
   name: string;
+  /**
+   * Reaction description
+   */
   description: string;
+  /**
+   * Reaction is available
+   */
   is_available: boolean;
+  /**
+   * Command to run
+   */
+  cmd: string;
 }
 
-export class ReactionObject {
-  data: ReactionObjectDto;
+export interface ReactionAppletObjectDto {
+  id: number;
+  reaction: ReactionObjectDto;
+}
 
-  constructor(object: ReactionObjectDto) {
+export class ReactionAppletObject {
+  data: ReactionAppletObjectDto;
+
+  constructor(object: ReactionAppletObjectDto) {
     this.data = object;
   }
 
@@ -16,11 +45,7 @@ export class ReactionObject {
     return this.data.id;
   }
 
-  get name(): string {
-    return this.data.name;
-  }
-
-  get description(): string {
-    return this.data.description;
+  get reaction(): ReactionObjectDto {
+    return this.data.reaction;
   }
 }
