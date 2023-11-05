@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class DiscordService {
   constructor() {}
 
-  async cron(): Promise<void> {}
+  cron(): void {}
 
   async message(webhook: string, message: string) {
     if (!webhook || !message) return;

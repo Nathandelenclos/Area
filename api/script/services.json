@@ -380,6 +380,37 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Teams",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "teams_queue",
+      "key": "teams",
+      "actions": [],
+      "reactions": [
+        {
+          "name": "Teams Message",
+          "description": "Send a message to a team",
+          "key": "teams_message",
+          "is_available": 1,
+          "cmd": "send_message",
+          "config": [
+            {
+              "name": "Webhook URL",
+              "description": "Webhook URL",
+              "key": "webhook",
+              "type": "string"
+            },
+            {
+              "name": "Message",
+              "description": "Message to send",
+              "key": "message",
+              "type": "string"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

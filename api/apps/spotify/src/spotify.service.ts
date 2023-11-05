@@ -6,7 +6,7 @@ const token =
 
 @Injectable()
 export class SpotifyService {
-  async cron(): Promise<void> {
+  cron(): void {
     this.onTrackStateChange();
   }
 

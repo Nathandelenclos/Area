@@ -15,6 +15,7 @@ class MicroServiceProxy {
     GITHUB_SERVICE: 'github_queue',
     SLACK_SERVICE: 'slack_queue',
     WEATHER_SERVICE: 'weather_queue',
+    TEAMS_SERVICE: 'teams_queue',
   };
 
   /**
