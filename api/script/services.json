@@ -411,6 +411,61 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Spotify",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "spotify_queue",
+      "key": "spotify",
+      "actions": [
+        {
+          "name": "On playback change",
+          "description": "Trigger when the playback change",
+          "key": "on_playback_change",
+          "is_available": 1,
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Resume playback",
+          "description": "Resume playback on the user’s active device.",
+          "key": "resume_playback",
+          "is_available": 1,
+          "cmd": "resume_playback",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        },
+        {
+          "name": "Pause playback",
+          "description": "Pause playback on the user’s active device.",
+          "key": "pause_playback",
+          "is_available": 1,
+          "cmd": "pause_playback",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "spotify_oauth"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
