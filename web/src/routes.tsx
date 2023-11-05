@@ -8,7 +8,6 @@ import MyApplet from "@pages/MyApplet";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
-import ConfigureApplet from "./pages/ConfigureApplet";
 import { LoginUserSpotify } from "./pages/SpotifyOauth";
 import { LoginUserGithub } from "./pages/GithubOauth";
 import { LoginUserFacebook } from "./pages/FacebookOauth";
@@ -89,16 +88,16 @@ export const Routes: Route[] = [
     element: <MyApplet />,
   },
   {
+    name: "edit-applet",
+    path: "/edit-applet/:id",
+    middleware: [],
+    element: <CreateAppletAction />,
+  },
+  {
     name: "profile",
     path: "/profile",
     middleware: [],
     element: <Profile />,
-  },
-  {
-    name: "configure-applet",
-    path: "/configure-applet",
-    middleware: [],
-    element: <ConfigureApplet />,
   },
   {
     name: "404",

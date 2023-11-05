@@ -15,6 +15,7 @@ export interface ActionObjectDto {
 export interface ActionAppletObjectDto {
   id: number;
   action: ActionObjectDto;
+  configs: ConfigObjectDto[];
 }
 
 export class ActionObject {

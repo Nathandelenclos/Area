@@ -5,12 +5,17 @@ import OptionListContainer, {
 } from "@components/OptionListContainer";
 import AppletCreationInputName from "@components/AppletCreationInputName";
 import GlobalContext from "@src/context/GlobalContextProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AreaService from "@services/AreaService";
 import { ServiceObject, ServiceObjectDto } from "@src/objects/ServiceObject";
 import Footer from "@src/components/Footer";
-import { ActionObject, ActionObjectDto } from "@src/objects/ActionAppletObject";
 import {
+  ActionAppletObjectDto,
+  ActionObject,
+  ActionObjectDto,
+} from "@src/objects/ActionAppletObject";
+import {
+  ReactionAppletObjectDto,
   ReactionObject,
   ReactionObjectDto,
 } from "@src/objects/ReactionAppletObject";
@@ -39,6 +44,7 @@ export function typeToInputType(type: string): string {
 export default function CreateAppletAction() {
   const { translate, user } = GlobalContext();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [appletName, setAppletName] = useState<string>("");
   const [services, setServices] = useState<ServiceObject[]>([]);
   const [serviceAction, setServiceAction] = useState<ActionObjectDto[]>([]);
@@ -94,6 +100,31 @@ export default function CreateAppletAction() {
 
   useEffect(() => {
     getServices();
+    if (id) {
+      AppletService.getAppletById(+id, user.getAccessToken()).then((applet) => {
+        if (!applet) return;
+        setAppletName(applet.data.name);
+        setSelectedAction(
+          applet.data.actions.map(
+            (e: ActionAppletObjectDto) =>
+              new ActionObject({
+                ...e.action,
+                configs: e.configs,
+              }),
+          ),
+        );
+        setSelectedReaction(
+          applet.data.reactions.map(
+            (e: ReactionAppletObjectDto) =>
+              new ReactionObject({
+                ...e.reaction,
+                configs: e.configs,
+              }),
+          ),
+        );
+        console.log(applet.data);
+      });
+    }
   }, []);
 
   const actionService = services.filter((e) => e.actions?.length > 0);
@@ -329,57 +360,65 @@ export default function CreateAppletAction() {
               )
                 return;
               setCreateLoading(true);
-              AppletService.create(
-                {
-                  name: appletName,
-                  description: "",
-                  is_active: true,
-                  actions: selectedAction.map((action) => {
-                    console.log(action);
-                    if (!action.configs)
-                      return {
-                        id: action.id,
-                        config: {},
-                      } as NewEventConfig;
+              const applet = {
+                name: appletName,
+                description: "",
+                is_active: true,
+                actions: selectedAction.map((action) => {
+                  if (!action.configs)
                     return {
                       id: action.id,
-                      config: action.configs?.reduce((acc, config) => {
-                        return {
-                          ...acc,
-                          [config.key]: config.value,
-                        };
-                      }, {}),
+                      config: {},
                     } as NewEventConfig;
-                  }),
-                  reactions: selectedReaction.map((reaction) => {
-                    console.log(reaction);
-                    if (!reaction.configs)
+                  return {
+                    id: action.id,
+                    config: action.configs?.reduce((acc, config) => {
                       return {
-                        id: reaction.id,
-                        config: {},
-                      } as NewEventConfig;
+                        ...acc,
+                        [config.key]: config.value,
+                      };
+                    }, {}),
+                  } as NewEventConfig;
+                }),
+                reactions: selectedReaction.map((reaction) => {
+                  if (!reaction.configs)
                     return {
                       id: reaction.id,
-                      config: reaction.configs?.reduce((acc, config) => {
-                        return {
-                          ...acc,
-                          [config.key]: config.value,
-                        };
-                      }, {}),
+                      config: {},
                     } as NewEventConfig;
-                  }),
-                },
-                user.getAccessToken(),
-              ).then(() => {
-                setCreateLoading(false);
-                navigate("/my-applets");
-              });
+                  return {
+                    id: reaction.id,
+                    config: reaction.configs?.reduce((acc, config) => {
+                      return {
+                        ...acc,
+                        [config.key]: config.value,
+                      };
+                    }, {}),
+                  } as NewEventConfig;
+                }),
+              };
+              if (id)
+                AppletService.updateApplet(
+                  +id,
+                  applet,
+                  user.getAccessToken(),
+                ).then(() => {
+                  setCreateLoading(false);
+                  navigate("/my-applets");
+                });
+              else
+                AppletService.create(applet, user.getAccessToken()).then(() => {
+                  setCreateLoading(false);
+                  navigate("/my-applets");
+                });
               return;
             }}
           >
             <p className="w-full text-center">
               {createLoading ? (
                 <LoadingElement />
+              ) : id ? (
+                translate("create-applets", "edit-button")
               ) : (
                 translate("create-applets", "create-button")
               )}

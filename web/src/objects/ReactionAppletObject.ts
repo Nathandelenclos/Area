@@ -16,6 +16,7 @@ export interface ReactionObjectDto {
 export interface ReactionAppletObjectDto {
   id: number;
   reaction: ReactionObjectDto;
+  configs: ConfigObjectDto[];
 }
 
 export class ReactionObject {

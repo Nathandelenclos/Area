@@ -2,12 +2,22 @@ import React, { useEffect, useState } from "react";
 import NavBar from "@components/NavBar";
 import AppletButton from "@components/Applet/AppletButton";
 import HeaderMyApplet from "@components/Applet/HeaderMyApplet";
-import HeaderEditApplet from "@components/Applet/HeaderEditApplet";
+import HeaderEditApplet, {
+  ActionIcon,
+} from "@components/Applet/HeaderEditApplet";
 import GlobalContext from "@src/context/GlobalContextProvider";
 import { AppletObject } from "../objects/AppletObject";
 import { useNavigate } from "react-router-dom";
 import AppletService from "@services/AppletService";
 import Footer from "@src/components/Footer";
+import {
+  faClone,
+  faPause,
+  faPenToSquare,
+  faPlay,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
+import LoadingElement from "@components/LoadingElement";
 
 export default function MyApplet() {
   const { translate, user } = GlobalContext();
@@ -16,22 +26,69 @@ export default function MyApplet() {
     null,
   );
   const [applets, setApplets] = useState<AppletObject[]>([]);
+  const [appletsLoading, setAppletsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user.getAccessToken()) return;
+    setAppletsLoading(true);
     getMyApplets();
   }, [user]);
 
   const getMyApplets = async () => {
     const applets = await AppletService.getApplets(user.getAccessToken());
     setApplets(applets);
+    setAppletsLoading(false);
   };
 
   function onAppletClick(applet: AppletObject) {
     setSelectedApplet(applet.id === selectedApplet?.id ? null : applet);
   }
 
-  console.log(selectedApplet);
+  const actions: ActionIcon[] = [
+    {
+      icon: selectedApplet?.is_active ? faPause : faPlay,
+      onPress: async () => {
+        if (!selectedApplet) return;
+        selectedApplet.is_active = !selectedApplet.is_active;
+        const data = await AppletService.updateApplet(
+          selectedApplet.id,
+          selectedApplet.toNewAppletRequest(),
+          user.getAccessToken(),
+        );
+        setSelectedApplet(new AppletObject({ ...data.data }));
+      },
+    },
+    {
+      icon: faPenToSquare,
+      onPress: async () => {
+        if (!selectedApplet) return;
+        navigate(`/edit-applet/${selectedApplet.id}`);
+      },
+    },
+    {
+      icon: faClone,
+      onPress: async () => {
+        if (!selectedApplet) return;
+        setAppletsLoading(true);
+        await AppletService.create(
+          selectedApplet.toNewAppletRequest(),
+          user.getAccessToken(),
+        );
+        await getMyApplets();
+      },
+    },
+    {
+      icon: faTrashCan,
+      onPress: async () => {
+        if (!selectedApplet) return;
+        setAppletsLoading(true);
+        await AppletService.delete(selectedApplet.id, user.getAccessToken());
+        await getMyApplets();
+        setSelectedApplet(null);
+        setAppletsLoading(false);
+      },
+    },
+  ];
 
   return (
     <div className="flex w-full h-full flex-col">
@@ -39,11 +96,17 @@ export default function MyApplet() {
         <NavBar />
         <HeaderMyApplet CreateApplet={() => navigate("/create-applet")} />
       </div>
-      <div className="flex flex-col md:flex-row flex-auto justify-center overflow-hidden">
-        <div className="h-full w-full relative">
+      <div className="flex flex-col md:flex-row flex-auto justify-center">
+        <div className="w-full relative">
           <div className="flex flex-col md:flex-row h-full justify-center">
             <div className="w-full md:w-1/4 h-auto relative overflow-y-scroll scrollbar-hide">
-              {applets &&
+              {appletsLoading && (
+                <div className="w-full h-full flex justify-center">
+                  <LoadingElement />
+                </div>
+              )}
+              {!appletsLoading &&
+                applets &&
                 applets.map((applet) => (
                   <AppletButton
                     key={applet.id}
@@ -56,13 +119,13 @@ export default function MyApplet() {
                 ))}
             </div>
             {selectedApplet && selectedApplet?.id !== 0 ? (
-              <div className="w-full md:w-3/5 h-full p-5">
+              <div className="w-full md:w-3/5 p-5">
                 <div
-                  className="w-full h-full border-2 rounded-xl overflow-hidden space-y-14"
+                  className="w-full min-h-full border-2 rounded-xl space-y-14 mb-10"
                   style={{ borderColor: "#7A73E7" }}
                 >
-                  <HeaderEditApplet applet={selectedApplet} />
-                  <div className="ml-12 mr-12 space-y-5">
+                  <HeaderEditApplet applet={selectedApplet} actions={actions} />
+                  <div className="mx-12 space-y-5 ">
                     <p>Action: </p>
                     {selectedApplet.actions &&
                       selectedApplet.actions.map((e, index) => {

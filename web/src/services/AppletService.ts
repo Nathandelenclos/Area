@@ -48,4 +48,18 @@ export default class AppletService {
       authToken,
     });
   }
+
+  static updateApplet(
+    id: number,
+    applet: Partial<NewAppletRequest>,
+    authToken: string,
+  ) {
+    return ApiInvoke({
+      endpoint: `/applets/${id}`,
+      method: "PUT",
+      body: JSON.stringify(applet),
+      expectedStatus: 200,
+      authToken,
+    });
+  }
 }
