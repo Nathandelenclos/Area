@@ -86,6 +86,8 @@ WORKDIR /app
 
 COPY . /app
 
+RUN printenv > .env
+
 RUN yarn set version classic && \
     yarn
 
