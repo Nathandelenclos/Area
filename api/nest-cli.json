@@ -135,6 +135,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/facebook/tsconfig.app.json"
       }
+    },
+    "google": {
+      "type": "application",
+      "root": "apps/google",
+      "entryFile": "main",
+      "sourceRoot": "apps/google/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/google/tsconfig.app.json"
+      }
     }
   }
 }

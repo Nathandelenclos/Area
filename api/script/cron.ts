@@ -29,6 +29,7 @@ type Queue =
   | 'teams_queue'
   | 'weather_queue'
   | 'facebook_queue'
+  | 'google_queue'
   | 'github_queue';
 type QueueDefinition = {
   name: Queue;
@@ -51,6 +52,7 @@ const QUEUES: QueueDefinition[] = [
   { name: 'github_queue', cmd: 'cron' },
   { name: 'facebook_queue', cmd: 'cron', interval: EVERY_MINUTE },
   { name: 'slack_queue', cmd: 'cron' },
+  { name: 'google_queue', cmd: 'cron' },
   { name: 'teams_queue', cmd: 'cron' },
 ];
 
