@@ -32,6 +32,10 @@ export interface NewAppletRequest {
    */
   is_active: boolean;
   /**
+   * Applet color
+   */
+  color: string;
+  /**
    * Applet reactions
    */
   reactions: NewEventConfig[];
@@ -62,6 +66,10 @@ export interface AppletObjectDto {
    * Applet is active
    */
   is_active: boolean;
+  /**
+   * Applet color
+   */
+  color: string;
   /**
    * Applet actions
    */
@@ -111,11 +119,16 @@ export class AppletObject {
     return this.applet.reactions;
   }
 
+  get color() {
+    return this.applet.color;
+  }
+
   toNewAppletRequest(): NewAppletRequest {
     return {
       name: this.name,
       description: this.description,
       is_active: this.is_active,
+      color: this.color,
       actions: this.actions.map((action) => {
         if (!action.configs)
           return {

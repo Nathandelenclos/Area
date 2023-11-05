@@ -24,6 +24,7 @@ import { RequireConfigObjectDto } from "@src/objects/RequireConfigObjectDto";
 import DefaultModal from "@components/DefaultModal";
 import AppletService from "@services/AppletService";
 import { NewEventConfig } from "@src/objects/AppletObject";
+import CustomColorInput from "@components/ColorInput";
 
 export function typeToInputType(type: string): string {
   if (!type) return "text";
@@ -56,6 +57,7 @@ export default function CreateAppletAction() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [appletName, setAppletName] = useState<string>("");
+  const [appletColor, setAppletColor] = useState<string>("#7A73E7");
   const [services, setServices] = useState<ServiceObject[]>([]);
   const [serviceAction, setServiceAction] = useState<ActionObjectDto[]>([]);
   const [selectedServiceAction, setSelectedServiceAction] =
@@ -115,7 +117,10 @@ export default function CreateAppletAction() {
     getServices();
     if (id) {
       AppletService.getAppletById(+id, user.getAccessToken()).then((applet) => {
-        if (!applet) return;
+        if (!applet.data) {
+          navigate("/404");
+          return;
+        }
         setAppletName(applet.data.name);
         setSelectedAction(
           applet.data.actions.map(
@@ -135,7 +140,6 @@ export default function CreateAppletAction() {
               }),
           ),
         );
-        console.log(applet.data);
       });
     }
   }, []);
@@ -157,10 +161,16 @@ export default function CreateAppletAction() {
   return (
     <div className="w-full flex flex-col items-center justify-between">
       <NavBar />
-      <div className="mt-10">
+      <div className="flex items-center space-x-16 mt-10 w-max">
         <AppletCreationInputName
           value={appletName}
           onChange={(value) => setAppletName(value)}
+        />
+        <CustomColorInput
+          onChange={(e: string) => {
+            setAppletColor(e);
+          }}
+          value={appletColor}
         />
       </div>
       <div className="flex w-10/12 h-full sm:w-5/6 flex-col my-10 items-center">
@@ -175,7 +185,7 @@ export default function CreateAppletAction() {
                 id: service.id,
                 title: service.name,
                 icon: {
-                  icon: ["fab", "apple"],
+                  icon: ["fas", "cube"],
                   size: "2x",
                   color: "white",
                 },
@@ -190,10 +200,7 @@ export default function CreateAppletAction() {
           </div>
           <div className="flex-1 min-w-[300px]">
             <OptionListContainer
-              ContainerTitle={translate(
-                "create-applets",
-                "supported-services-trigger",
-              )}
+              ContainerTitle={translate("create-applets", "supported-actions")}
               loading={actionLoading}
               children={serviceAction.map((action: ActionObjectDto) => ({
                 id: action.id,
@@ -222,10 +229,7 @@ export default function CreateAppletAction() {
           </div>
           <div className="flex-1 min-w-[300px]">
             <OptionListContainer
-              ContainerTitle={translate(
-                "create-applets",
-                "supported-services-trigger",
-              )}
+              ContainerTitle={translate("create-applets", "selected-actions")}
               children={selectedAction.map((action: ActionObject) => {
                 const props: AppletServiceStruct = {
                   id: action.id ?? -1,
@@ -270,7 +274,7 @@ export default function CreateAppletAction() {
                 id: service.id,
                 title: service.name,
                 icon: {
-                  icon: ["fab", "apple"],
+                  icon: ["fas", "cube"],
                   size: "2x",
                   color: "white",
                 },
@@ -285,10 +289,7 @@ export default function CreateAppletAction() {
           </div>
           <div className="flex-1 min-w-[300px]">
             <OptionListContainer
-              ContainerTitle={translate(
-                "create-applets",
-                "supported-services-trigger",
-              )}
+              ContainerTitle={translate("create-applets", "supported-actions")}
               loading={reactionLoading}
               children={serviceReaction.map((action: ReactionObjectDto) => {
                 return {
@@ -319,10 +320,7 @@ export default function CreateAppletAction() {
           </div>
           <div className="flex-1 min-w-[300px]">
             <OptionListContainer
-              ContainerTitle={translate(
-                "create-applets",
-                "supported-services-trigger",
-              )}
+              ContainerTitle={translate("create-applets", "selected-actions")}
               children={selectedReaction.map((reaction: ReactionObject) => {
                 const props: AppletServiceStruct = {
                   id: reaction.id ?? -1,
@@ -377,6 +375,7 @@ export default function CreateAppletAction() {
                 name: appletName,
                 description: "",
                 is_active: true,
+                color: appletColor ?? "#7A73E7",
                 actions: selectedAction.map((action) => {
                   if (!action.configs)
                     return {
@@ -420,10 +419,13 @@ export default function CreateAppletAction() {
                   navigate("/my-applets");
                 });
               else
-                AppletService.create(applet, user.getAccessToken()).then(() => {
-                  setCreateLoading(false);
-                  navigate("/my-applets");
-                });
+                AppletService.create(applet, user.getAccessToken()).then(
+                  (resp) => {
+                    setCreateLoading(false);
+                    if (!resp.data) return;
+                    navigate("/my-applets");
+                  },
+                );
               return;
             }}
           >

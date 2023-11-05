@@ -36,7 +36,7 @@ function OAuthList() {
       name: "Google",
       logo: "google",
       color: "#DB4437",
-      redirect: getGoogleUrl("/home-page"),
+      redirect: getGoogleUrl("/my-applets"),
     },
     {
       name: "Spotify",
@@ -48,7 +48,7 @@ function OAuthList() {
       name: "Github",
       logo: "github",
       color: "#000000",
-      redirect: getGithubUrl("/home-page"),
+      redirect: getGithubUrl("/my-applets"),
     },
   ];
 

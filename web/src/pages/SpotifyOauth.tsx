@@ -64,7 +64,8 @@ export const LoginUserSpotify = () => {
           }),
         );
       }
-      navigate("/home-page");
+      localStorage.setItem("accessToken", data.refreshToken);
+      navigate("/my-applets");
     } else {
       navigate("/");
     }

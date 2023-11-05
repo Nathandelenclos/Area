@@ -27,7 +27,7 @@ export default function SignUp() {
    */
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
-      navigate("/home-page");
+      navigate("/my-applets");
     }
   }, []);
 
@@ -44,7 +44,7 @@ export default function SignUp() {
     if (data.status == 200) {
       setUser(new UserObject(data.data));
       AuthServices.storeToken(data.data.token);
-      navigate("/home-page");
+      navigate("/my-applets");
     }
   };
 

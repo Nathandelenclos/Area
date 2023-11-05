@@ -38,6 +38,8 @@
   "create-applets": {
     "applet-name-trigger": "Name of your applet",
     "supported-services-trigger": "Supported services",
+    "supported-actions": "Available actions",
+    "selected-actions": "Selected actions",
     "triggers-for-service": "Supported triggers",
     "reactions-number": "Number of reactions",
     "supported-services-reaction": "Supported services",

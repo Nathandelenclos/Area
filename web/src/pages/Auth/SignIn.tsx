@@ -27,7 +27,7 @@ export default function SignIn() {
    */
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
-      navigate("/home-page");
+      navigate("/my-applets");
     }
   }, []);
 
@@ -56,7 +56,8 @@ export default function SignIn() {
           }),
         );
       }
-      navigate("/home-page");
+      localStorage.setItem("accessToken", data.refreshToken);
+      navigate("/my-applets");
     } else {
       navigate("/");
     }
