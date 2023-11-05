@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 
 /**
  * Props for the HeaderMyApplet component.
@@ -26,7 +26,7 @@ export type HeaderMyAppletProps = {
  * @returns {JSX.Element} Rendered component.
  */
 export default function HeaderMyApplet({ CreateApplet }: HeaderMyAppletProps) {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <div className="w-full flex justify-center mt-5">
       <div className="flex flex-col sm:flex-row items-center justify-between w-full md:w-10/12 px-5">

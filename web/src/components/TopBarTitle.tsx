@@ -1,4 +1,4 @@
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { UserObject, UserObjectDto } from "@src/objects/UserObject";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
  * @returns {JSX.Element} Rendered component.
  */
 export default function TopBarTitle() {
-  const { translate, setUser } = AppContext();
+  const { translate, setUser } = GlobalContext();
   const navigate = useNavigate();
 
   return (

@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { useState } from "react";
+import { AuthServices } from "@services/AuthServices";
+import { toast } from "react-toastify";
 
 /**
  * ProfileMainInfo component displays the main information of the user.
@@ -12,8 +14,8 @@ import { useState } from "react";
  *
  * @returns {JSX.Element} Rendered component.
  */
-export default function ProfileMainInfo() {
-  const { translate } = AppContext();
+export default function ProfileMainInfo(): JSX.Element {
+  const { translate, user } = GlobalContext();
   const [password, setPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
 
@@ -29,9 +31,16 @@ export default function ProfileMainInfo() {
    * Handles when the user clicks on the done button.
    * @param str The new password to set.
    */
-  const handleCheckClick = (str: string) => {
-    console.log("New password:", str);
-    setNewPassword("");
+  const handleCheckClick = async (str: string) => {
+    const resp = await AuthServices.changePassword(user.getAccessToken(), str);
+    if (resp.data) {
+      toast("Password changed successfully", {
+        type: "success",
+        autoClose: 4000,
+      });
+      setNewPassword("");
+      setPassword(!password);
+    }
   };
 
   return (
@@ -49,10 +58,8 @@ export default function ProfileMainInfo() {
           <FontAwesomeIcon icon={"circle-user"} size="10x" color="white" />
         </div>
         <div className="flex flex-1 text-center flex-col h-auto space-y-5 md:text-left">
-          <p className="text-[30px] font-semibold">Simon Riembault</p>
-          <p className="text-[25px] md:break-normal break-all">
-            simon.riembault@epitech.eu
-          </p>
+          <p className="text-[30px] font-semibold">{user.name}</p>
+          <p className="text-[25px] md:break-normal break-all">{user.email}</p>
           {!password ? (
             <div
               className="min-w-fit h-auto bg-black hover:bg-[#000000CC] rounded-[20px] py-4 px-8 flex flex-row hover:cursor-pointer items-center justify-center"
@@ -79,7 +86,6 @@ export default function ProfileMainInfo() {
                   className="bg-[#7A73E7] hover:bg-[#7A73E7CC] flex justify-center items-center ml-2 p-4 rounded-[10px] cursor-pointer"
                   onClick={() => {
                     handleCheckClick(newPassword);
-                    setPassword(!password);
                   }}
                 >
                   <FontAwesomeIcon icon={"check"} size="2x" color="white" />

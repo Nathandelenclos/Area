@@ -6,12 +6,16 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ServiceEntity } from '@app/common/services/service.entity';
-import { AppletEntity } from '@app/common/applets/applet.entity';
+import { AppletRequiredConfigEntity } from '@app/common/applets/required_configuration/applet.required.config.entity';
+import { ReactionAppletEntity } from '@app/common/reaction-applet/reaction-applet.entity';
 
 @Entity('reaction')
 export class ReactionEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  key: string;
 
   @Column()
   name: string;
@@ -22,9 +26,18 @@ export class ReactionEntity {
   @Column()
   is_available: boolean;
 
+  @Column()
+  cmd: string;
+
   @ManyToOne(() => ServiceEntity, (service) => service.reactions)
   service: ServiceEntity;
 
-  @OneToMany(() => AppletEntity, (applet) => applet.reaction)
-  applets: AppletEntity[];
+  @OneToMany(
+    () => AppletRequiredConfigEntity,
+    (appletReactionConfig) => appletReactionConfig.reaction,
+  )
+  config: AppletRequiredConfigEntity[];
+
+  @OneToMany(() => ReactionAppletEntity, (reaction) => reaction.reaction)
+  applets: ReactionAppletEntity[];
 }

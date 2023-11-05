@@ -1,5 +1,8 @@
-import { ActionObject } from "@src/objects/ActionObject";
-import { ReactionObjectDto } from "@src/objects/ReactionObject";
+import { ActionAppletObject } from "@src/objects/ActionAppletObject";
+import {
+  ReactionAppletObject,
+  ReactionObjectDto,
+} from "@src/objects/ReactionAppletObject";
 
 /**
  * ServiceObjectDto
@@ -25,11 +28,11 @@ export interface ServiceObjectDto {
   /**
    * Service actions
    */
-  actions: ActionObject[];
+  actions: ActionAppletObject[];
   /**
    * Service reactions
    */
-  reactions: ReactionObjectDto[];
+  reactions: ReactionAppletObject[];
 }
 
 /**
@@ -51,11 +54,11 @@ export class ServiceObject {
     return this.data.name;
   }
 
-  get actions(): ActionObject[] {
+  get actions(): ActionAppletObject[] {
     return this.data.actions;
   }
 
-  get reactions(): ReactionObjectDto[] {
+  get reactions(): ReactionAppletObject[] {
     return this.data.reactions;
   }
 }

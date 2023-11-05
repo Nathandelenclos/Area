@@ -1,0 +1,15 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
+  ],
+  "exclude": [
+    "**/node_modules/**/*.*",
+    "**/dist/**/*.*",
+    "**/test/**/*.*",
+    "**/__test__/**/*.*"
+  ],
+  "tsconfig": "./tsconfig.json",
+  "readme": "./README.md"
+}

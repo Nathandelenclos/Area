@@ -1,15 +1,13 @@
-import { ActionObjectDto } from "@src/objects/ActionObject";
-import { ReactionObjectDto } from "@src/objects/ReactionObject";
+import { ActionAppletObjectDto } from "@src/objects/ActionAppletObject";
+import { ReactionAppletObjectDto } from "@src/objects/ReactionAppletObject";
 
-/**
- * NewEventConfig
- * @interface NewEventConfig
- */
-interface NewEventConfig {
-  /**
-   * Action key
-   */
-  [key: string]: any;
+export interface NewEventConfig {
+  config: {
+    /**
+     * Action key
+     */
+    [key: string]: string;
+  };
   /**
    * Action id
    */
@@ -67,11 +65,11 @@ export interface AppletObjectDto {
   /**
    * Applet actions
    */
-  actions: ActionObjectDto[];
+  actions: ActionAppletObjectDto[];
   /**
    * Applet reactions
    */
-  reactions: ReactionObjectDto[];
+  reactions: ReactionAppletObjectDto[];
 }
 
 /**
@@ -93,11 +91,63 @@ export class AppletObject {
     return this.applet.name;
   }
 
+  get description() {
+    return this.applet.description;
+  }
+
+  get is_active() {
+    return this.applet.is_active;
+  }
+
+  set is_active(is_active: boolean) {
+    this.applet.is_active = is_active;
+  }
+
   get actions() {
     return this.applet.actions;
   }
 
   get reactions() {
     return this.applet.reactions;
+  }
+
+  toNewAppletRequest(): NewAppletRequest {
+    return {
+      name: this.name,
+      description: this.description,
+      is_active: this.is_active,
+      actions: this.actions.map((action) => {
+        if (!action.configs)
+          return {
+            id: action.action.id,
+            config: {},
+          } as NewEventConfig;
+        return {
+          id: action.action.id,
+          config: action.configs?.reduce((acc, config) => {
+            return {
+              ...acc,
+              [config.key]: config.value,
+            };
+          }, {}),
+        } as NewEventConfig;
+      }),
+      reactions: this.reactions.map((reaction) => {
+        if (!reaction.configs)
+          return {
+            id: reaction.reaction.id,
+            config: {},
+          } as NewEventConfig;
+        return {
+          id: reaction.reaction.id,
+          config: reaction.configs?.reduce((acc, config) => {
+            return {
+              ...acc,
+              [config.key]: config.value,
+            };
+          }, {}),
+        } as NewEventConfig;
+      }),
+    };
   }
 }

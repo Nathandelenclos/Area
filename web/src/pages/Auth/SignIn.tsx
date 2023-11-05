@@ -1,7 +1,7 @@
 import SignInForms from "@components/SignInForms";
 import AuthViewContainer from "@components/AuthViewContainer";
 import OAuthButtons from "@components/OAuthButtons";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { AuthServices } from "@src/services/AuthServices";
 import { useNavigate } from "react-router-dom";
 import { UserObject } from "@src/objects/UserObject";
@@ -18,7 +18,7 @@ import { useEffect } from "react";
  * @returns {JSX.Element} Rendered page.
  */
 export default function SignIn() {
-  const { translate, setUser } = AppContext();
+  const { translate, setUser } = GlobalContext();
   const navigate = useNavigate();
 
   /**

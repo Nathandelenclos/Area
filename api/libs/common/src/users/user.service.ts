@@ -1,15 +1,17 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '@app/common/users/user.entity';
 import { Repository } from 'typeorm';
-import { NewUserDto, NewUserOAuthDto } from '@app/common/users/user.dto';
-import { ConfigService } from '@nestjs/config';
-import MicroServiceResponse from '@app/common/micro.service.response';
-import { AES, MD5 } from 'crypto-js';
-import { JwtService } from '@nestjs/jwt';
+import { MD5 } from 'crypto-js';
+import { AlreadyExistError, ValidationError } from '@app/common/errors';
+import { UserNativeCredentialsDto } from '@app/common/users/user.dto';
 
 export enum UserRelations {
   APPLETS = 'applets',
+  APPLETS_ACTION = 'applets.actions',
+  APPLETS_REACTION = 'applets.reactions',
+  APPLETS_CONFIG = 'applets.config',
+  OAUTH = 'oauth',
 }
 
 export const OAuthServices = {
@@ -23,8 +25,6 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly configService: ConfigService,
-    private jwtService: JwtService,
   ) {}
 
   /**
@@ -32,92 +32,36 @@ export class UserService {
    * @param data NewUser object
    * @returns UserEntity object
    */
-  async create(data: NewUserDto): Promise<MicroServiceResponse> {
-    if (await this.exists({ email: data.email })) return;
-    new MicroServiceResponse({
-      code: HttpStatus.CONFLICT,
-      message: 'User already exists',
-    });
+  async create(data: UserNativeCredentialsDto): Promise<UserEntity> {
+    if (await this.exists({ email: data.email }))
+      throw new AlreadyExistError('User already exists');
 
-    const hashedPassword: string = MD5(data.password).toString();
-    const user = await this.userRepository.save({
+    let hashedPassword = null;
+    if (data.password != null) {
+      if (data.password.length < 8)
+        throw new ValidationError<keyof UserNativeCredentialsDto>(['password']);
+      hashedPassword = MD5(data.password).toString();
+    }
+
+    return this.userRepository.save({
       ...data,
       password: hashedPassword,
-    });
-    const response = { ...user };
-    delete response.google_token;
-    delete response.facebook_token;
-    delete response.github_token;
-    delete response.password;
-
-    const payload = { id: user.id, email: data.email };
-    return new MicroServiceResponse({
-      data: { ...response, access_token: this.jwtService.sign(payload) },
-    });
-  }
-
-  /**
-   * Create a new user with OAuth credentials
-   * @param data NewUserOAuth object
-   * @returns Promise<MicroServiceResponse> object
-   */
-  async createOAuth(data: NewUserOAuthDto): Promise<MicroServiceResponse> {
-    if (
-      data.email == null ||
-      data.provider == null ||
-      data.token == null ||
-      data.name == null
-    )
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Missing parameters',
-      });
-
-    if (OAuthServices[data.provider] == undefined)
-      return new MicroServiceResponse({
-        code: HttpStatus.BAD_REQUEST,
-        message: 'Invalid OAuth provider',
-      });
-
-    if (await this.exists({ email: data.email }))
-      return new MicroServiceResponse({
-        code: HttpStatus.CONFLICT,
-        message: 'User already exists',
-      });
-
-    const encryptedToken: string = AES.encrypt(
-      data.token,
-      this.configService.get('AES_SECRET'),
-    ).toString();
-
-    const user = await this.userRepository.save({
-      name: data.name,
-      email: data.email,
-      [OAuthServices[data.provider]]: encryptedToken,
-      password: null,
-    });
-
-    const response = { ...user };
-    delete response.google_token;
-    delete response.facebook_token;
-    delete response.github_token;
-    delete response.password;
-
-    const payload = { id: user.id, email: data.email };
-    return new MicroServiceResponse({
-      data: { ...response, access_token: this.jwtService.sign(payload) },
     });
   }
 
   /**
    * Find a user by id
    * @param query Query object
+   * @param relations
    * @returns UserEntity
    */
-  findOne(query: any): Promise<UserEntity | undefined> {
+  findOne(
+    query: Partial<UserEntity>,
+    relations?: UserRelations[],
+  ): Promise<UserEntity | undefined> {
     return this.userRepository.findOne({
       where: query,
-      relations: [UserRelations.APPLETS],
+      relations: relations || [],
     });
   }
 
@@ -131,5 +75,9 @@ export class UserService {
       where: query,
     });
     return !!user;
+  }
+
+  async update(id: number, data: Partial<UserEntity>): Promise<void> {
+    await this.userRepository.update(id, data);
   }
 }

@@ -8,10 +8,9 @@ class MicroServiceProxy {
     AUTH_SERVICE: 'auth_queue',
     DISCORD_SERVICE: 'discord_queue',
     SPOTIFY_SERVICE: 'spotify_queue',
-    INSTAGRAM_SERVICE: 'instagram_queue',
-    GMAIL_SERVICE: 'gmail_queue',
-    YOUTUBE_SERVICE: 'youtube_queue',
-    GOOGLE_DRIVE_SERVICE: 'google_drive_queue',
+    SERVICE_SERVICE: 'service_queue',
+    TIMER_SERVICE: 'timer_queue',
+    APPLET_SERVICE: 'applet_queue',
   };
 
   /**
@@ -25,12 +24,11 @@ class MicroServiceProxy {
     client: ClientProxy,
     cmd: string,
     data: any,
-    res: Response,
-  ): Promise<void> {
+    res?: Response,
+  ): Promise<MicroServiceResponse> {
     const response = await new Promise<MicroServiceResponse>((resolve) => {
       client.send({ cmd: cmd }, data).subscribe(
         (response) => {
-          console.log('response', response);
           resolve(new MicroServiceResponse(response));
         },
         (error) => {
@@ -44,7 +42,8 @@ class MicroServiceProxy {
         },
       );
     });
-    res.status(response.getStatus()).json(response.getJSON());
+    if (res) res.status(response.getStatus()).send(response.getJSON());
+    return response;
   }
 }
 

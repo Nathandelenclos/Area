@@ -1,7 +1,7 @@
 import React from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
 import MainButton from "@components/MainButton";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 
 /**
  * RecoverPassword page displays the recover password page.
@@ -14,7 +14,7 @@ import AppContext from "@src/context/AppContextProvider";
  * @returns {JSX.Element} Rendered page.
  */
 export default function RecoverPassword() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <AuthViewContainer ContainerTitle={translate("login", "recoverPassword")}>
       <div className="flex flex-col justify-center items-center">

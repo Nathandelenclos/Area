@@ -6,12 +6,16 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ServiceEntity } from '@app/common/services/service.entity';
-import { AppletEntity } from '@app/common/applets/applet.entity';
+import { AppletRequiredConfigEntity } from '@app/common/applets/required_configuration/applet.required.config.entity';
+import { ActionAppletEntity } from '@app/common/action-applet/action-applet.entity';
 
 @Entity('action')
 export class ActionEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  key: string;
 
   @Column()
   name: string;
@@ -25,6 +29,12 @@ export class ActionEntity {
   @ManyToOne(() => ServiceEntity, (service) => service.actions)
   service: ServiceEntity;
 
-  @OneToMany(() => AppletEntity, (applet) => applet.action)
-  applets: AppletEntity[];
+  @OneToMany(
+    () => AppletRequiredConfigEntity,
+    (appletRequiredConfig) => appletRequiredConfig.action,
+  )
+  config: AppletRequiredConfigEntity[];
+
+  @OneToMany(() => ActionAppletEntity, (action) => action.action)
+  applets: ActionAppletEntity[];
 }

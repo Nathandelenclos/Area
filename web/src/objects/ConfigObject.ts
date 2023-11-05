@@ -6,7 +6,7 @@ export interface ConfigObjectDto {
   /**
    * Config id
    */
-  id: number;
+  id?: number;
   /**
    * Config key
    */
@@ -28,7 +28,7 @@ export class ConfigObject {
     this.data = object;
   }
 
-  get id(): number {
+  get id(): number | undefined {
     return this.data.id;
   }
 

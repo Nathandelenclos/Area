@@ -11,7 +11,17 @@ export class DiscordService {
     private readonly reactionService: ReactionService,
   ) {}
 
-  async cron(): Promise<void> {
-    console.log('Discord cron');
+  async cron(): Promise<void> {}
+
+  async message(webhook: string, message: string) {
+    await fetch(webhook, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: message,
+      }),
+    });
   }
 }

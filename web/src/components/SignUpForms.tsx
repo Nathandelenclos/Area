@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MainButton from "@components/MainButton";
 import AuthInput from "@components/AuthInput";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import LoadingElementPopUp from "./LoadingElementPopUp";
 
 /**
@@ -33,7 +33,7 @@ type SignUpFormsProps = {
  * @returns {JSX.Element} Rendered component.
  */
 function SignUpForms({ onSignUp }: SignUpFormsProps) {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

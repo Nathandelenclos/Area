@@ -43,8 +43,7 @@ export default function AppletButton({
   return (
     <div
       onClick={onClick}
-      className="flex w-full rounded-lg h-[100px] items-center justify-center mt-5 cursor-pointer"
-      style={{ backgroundColor: color }}
+      className={`flex w-full rounded-lg h-[100px] items-center justify-center mt-5 cursor-pointer bg-[${color}] hover:bg-[#7A73E7CC]`}
     >
       <p className="text-white font-bold text-center text-xl px-5 text-ellipsis overflow-hidden">
         {title}

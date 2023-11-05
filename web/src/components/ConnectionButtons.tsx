@@ -1,6 +1,6 @@
 import React from "react";
 import MainButton from "@components/MainButton";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 
 /**
  * Props for the ConnectionButtons component.
@@ -39,7 +39,7 @@ export default function ConnectionButtons({
     console.log("sign-up");
   },
 }: ConnectionButtonsProps) {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   return (
     <div className="flex flex-col justify-center items-center">
       <MainButton

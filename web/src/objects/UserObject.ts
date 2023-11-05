@@ -2,6 +2,12 @@
  * UserObject type
  * @description Object that represents the type of a user
  */
+type Oauth = {
+  id: string;
+  email: string;
+  provider: string;
+};
+
 export interface UserObjectDto {
   /**
    * User email
@@ -15,6 +21,7 @@ export interface UserObjectDto {
    * User token
    */
   token: string;
+  oauth: Oauth[];
 }
 
 /**
@@ -30,5 +37,17 @@ export class UserObject {
 
   getAccessToken(): string {
     return this.data?.token ?? "";
+  }
+
+  get name(): string {
+    return this.data?.name ?? "";
+  }
+
+  get email(): string {
+    return this.data?.email ?? "";
+  }
+
+  get oauth(): Oauth[] {
+    return this.data?.oauth ?? [];
   }
 }

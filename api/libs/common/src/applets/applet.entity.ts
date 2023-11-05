@@ -5,10 +5,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { AppletConfigEntity } from './configuration/applet.config.entity';
 import { UserEntity } from '@app/common/users/user.entity';
-import { ActionEntity } from '@app/common/actions/action.entity';
-import { ReactionEntity } from '@app/common/reactions/reaction.entity';
+import { ActionAppletEntity } from '@app/common/action-applet/action-applet.entity';
+import { ReactionAppletEntity } from '@app/common/reaction-applet/reaction-applet.entity';
 
 @Entity('applets')
 export class AppletEntity {
@@ -27,12 +26,9 @@ export class AppletEntity {
   @ManyToOne(() => UserEntity, (user) => user.applets)
   user: UserEntity;
 
-  @ManyToOne(() => ActionEntity, (action) => action.applets)
-  action: ActionEntity;
+  @OneToMany(() => ActionAppletEntity, (action) => action.applet)
+  actions: ActionAppletEntity[];
 
-  @ManyToOne(() => ReactionEntity, (reaction) => reaction.applets)
-  reaction: ReactionEntity;
-
-  @OneToMany(() => AppletConfigEntity, (appletConfig) => appletConfig.applet)
-  applet_configs: AppletConfigEntity[];
+  @OneToMany(() => ReactionAppletEntity, (reaction) => reaction.applet)
+  reactions: ReactionAppletEntity[];
 }

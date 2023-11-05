@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
 import SignUpForms from "@components/SignUpForms";
 import OAuthButtons from "@components/OAuthButtons";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { useNavigate } from "react-router-dom";
 import { AuthServices } from "@src/services/AuthServices";
 import { UserObject } from "@src/objects/UserObject";
@@ -18,7 +18,7 @@ import { UserObject } from "@src/objects/UserObject";
  * @returns {JSX.Element} Rendered page.
  */
 export default function SignUp() {
-  const { translate, setUser } = AppContext();
+  const { translate, setUser } = GlobalContext();
   const navigate = useNavigate();
 
   /**
@@ -35,9 +35,9 @@ export default function SignUp() {
    * Register is called when the user press the sign up button.
    * If the user press the sign up button, the register function is called.
    *
-   * @param {name} string - Name of the user.
-   * @param {email} string - Email of the user.
-   * @param {password} string - Password of the user.
+   * @param name - Name of the user
+   * @param email - Email of the user
+   * @param password - Password of the user
    */
   const register = async (name: string, email: string, password: string) => {
     const data = await AuthServices.register(name, email, password);

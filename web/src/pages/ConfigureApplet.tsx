@@ -1,10 +1,17 @@
 import React from "react";
 import NavBar from "@components/NavBar";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import ConfigureAppletButton from "@src/components/ConfigureAppletButton";
 import ConfigureAppletField from "@src/components/ConfigureInputField";
 import ConfigureAppletDate from "@src/components/ConfigureInputDate";
 import ConfigureAppletNumber from "@src/components/ConfigureInputNumber";
+import { useLocation } from "react-router-dom";
+import AreaService from "@services/AreaService";
+import { ActionObjectDto } from "@src/objects/ActionAppletObject";
+
+export type ConfigureAppletProps = {
+  action: ActionObjectDto;
+};
 
 /**
  * ConfigureApplet page displays the configure applet page.
@@ -17,7 +24,51 @@ import ConfigureAppletNumber from "@src/components/ConfigureInputNumber";
  * @returns {JSX.Element} Rendered page.
  */
 export default function ConfigureApplet() {
-  const { translate } = AppContext();
+  const { user, translate } = GlobalContext();
+  //get info from previous page navigate:
+  const [action, setAction] = React.useState<any>();
+  const [reaction, setReaction] = React.useState<any>();
+  const location = useLocation();
+  const applet = location.state;
+
+  async function getActionConfig() {
+    const response = await AreaService.getAreaOfServiceById(
+      applet.selectedServiceAction,
+      "actions",
+    );
+    const tab = response.data || [];
+    if (!tab) return;
+    const action = tab.find(
+      (action: any) => action.id === applet.selectedAction,
+    );
+    setAction(action);
+  }
+
+  async function getReactionConfig() {
+    const response = await AreaService.getAreaOfServiceById(
+      applet.selectedServiceReaction,
+      "reactions",
+    );
+    const tab = response.data || [];
+    if (!tab) return;
+    const reaction = tab.find(
+      (reaction: any) => reaction.id === applet.selectedReaction,
+    );
+    setReaction(reaction);
+  }
+
+  async function loadPage() {
+    if (applet.actionNeedConfig) await getActionConfig();
+    if (applet.reactionNeedConfig) await getReactionConfig();
+  }
+
+  React.useEffect(() => {
+    if (!applet) return;
+    loadPage();
+  }, [applet]);
+
+  console.log(applet);
+
   return (
     <div className="w-full">
       <NavBar />

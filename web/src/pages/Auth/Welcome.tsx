@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
 import ConnectionButtons from "@components/ConnectionButtons";
 import OAuthButtons from "@components/OAuthButtons";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
  * @returns {JSX.Element} Rendered page.
  */
 export default function Welcome() {
-  const { translate } = AppContext();
+  const { translate } = GlobalContext();
   const navigate = useNavigate();
 
   /**

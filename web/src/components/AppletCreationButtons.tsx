@@ -1,5 +1,8 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconName, IconProp } from "@fortawesome/fontawesome-svg-core";
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
 
 /**
  * Props for the AppletCreationButtons component.
@@ -9,23 +12,31 @@ type AppletCreationButtonsProps = {
   /**
    * The title text displayed on the button.
    */
-  title: string;
+  title: string | JSX.Element;
   /**
    * The FontAwesome icon displayed on the button.
    */
-  icon?: IconName;
+  icon?: FontAwesomeIconProps;
   /**
-   * Whether or not the button is selected.
+   * Whether the button is selected.
    */
   isSelected: boolean;
   /**
    * The function to be executed when the button is clicked.
    */
-  onClick: (id: number) => void;
+  onClick: (id: number, index: number) => void;
+  /**
+   * The function to be executed when the delete button is clicked.
+   */
+  onListDeleteClick?: (id: number, index: number) => void;
   /**
    * The ID of the button.
    */
   id: number;
+  /**
+   * The index of the button.
+   */
+  index: number;
 };
 
 /**
@@ -53,24 +64,36 @@ export default function AppletCreationButtons({
   icon,
   isSelected,
   onClick,
+  onListDeleteClick,
   id,
-}: AppletCreationButtonsProps) {
+  index,
+}: AppletCreationButtonsProps): JSX.Element {
   return (
     <div
       className={`px-8 py-10 rounded-[20px] mb-5 ${
         isSelected ? "bg-[#38356C]" : "bg-[#7A73E7] hover:bg-[#7A73E7CC]"
       } cursor-pointer`}
-      onClick={() => onClick(id)}
+      onClick={() => onClick(id, index)}
     >
       <div className="flex justify-evenly items-center w-full">
-        {icon ? (
-          <FontAwesomeIcon icon={["fab", icon]} size="2x" color="white" />
-        ) : (
-          <></>
-        )}
+        {icon ? <FontAwesomeIcon {...icon} /> : <></>}
         <h1 className="text-[27px] text-white font-semibold break-all w-4/6">
           {title}
         </h1>
+        {onListDeleteClick ? (
+          <FontAwesomeIcon
+            icon="xmark"
+            size="2x"
+            color="white"
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onListDeleteClick(id, index);
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

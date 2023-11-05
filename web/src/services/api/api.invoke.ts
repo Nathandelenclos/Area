@@ -54,6 +54,7 @@ const methods: any = {
   GET: ApiGet,
   POST: ApiPost,
   DELETE: ApiDelete,
+  PUT: ApiPut,
 };
 
 /**
@@ -182,6 +183,23 @@ function ApiDelete(props: ApiPostProps): Promise<Response> {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
+  });
+}
+
+/**
+ * Sends a DELETE request to the API.
+ * @param {ApiPostProps} props
+ * @returns {Promise} with the response object
+ */
+function ApiPut(props: ApiPostProps): Promise<Response> {
+  return fetch(`${API_URL}${props.endpoint}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${props.authToken}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: props.body,
   });
 }
 

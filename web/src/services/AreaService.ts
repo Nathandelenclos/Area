@@ -5,12 +5,19 @@ import { ApiInvoke } from "@services/api/api.invoke";
  * @description Get the services from the API
  */
 export default class AreaService {
-  static getServices(authToken: string) {
+  static getServices() {
     return ApiInvoke({
       endpoint: "/services",
       method: "GET",
       expectedStatus: 200,
-      authToken,
+    });
+  }
+
+  static getAreaOfServiceById(id: number, type: "actions" | "reactions") {
+    return ApiInvoke({
+      endpoint: `/services/${id}/${type}`,
+      method: "GET",
+      expectedStatus: 200,
     });
   }
 }

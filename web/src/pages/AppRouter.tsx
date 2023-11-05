@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Routes as routes } from "@src/routes";
 import React, { useEffect } from "react";
-import AppContext from "@src/context/AppContextProvider";
+import GlobalContext from "@src/context/GlobalContextProvider";
 import { toast } from "react-toastify";
 
 /**
@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
  * @returns {JSX.Element} Component.
  */
 export default function AppRouter() {
-  const { user } = AppContext();
+  const { user } = GlobalContext();
   const location = useLocation();
   const navigate = useNavigate();
 
