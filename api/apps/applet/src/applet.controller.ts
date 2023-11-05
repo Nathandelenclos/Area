@@ -42,15 +42,17 @@ export class AppletController extends MicroServiceController {
 
   @MessagePattern({ cmd: 'findById' })
   async findById(@Ctx() context: RmqContext) {
-    const { id, user } = this.ack(context);
+    const data = this.ack(context);
     const props: MicroServiceHttpCodeProps = {
       code: HttpCode.OK,
       message: 'OK',
     };
     try {
-      props.data = await this.appletService.getAppletById(id, user.id);
+      props.data = await this.appletService.getAppletById(
+        data.id,
+        data.user.id,
+      );
     } catch (error) {
-      console.log(error);
       if (error instanceof ForbiddenError) {
         props.code = HttpCode.FORBIDDEN;
         props.message = error.message;

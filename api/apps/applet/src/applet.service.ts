@@ -67,6 +67,7 @@ export class AppletService {
    */
   async getAppletById(id: number, userId: number) {
     const applet = await this.appletCommonService.findOne({ id: id }, [
+      AppletRelations.USER,
       AppletRelations.ACTIONS,
       AppletRelations.REACTIONS,
       AppletRelations.ACTIONS_CONFIG,
