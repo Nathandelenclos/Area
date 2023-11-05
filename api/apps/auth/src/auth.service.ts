@@ -120,10 +120,10 @@ export class AuthService {
         'refreshToken',
         'providerId',
       ]);
-
-    if (data.provider !== 'github' || data.refreshToken.startsWith('access:')) {
-      return this.signOAuthGithub(data);
-    }
+    //
+    // if (data.provider !== 'github' || data.refreshToken.startsWith('access:')) {
+    //   return this.signOAuthGithub(data);
+    // }
 
     const hashedId: string = MD5(data.providerId).toString();
     const hashedRefreshToken: string = AES.encrypt(
