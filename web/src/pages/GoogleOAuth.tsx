@@ -51,7 +51,7 @@ async function test(
   console.log(respBody);
   return {
     email: email.email,
-    providerId: respBody.id_token,
+    providerId: email.sub,
     refreshToken: respBody.refresh_token,
   };
 }

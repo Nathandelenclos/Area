@@ -57,6 +57,18 @@ const methods: any = {
   PUT: ApiPut,
 };
 
+const fetchWithTimeout = (method: any, options: any, timeout: number) => {
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error("Request timed out"));
+    }, timeout);
+  });
+
+  const fetchPromise = method(options);
+
+  return Promise.race([fetchPromise, timeoutPromise]);
+};
+
 /**
  * Invokes the API with the given parameters.
  * @param endpoint The endpoint to call
@@ -78,11 +90,12 @@ export async function ApiInvoke({
   let response;
 
   try {
-    response = await methods[method]({
-      endpoint: endpoint,
-      body: body,
-      authToken: authToken,
-    });
+    console.log(API_URL, endpoint);
+    response = await fetchWithTimeout(
+      methods[method],
+      { endpoint, body, authToken },
+      3000,
+    );
   } catch (e) {
     response = new Response(null, {
       status: 500,

@@ -146,6 +146,8 @@ export const GlobalContextProvider: FC<GlobalContextProviderProps> = ({
               oauth: data.data.oauth,
             }),
           );
+        } else {
+          localStorage.removeItem("accessToken");
         }
       }
       setLoading(false);
