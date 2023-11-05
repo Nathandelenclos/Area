@@ -24,7 +24,6 @@ const methods: any = {
 };
 
 const fetchWithTimeout = (method: any, options: any, timeout: number) => {
-  console.log(timeout, typeof timeout);
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(() => {
       reject(new Error('Request timed out'));

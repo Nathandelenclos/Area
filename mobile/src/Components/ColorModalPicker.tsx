@@ -17,7 +17,8 @@ export default function ColorModale({
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element {
-  const { color } = AppContext();
+  const { color, translate } = AppContext();
+  const myColor = currentColor === '#000000' ? color.mainColor : currentColor;
 
   return (
     <ModalContainer
@@ -34,9 +35,9 @@ export default function ColorModale({
           borderRadius: 20,
         }}
       >
-        <Title title="Choose your color" />
+        <Title title={translate('choose_color')} />
         <ColorPicker
-          color={currentColor}
+          color={myColor}
           onColorChange={setCurrentColor}
           onColorChangeComplete={setCurrentColor}
           thumbSize={20}

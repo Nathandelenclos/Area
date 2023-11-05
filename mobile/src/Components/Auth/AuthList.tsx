@@ -8,6 +8,7 @@ import { IconPrefix, IconName } from '@fortawesome/fontawesome-common-types';
 import UserCtx from '@contexts/user.context';
 import { Storage } from '@src/Storage/user.storage';
 import { AUTH_LIST } from '@interfaces/handle.auth';
+import authService from '@services/auth.service';
 
 /**
  * Type for the authList variable.
@@ -92,10 +93,11 @@ function AuthList(): JSX.Element {
   const { setUser } = UserCtx();
   async function handleOAuth(onPress: Promise<IApiInvokeResponse>) {
     const resp = await onPress;
+    if (!resp.data) return;
+    const user = await authService.getProfile(resp.data.token);
+    if (!user.data) return;
     await Storage.saveToken(resp.data?.token);
-    if (resp.data) {
-      setUser(resp.data);
-    }
+    setUser({ ...user.data, token: resp.data?.token });
   }
 
   return (

@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-import { Keyboard } from 'react-native';
 
 class UrlServiceTs {
-  url = 'http://34.38.103.92:8081/api';
+  url = 'http://34.38.50.181:8080';
 
   constructor() {
     this.reloadUrl();

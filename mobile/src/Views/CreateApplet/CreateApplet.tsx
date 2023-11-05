@@ -32,12 +32,10 @@ export default function CreateApplet({
   const [canSave, setCanSave] = React.useState<boolean>(false);
   const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
   const [currentColor, setCurrentColor] = React.useState<string>(
-    color.mainColor,
+    route.params.tmpColor ?? color.mainColor,
   );
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const [isAppletActive, setIsAppletActive] = React.useState<boolean>(false);
-
-  console.log('modalVisible', modalVisible);
 
   useEffect(() => {
     if (
@@ -54,7 +52,10 @@ export default function CreateApplet({
 
   async function loadInformations() {
     const resp = await appletService.getApplet(user.token, route.params.id);
-    if (!resp.data) return;
+    if (!resp.data) {
+      navigation.pop();
+      return;
+    }
     setCurrentColor(resp.data.color ?? '#7a73e7');
     setIsAppletActive(resp.data.is_active);
     setActions(resp.data.actions);
@@ -236,6 +237,10 @@ export default function CreateApplet({
     );
   }
 
+  if (!reactions || !actions) {
+    navigation.pop();
+  }
+
   return (
     <ViewContainer background={currentColor}>
       <ColorModale
@@ -266,7 +271,7 @@ export default function CreateApplet({
         }
         appletActive={isAppletActive}
       />
-      <ScrollView contentContainerStyle={{ paddingTop: 40 }}>
+      <ScrollView contentContainerStyle={{ paddingVertical: 40 }}>
         {actions?.map((action, index) => (
           <AppletBox
             key={index}
@@ -295,7 +300,7 @@ export default function CreateApplet({
           edition={edition}
           extendBottom={true}
         />
-        {reactions.map((reaction, index) => (
+        {reactions?.map((reaction, index) => (
           <AppletBox
             key={index}
             isAction={false}

@@ -71,17 +71,6 @@ export default function SignIn({
           />
           <View style={{ paddingVertical: 5 }} />
           <MyButton title={translate('sign_in')} onPress={tryLogin} />
-          <Text
-            style={{
-              textAlign: 'center',
-              color: color.mainColor,
-              fontSize: 12,
-              paddingVertical: 10,
-            }}
-            onPress={() => navigation.navigate('RecoverPassword')}
-          >
-            {translate('forgot_password')}
-          </Text>
         </View>
         <AuthFooter width={'90%'} />
       </View>

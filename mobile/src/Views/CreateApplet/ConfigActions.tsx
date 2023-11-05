@@ -2,6 +2,8 @@ import AppContext from '@contexts/app.context';
 import UserCtx from '@contexts/user.context';
 import React, { useEffect } from 'react';
 import {
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   Text,
@@ -106,36 +108,39 @@ export default function ConfigActions({
         backgroundColor: color.mode,
       }}
     >
-      <View style={{ backgroundColor: color.mode }}>
-        <Header
-          title={translate(title_key)}
-          leftIcon={'angle-left'}
-          onPressLeft={() => navigation.pop()}
-          bar={false}
-        />
-      </View>
-      <ScrollView
-        contentContainerStyle={{ flex: 1, backgroundColor: color.background }}
+      <Header
+        title={translate(title_key)}
+        leftIcon={'angle-left'}
+        onPressLeft={() => navigation.pop()}
+        bar={false}
+      />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
       >
-        <View
-          style={{
-            backgroundColor: color.mode,
-            borderRadius: 20,
-            margin: 20,
-            padding: 20,
-          }}
-        >
-          {config.map((e: any, index: number) => (
-            <ShowEditableConfig
-              key={index}
-              resConfig={resConfig}
-              e={e}
-              setValue={setValue}
-              color={color}
-            />
-          ))}
+        <View style={{ flex: 1, backgroundColor: color.background }}>
+          <ScrollView>
+            {config.map((e: any, index: number) => (
+              <View
+                key={index}
+                style={{
+                  backgroundColor: color.mode,
+                  borderRadius: 20,
+                  margin: 20,
+                  padding: 20,
+                }}
+              >
+                <ShowEditableConfig
+                  resConfig={resConfig}
+                  e={e}
+                  setValue={setValue}
+                  color={color}
+                />
+              </View>
+            ))}
+          </ScrollView>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
       <View style={{ backgroundColor: color.background }}>
         {canPressValidate && (
           <TouchableOpacity
