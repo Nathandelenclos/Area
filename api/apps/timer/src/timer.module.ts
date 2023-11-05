@@ -10,6 +10,8 @@ import {
   ReactionModule,
   AppletModule,
   AppletConfigModule,
+  ActionAppletModule,
+  ReactionAppletModule,
 } from '@app/common';
 
 @Module({
@@ -37,6 +39,8 @@ import {
     ActionModule,
     ReactionModule,
     AppletConfigModule,
+    ActionAppletModule,
+    ReactionAppletModule,
   ],
   controllers: [TimerController],
   providers: [TimerService],

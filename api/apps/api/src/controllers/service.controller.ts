@@ -25,7 +25,7 @@ export class ServiceController {
   getService(@Param('id') id: number, @Body() data: any, @Res() res: Response) {
     return MicroServiceProxy.callMicroService(
       this.serviceService,
-      'getServices',
+      'getService',
       { id },
       res,
     );

@@ -36,6 +36,8 @@ export class AppletController {
     @Res() res: Response,
     @Req() req: Request & { user: { id: number } },
   ) {
+    console.log('req.user', req.user);
+    console.log('id', id);
     MicroServiceProxy.callMicroService(
       this.appletService,
       'findById',
@@ -90,7 +92,7 @@ export class AppletController {
       'update',
       {
         id,
-        ...data,
+        data,
         user: req.user,
       },
       res,

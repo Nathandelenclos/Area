@@ -1,5 +1,6 @@
 import { createConnection, ResultSetHeader } from 'mysql2';
 import * as process from 'process';
+import servicesJson from './services.json';
 
 const connection = createConnection({
   host: 'localhost',
@@ -9,6 +10,13 @@ const connection = createConnection({
   database: 'area',
 });
 
+interface Config {
+  name: string;
+  description: string;
+  key: string;
+  type: string;
+}
+
 interface Action {
   id?: number;
   name: string;
@@ -16,6 +24,7 @@ interface Action {
   key: string;
   serviceId?: number;
   is_available: number;
+  config?: Config[];
 }
 
 interface Reaction {
@@ -26,6 +35,7 @@ interface Reaction {
   serviceId?: number;
   is_available: number;
   cmd: string;
+  config?: Config[];
 }
 
 interface Service {
@@ -39,50 +49,8 @@ interface Service {
   reactions: Reaction[];
 }
 
-const services: Service[] = [
-  {
-    name: 'Discord',
-    url: '',
-    is_available: 1,
-    rmq_queue: 'discord_queue',
-    key: 'discord',
-    actions: [],
-    reactions: [
-      {
-        name: 'Discord Message',
-        description: 'Send a message to a channel',
-        key: 'discord_message',
-        is_available: 1,
-        cmd: 'send_message',
-      },
-    ],
-  },
-  {
-    name: 'Timer',
-    url: '',
-    is_available: 1,
-    rmq_queue: 'timer_queue',
-    key: 'timer',
-    actions: [
-      {
-        name: 'At Date',
-        description: 'Trigger at a specific date',
-        key: 'at_date',
-        is_available: 1,
-      },
-      {
-        name: 'At Cron',
-        description: 'Execute something from a specific date every delta time',
-        key: 'at_cron',
-        is_available: 1,
-      },
-    ],
-    reactions: [],
-  },
-];
-
+const services = servicesJson.services as unknown as Service[];
 function execute(table: string, data: any): Promise<ResultSetHeader> {
-  console.log(data);
   return new Promise((resolve, reject) => {
     const request = `INSERT INTO ${table} (\`${Object.keys(data).join(
       '`, `',
@@ -112,16 +80,38 @@ async function init() {
     service.id = data.insertId;
 
     for (const action of service.actions) {
-      await execute('action', {
-        ...action,
+      const actionData = { ...action };
+      delete actionData.config;
+
+      const actionResponse = await execute('action', {
+        ...actionData,
         serviceId: service.id,
       });
+
+      if (!action.config) continue;
+      for (const config of action.config) {
+        await execute('applet_required_configs', {
+          ...config,
+          actionId: actionResponse.insertId,
+        });
+      }
     }
     for (const reaction of service.reactions) {
-      await execute('reaction', {
-        ...reaction,
+      const reactionData = { ...reaction };
+      delete reactionData.config;
+
+      const reactionResponse = await execute('reaction', {
+        ...reactionData,
         serviceId: service.id,
       });
+
+      if (!reaction.config) continue;
+      for (const config of reaction.config) {
+        await execute('applet_required_configs', {
+          ...config,
+          reactionId: reactionResponse.insertId,
+        });
+      }
     }
   }
 }

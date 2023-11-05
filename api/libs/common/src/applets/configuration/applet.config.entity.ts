@@ -9,6 +9,7 @@ export class AppletConfigEntity {
 
   @ManyToOne(() => ActionAppletEntity, (actionApplet) => actionApplet.configs, {
     nullable: true,
+    onDelete: 'CASCADE',
   })
   actionApplet: ActionAppletEntity;
 
@@ -17,6 +18,7 @@ export class AppletConfigEntity {
     (reactionApplet) => reactionApplet.configs,
     {
       nullable: true,
+      onDelete: 'CASCADE',
     },
   )
   reactionApplet: ReactionAppletEntity;

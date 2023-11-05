@@ -11,6 +11,13 @@ class MicroServiceProxy {
     SERVICE_SERVICE: 'service_queue',
     TIMER_SERVICE: 'timer_queue',
     APPLET_SERVICE: 'applet_queue',
+    NEWS_SERVICE: 'news_queue',
+    GITHUB_SERVICE: 'github_queue',
+    SLACK_SERVICE: 'slack_queue',
+    WEATHER_SERVICE: 'weather_queue',
+    TEAMS_SERVICE: 'teams_queue',
+    FACEBOOK_SERVICE: 'facebook_queue',
+    GOOGLE_SERVICE: 'google_queue',
   };
 
   /**

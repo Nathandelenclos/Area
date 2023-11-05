@@ -5,9 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   ActionModule,
+  AppletConfigModule,
+  Entities,
+  OauthModule,
   ReactionModule,
   ServiceModule,
-  Entities,
 } from '@app/common';
 
 @Module({
@@ -33,6 +35,8 @@ import {
     ServiceModule,
     ActionModule,
     ReactionModule,
+    AppletConfigModule,
+    OauthModule,
   ],
   controllers: [SpotifyController],
   providers: [SpotifyService],

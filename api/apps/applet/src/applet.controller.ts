@@ -42,13 +42,16 @@ export class AppletController extends MicroServiceController {
 
   @MessagePattern({ cmd: 'findById' })
   async findById(@Ctx() context: RmqContext) {
-    const { id, user } = this.ack(context);
+    const data = this.ack(context);
     const props: MicroServiceHttpCodeProps = {
       code: HttpCode.OK,
       message: 'OK',
     };
     try {
-      props.data = await this.appletService.getAppletById(id, user.id);
+      props.data = await this.appletService.getAppletById(
+        data.id,
+        data.user.id,
+      );
     } catch (error) {
       if (error instanceof ForbiddenError) {
         props.code = HttpCode.FORBIDDEN;
@@ -84,22 +87,6 @@ export class AppletController extends MicroServiceController {
     return new MicroServiceResponse(props);
   }
 
-  @MessagePattern({ cmd: 'test' })
-  async test(@Ctx() context: RmqContext) {
-    const data = this.ack(context);
-    const props: MicroServiceHttpCodeProps = {
-      code: HttpCode.OK,
-      message: 'OK',
-    };
-    try {
-      props.data = await this.appletCommonService.create(data);
-    } catch (e) {
-      props.code = HttpCode.INTERNAL_SERVER_ERROR;
-      props.message = 'Internal server error';
-    }
-    return new MicroServiceResponse(props);
-  }
-
   @MessagePattern({ cmd: 'delete' })
   async delete(@Ctx() context: RmqContext) {
     const data = this.ack(context);
@@ -110,6 +97,7 @@ export class AppletController extends MicroServiceController {
     try {
       props.data = await this.appletService.deleteApplet(data.id, data.user.id);
     } catch (e) {
+      console.log(e);
       props.code = HttpCode.INTERNAL_SERVER_ERROR;
       props.message = e.message || 'Internal server error';
     }
@@ -118,7 +106,7 @@ export class AppletController extends MicroServiceController {
 
   @MessagePattern({ cmd: 'update' })
   async update(@Ctx() context: RmqContext) {
-    const { id, user, ...data } = this.ack(context);
+    const { id, user, data } = this.ack(context);
     const props: MicroServiceHttpCodeProps = {
       code: HttpCode.OK,
       message: 'OK',
@@ -126,6 +114,7 @@ export class AppletController extends MicroServiceController {
     try {
       props.data = await this.appletService.updateApplet(id, data, user.id);
     } catch (e) {
+      console.log(e);
       props.code = HttpCode.INTERNAL_SERVER_ERROR;
       props.message = e.message || 'Internal server error';
     }

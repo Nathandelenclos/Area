@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -85,7 +86,49 @@ export class AuthController {
     MicroServiceProxy.callMicroService(
       this.authService,
       'connect-oauth',
-      { ...data, ...req.user },
+      { ...data, user: req.user },
+      res,
+    );
+  }
+
+  @Delete('delete-account')
+  deleteAccount(@Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'delete-account',
+      req.user,
+      res,
+    );
+  }
+
+  @Delete('delete-oauth/:id')
+  deleteOAuth(@Param('id') id: string, @Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'delete-oauth',
+      { id, user: req.user },
+      res,
+    );
+  }
+
+  @Public()
+  @Get('github/authenticate/:code')
+  githubAuthenticate(@Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'github-authenticate',
+      req,
+      res,
+    );
+  }
+
+  @Public()
+  @Get('spotify/authenticate/:code')
+  spotifyAuthenticate(@Req() req: any, @Res() res: Response) {
+    MicroServiceProxy.callMicroService(
+      this.authService,
+      'spotify-authenticate',
+      req,
       res,
     );
   }

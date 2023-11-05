@@ -80,4 +80,13 @@ export class UserService {
   async update(id: number, data: Partial<UserEntity>): Promise<void> {
     await this.userRepository.update(id, data);
   }
+
+  /**
+   * Delete a user
+   * @param id
+   */
+  async delete(id: number): Promise<void> {
+    if (!(await this.exists({ id }))) throw new ValidationError(['id']);
+    await this.userRepository.delete(id);
+  }
 }

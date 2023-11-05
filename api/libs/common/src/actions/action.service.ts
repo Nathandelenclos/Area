@@ -10,6 +10,12 @@ export enum ActionRelations {
   APPLETS = 'applets',
   APPLET = 'applets.applet',
   CONFIGS = 'applets.configs',
+  USER = 'applets.applet.user',
+  USER_OAUTH = 'applets.applet.user.oauth',
+  REACTION_SERVICE = 'applets.applet.reactions.reaction.service',
+  ACTION_SERVICE = 'applets.applet.actions.action.service',
+  ACTION_CONFIG = 'config',
+  REACTIONS_CONFIG = 'applets.applet.reactions.configs',
 }
 
 @Injectable()

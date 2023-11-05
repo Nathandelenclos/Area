@@ -6,13 +6,15 @@ export class OauthEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.oauth)
+  @ManyToOne(() => UserEntity, (user) => user.oauth, {
+    onDelete: 'CASCADE',
+  })
   user: UserEntity;
 
   @Column()
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 500 })
   accessToken: string;
 
   @Column({ length: 500 })

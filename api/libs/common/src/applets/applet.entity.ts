@@ -23,12 +23,19 @@ export class AppletEntity {
   @Column()
   is_active: boolean;
 
-  @ManyToOne(() => UserEntity, (user) => user.applets)
+  @Column()
+  color: string;
+
+  @ManyToOne(() => UserEntity, (user) => user.applets, { onDelete: 'CASCADE' })
   user: UserEntity;
 
-  @OneToMany(() => ActionAppletEntity, (action) => action.applet)
+  @OneToMany(() => ActionAppletEntity, (action) => action.applet, {
+    cascade: true,
+  })
   actions: ActionAppletEntity[];
 
-  @OneToMany(() => ReactionAppletEntity, (reaction) => reaction.applet)
+  @OneToMany(() => ReactionAppletEntity, (reaction) => reaction.applet, {
+    cascade: true,
+  })
   reactions: ReactionAppletEntity[];
 }
