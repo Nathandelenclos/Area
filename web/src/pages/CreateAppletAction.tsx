@@ -41,6 +41,16 @@ export function typeToInputType(type: string): string {
   }
 }
 
+/**
+ * CreateAppletAction page displays the create applet action view.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <CreateAppletAction />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function CreateAppletAction() {
   const { translate, user } = GlobalContext();
   const navigate = useNavigate();
@@ -69,6 +79,9 @@ export default function CreateAppletAction() {
   const [createLoading, setCreateLoading] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
+  /**
+   * Get the services from the API.
+   */
   const getServices = async () => {
     setServiceLoading(true);
     const response = await AreaService.getServices();

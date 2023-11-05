@@ -12,20 +12,45 @@ import { AppletObject } from "@src/objects/AppletObject";
 import AppletService from "@services/AppletService";
 import GlobalContext from "@src/context/GlobalContextProvider";
 
-export type ActionIcon = {
-  icon: IconDefinition;
-  onPress: () => void;
-};
-
+/**
+ * Props for the HeaderEditApplet component.
+ * @interface HeaderEditAppletProps
+ */
 export type HeaderEditAppletProps = {
   applet: AppletObject;
   actions?: ActionIcon[];
 };
 
+/**
+ * Represents an action icon with its associated ID, FontAwesome icon, and onPress function.
+ * @interface ActionIcon
+ */
+export type ActionIcon = {
+  /**
+   * The definition of the FontAwesome icon to be displayed.
+   */
+  icon: IconDefinition;
+  /**
+   * Function to be executed when the action icon is clicked.
+   */
+  onPress: () => void;
+};
+
+/**
+ * HeaderEditApplet is a component that displays the header of an editable applet.
+ *
+ * @component
+ * @example
+ * // Example usage of HeaderEditApplet component
+ * <HeaderEditApplet applet={appletData} />
+ *
+ * @param {HeaderEditAppletProps} props - The props for the HeaderEditApplet component.
+ * @returns {JSX.Element} - Returns the rendered HeaderEditApplet component.
+ */
 export default function HeaderEditApplet({
   applet,
   actions,
-}: HeaderEditAppletProps) {
+}: HeaderEditAppletProps): JSX.Element {
   return (
     <div
       className="w-full h-1/6 flex flex-row items-center justify-between px-5"

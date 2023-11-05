@@ -1,8 +1,33 @@
+/**
+ * ConfigureAppletProps defines the props for the ConfigureAppletField component.
+ * @interface ConfigureAppletProps
+ */
 type ConfigureAppletProps = {
+  /**
+   * The title text displayed on the button.
+   */
   title: string;
+  /**
+   * The placeholder text displayed on the input field.
+   */
   placeholderText: string;
 };
 
+/**
+ * ConfigureAppletField is a reusable button component used in applets.
+ * It accepts a title and a placeholder.
+ *
+ * @component
+ * @example
+ * // Example usage of ConfigureAppletDate component
+ * <ConfigureAppletField
+ *   title="Link to Youtube Channel"
+ *   placeholderText="Channel link"
+ * />
+ *
+ * @param {ConfigureAppletProps} props - The props for the ConfigureAppletField component.
+ * @returns {JSX.Element} - Returns the rendered ConfigureAppletField component.
+ */
 export default function ConfigureAppletField({
   title,
   placeholderText,

@@ -3,6 +3,11 @@ import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Get the authorization code from the URL.
+ *
+ * @returns {string} Authorization code.
+ */
 export const getTokenFromUrl = () => {
   return window.location.hash
     .substring(1)

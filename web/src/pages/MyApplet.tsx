@@ -19,6 +19,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import LoadingElement from "@components/LoadingElement";
 
+/**
+ * MyApplet page displays the my applet view.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <MyApplet />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function MyApplet() {
   const { translate, user } = GlobalContext();
   const navigate = useNavigate();
@@ -28,18 +38,27 @@ export default function MyApplet() {
   const [applets, setApplets] = useState<AppletObject[]>([]);
   const [appletsLoading, setAppletsLoading] = useState<boolean>(false);
 
+  /**
+   * Check if the user is already logged in.
+   */
   useEffect(() => {
     if (!user.getAccessToken()) return;
     setAppletsLoading(true);
     getMyApplets();
   }, [user]);
 
+  /**
+   * Get the applets from the API.
+   */
   const getMyApplets = async () => {
     const applets = await AppletService.getApplets(user.getAccessToken());
     setApplets(applets);
     setAppletsLoading(false);
   };
 
+  /**
+   * Execute the function when an applet is clicked.
+   */
   function onAppletClick(applet: AppletObject) {
     setSelectedApplet(applet.id === selectedApplet?.id ? null : applet);
   }

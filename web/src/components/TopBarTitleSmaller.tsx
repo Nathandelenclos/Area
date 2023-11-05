@@ -1,6 +1,16 @@
 import GlobalContext from "@src/context/GlobalContextProvider";
 import React from "react";
 
+/**
+ * TopBarTitleSmaller component displays the title of the top bar when on phone.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <TopBarTitleSmaller />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function TopBarTitleSmaller() {
   const { translate } = GlobalContext();
   return (

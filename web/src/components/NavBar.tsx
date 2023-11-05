@@ -4,17 +4,40 @@ import { slide as Menu } from "react-burger-menu";
 import { useState } from "react";
 import { Language } from "@src/lang";
 
+/**
+ * Type of the languages.
+ * @interface listType
+ */
 export type listType = {
+  /**
+   * The language of the choice.
+   */
   lang: string;
+  /**
+   * The value of the choice.
+   */
   value: string;
 };
 
+/**
+ * List of every language available.
+ */
 const choices: listType[] = [
   { lang: "Français", value: "fr" },
   { lang: "English", value: "en" },
   { lang: "Espanol", value: "es" },
 ];
 
+/**
+ * NavBar component displays the navigation bar of the application.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <NavBar />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 function NavBar() {
   const { translate, appName, setLanguage, language } = GlobalContext();
   const navigate = useNavigate();

@@ -3,10 +3,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import GlobalContext from "@src/context/GlobalContextProvider";
 
+/**
+ * Props for the HeaderMyApplet component.
+ * @type HeaderMyAppletProps
+ */
 export type HeaderMyAppletProps = {
+  /**
+   * Function to handle create applet action.
+   */
   CreateApplet: () => void;
 };
 
+/**
+ * HeaderMyApplet component displays the header for the MyApplet section.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <HeaderMyApplet CreateApplet={() => {navigate("/create-applet")}} />
+ *
+ * @param {HeaderMyAppletProps} props - The properties of the component.
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function HeaderMyApplet({ CreateApplet }: HeaderMyAppletProps) {
   const { translate } = GlobalContext();
   return (

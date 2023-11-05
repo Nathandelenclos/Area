@@ -2,6 +2,16 @@ import GlobalContext from "@src/context/GlobalContextProvider";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/**
+ * Footer component displays the footer of the application.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <Footer />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 function Footer() {
   const { translate } = GlobalContext();
   const navigate = useNavigate();

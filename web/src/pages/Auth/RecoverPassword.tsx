@@ -3,6 +3,16 @@ import AuthViewContainer from "@components/AuthViewContainer";
 import MainButton from "@components/MainButton";
 import GlobalContext from "@src/context/GlobalContextProvider";
 
+/**
+ * RecoverPassword page displays the recover password page.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <RecoverPassword />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function RecoverPassword() {
   const { translate } = GlobalContext();
   return (

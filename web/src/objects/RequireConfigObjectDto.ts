@@ -1,11 +1,34 @@
+/**
+ * RequireConfigObjectDto
+ * @description RequireConfigObjectDto is the object that is returned from the API
+ */
 export interface RequireConfigObjectDto {
+  /**
+   * Config id
+   */
   id: number;
+  /**
+   * Config name
+   */
   name: string;
+  /**
+   * Config description
+   */
   description: string;
+  /**
+   * Config key
+   */
   key: string;
+  /**
+   * Config type
+   */
   type: string;
 }
 
+/**
+ * RequireConfigObject
+ * @description RequireConfigObject is the object that is used in the app
+ */
 export class RequireConfigObject {
   data: RequireConfigObjectDto;
 

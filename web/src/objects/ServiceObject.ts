@@ -4,15 +4,41 @@ import {
   ReactionObjectDto,
 } from "@src/objects/ReactionAppletObject";
 
+/**
+ * ServiceObjectDto
+ * @description ServiceObjectDto is the object that is returned from the API
+ */
 export interface ServiceObjectDto {
+  /**
+   * Service id
+   */
   id: number;
+  /**
+   * Service name
+   */
   name: string;
+  /**
+   * Service url
+   */
   url: string;
+  /**
+   * Is service available
+   */
   is_available: boolean;
+  /**
+   * Service actions
+   */
   actions: ActionAppletObject[];
+  /**
+   * Service reactions
+   */
   reactions: ReactionAppletObject[];
 }
 
+/**
+ * ServiceObject
+ * @description ServiceObject is the object that is used in the app
+ */
 export class ServiceObject {
   data: ServiceObjectDto;
 

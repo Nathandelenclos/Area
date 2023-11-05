@@ -13,6 +13,16 @@ export type ConfigureAppletProps = {
   action: ActionObjectDto;
 };
 
+/**
+ * ConfigureApplet page displays the configure applet page.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <ConfigureApplet />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export default function ConfigureApplet() {
   const { user, translate } = GlobalContext();
   //get info from previous page navigate:

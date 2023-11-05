@@ -7,6 +7,16 @@ import { getFacebookUrl } from "@src/utils/getFacebookUrl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/free-brands-svg-icons";
 
+/**
+ * OAuthList component displays the OAuth buttons.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <OAuthList />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 function OAuthList() {
   type OAuth = {
     name: string;
@@ -58,6 +68,16 @@ function OAuthList() {
   );
 }
 
+/**
+ * ConnectionsOptionsSeparator component displays the separator between the OAuth buttons and the login form.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <ConnectionsOptionsSeparator />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 function ConnectionsOptionsSeparator() {
   const { translate } = GlobalContext();
   return (
@@ -73,6 +93,16 @@ function ConnectionsOptionsSeparator() {
   );
 }
 
+/**
+ * OAuthButtons component displays the OAuth buttons and the separator.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <OAuthButtons />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function OAuthButtons() {
   return (
     <>

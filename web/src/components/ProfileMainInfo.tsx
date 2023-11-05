@@ -4,15 +4,33 @@ import { useState } from "react";
 import { AuthServices } from "@services/AuthServices";
 import { toast } from "react-toastify";
 
-export default function ProfileMainInfo() {
+/**
+ * ProfileMainInfo component displays the main information of the user.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <ProfileMainInfo />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
+export default function ProfileMainInfo(): JSX.Element {
   const { translate, user } = GlobalContext();
   const [password, setPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
 
+  /**
+   * Set a new password when the user enters one.
+   * @param str The new password to set.
+   */
   const handleInputChange = (str: string) => {
     setNewPassword(str);
   };
 
+  /**
+   * Handles when the user clicks on the done button.
+   * @param str The new password to set.
+   */
   const handleCheckClick = async (str: string) => {
     const resp = await AuthServices.changePassword(user.getAccessToken(), str);
     if (resp.data) {

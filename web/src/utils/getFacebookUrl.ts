@@ -1,3 +1,7 @@
+/**
+ * Returns the Facebook login URL.
+ * @returns {string} The Facebook login URL
+ */
 export const getFacebookUrl = () => {
   const authEndpoint = "https://www.facebook.com/v18.0/dialog/oauth";
 

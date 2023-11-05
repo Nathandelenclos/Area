@@ -3,6 +3,11 @@ import LoadingElement from "@src/components/LoadingElement";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Get the authorization code from the URL.
+ *
+ * @returns {string} Authorization code.
+ */
 async function getAuthorizationCodeFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const authorizationCode = urlParams.get("code");
@@ -36,6 +41,16 @@ async function getAuthorizationCodeFromURL() {
   };
 }
 
+/**
+ * LoginUserGithub page takes care of sending the user on the right page when logging in with github.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <LoginUserGithub />
+ *
+ * @returns {JSX.Element} Rendered page.
+ */
 export const LoginUserGithub = () => {
   const navigate = useNavigate();
 

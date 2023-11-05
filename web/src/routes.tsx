@@ -12,6 +12,9 @@ import { LoginUserSpotify } from "./pages/SpotifyOauth";
 import { LoginUserGithub } from "./pages/GithubOauth";
 import { LoginUserFacebook } from "./pages/FacebookOauth";
 
+/**
+ * Routes contains all the routes of the application.
+ */
 export const Routes: Route[] = [
   {
     name: "home",
@@ -107,6 +110,9 @@ export const Routes: Route[] = [
   },
 ];
 
+/**
+ * RouteNames contains all the route names of the application.
+ */
 export type RouteNames =
   | "home"
   | "home-page"

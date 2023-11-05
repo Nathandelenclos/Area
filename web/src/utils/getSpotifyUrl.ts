@@ -1,3 +1,7 @@
+/**
+ * Returns the Spotify login URL
+ * @returns {string} The Spotify login URL
+ */
 export const getSpotifyUrl = () => {
   const authEndpoint = process.env.REACT_APP_SPOTIFY_OAUTH_AUTH_ENDPOINT;
   const redirectUrl = process.env.REACT_APP_SPOTIFY_OAUTH_REDIRECT_URI;

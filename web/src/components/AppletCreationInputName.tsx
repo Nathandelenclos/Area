@@ -1,11 +1,35 @@
 import React from "react";
 import GlobalContext from "@src/context/GlobalContextProvider";
 
+/**
+ * Props for the AppletCreationInputName component.
+ * @interface AppletCreationInputNameProps
+ */
 interface AppletCreationInputNameProps {
+  /**
+   * The value of the input.
+   */
   value: string;
+  /**
+   * The function to be executed when the input value changes.
+   */
   onChange: (value: string) => void;
 }
 
+/**
+ * AppletCreationInputName component displays the input for the applet name.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <AppletCreationInputName
+ *   value={name}
+ *   onChange={(value) => setName(value)}
+ * />
+ *
+ * @param {AppletCreationInputNameProps} props - The properties of the component.
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function AppletCreationInputName({
   value,
   onChange,

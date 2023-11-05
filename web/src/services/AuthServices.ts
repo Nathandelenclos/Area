@@ -3,9 +3,9 @@ import { ApiInvoke } from "@src/services/api/api.invoke";
 export class AuthServices {
   /**
    * Register a new user
-   * @param name
-   * @param email
-   * @param password
+   * @param name - the name of the user
+   * @param email - the email of the user
+   * @param password - the password of the user
    */
   static register(name: string, email: string, password: string) {
     return ApiInvoke({
@@ -16,6 +16,13 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Register a new user
+   * @param name - the name of the user
+   * @param email - the email of the user
+   * @param provider - the provider of the user
+   * @param token - the token of the user
+   */
   static registerOAuth(
     name: string,
     email: string,
@@ -30,6 +37,11 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Login a user
+   * @param email - the email of the user
+   * @param password - the password of the user
+   */
   static login(email: string, password: string) {
     return ApiInvoke({
       endpoint: `/auth/signin`,
@@ -39,6 +51,12 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Login a user
+   * @param email - the email of the user
+   * @param provider - the provider of the user
+   * @param token - the token of the user
+   */
   static loginOAuth(email: string, provider: string, token: string) {
     return ApiInvoke({
       endpoint: `/auth/signin-oauth`,
@@ -48,6 +66,9 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Store the token in the local storage
+   */
   static me(token: string) {
     return ApiInvoke({
       endpoint: `/auth/me`,
@@ -57,6 +78,11 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Store the token in the local storage
+   * @param token the token to store
+   * @param newPassword the new password
+   */
   static changePassword(token: string, newPassword: string) {
     return ApiInvoke({
       endpoint: `/auth/reset-password`,
@@ -67,6 +93,10 @@ export class AuthServices {
     });
   }
 
+  /**
+   * Store the token in the local storage
+   * @param token the token to store
+   */
   static storeToken(token: string) {
     localStorage.setItem("accessToken", token);
   }

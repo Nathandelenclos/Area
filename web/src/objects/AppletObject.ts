@@ -3,28 +3,79 @@ import { ReactionAppletObjectDto } from "@src/objects/ReactionAppletObject";
 
 export interface NewEventConfig {
   config: {
+    /**
+     * Action key
+     */
     [key: string]: string;
   };
+  /**
+   * Action id
+   */
   id: number;
 }
 
+/**
+ * NewAppletRequest
+ * @interface NewAppletRequest
+ */
 export interface NewAppletRequest {
+  /**
+   * Applet name
+   */
   name: string;
+  /**
+   * Applet description
+   */
   description: string;
+  /**
+   * Applet is active
+   */
   is_active: boolean;
+  /**
+   * Applet reactions
+   */
   reactions: NewEventConfig[];
+  /**
+   * Applet actions
+   */
   actions: NewEventConfig[];
 }
 
+/**
+ * AppletObjectDto
+ * @description AppletObjectDto is the object that is returned from the API
+ */
 export interface AppletObjectDto {
+  /**
+   * Applet id
+   */
   id: number;
+  /**
+   * Applet name
+   */
   name: string;
+  /**
+   * Applet description
+   */
   description: string;
+  /**
+   * Applet is active
+   */
   is_active: boolean;
+  /**
+   * Applet actions
+   */
   actions: ActionAppletObjectDto[];
+  /**
+   * Applet reactions
+   */
   reactions: ReactionAppletObjectDto[];
 }
 
+/**
+ * AppletObject
+ * @description AppletObject is the object that is used in the app
+ */
 export class AppletObject {
   applet: AppletObjectDto;
 

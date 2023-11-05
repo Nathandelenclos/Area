@@ -1,9 +1,38 @@
+/**
+ * ConfigureAppletProps defines the props for the ConfigureAppletNumber component.
+ * @interface ConfigureAppletProps
+ */
 type ConfigureAppletProps = {
+  /**
+   * The title text displayed on the button.
+   */
   title: string;
+  /**
+   * The placeholder text displayed on the input field.
+   */
   placeholderText: string;
+  /**
+   * The minimum number allowed in the input field.
+   */
   minimunNumber: string;
 };
 
+/**
+ * ConfigureAppletNumber is a reusable button component used in applets.
+ * It accepts a title, a placeholder and a minimum number.
+ *
+ * @component
+ * @example
+ * // Example usage of ConfigureAppletNumber component
+ * <ConfigureAppletNumber
+ *   title="Delay in seconds"
+ *   placeholderText="Delay in seconds"
+ *   minimunNumber="0"
+ * />
+ *
+ * @param {ConfigureAppletProps} props - The props for the ConfigureAppletNumber component.
+ * @returns {JSX.Element} - Returns the rendered ConfigureAppletNumber component.
+ */
 export default function ConfigureAppletNumber({
   title,
   placeholderText,

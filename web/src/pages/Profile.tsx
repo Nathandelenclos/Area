@@ -9,6 +9,16 @@ import Footer from "@src/components/Footer";
 import { AUTH_LIST, AuthItem } from "@interfaces/handle.auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/**
+ * Profile page displays the profile view.
+ *
+ * @component
+ * @example
+ * // Usage example inside another component
+ * <Profile />
+ *
+ * @returns {JSX.Element} Rendered component.
+ */
 export default function Profile() {
   const { translate, user } = GlobalContext();
   console.log(user.oauth);

@@ -1,5 +1,9 @@
 import { ApiInvoke } from "@services/api/api.invoke";
 
+/**
+ * AreaService
+ * @description Get the services from the API
+ */
 export default class AreaService {
   static getServices() {
     return ApiInvoke({

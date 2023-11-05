@@ -1,7 +1,28 @@
+/**
+ * ConfigureAppletProps defines the props for the ConfigureAppletDate component.
+ * @interface ConfigureAppletProps
+ */
 type ConfigureAppletProps = {
+  /**
+   * The title text displayed on the button.
+   */
   title: string;
 };
 
+/**
+ * ConfigureAppletDate is a reusable button component used in applets.
+ * It accepts a title.
+ *
+ * @component
+ * @example
+ * // Example usage of ConfigureAppletDate component
+ * <ConfigureAppletDate
+ *   title="Click me!"
+ * />
+ *
+ * @param {ConfigureAppletProps} props - The props for the ConfigureAppletDate component.
+ * @returns {JSX.Element} - Returns the rendered ConfigureAppletDate component.
+ */
 export default function ConfigureAppletDate({ title }: ConfigureAppletProps) {
   return (
     <div className="w-full">
