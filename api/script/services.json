@@ -227,74 +227,7 @@
           ]
         }
       ],
-      "reactions": [
-        {
-          "name": "Run Workflow",
-          "description": "Run a workflow",
-          "key": "re_run_workflow",
-          "is_available": 1,
-          "cmd": "re_run_workflow",
-          "config": [
-            {
-              "name": "Oauth ID",
-              "description": "Oauth ID",
-              "key": "oauth_id",
-              "type": "github_oauth"
-            },
-            {
-              "name": "Owner",
-              "description": "The account owner of the repository. The name is not case sensitive.",
-              "key": "owner",
-              "type": "string"
-            },
-            {
-              "name": "Repos",
-              "description": "The name of the repository without the .git extension. The name is not case sensitive.",
-              "key": "repo",
-              "type": "string"
-            },
-            {
-              "name": "Run ID",
-              "description": "The unique identifier of the workflow run.",
-              "key": "run_id",
-              "type": "string"
-            }
-          ]
-        },
-        {
-          "name": "Run failed Workflow",
-          "description": "Run a failed workflow",
-          "key": "re_run_failed_workflow",
-          "is_available": 1,
-          "cmd": "re_run_failed_workflow",
-          "config": [
-            {
-              "name": "Oauth ID",
-              "description": "Oauth ID",
-              "key": "oauth_id",
-              "type": "github_oauth"
-            },
-            {
-              "name": "Owner",
-              "description": "The account owner of the repository. The name is not case sensitive.",
-              "key": "owner",
-              "type": "string"
-            },
-            {
-              "name": "Repos",
-              "description": "The name of the repository without the .git extension. The name is not case sensitive.",
-              "key": "repo",
-              "type": "string"
-            },
-            {
-              "name": "Run ID",
-              "description": "The unique identifier of the workflow run.",
-              "key": "run_id",
-              "type": "string"
-            }
-          ]
-        }
-      ]
+      "reactions": []
     },
     {
       "name": "News",
@@ -489,38 +422,7 @@
           ]
         }
       ],
-      "reactions": [
-        {
-          "name": "Resume playback",
-          "description": "Resume playback on the user’s active device.",
-          "key": "resume_playback",
-          "is_available": 1,
-          "cmd": "resume_playback",
-          "config": [
-            {
-              "name": "Oauth ID",
-              "description": "Oauth ID",
-              "key": "oauth_id",
-              "type": "spotify_oauth"
-            }
-          ]
-        },
-        {
-          "name": "Pause playback",
-          "description": "Pause playback on the user’s active device.",
-          "key": "pause_playback",
-          "is_available": 1,
-          "cmd": "pause_playback",
-          "config": [
-            {
-              "name": "Oauth ID",
-              "description": "Oauth ID",
-              "key": "oauth_id",
-              "type": "spotify_oauth"
-            }
-          ]
-        }
-      ]
+      "reactions": []
     },
     {
       "name": "Google",
