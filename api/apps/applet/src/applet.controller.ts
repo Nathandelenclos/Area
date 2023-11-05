@@ -50,6 +50,7 @@ export class AppletController extends MicroServiceController {
     try {
       props.data = await this.appletService.getAppletById(id, user.id);
     } catch (error) {
+      console.log(error);
       if (error instanceof ForbiddenError) {
         props.code = HttpCode.FORBIDDEN;
         props.message = error.message;
