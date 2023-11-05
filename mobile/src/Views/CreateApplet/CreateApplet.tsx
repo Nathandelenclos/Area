@@ -271,7 +271,7 @@ export default function CreateApplet({
         }
         appletActive={isAppletActive}
       />
-      <ScrollView contentContainerStyle={{ paddingTop: 40 }}>
+      <ScrollView contentContainerStyle={{ paddingVertical: 40 }}>
         {actions?.map((action, index) => (
           <AppletBox
             key={index}
