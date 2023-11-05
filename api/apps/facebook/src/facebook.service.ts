@@ -73,6 +73,11 @@ export class FacebookService {
     return token;
   }
 
+  /**
+   * Get the user id from the token
+   * @param token The token to get the user id from
+   * @returns The user id
+   */
   async getUserId(token: string): Promise<string> {
     const response = await fetch(
       `https://graph.facebook.com/v18.0/me?fields=id&access_token=${token}`,

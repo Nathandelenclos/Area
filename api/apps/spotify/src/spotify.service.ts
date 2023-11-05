@@ -195,7 +195,6 @@ export class SpotifyService {
    * @param OAuthId The OAuth id
    */
   async pausePlayback(OAuthId: number): Promise<void> {
-    console.log('pause');
     const OAuth: OauthEntity = await this.oauthService.findOne({
       id: OAuthId,
     });

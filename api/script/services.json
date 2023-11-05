@@ -521,6 +521,55 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Google",
+      "url": "",
+      "is_available": 1,
+      "rmq_queue": "google_queue",
+      "key": "google",
+      "actions": [],
+      "reactions": [
+        {
+          "name": "Send an email",
+          "description": "Send an email",
+          "key": "send_email",
+          "is_available": 1,
+          "cmd": "send_email",
+          "config": [
+            {
+              "name": "Oauth ID",
+              "description": "Oauth ID",
+              "key": "oauth_id",
+              "type": "google_oauth"
+            },
+            {
+              "name": "From Email Address",
+              "description": "Email Address from which the email will be sent",
+              "key": "from_email",
+              "type": "string"
+            },
+            {
+              "name": "To Email Address",
+              "description": "Email Address to which the email will be sent",
+              "key": "to_email",
+              "type": "string"
+            },
+            {
+              "name": "Subject",
+              "description": "Subject of the email",
+              "key": "subject",
+              "type": "string"
+            },
+            {
+              "name": "Message",
+              "description": "Message of the email",
+              "key": "message",
+              "type": "string"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
