@@ -47,8 +47,8 @@ const QUEUES: QueueDefinition[] = [
   { name: 'youtube_queue', cmd: 'cron' },
   { name: 'google_drive_queue', cmd: 'cron' },
   { name: 'timer_queue', cmd: 'cron' },
-  { name: 'news_queue', cmd: 'cron' }, // interval: EVERY_HOUR / 4
-  { name: 'weather_queue', cmd: 'cron' }, // interval: EVERY_HOUR / 4
+  { name: 'news_queue', cmd: 'cron', interval: EVERY_HOUR / 5 },
+  { name: 'weather_queue', cmd: 'cron', interval: EVERY_HOUR / 5 },
   { name: 'github_queue', cmd: 'cron' },
   { name: 'facebook_queue', cmd: 'cron', interval: EVERY_MINUTE },
   { name: 'slack_queue', cmd: 'cron' },
