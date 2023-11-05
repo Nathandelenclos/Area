@@ -57,7 +57,7 @@ export const LoginUserSpotify = () => {
     });
     if (resp.status === 200) {
       localStorage.setItem("accessToken", data.refreshToken);
-      navigate("/home-page");
+      navigate("/my-applets");
     } else {
       navigate("/");
     }

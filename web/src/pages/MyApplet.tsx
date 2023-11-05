@@ -131,7 +131,9 @@ export default function MyApplet() {
                     key={applet.id}
                     title={applet.name}
                     color={
-                      applet.id === selectedApplet?.id ? "#38356C" : "#7A73E7"
+                      applet.id === selectedApplet?.id
+                        ? "#38356C"
+                        : applet.color ?? "#7A73E7"
                     }
                     onClick={() => onAppletClick(applet)}
                   />
@@ -152,7 +154,11 @@ export default function MyApplet() {
                         const config = e.configs;
                         return (
                           <div
-                            className="bg-[#7A73E7] rounded-2xl p-4"
+                            className="rounded-2xl p-4"
+                            style={{
+                              backgroundColor:
+                                selectedApplet.color ?? "#7A73E7",
+                            }}
                             key={index}
                           >
                             <div className="flex flex-row flex-wrap items-center">
@@ -179,7 +185,11 @@ export default function MyApplet() {
                         const config = e.configs;
                         return (
                           <div
-                            className="bg-[#7A73E7] rounded-2xl p-4"
+                            className="rounded-2xl p-4"
+                            style={{
+                              backgroundColor:
+                                selectedApplet.color ?? "#7A73E7",
+                            }}
                             key={index}
                           >
                             <div className="flex flex-row flex-wrap items-center">

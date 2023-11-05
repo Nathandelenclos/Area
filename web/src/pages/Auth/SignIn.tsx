@@ -27,7 +27,7 @@ export default function SignIn() {
    */
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
-      navigate("/home-page");
+      navigate("/my-applets");
     }
   }, []);
 

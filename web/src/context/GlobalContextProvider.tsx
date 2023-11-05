@@ -112,7 +112,7 @@ export const GlobalContextProvider: FC<GlobalContextProviderProps> = ({
 
   const defaultValues: GlobalContextType = {
     language,
-    appName: "AppName",
+    appName: "AREA",
     translate: (...keys: string[]): string => {
       return keys.reduce((acc: LangType | string, key: string) => {
         if (typeof acc === "object") {

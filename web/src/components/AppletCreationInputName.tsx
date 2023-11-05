@@ -41,7 +41,7 @@ export default function AppletCreationInputName({
         <input
           type="text"
           placeholder={translate("create-applets", "input-applet-placeholder")}
-          className="w-full break-all border-0 bg-[#7A73E7] text-white text-[28px] focus:outline-none placeholder-[#FFFFFF99] font-semibold"
+          className="w-full border-0 bg-[#7A73E7] text-white text-[28px] focus:outline-none placeholder-[#FFFFFF99] font-semibold"
           value={value}
           onChange={(event) => onChange(event.target.value)}
         />

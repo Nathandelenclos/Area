@@ -25,7 +25,6 @@ export type listType = {
 const choices: listType[] = [
   { lang: "Français", value: "fr" },
   { lang: "English", value: "en" },
-  { lang: "Espanol", value: "es" },
 ];
 
 /**
@@ -50,15 +49,7 @@ function NavBar() {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              navigate("/home-page");
-            }}
-          >
-            {translate("nav", "home")}
-          </p>
-          <p
-            className="font-semibold px-5 text-[32px] cursor-pointer"
-            onClick={() => {
-              navigate("/create-applet");
+              navigate("/my-applets");
             }}
           >
             {translate("nav", "create")}
@@ -66,7 +57,7 @@ function NavBar() {
           <p
             className="font-semibold px-5 text-[32px] cursor-pointer"
             onClick={() => {
-              navigate("/my-applets");
+              navigate("/create-applet");
             }}
           >
             {translate("nav", "applets")}
@@ -99,7 +90,7 @@ function NavBar() {
         <p
           className="text-[35px] font-extrabold cursor-pointer text-white sm:text-black hover:text-[#000000CC]"
           onClick={() => {
-            navigate("/home-page");
+            navigate("/my-applets");
           }}
         >
           {appName}
@@ -108,10 +99,10 @@ function NavBar() {
           <p
             className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
             onClick={() => {
-              navigate("/home-page");
+              navigate("/my-applets");
             }}
           >
-            {translate("nav", "home")}
+            {translate("nav", "applets")}
           </p>
           <p
             className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
@@ -120,14 +111,6 @@ function NavBar() {
             }}
           >
             {translate("nav", "create")}
-          </p>
-          <p
-            className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
-            onClick={() => {
-              navigate("/my-applets");
-            }}
-          >
-            {translate("nav", "applets")}
           </p>
           <p
             className="font-semibold px-5 text-[30px] cursor-pointer hover:text-[#000000CC]"
