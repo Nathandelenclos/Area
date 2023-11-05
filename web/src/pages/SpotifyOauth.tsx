@@ -1,5 +1,8 @@
 import { ApiInvoke } from "@services/api/api.invoke";
 import LoadingElement from "@src/components/LoadingElement";
+import GlobalContext from "@src/context/GlobalContextProvider";
+import { UserObject } from "@src/objects/UserObject";
+import { AuthServices } from "@src/services/AuthServices";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,24 +22,15 @@ export const getTokenFromUrl = () => {
     }, {});
 };
 
-function getUserInfo() {
+async function getUserInfo() {
   const access_token = getTokenFromUrl();
-  console.log(access_token);
-  //   const result = await fetch("https://api.spotify.com/v1/me", {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${access_token.access_token}`,
-  //     },
-  //   });
-  //   const data = await result.json();
   return {
-    email: "data.email",
-    providerId: "data.id",
-    refreshToken: "access_token.access_token",
+    code: access_token,
   };
 }
 
 export const LoginUserSpotify = () => {
+  const { setUser } = GlobalContext();
   const navigate = useNavigate();
 
   async function getAccessTokenFromURL() {
@@ -56,6 +50,20 @@ export const LoginUserSpotify = () => {
       }),
     });
     if (resp.status === 200) {
+      setUser(new UserObject(resp.data));
+      localStorage.setItem("accessToken", resp.data.token);
+      const token = resp.data.token;
+      const data = await AuthServices.me(token);
+      if (data.status === 200) {
+        setUser(
+          new UserObject({
+            email: data.data.email,
+            name: data.data.name,
+            token,
+            oauth: data.data.oauth,
+          }),
+        );
+      }
       localStorage.setItem("accessToken", data.refreshToken);
       navigate("/my-applets");
     } else {

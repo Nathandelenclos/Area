@@ -100,4 +100,18 @@ export class AuthServices {
   static storeToken(token: string) {
     localStorage.setItem("accessToken", token);
   }
+
+  /**
+   * Disconnect OAuth
+   * @constructor {token: string, id: number}
+   * @returns {Promise<IApiInvokeResponse>}
+   */
+  static logout(token: string, id: number) {
+    return ApiInvoke({
+      endpoint: `/auth/delete-oauth/${id}`,
+      method: "DELETE",
+      expectedStatus: 200,
+      authToken: token,
+    });
+  }
 }

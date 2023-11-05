@@ -1,4 +1,7 @@
 import LoadingElement from "@src/components/LoadingElement";
+import GlobalContext from "@src/context/GlobalContextProvider";
+import { UserObject } from "@src/objects/UserObject";
+import { AuthServices } from "@src/services/AuthServices";
 import { ApiInvoke } from "@src/services/api/api.invoke";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -48,7 +51,7 @@ async function test(
   console.log(respBody);
   return {
     email: email.email,
-    providerId: respBody.id_token,
+    providerId: email.sub,
     refreshToken: respBody.refresh_token,
   };
 }
@@ -64,6 +67,7 @@ async function test(
  * @returns {JSX.Element} Rendered page.
  */
 export default function GoogleOAuth() {
+  const { setUser } = GlobalContext();
   const queryToObject = (query: any) => {
     const parameters = new URLSearchParams(query);
     return Object.fromEntries(parameters.entries());
@@ -95,6 +99,21 @@ export default function GoogleOAuth() {
       }),
     });
     if (resp.status === 200) {
+      setUser(new UserObject(resp.data));
+      localStorage.setItem("accessToken", resp.data.token);
+      const token = resp.data.token;
+      const data = await AuthServices.me(token);
+      console.log(data);
+      if (data.status === 200) {
+        setUser(
+          new UserObject({
+            email: data.data.email,
+            name: data.data.name,
+            token,
+            oauth: data.data.oauth,
+          }),
+        );
+      }
       localStorage.setItem("accessToken", data.refreshToken);
       navigate("/my-applets");
     } else {

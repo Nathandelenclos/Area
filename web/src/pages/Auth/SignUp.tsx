@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
 import AuthViewContainer from "@components/AuthViewContainer";
-import SignUpForms from "@components/SignUpForms";
 import OAuthButtons from "@components/OAuthButtons";
+import SignUpForms from "@components/SignUpForms";
 import GlobalContext from "@src/context/GlobalContextProvider";
-import { useNavigate } from "react-router-dom";
-import { AuthServices } from "@src/services/AuthServices";
 import { UserObject } from "@src/objects/UserObject";
+import { AuthServices } from "@src/services/AuthServices";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * SignUp page displays the sign up view.
@@ -41,7 +41,6 @@ export default function SignUp() {
    */
   const register = async (name: string, email: string, password: string) => {
     const data = await AuthServices.register(name, email, password);
-    console.log(data);
     if (data.status == 200) {
       setUser(new UserObject(data.data));
       AuthServices.storeToken(data.data.token);

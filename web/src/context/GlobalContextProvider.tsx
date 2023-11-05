@@ -1,3 +1,7 @@
+import LoadingElement from "@components/LoadingElement";
+import { AuthServices } from "@services/AuthServices";
+import { lang, LangType, Language } from "@src/lang";
+import { UserObject, UserObjectDto } from "@src/objects/UserObject";
 import React, {
   createContext,
   FC,
@@ -5,10 +9,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { lang, LangType, Language } from "@src/lang";
-import { UserObject, UserObjectDto } from "@src/objects/UserObject";
-import { AuthServices } from "@services/AuthServices";
-import LoadingElement from "@components/LoadingElement";
 
 /**
  * AppContextType type for the AppContextProvider.
@@ -146,6 +146,8 @@ export const GlobalContextProvider: FC<GlobalContextProviderProps> = ({
               oauth: data.data.oauth,
             }),
           );
+        } else {
+          localStorage.removeItem("accessToken");
         }
       }
       setLoading(false);

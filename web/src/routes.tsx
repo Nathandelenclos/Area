@@ -1,16 +1,17 @@
 import { Route } from "@interfaces/Route";
-import Welcome from "@pages/Auth/Welcome";
+import RecoverPassword from "@pages/Auth/RecoverPassword";
 import SignIn from "@pages/Auth/SignIn";
 import SignUp from "@pages/Auth/SignUp";
+import Welcome from "@pages/Auth/Welcome";
 import CreateAppletAction from "@pages/CreateAppletAction";
-import RecoverPassword from "@pages/Auth/RecoverPassword";
 import MyApplet from "@pages/MyApplet";
+import { LoginUserFacebook } from "./pages/FacebookOauth";
+import { LoginUserGithub } from "./pages/GithubOauth";
 import GoogleOAuth from "./pages/GoogleOAuth";
 import HomePage from "./pages/HomePage";
+import LoadingPage from "./pages/Loading";
 import Profile from "./pages/Profile";
 import { LoginUserSpotify } from "./pages/SpotifyOauth";
-import { LoginUserGithub } from "./pages/GithubOauth";
-import { LoginUserFacebook } from "./pages/FacebookOauth";
 
 /**
  * Routes contains all the routes of the application.
@@ -95,6 +96,20 @@ export const Routes: Route[] = [
     path: "/profile",
     middleware: [],
     element: <Profile />,
+  },
+  {
+    name: "loading-page-spotify",
+    path: "/loading-page-spotify",
+    middleware: [],
+    element: <LoadingPage option={false} />,
+    public: true,
+  },
+  {
+    name: "loading-page-github",
+    path: "/loading-page-github",
+    middleware: [],
+    element: <LoadingPage option={true} />,
+    public: true,
   },
   {
     name: "404",
