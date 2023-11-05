@@ -10,5 +10,4 @@ export interface AppletDto {
   color: string;
   actions?: Partial<ActionEntity>[];
   reactions?: Partial<ReactionEntity>[];
-  color?: string;
 }
