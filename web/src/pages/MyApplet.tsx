@@ -149,7 +149,7 @@ export default function MyApplet() {
               <div className="w-full md:w-3/5 p-5">
                 <div
                   className="w-full min-h-full border-2 rounded-xl space-y-14 mb-10"
-                  style={{ borderColor: "#7A73E7" }}
+                  style={{ borderColor: selectedApplet.color ?? "#7A73E7" }}
                 >
                   <HeaderEditApplet applet={selectedApplet} actions={actions} />
                   <div className="mx-12 space-y-5 ">

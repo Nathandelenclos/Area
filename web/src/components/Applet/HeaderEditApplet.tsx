@@ -53,8 +53,8 @@ export default function HeaderEditApplet({
 }: HeaderEditAppletProps): JSX.Element {
   return (
     <div
-      className="w-full h-1/6 flex flex-row items-center justify-between px-5"
-      style={{ backgroundColor: "#7A73E7" }}
+      className="w-full h-1/6 flex flex-row items-center justify-between px-5 overflow-hidden rounded-t-md"
+      style={{ backgroundColor: applet.color ?? "#7A73E7" }}
     >
       <p className="text-white text-3xl font-bold p-3">{applet.name}</p>
       <div className="min-w-fit">

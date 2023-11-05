@@ -51,12 +51,6 @@ export const Routes: Route[] = [
     element: <CreateAppletAction />,
   },
   {
-    name: "home-page",
-    path: "/home-page",
-    middleware: [],
-    element: <HomePage />,
-  },
-  {
     name: "google-auth",
     path: "/api/sessions/oauth/google",
     middleware: [],
