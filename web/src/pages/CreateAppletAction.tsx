@@ -117,7 +117,10 @@ export default function CreateAppletAction() {
     getServices();
     if (id) {
       AppletService.getAppletById(+id, user.getAccessToken()).then((applet) => {
-        if (!applet) return;
+        if (!applet.data) {
+          navigate("/404");
+          return;
+        }
         setAppletName(applet.data.name);
         setSelectedAction(
           applet.data.actions.map(
@@ -137,7 +140,6 @@ export default function CreateAppletAction() {
               }),
           ),
         );
-        console.log(applet.data);
       });
     }
   }, []);
