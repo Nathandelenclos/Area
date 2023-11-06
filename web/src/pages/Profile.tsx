@@ -1,13 +1,12 @@
-import React from "react";
 import NavBar from "@components/NavBar";
-import GlobalContext from "@src/context/GlobalContextProvider";
-import TopBarTitle from "@src/components/TopBarTitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AUTH_LIST, AuthItem } from "@interfaces/handle.auth";
+import Footer from "@src/components/Footer";
 import ProfileMainInfo from "@src/components/ProfileMainInfo";
 import ServiceList from "@src/components/ServiceList";
+import TopBarTitle from "@src/components/TopBarTitle";
 import TopBarTitleSmaller from "@src/components/TopBarTitleSmaller";
-import Footer from "@src/components/Footer";
-import { AUTH_LIST, AuthItem } from "@interfaces/handle.auth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import GlobalContext from "@src/context/GlobalContextProvider";
 
 /**
  * Profile page displays the profile view.
@@ -21,8 +20,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  */
 export default function Profile() {
   const { translate, user } = GlobalContext();
-  console.log(user.oauth);
   const otherServicesList: AuthItem[] = AUTH_LIST;
+  console.log(user.oauth);
   const userOauthList =
     user.oauth.map((item): AuthItem => {
       const service: AuthItem | undefined = AUTH_LIST.find(

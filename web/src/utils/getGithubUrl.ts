@@ -9,6 +9,7 @@ export const getGithubUrl = (from: string) => {
   const clientId = <string>process.env.REACT_APP_GITHUB_OAUTH_CLIENT_ID;
   const redirectUri = <string>process.env.REACT_APP_GITHUB_OAUTH_REDIRECT_URI;
 
+  console.log(redirectUri);
   const options = {
     client_id: clientId,
     redirect_uri: redirectUri,

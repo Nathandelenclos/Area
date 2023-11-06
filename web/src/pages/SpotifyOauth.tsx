@@ -22,20 +22,20 @@ export const getTokenFromUrl = () => {
     }, {});
 };
 
-function getUserInfo() {
+async function getUserInfo() {
   const access_token = getTokenFromUrl();
   console.log(access_token);
-  //   const result = await fetch("https://api.spotify.com/v1/me", {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${access_token.access_token}`,
-  //     },
-  //   });
-  //   const data = await result.json();
+  const result = await fetch("https://api.spotify.com/v1/me", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${access_token.access_token}`,
+    },
+  });
+  const data = await result.json();
   return {
-    email: "data.email",
-    providerId: "data.id",
-    refreshToken: "access_token.access_token",
+    email: data.email,
+    providerId: data.id,
+    refreshToken: access_token.access_token,
   };
 }
 
@@ -64,7 +64,6 @@ export const LoginUserSpotify = () => {
       localStorage.setItem("accessToken", resp.data.token);
       const token = resp.data.token;
       const data = await AuthServices.me(token);
-      console.log(data);
       if (data.status === 200) {
         setUser(
           new UserObject({
@@ -75,7 +74,7 @@ export const LoginUserSpotify = () => {
           }),
         );
       }
-      navigate("/home-page");
+      navigate("/loading-page");
     } else {
       navigate("/");
     }
