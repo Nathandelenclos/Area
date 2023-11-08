@@ -332,7 +332,13 @@ export class AuthService {
   async githubAuth({ code }) {
     const client_id = this.configService.get('GITHUB_CLIENT_ID');
     const client_secret = this.configService.get('GITHUB_CLIENT_SECRET');
-
+    console.log('code', code);
+    console.log('client_id', client_id);
+    console.log('client_secret', client_secret);
+    console.log(
+      "this.configService.get('GITHUB_REDIRECT_URI')",
+      this.configService.get('GITHUB_REDIRECT_URI'),
+    );
     const result = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
